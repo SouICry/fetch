@@ -1,3 +1,8 @@
+@font-face {
+    font-family: Fetch;
+    src: url(sansation_light.woff);
+}
+
 body{
     font-family: sans-serif;
 }
@@ -15,7 +20,6 @@ body{
 .row{
     margin-left: 10%;
     margin-right: 10%;
-
 }
 
 section{
@@ -35,6 +39,7 @@ figure h2{
 }
 .name{
     position:absolute;
+    color: #f36100;
 }
 
 .row img {
