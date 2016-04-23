@@ -5,7 +5,7 @@ var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
 
-var url = 'mongodb://test_user:test@ds013221.mlab.com:13221/insanely_creatives_db';
+var mongodb_url = 'mongodb://test_user:test@ds013221.mlab.com:13221/insanely_creatives_db';
 
 
 var app = express();
@@ -19,10 +19,11 @@ app.use(express.static('public'));
 // This responds with "Hello World" on the homepage
 app.get('/', function (req, res) {
     res.send("test response");
+    
 });
 
-app.post('/post', function(req, res){
-   res.send(req.body);
+app.post('/login', function(req, res){
+    res.send(req.body);
 });
 
 // This responds a POST request for the homepage
@@ -55,11 +56,12 @@ app.post('/', function (req, res) {
         }, function(err, result) {
             assert.equal(err, null);
             console.log("Inserted a document into the restaurants collection.");
-            callback();
+
+            res.send("success!");
         });
     };
 
-    MongoClient.connect(url, function(err, db) {
+    MongoClient.connect(mongodb_url, function(err, db) {
         assert.equal(null, err);
         insertDocument(db, function() {
             db.close();
