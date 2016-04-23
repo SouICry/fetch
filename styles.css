@@ -1,6 +1,6 @@
 @font-face {
     font-family: Fetch;
-    src: url(sansation_light.woff);
+    src: url(fonts/aery.ttf);
 }
 
 body{
@@ -8,26 +8,30 @@ body{
 }
 
 #header{
+    Font-family: Fetch;
     text-align: center;
     margin-top: 3%;
     max-height : 5%;
+    color: #f36100;
 }
+
+/* this ensure the container is never
+   larger than 80% of the screen */
 .container-fluid{
     max-width: 80%;
-
 }
+
 
 .row{
     margin-left: 10%;
     margin-right: 10%;
 }
 
-section{
-}
 
 figure{
     position:relative;
 }
+
 figure h2{
     position: absolute;
     font-size: 3em;
@@ -39,7 +43,6 @@ figure h2{
 }
 .name{
     position:absolute;
-    color: #f36100;
 }
 
 .row img {
