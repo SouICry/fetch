@@ -11,11 +11,28 @@
 <body>
     <script>
         var json = {
-            "name":"test_json",
-            "content":"test content goes in here"
+            "name" : "test_json",
+            "content" : "test content goes in here",
+            "array_content" : [1, "a", null, true, false, 2.0],
+            "nested_object": {
+                "name": "im nested"
+            }
+            "more_stuff" : [
+                {
+                    "prop":"another object",
+                    "more":{
+                        "name":"another object"
+                    }
+                },
+                {
+
+                },
+                null,
+                1
+            ]
         };
+
         $(document).ready(function(){
-           console.log($);
 
             $.ajax({
                 type: "POST",
@@ -26,6 +43,7 @@
                     alert("success!");
                 }
             });
+
         });
     </script>
 
