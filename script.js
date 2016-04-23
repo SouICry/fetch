@@ -3,13 +3,15 @@
  */
 
 $(document).ready(function () {
-   //$('img').css('opacity','.5') ;
-   $('img').fadeTo(0,'.5');
-   $('figure').mouseenter(function(){
-       $(this).find('img').fadeTo('fast','1');
-   });
+    $('img').fadeTo(0,'.4');
+    $('.name').css('color','black');
+    $('figure').mouseenter(function(){
+        $(this).find('img').fadeTo('fast','1');
+        $(this).find('.name').css('color','#f36100');
+    });
     $('figure').mouseleave(function () {
-       $(this).find('img').fadeTo('fast','.5') ;
+        $(this).find('img').fadeTo('fast','.4') ;
+        $(this).find('.name').css('color','#000000');
     });
 });
 
