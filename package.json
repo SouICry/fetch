@@ -1,8 +1,8 @@
 {
-  "name": "fetch",
+  "name": "Fetch",
   "version": "1.0.0",
   "description": "Get your groceries fetched. Fast.",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
