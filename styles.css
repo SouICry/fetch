@@ -3,6 +3,17 @@
     src: url(fonts/aery.ttf);
 }
 
+@font-face{
+    font-family: Glamour;
+    src:url(fonts/Glamour-BoldExtended.ttf);
+}
+
+@font-face{
+    font-family: Brandon;
+    src:url(fonts/Brandon_bld.otf);
+
+}
+
 body{
     font-family: sans-serif;
 }
@@ -18,7 +29,7 @@ body{
 /* this ensure the container is never
    larger than 80% of the screen */
 .container-fluid{
-    max-width: 80%;
+    max-width: 90%;
 }
 
 
@@ -27,34 +38,28 @@ body{
     margin-right: 10%;
 }
 
+/* needed to overwrite bootstraps margins*/
+h2{
+    margin: 0;
+}
+
+.name{
+    font-family:Glamour;
+    position:absolute;
+    font-size: 3em;
+    left: 0;
+    width: 100%;
+    top: 45%;
+}
+
+figure img {
+    margin: 5% 0 ;
+    border-radius: 5px;
+    max-width: 100%;
+}
 
 figure{
     position:relative;
-}
-
-figure h2{
-    position: absolute;
-    font-size: 3em;
-    margin: 0;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding-bottom: 34%;
-}
-.name{
-    position:absolute;
-}
-
-.row img {
-    margin: 0 0 10px;
-    border-radius: 5px;
-    max-width: 100%;
-
-
-}
-
-.col-sm-6 {
-    padding-top: 5%;
 }
 
 footer {
