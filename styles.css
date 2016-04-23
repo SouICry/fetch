@@ -10,7 +10,7 @@
 
 @font-face{
     font-family: Brandon;
-    src:url(fonts/Brandon_bld.otf);
+    src:url(fonts/Brandon_light.otf);
 
 }
 
@@ -22,7 +22,8 @@ body{
     Font-family: Fetch;
     text-align: center;
     margin-top: 3%;
-    max-height : 5%;
+    font-size: 200%;
+    max-height: 5%;
     color: #f36100;
 }
 
@@ -44,7 +45,7 @@ h2{
 }
 
 .name{
-    font-family:Glamour;
+    font-family:Brandon;
     position:absolute;
     font-size: 3em;
     left: 0;
