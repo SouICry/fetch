@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
+
 var url = 'mongodb://test_user:test@ds013221.mlab.com:13221/insanely_creatives_db';
 
 
@@ -11,13 +12,17 @@ var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
 
 
 // This responds with "Hello World" on the homepage
 app.get('/', function (req, res) {
     res.send("test response");
+});
+
+app.post('/post', function(req, res){
+   res.send(req.body);
 });
 
 // This responds a POST request for the homepage

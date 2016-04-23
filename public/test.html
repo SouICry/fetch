@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <button ></button>
+
+    <script src="jquery-2.2.js"></script>
+
+</head>
+<body>
+    <script>
+        var json = {
+            "name":"test_json",
+            "content":"test content goes in here"
+        };
+        $(document).ready(function(){
+           console.log($);
+
+            $.ajax({
+                type: "POST",
+                url: "/post",
+                data: json,
+                success: function(response){
+                    console.log(response);
+                    alert("success!");
+                }
+            });
+        });
+    </script>
+
+
+</body>
+</html>
