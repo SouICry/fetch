@@ -16,6 +16,7 @@
 
 body{
     font-family: sans-serif;
+    padding-top: 100px;
 }
 
 #header{
@@ -42,6 +43,22 @@ body{
 /* needed to overwrite bootstraps margins*/
 h2{
     margin: 0;
+}
+
+.navbar{
+    background: #ffffff;
+    margin-bottom:0;
+    Font-family: Fetch;
+    color: #f36100;
+    height:100px;
+    width = 100%;
+    padding-top: 30px;
+    margin-bottom:0;
+}
+
+h1{
+    margin:5px 0 0 0 ;
+    font-size: 45px;
 }
 
 .name{
