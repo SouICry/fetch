@@ -1,3 +1,11 @@
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+   [class*="col-"] {
+    width: 100%;
+    }
+}
+
 @font-face {
     font-family: Fetch;
     src: url(fonts/aery.ttf);
@@ -51,7 +59,7 @@ h2{
     Font-family: Fetch;
     color: #f36100;
     height:100px;
-    width = 100%;
+    width : 100%;
     padding-top: 30px;
     margin-bottom:0;
 }
