@@ -10,7 +10,8 @@
 </head>
 <body>
     <button id="button_1" class="red">   This is a button   </button>
-
+    <button id="button_2" class="red">   This is a button   </button>
+    <br>
 
     <script>
         var json = {
@@ -22,18 +23,14 @@
             }
         };
 
-        $("#button_1").click(button_1_click);
+        var content = "not replaced yet<br>";
 
-        function button_1_click(){
-            $.ajax({
-                type: "POST",
-                url: "/post",
-                data: json,
-                success: function(response){
+        $("#button_2").click(function() {
+            $("body").append(content.name + "<br>");
+        });
 
-                }
-            });
-        }
+
+        $("#button_1").click(login);
 
 
         function login(){
@@ -42,7 +39,7 @@
                 url: "/login",
                 data: json,
                 success: function(response){
-
+                    content = response;
                 }
             });
         }

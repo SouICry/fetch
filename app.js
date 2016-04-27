@@ -22,9 +22,20 @@ app.get('/', function (req, res) {
     
 });
 
+
+
+var response = {
+    "name" : "Shopping",
+    "list" : ['ham', 'eggs', 'green']
+};
+
 app.post('/login', function(req, res){
-    res.send(req.body);
+    response.receivedContent = req.body;
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(response));
 });
+
+
 
 // This responds a POST request for the homepage
 app.post('/', function (req, res) {
