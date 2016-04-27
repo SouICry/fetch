@@ -1,0 +1,110 @@
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+   [class*="col-"] {
+    width: 100%;
+    }
+}
+
+
+@font-face {
+    font-family: Fetch;
+    src: url(fonts/aery.ttf);
+}
+
+@font-face{
+    font-family: Glamour;
+    src:url(fonts/Glamor-BoldExtended.ttf);
+}
+
+@font-face{
+    font-family: Brandon;
+    src:url(fonts/Brandon_light.otf);
+
+}
+
+body{
+    font-family: sans-serif;
+    padding-top: 100px;
+}
+
+#header{
+    Font-family: Fetch;
+    text-align: center;
+    margin-top: 3%;
+    font-size: 200%;
+    max-height: 5%;
+    color: #f36100;
+}
+
+/* this ensure the container is never
+   larger than 80% of the screen */
+.container-fluid{
+    max-width: 90%;
+}
+
+
+.row{
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+/* needed to overwrite bootstraps margins*/
+h2{
+    margin: 0;
+}
+
+.navbar{
+    background: #ffffff;
+    margin-bottom:0;
+    Font-family: Fetch;
+    color: #f36100;
+    height:100px;
+    width : 100%;
+    padding-top: 30px;
+    margin-bottom:0;
+}
+
+h1{
+    margin:5px 0 0 0 ;
+    font-size: 45px;
+}
+
+.name{
+    font-family:Brandon;
+    position:absolute;
+    font-size: 3em;
+    left: 0;
+    width: 100%;
+    top: 42%;
+}
+
+figure img {
+    margin: 5% 0 ;
+    border-radius: 5px;
+    max-width: 100%;
+}
+
+figure{
+    position:relative;
+}
+
+footer {
+    font-size: 12px;
+    padding: 20px 0;
+}
+
+footer .col-sm-8 {
+    display: flex;
+    justify-content: flex-end;
+}
+
+footer ul {
+    list-style: none;
+}
+
+footer li img {
+    width: 32px;
+    height: 32px;
+}
+
