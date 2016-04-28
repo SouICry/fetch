@@ -16,9 +16,12 @@
     </head>
     <body>
 
+
     <div class="container-fluid">
-    <!-- list -->
-        <h1>Grocery Items:</h1></br>
+
+        <!-- list -->
+        </p>
+        <h1>Grocery Items:</h1>
         <form name="form" >
             <input class="input" type="text" name="checkListItem" autofocus/>
         </form>
@@ -33,8 +36,13 @@
 
         <!-- notes -->
         <div>
-            <h4>Notes:</h4>
-            <input class="notes"type="text">
+            <h4>Notes: If Driver cannot find your specified item, they should ... </h4></br>
+            <form action="">
+                <input type="radio" name="notes" value="none"> Not buy the item<br>
+                <input type="radio" name="notes" value="cheapest"> Buy cheapest brand available<br>
+                <input type="radio" name="notes" value="best"> Buy best/expensive brand available<br>
+            </form>
+        <!--    <input class="notes"type="text"> -->
         </div></br>
         <!-- time -->
         <div>
@@ -63,8 +71,8 @@
             <button id="history">Checkout</button>
             <button id="close">Not Ready Yet</button>
         </div>
-    </div>
 
+    </div>
 
     </body>
 </html>

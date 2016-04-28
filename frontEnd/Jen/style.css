@@ -4,7 +4,7 @@ html, body {
 
 h1, h4 {
     font-family:arial;
-    color:orange;
+    color: #211300;
     margin:auto;
 }
 
@@ -16,7 +16,7 @@ form {
     display:inline-block;
     height:27px;
     width:70px;
-    background-color: orange;
+    background-color: #211300;
     font-family:arial;
     font-weight:bold;
     color:#ffffff;
@@ -26,7 +26,7 @@ form {
 }
 
 #button:active {
-    background-color:#ff8000;
+    background-color: rgba(33, 19, 0, 0.79);
     color: #ffffff;
 }
 
@@ -38,7 +38,7 @@ form {
     display:inline-block;
     height:43px;
     width:150px;
-    background-color: orange;
+    background-color: #211300;
     font-family:arial;
     font-weight:bold;
     color:#ffffff;
@@ -48,7 +48,7 @@ form {
 }
 
 #submit:active {
-    background-color:#ff8000;
+    background-color: #211300;
     color: #ffffff;
 }
 
@@ -82,15 +82,19 @@ form {
 }
 */
 .item {
-    background-color:orange;
+    /*background-color:orange;*/
+    color: #211300;
+    font-weight: bold;
+    font-size: 20px;
     margin:10px 10px 10px 10px;
     text-align:center;
     height: 30px;
     padding: 5px 5px 5px 5px;
+    border-bottom: dotted #211300 2px;
 }
 
 .item:hover {
-    opacity: 0.75;
+    color: rgba(92, 46, 28, 0.78);
 }
 
 body{
@@ -112,121 +116,26 @@ body{
 #arrow {
     font-size: 15px;
     text-align: center;
-    color: orange;
+    color: #211300;
     visibility: hidden;
 }
 
 /* notes */
 .notes, .time, .input {
-    border: 3px inset #FFA5A5;
+    border: 3px inset rgba(33, 19, 0, 0.78);
     outline:0;
     height:30px;
     width: 275px;
-    color: #3daa67;
+    color: #000000;
     font-size: 18px;
     font-weight: bold;
 }
 
+
+
 #list:hover + #arrow {
     visibility: visible;
 }
-
-/* time range */
-#time-range p {
-    font-family:"Arial", sans-serif;
-    font-size:14px;
-    color:#333;
-}
-.ui-slider-horizontal {
-    -webkit-box-shadow: inset 0 0 6px darkseagreen;
-
-    height: 8px;
- /*   background: #D7D7D7; */
-    border: 1px solid #BABABA;
-   /* box-shadow: 0 1px 0 #FFF, 0 1px 0 #CFCFCF inset; */
-    clear: both;
-    margin: 8px 0;
-}
-.ui-slider {
-    position: relative;
-    text-align: left;
-}
-.ui-slider-horizontal .ui-slider-range {
-    top: -1px;
-    height: 100%;
-}
-.ui-slider .ui-slider-range {
-    position: absolute;
-    z-index: 1;
-    height: 8px;
-    font-size: .7em;
-    display: block;
-    border: 1px solid orange;
-    box-shadow: 0 1px 0 darkorange inset;
-    background: orange;
-    background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgi…pZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
-    background-size: 100%;
-    background-image: -webkit-gradient(linear, 50% 0, 50% 100%, color-stop(0%, lightgreen), color-stop(100%, palegreen));
-    background-image: -webkit-linear-gradient(top, orange, darkorange);
-    background-image: -moz-linear-gradient(top, orange, darkorange);
-    background-image: -o-linear-gradient(top, orange, darkorange);
-    background-image: linear-gradient(top, orange, darkorange);
-}
-.ui-slider .ui-slider-handle {
-    background: #F9FBFA;
-    background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgi…pZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
-    background-size: 100%;
-    background-image: -webkit-gradient(linear, 50% 0, 50% 100%, color-stop(0%, #C7CED6), color-stop(100%, #F9FBFA));
-    background-image: -webkit-linear-gradient(top, #C7CED6, #F9FBFA);
-    background-image: -moz-linear-gradient(top, #C7CED6, #F9FBFA);
-    background-image: -o-linear-gradient(top, #C7CED6, #F9FBFA);
-    background-image: linear-gradient(top, #C7CED6, #F9FBFA);
-    width: 22px;
-    height: 22px;
-    -webkit-box-shadow: 0 2px 3px -1px rgba(0, 0, 0, 0.6), 0 -1px 0 1px rgba(0, 0, 0, 0.15) inset, 0 1px 0 1px rgba(255, 255, 255, 0.9) inset;
-    -moz-box-shadow: 0 2px 3px -1px rgba(0, 0, 0, 0.6), 0 -1px 0 1px rgba(0, 0, 0, 0.15) inset, 0 1px 0 1px rgba(255, 255, 255, 0.9) inset;
-    box-shadow: 0 2px 3px -1px rgba(0, 0, 0, 0.6), 0 -1px 0 1px rgba(0, 0, 0, 0.15) inset, 0 1px 0 1px rgba(255, 255, 255, 0.9) inset;
-    -webkit-transition: box-shadow .3s;
-    -moz-transition: box-shadow .3s;
-    -o-transition: box-shadow .3s;
-    transition: box-shadow .3s;
-}
-.ui-slider .ui-slider-handle {
-    position: absolute;
-    z-index: 2;
-    width: 22px;
-    height: 22px;
-    cursor: default;
-    border: none;
-    cursor: pointer;
-}
-.ui-slider .ui-slider-handle:after {
-    content:"";
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    top: 50%;
-    margin-top: -4px;
-    left: 50%;
-    margin-left: -4px;
-    background: limegreen;
-    -webkit-box-shadow: 0 1px 1px 1px green inset, 0 1px 0 0 #FFF;
-    -moz-box-shadow: 0 1px 1px 1px seagreen inset, 0 1px 0 0 white;
-    box-shadow: 0 1px 1px 1px seagreen inset, 0 1px 0 0 #FFF;
-}
-.ui-slider-horizontal .ui-slider-handle {
-    top: -.5em;
-    margin-left: -.6em;
-}
-.ui-slider a:focus {
-    outline:none;
-}
-
-.slider-time2, .slider-time, #time-range p {
-    color: forestgreen;
-    font-weight: bold;
-    font-size: 16px;
- }
 
 /*dialog box*/
 
@@ -255,7 +164,7 @@ body{
     min-width: 280px;
     max-width: 500px;
     height: auto;
-    background: lightgreen;
+    background: rgba(57, 18, 19, 0.42);
     padding: 0;
     margin: 0;
     border-top: 1px solid white;
@@ -274,7 +183,7 @@ body{
 .confirm button {
     background: transparent;
     border: none;
-    color: orange;
+    color: #ffffff;
     height: 3rem;
     font-size: 1rem;
     width: 50%;
@@ -283,19 +192,19 @@ body{
     cursor: pointer;
 }
 .confirm button:nth-of-type(1) {
-    border-top: 1px solid mediumseagreen;
-    border-right: 1px solid mediumseagreen;
+    border-top: 1px solid rgba(57, 18, 19, 0.42);
+    border-right: 1px solid rgba(57, 18, 19, 0.42);
     left: 0;
 }
 .confirm button:nth-of-type(2) {
-    border-top: 1px solid mediumseagreen;
+    border-top: 1px solid rgba(57, 18, 19, 0.42);
     right: 0;
 }
 .confirm button:focus,
 .confirm button:hover {
     font-weight: bold;
-    background: palegreen;
+    background: rgba(57, 18, 19, 0.34);
 }
 .confirm button:active {
-    background: #83e083;
+    background: rgba(57, 18, 19, 0.42);
 }
