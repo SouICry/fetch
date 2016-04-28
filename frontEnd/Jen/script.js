@@ -1,10 +1,10 @@
 // add item
 $(document).ready(function(){
     //color varaible
-    var color_r = 255;
+  /*  var color_r = 255;
     var color_g = 100;
     var color_b = 0;
-
+*/
     // click button
     $('#button').click(function() {
         if ($('input[name=checkListItem]').val() !== '') {
@@ -12,12 +12,12 @@ $(document).ready(function(){
             var newItem = document.createElement('li');
             newItem.innerHTML = toAdd;
             newItem.className = 'item'
-            if (color_b < 100)
+          /*  if (color_b < 100)
                 color_b+=6;
             if (color_g < 180)
                 color_g+=6;
             var newColor = "(255,"+color_g+","+color_b+")";
-            newItem.style.backgroundColor= "rgb"+newColor;
+            newItem.style.backgroundColor= "rgb"+newColor; */
             $('#list').prepend(newItem);
             /*  $('#list').prepend('<li class="item">' + toAdd + '</li>'); */
         };
@@ -33,16 +33,17 @@ $(document).ready(function(){
             var newItem = document.createElement('li');
             newItem.innerHTML = toAdd;
             newItem.className = 'item'
-            if (color_b < 100)
+          /*  if (color_b < 100)
                 color_b+=6;
             if (color_g < 180)
                 color_g+=6;
             var newColor = "(255,"+color_g+","+color_b+")"
-            newItem.style.backgroundColor= "rgb"+newColor;
+            newItem.style.backgroundColor= "rgb"+newColor; */
             $('#list').prepend(newItem);
            /* $('#list').prepend('<li class="item">' + toAdd + '</li>') */
         };
         $('input[name=checkListItem]').val('');
+        $('#input').focus();
         return false;
     });
 
@@ -57,7 +58,7 @@ $(document).ready(function(){
         $( "#list" ).disableSelection();
     });
 
-// time slider
+/*
     $("#slider-range").slider({
         range: true,
         min: 0,
@@ -116,7 +117,7 @@ $(document).ready(function(){
 
             $('.slider-time2').html(hours2 + ':' + minutes2);
         }
-    });
+    }); */
 
     // submission button
     $(function() {
