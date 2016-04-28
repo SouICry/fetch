@@ -24,7 +24,7 @@ body {
   color: #f36100; }
 
 /* this ensure the container is never
-   larger than 80% of the screen */
+   larger than 90% of the screen */
 .container-fluid {
   max-width: 90%; }
 
