@@ -19,7 +19,7 @@
 			<footer id="footer"></footer>
 		</section>
 		<footer id="info">
-			<p>Double-click to edit a todo</p>
+			<p>Double-click to edit item</p>
 		</footer>
 		<script id="todo-template" type="text/x-handlebars-template">
 			{{#this}}
@@ -34,6 +34,12 @@
 		</script>
 		<script id="footer-template" type="text/x-handlebars-template">
 			<span id="todo-count"><strong>{{activeTodoCount}}</strong> {{activeTodoWord}} </span>
+                <ul id="filters">
+                    <li>
+                        <a href="#/submit">Submit</a>
+                    </li>
+                </ul>
+            {{#if completedTodos}}<button id="clear-completed">Clear completed</button>{{/if}}
 		</script>
 		<script src="node_modules/todomvc-common/base.js"></script>
 		<script src="node_modules/jquery/dist/jquery.js"></script>

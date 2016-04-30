@@ -1,4 +1,12 @@
 #main,
 #footer {
-	display: none;
-}
+  display: none; }
+
+body {
+  background-color: white; }
+
+#todoapp #header h1 {
+  color: #f36100;
+  opacity: .8; }
+
+/*# sourceMappingURL=app.css.map */

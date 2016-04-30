@@ -1,0 +1,16 @@
+$orange: #f36100;
+
+#main,
+#footer {
+  display: none;
+}
+
+body{
+  background-color: white;
+}
+
+#todoapp #header h1{
+  color: $orange;
+  opacity: .8;
+}
+

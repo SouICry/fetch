@@ -45,6 +45,7 @@ jQuery(function ($) {
 			this.footerTemplate = Handlebars.compile($('#footer-template').html());
 			this.bindEvents();
 
+            this.render();
 			new Router({
 				'/:filter': function (filter) {
 					this.filter = filter;
