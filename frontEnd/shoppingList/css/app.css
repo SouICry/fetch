@@ -1,12 +1,26 @@
-#main,
-#footer {
-  display: none; }
-
-body {
-  background-color: white; }
+@media (max-width: 500px) {
+  #Shopping {
+    border: solid 1px red;
+    background-color: red; } }
+html, body {
+  padding: 0;
+  height: 100%;
+  max-width: 100%; }
 
 #todoapp #header h1 {
+  margin-top: 70px;
   color: #f36100;
-  opacity: .8; }
+  opacity: .8;
+  font-size: 50px; }
+
+#Shopping {
+  margin: 5px; }
+
+#ShoppingList {
+  width: 70%;
+  margin-left: 15%; }
+
+#footer {
+  height: 60px; }
 
 /*# sourceMappingURL=app.css.map */
