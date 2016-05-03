@@ -3,6 +3,8 @@
  */
 
 $(document).ready(function () {
+
+
     $('img').fadeTo(0,'.4');
     $('.name').css('color','black');
     $('figure').mouseenter(function(){
@@ -12,6 +14,7 @@ $(document).ready(function () {
     $('figure').mouseleave(function () {
         $(this).find('img').fadeTo('fast','.4') ;
         $(this).find('.name').css('color','#000000');
+        
     });
 });
 
@@ -19,8 +22,9 @@ $(document).ready(function () {
 // Hashes don’t cause the page to reload and are easily accessible and manipulated.
 $(function () {
 
+
     // $('div').fadeIn('slow');
-    //render(decodeURI(window.location.hash));
+    render(decodeURI(window.location.hash));
 
     function renderHomePage(){
         // Shows the Single Product Page with appropriate data.
@@ -33,12 +37,18 @@ $(function () {
     function renderShopperPage(){
         // Crates an object with filtered products and passes it to renderProductsPage.
         var page = $('#shopper');
+        $('.filters').addClass('hidden');
+        $('.toggle').addClass('hidden');
+        $('.info').removeClass('hidden');
         page.removeClass('hidden');
     }
 
     function renderDriverPage(){
         // Shows the error page.
         var page = $('#driver');
+        $('.filters').removeClass('hidden');
+        $('.toggle').removeClass('hidden');
+        $('.info').addClass('hidden');
         page.removeClass('hidden');
     }
 
@@ -68,10 +78,10 @@ $(function () {
             },
 
             // Page with filtered products
-            '#createList': function () {
+            '#shop': function () {
                 renderShopperPage();
             },
-            '#pickUpList': function () {
+            '#drive': function () {
                 renderDriverPage();
             }
 
@@ -93,18 +103,18 @@ $(function () {
         render(decodeURI(window.location.hash));
     });
 
-    $('.homePage').on('click', function(){
+    $('.home').on('click', function(){
         //console.log("window.location.hash:",window.location.hash);
         window.location.hash='#home';
     });
 
-    $('.createList').on('click', function(){
+    $('.shop').on('click', function(){
         //console.log("window.location.hash:",window.location.hash);
-        window.location.hash='#createList';
+        window.location.hash='#shop';
     });
-    $('.pickUpList').on('click', function(){
+    $('.drive').on('click', function(){
         //console.log("window.location.hash:",window.location.hash);
-        window.location.hash='#pickUpList';
+        window.location.hash='#drive';
     });
 });
 
