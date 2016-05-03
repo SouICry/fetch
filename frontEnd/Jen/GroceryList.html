@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+        <title>Grocery List</title>
+        <link rel="stylesheet" href="style.css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        <script src="script.js"></script>
+    </head>
+    <body>
+
+
+    <div class="container-fluid">
+
+        <!-- list -->
+        </p>
+        <h1>Grocery Items:</h1>
+        <form name="form" >
+            <input class="input" type="text" name="checkListItem" autofocus/>
+        </form>
+        <div id="button">Add</div></br>
+        <div id="list"></div>
+
+        <!-- arrow -->
+        <div id="arrow">
+            <p>▼</p>
+        </div>
+            </br>
+
+        <!-- notes -->
+        <div>
+            <h4>Notes: If Driver cannot find your specified item, they should ... </h4></br>
+            <form action="">
+                <input type="radio" name="notes" value="none"> Not buy the item<br>
+                <input type="radio" name="notes" value="cheapest"> Buy cheapest brand available<br>
+                <input type="radio" name="notes" value="best"> Buy best/expensive brand available<br>
+            </form>
+        <!--    <input class="notes"type="text"> -->
+        </div></br>
+        <!-- time -->
+        <div>
+            <h4>Pick Up Time(s):</h4>
+            <input class="time"type="text">
+        </div></br>
+
+        <!-- time range
+        <h2>Available Pick Up Time: </h2>
+        <div id="time-range">
+            <p>Time Range: <span class="slider-time"></span> - <span class="slider-time2"></span>
+            </p>
+
+            <div class="sliders_step1">
+                <div id="slider-range"></div>
+            </div>
+        </div> -->
+
+        <!-- submit button -->
+        <div id="submit">Submit</div></br>
+
+        <!-- dialog -->
+        <div class="confirm">
+            <h1>Continue to Checkout</h1>
+            <p>Confirm if your grocery list is correct. Click to continue to checkout.</p>
+            <button id="history">Checkout</button>
+            <button id="close">Not Ready Yet</button>
+        </div>
+
+    </div>
+
+    </body>
+</html>
+
