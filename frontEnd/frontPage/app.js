@@ -39,6 +39,7 @@ jQuery(function ($) {
             console.log("STORE FUNCTION:");
 			if (arguments.length > 1) {
                 console.log("\tfrom if: = jSON.stringfy(data)", JSON.stringify(data));
+                console.log(JSON.parse(data));
                 //console.log("\tfrom if: store=", store);
 				return localStorage.setItem(namespace, JSON.stringify(data));
 			} else {
