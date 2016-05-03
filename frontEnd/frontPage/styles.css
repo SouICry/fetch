@@ -2,6 +2,18 @@
   /* For mobile phones: */
   [class*="col-"] {
     width: 100%; } }
+@media (min-width: 768px) {
+  .container {
+    width: 100%; } }
+@media (min-width: 1200px) {
+  .container {
+    width: 100%; } }
+@media (min-width: 992px) {
+  .container {
+    width: 100%; } }
+@media (min-width: 768px) {
+  .container {
+    width: 100%; } }
 @font-face {
   font-family: Fetch;
   src: url(fonts/aery.ttf); }
@@ -13,20 +25,14 @@
   src: url(fonts/Brandon_light.otf); }
 body {
   font-family: sans-serif;
-  padding-top: 100px; }
-
-#header {
-  Font-family: Fetch;
-  text-align: center;
-  margin-top: 3%;
-  font-size: 200%;
-  max-height: 5%;
-  color: #f36100; }
+  padding-top: 100px;
+  background-color: #ffffff;
+  max-width: 100%; }
 
 /* this ensure the container is never
    larger than 90% of the screen */
 .container-fluid {
-  max-width: 90%; }
+  max-width: 80%; }
 
 .row {
   margin-left: 10%;
@@ -80,5 +86,25 @@ footer ul {
 footer li img {
   width: 32px;
   height: 32px; }
+
+#todoapp #header h1 {
+  margin-top: 70px;
+  color: #f36100;
+  opacity: .8;
+  font: 50px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 100; }
+
+#Shopping {
+  margin: 5px; }
+
+#ShoppingList {
+  width: 70%;
+  margin-left: 15%; }
+
+#footer {
+  height: 60px; }
+
+.hidden {
+  display: none; }
 
 /*# sourceMappingURL=styles.css.map */

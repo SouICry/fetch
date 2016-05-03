@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Fetch</title>
-
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
@@ -17,23 +16,31 @@
     <!-- my javaScript -->
     <script type='text/javascript' src='script.js'></script>
 
+    <!--from shopping list-->
+    <link rel="stylesheet" href="../shoppingList/node_modules/todomvc-common/base.css">
+    <link rel="stylesheet" href="../shoppingList/node_modules/todomvc-app-css/index.css">
+
     <!-- myCSS -->
     <link rel="stylesheet" type="text/css" href="styles.css">
+
 </head>
 
 <body>
 
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container text-center">
+            <h1> FETCH </h1>
+            <span><button class="createList">shopper</button></span>
+            <span><button class="pickUpList">driver</button></span>
+            <span><button class="homePage">home</button></span>
+        </div>
+    </nav>
 
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container text-center">
-        <h1> FETCH </h1>
-    </div>
-</nav>
-
-    <section class="container-fluid text-center" id="food">
+    <section class="container-fluid text-center page" id="home">
 
         <div class="row ">
             <figure class="col-sm-6" id="Vons">
+                <button class="createList">
                 <img src="images/food1.jpg" />
                 <h2 class="name"> VONS </h2>
             </figure>
@@ -59,6 +66,98 @@
         <hr>
     </section>
 
+    <div class="center page hidden" id="shopper">
+        <div class="row" id="Shopping" >
+            <div class="col-sm-6 " id="ShoppingList">
+                <section id="todoapp">
+                    <header id="header">
+                        <h1 id="listHeader">Shopping List</h1>
+                        <input id="new-todo" placeholder="What do you need?" autofocus>
+                    </header>
+                    <section id="main">
+                        <ul id="todo-list"></ul>
+                    </section>
+                    <footer id="footer"></footer>
+                </section>
+
+                <footer id="info">
+                    <p>Double-click to edit item</p>
+                </footer>
+
+                <script id="todo-template" type="text/x-handlebars-template">
+                    {{#this}}
+                    <li {{#if completed}}class="completed" {{/if}} data-id="{{id}}">
+                    <div class="view">
+                        <label>{{title}}</label>
+                        <button class="destroy"></button>
+                    </div>
+                    <input class="edit" value="{{title}}">
+                    </li>
+                    {{/this}}
+                </script>
+
+                <script id="footer-template" type="text/x-handlebars-template">
+                    <span id="todo-count"><strong>{{activeTodoCount}}</strong> {{activeTodoWord}} </span>
+                    <ul id="filters">
+                        <li>
+                            <a href="#/submit">Submit</a>
+                        </li>
+                    </ul>
+                    {{#if completedTodos}}<button id="clear-completed">Clear completed</button>{{/if}}
+                </script>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="center page hidden" id="driver">
+        <div class="row" id="Shopping" >
+            <div class="col-sm-6 " id="ShoppingList">
+                <section id="todoapp">
+                    <header id="header">
+                        <h1>Driver List</h1>
+                        <!--<input id="new-list" placeholder="What do you need?" autofocus>-->
+                    </header>
+                    <section id="main">
+                        <!--<input id="toggle-all" type="checkbox">-->
+                        <!--<label for="toggle-all">Mark all as complete</label>-->
+                        <ul id="todo-list"></ul>
+                    </section>
+                    <footer id="footer"></footer>
+                </section>
+                <footer id="info">
+                    <!--<p>Double-click to edit item</p>-->
+                </footer>
+                <script id="todo-template" type="text/x-handlebars-template">
+                    {{#this}}
+                    <li {{#if completed}}class="completed"{{/if}} data-id="{{id}}">
+                    <div class="view">
+                        <input class="toggle" type="checkbox" {{#if completed}}checked{{/if}}>
+                        <label>{{title}}</label>
+                        <button class="destroy"></button>
+                    </div>
+                    <input class="edit" value="{{title}}">
+                    </li>
+                    {{/this}}
+                </script>
+                <script id="footer-template" type="text/x-handlebars-template">
+                    <span id="todo-count"><strong>{{activeTodoCount}}</strong> {{activeTodoWord}} left</span>
+                    <ul id="filters">
+                        <li>
+                            <a {{#eq filter 'all'}}class="selected"{{/eq}} href="#/all">All</a>
+                        </li>
+                        <li>
+                            <a {{#eq filter 'active'}}class="selected"{{/eq}}href="#/active">Active</a>
+                        </li>
+                        <li>
+                            <a {{#eq filter 'completed'}}class="selected"{{/eq}}href="#/completed">Completed</a>
+                        </li>
+                    </ul>
+                    {{#if completedTodos}}<button id="clear-completed">Clear completed</button>{{/if}}
+                </script>
+                </div>
+            </div>
+        </div>
 
 
     <footer class ="container text-center">
@@ -67,4 +166,9 @@
 
 </body>
 
+    <script src="../shoppingList/node_modules/todomvc-common/base.js"></script>
+    <script src="../shoppingList/node_modules/jquery/dist/jquery.js"></script>
+    <script src="../shoppingList/node_modules/handlebars/dist/handlebars.js"></script>
+    <!--	<script src="node_modules/director/build/director.js"></script> -->
+    <script src="../shoppingList/js/app.js"></script>
 </html>
