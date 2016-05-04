@@ -614,4 +614,18 @@ h1 {
   margin-top: -20px;
   text-align: right; }
 
+#rating-page h2 {
+  text-align: center; }
+#rating-page img {
+  width: 100%; }
+#rating-page .rating {
+  width: 21.5rem;
+  margin: auto; }
+  #rating-page .rating i {
+    width: 4rem; }
+  #rating-page .rating i.selected {
+    color: yellow; }
+#rating-page a.btn {
+  width: 100%; }
+
 /*# sourceMappingURL=style.css.map */
