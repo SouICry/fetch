@@ -1,0 +1,22 @@
+#rating-page {
+  h2 {
+    text-align: center;
+  }
+  img {
+    width: 100%;
+  }
+  .rating {
+    width: 21.5rem;
+    margin: auto;
+    i {
+      width: 4rem;
+    }
+    i.selected {
+      color: yellow;
+    }
+  }
+
+  a.btn {
+    width: 100%;
+  }
+}

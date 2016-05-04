@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rating</title>
+</head>
+<body>
+<div id="rating-page">
+    <!-- Im using Materializecss because im more familiar with itatm; bootstrap would work as a mostly drop in replacement-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m8 offset-m2 l6 offset-l3">
+                <h2 id="user-name" data-id="5876">User Name</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s8 offset-s2 m6 offset-m3 l4 offset-l4">
+                <img id="user-image" src="/placeholder/person.png"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 m8 offset-m2 l6 offset-l3">
+                <div class="rating">
+                    <i id="rating-1" class="material-icons medium">star_rate</i>
+                    <i id="rating-2" class="material-icons medium">star_rate</i>
+                    <i id="rating-3" class="material-icons medium">star_rate</i>
+                    <i id="rating-4" class="material-icons medium">star_rate</i>
+                    <i id="rating-5" class="material-icons medium">star_rate</i>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 m8 offset-m2 l6 offset-l3">
+                <a id="rate-user" class="waves-effect waves-light btn" >Rate!</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 m8 offset-m2 l6 offset-l3">
+                <a id="simulate-load-user" class="waves-effect waves-light btn">Simulate loading
+                    actual user</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        var simulated_user = {
+            id: 1234567,
+            name: "Bob",
+            "profile-picture": null
+        };
+        var info_to_send = {};
+
+
+        var rating = 0;
+        var r1 = $('#rating-1'), r2 = $('#rating-2'), r3 = $('#rating-3'), r4 = $('#rating-4'), r5 = $('#rating-5');
+        r1.hover(function () {
+            r1.addClass("selected");
+            r2.removeClass("selected");
+            r3.removeClass("selected");
+            r4.removeClass("selected");
+            r5.removeClass("selected");
+            rating = 1;
+        });
+        r2.hover(function () {
+            r1.addClass("selected");
+            r2.addClass("selected");
+            r3.removeClass("selected");
+            r4.removeClass("selected");
+            r5.removeClass("selected");
+            rating = 2;
+        });
+        r3.hover(function () {
+            r1.addClass("selected");
+            r2.addClass("selected");
+            r3.addClass("selected");
+            r4.removeClass("selected");
+            r5.removeClass("selected");
+            rating = 3;
+        });
+        r4.hover(function () {
+            r1.addClass("selected");
+            r2.addClass("selected");
+            r3.addClass("selected");
+            r4.addClass("selected");
+            r5.removeClass("selected");
+            rating = 4;
+        });
+        r5.hover(function () {
+            r1.addClass("selected");
+            r2.addClass("selected");
+            r3.addClass("selected");
+            r4.addClass("selected");
+            r5.addClass("selected");
+            rating = 5;
+        });
+
+        $('#rate-user').click(function () {
+
+            if (rating !== 0) {
+                info_to_send.id = $('#user-name').data('id');
+                info_to_send.rating = rating;
+                alert(JSON.stringify(info_to_send));
+                /*$.ajax({
+                    type: "POST",
+                    url: "/rate",
+                    data: info_to_send
+                })*/
+            }
+        });
+
+        $('#simulate-load-user').click(function () {
+            $('#user-name').text(simulated_user.name).data('id', simulated_user.id);
+            if (simulated_user["profile-picture"] !== null) {
+                $('#user-image').data('src', simulated_user["profile-picture"]);
+            }
+        });
+
+
+    </script>
+</div>
+</body>
+</html>
