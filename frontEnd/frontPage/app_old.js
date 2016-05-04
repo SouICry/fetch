@@ -39,6 +39,7 @@ jQuery(function ($) {
             console.log("STORE FUNCTION:");
 			if (arguments.length > 1) {
                 console.log("\tfrom if: = jSON.stringfy(data)", JSON.stringify(data));
+                console.log(JSON.parse(data));
                 //console.log("\tfrom if: store=", store);
 				return localStorage.setItem(namespace, JSON.stringify(data));
 			} else {
@@ -48,11 +49,12 @@ jQuery(function ($) {
 				return (store && JSON.parse(store)) || [];
 			}
 		}
+
 	};
+
 
     // This is the shopping list object
 	var App = {
-
         
         //this i believe inititalizes the todo list
 		init: function () {
@@ -62,12 +64,35 @@ jQuery(function ($) {
             //what is todos-jquery?
             this.todos = util.store('todos-jquery');
             console.log("\tthis.todos=", this.todos);
-			this.todoTemplate = Handlebars.compile($('.todo-template').html());
-			this.footerTemplate = Handlebars.compile($('.footer-template').html());
-			this.bindEvents();
-            
+
+            this.todoTemplate = Handlebars.compile($('.todo-template').html());
+            this.footerTemplate = Handlebars.compile($('.footer-template').html());
+
+            this.bindEvents();
             // this will automatically display the saved contents of list
             this.render();
+            
+            // if(window.location.hash == "#drive")
+            // {
+            //     this.todoTemplate = Handlebars.compile($('.todo-template').html());
+            //     this.footerTemplate = Handlebars.compile($('.footer-template').html());
+            //
+            //     this.bindEvents();
+            //
+            //     // this will automatically display the saved contents of list
+            //     this.render();
+            // }
+            //
+            // else if(window.location.hash == "#shop")
+            // {
+            //     this.todoTemplate = Handlebars.compile($('.todo-template').html());
+            //     this.footerTemplate = Handlebars.compile($('.footer-template2').html());
+            //
+            //     this.bindEvents();
+            //
+            //     // this will automatically display the saved contents of list
+            //     this.render();
+            // }
 
 		},
 
@@ -92,8 +117,8 @@ jQuery(function ($) {
 			var todos = this.getFilteredTodos();
             console.log("\ttodos: =" ,todos);
 
-            // try and hide toggle button if has = shop
-            console.log("hash: ", window.location.hash);
+            // // try and hide toggle button if has = shop
+            // console.log("hash: ", window.location.hash);
 
             //this is where the html get rendered to the the page
 			$('.todo-list').html(this.todoTemplate(todos));
@@ -109,7 +134,7 @@ jQuery(function ($) {
             if(window.location.hash == "#shop") {
                 console.log("turn off toggle if in shop");
                 $('.toggle').addClass('hidden');
-                $('.filters').addClass('hidden');
+                // $('.filters').addClass('hidden');
                 renderShopperPage();
             }
 
