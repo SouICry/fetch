@@ -1,16 +1,41 @@
+
+
 $orange: #f36100;
 
-#main,
-#footer {
-    display: none;
+@media  (max-width:500px) {
+  #Shopping {
+    border: solid 1px red;
+    background-color: red;
+  }
 }
 
-body{
-  background-color: white;
+
+html,body{
+  padding:0;
+  height:100%;
+  max-width:100%;
 }
 
- #todoapp #header h1{
+#todoapp #header h1{
+  margin-top: 70px;
   color: $orange;
-   opacity: .8;
+  opacity: .8;
+  font-size:50px;
+  font-weight: 100;
 }
+
+#Shopping{
+  margin:5px;
+}
+
+
+#ShoppingList{
+  width:70%;
+  //this will center
+  margin-left:15%;
+}
+#footer{
+  height:60px;
+}
+
 
