@@ -385,16 +385,20 @@ http://engageinteractive.co.uk/blog/how-many-fonts-is-too-many-fonts
 */
 @font-face {
   font-family: Fetch;
-  src: url(fonts/aery.ttf); }
+  src: url(/resources/fonts/aery.ttf); }
 @font-face {
   font-family: Glamour;
-  src: url(fonts/Glamor-BoldExtended.ttf); }
+  src: url(/resources/fonts/Glamor-BoldExtended.ttf); }
 @font-face {
   font-family: Brandon;
-  src: url(fonts/Brandon_light.otf); }
+  src: url(/resources/fonts/Brandon_light.otf); }
 body {
   font-family: sans-serif;
-  padding-top: 100px; }
+  padding-top: 100px;
+  overflow: hidden;
+  line-height: 0.4em;
+  background-color: #ffffff;
+  max-width: 100%; }
 
 #header {
   Font-family: Fetch;
@@ -469,9 +473,6 @@ footer li img {
 .glyphicon.glyphicon-globe {
   font-size: 900px;
   transform: scale(2, 2); }
-
-body {
-  overflow: hidden; }
 
 h1 {
   font-size: 45px;
