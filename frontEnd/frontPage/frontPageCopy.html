@@ -1,0 +1,186 @@
+<script src="/js/load.js"></script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fetch</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+    <!-- my javaScript -->
+    <script type='text/javascript' src='script.js'></script>
+
+    <!--from shopping list-->
+    <link rel="stylesheet" href="index.css">
+
+    <!-- myCSS -->
+    <link rel="stylesheet" type="text/css" href="styles.css">
+
+</head>
+
+<body>
+
+<!---------------------------------------------------  H E A D E R  --------------------------------------------------->
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container text-center">
+            <h1> FETCH </h1>
+            <span><button class="shop">shopper</button></span>
+            <span><button class="drive">driver</button></span>
+            <span><button class="home">home</button></span>
+        </div>
+    </nav>
+
+
+<!-----------------------------------------------  H O M E  p a g e  -------------------------------------------------->
+
+    <section class="container-fluid text-center page hidden" id="home">
+
+        <div class="row ">
+            <figure class="col-sm-6" id="Vons">
+                <button class="shop">
+                <img src="images/food1.jpg" />
+                <h2 class="name"> VONS </h2></button>
+            </figure>
+
+            <figure class="col-sm-6" id ="Joe">
+                <button class="shop">
+                <img src="images/food2.jpg" />
+                <h2 class="name"> TJ's</h2></button>
+            </figure>
+        </div>
+
+        <div class="row ">
+            <figure class="col-sm-6 center-block" id="Ralph">
+                <button class="shop">
+                <img src="images/food3.jpg" />
+                <h2 class = "name"> Ralph's</h2></button>
+            </figure>
+
+            <figure class="col-sm-6" id="WF">
+                <button class="shop">
+                <img src="images/food4.jpg" />
+                <h2 class="name"> Whole Foods</h2></button>
+            </figure>
+        </div>
+
+        <hr>
+    </section>
+
+
+<!--------------------------------------------  D R I V E R  p a g e  ------------------------------------------------->
+
+    <div class="center page hidden" id="driver">
+        <div class="row Shopping" >
+            <div class="col-sm-6 ShoppingList">
+                <section class="todoapp">
+                    <header class="header">
+                        <h1>Driver List</h1>
+                        <!--<input id="new-list" placeholder="What do you need?" autofocus>-->
+                    </header>
+                    <section class="main">
+                        <!--<input id="toggle-all" type="checkbox">-->
+                        <!--<label for="toggle-all">Mark all as complete</label>-->
+                        <ul class="todo-list"></ul>
+                    </section>
+                    <footer class="footer"></footer>
+                </section>
+                <footer class="info">
+                    <!--<p>Double-click to edit item</p>-->
+                </footer>
+                <script id="todo-template" type="text/x-handlebars-template">
+                    {{#this}}
+                    <li {{#if completed}}class="completed"{{/if}} data-id="{{id}}">
+                    <div class="view">
+                        <input class="toggle" type="checkbox" {{#if completed}}checked{{/if}}>
+                        <label>{{title}}</label>
+                        <button class="destroy"></button>
+                    </div>
+                    <input class="edit" value="{{title}}">
+                    </li>
+                    {{/this}}
+                </script>
+                <script class="footer-template" type="text/x-handlebars-template">
+                    <span class="todo-count"><strong>{{activeTodoCount}}</strong> {{activeTodoWord}}</span>
+                    <ul class="filters">
+                        <li>
+                            <a {{#eq filter 'all'}}class="selected"{{/eq}} href="#/all">All</a>
+                        </li>
+                        <li>
+                            <a {{#eq filter 'active'}}class="selected"{{/eq}}href="#/active">Active</a>
+                        </li>
+                        <li>
+                            <a {{#eq filter 'completed'}}class="selected"{{/eq}}href="#/completed">Completed</a>
+                        </li>
+                    </ul>
+                    {{#if completedTodos}}<button id="clear-completed">Clear completed</button>{{/if}}
+                </script>
+            </div>
+        </div>
+    </div>
+
+
+<!----------------------------------------  S H O P P E R  p a g e  ---------------------------------------------------->
+
+    <div class="center page hidden" id="shopper">
+        <div class="row Shopping" >
+            <div class="col-sm-6 ShoppingList">
+                <section class="todoapp">
+                    <header class="header">
+                        <h1 id="listHeader">Shopping List</h1>
+                        <input id="new-todo" placeholder="What do you need?" autofocus>
+                    </header>
+                    <section class="main">
+                        <ul class="todo-list"></ul>
+                    </section>
+                    <footer class="footer"></footer>
+                </section>
+
+                <footer class="info">
+                    <p>Double-click to edit item</p>
+                </footer>
+
+                <script class="todo-template" type="text/x-handlebars-template">
+                    {{#this}}
+                    <li {{#if completed}}class="completed" {{/if}} data-id="{{id}}">
+                    <div class="view">
+                        <input class="toggle" type="checkbox" {{#if completed}}checked{{/if}}>
+                        <label>{{title}}</label>
+                        <button class="destroy"></button>
+                    </div>
+                    <input class="edit" value="{{title}}">
+                    </li>
+                    {{/this}}
+                </script>
+
+                <script class="footer-template" type="text/x-handlebars-template">
+                    <span class="todo-count"><strong>{{activeTodoCount}}</strong> {{activeTodoWord}} </span>
+                    <ul class="filters">
+                        <li>
+                            <a href="#/submit">Submit</a>
+                        </li>
+                    </ul>
+                    {{#if completedTodos}}<button class="clear-completed">Clear completed</button>{{/if}}
+                </script>
+            </div>
+        </div>
+    </div>
+
+
+<!------------------------------------------------  F O O T E R  ------------------------------------------------------>
+
+<footer class ="container text-center">
+            <p> &copy; 2016 fetch { } </p>
+    </footer>
+
+</body>
+
+    <script src="handlebars.js"></script>
+    <script src="app.js"></script>
+</html>

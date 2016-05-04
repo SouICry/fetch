@@ -5,7 +5,7 @@
 $(document).ready(function () {
 
 
-    $('img').fadeTo(0,'.4');
+    $('#home img').fadeTo(0,'.4');
     $('.name').css('color','black');
     $('figure').mouseenter(function(){
         $(this).find('img').fadeTo('fast','1');
@@ -116,6 +116,6 @@ $(function () {
         //console.log("window.location.hash:",window.location.hash);
         window.location.hash='#drive';
     });
-});
+})();
 
 
