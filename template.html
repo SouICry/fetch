@@ -6,43 +6,9 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 
-    <link rel="stylesheet" href="css/slide-in-panel.css">
-    <link rel="stylesheet" href="css/style.css">
-    <script>
-        function loadPage() {
-            $.ajax({
-                type: "POST",
-                data: {"name": window.location.hash.substring(2)},
-                url: "/",
-                success: function (data) {
-                    $('#page-content').html(data);
-                }
-            });
-        }
+    <link rel="stylesheet" href="/css/slide-in-panel.css">
+    <link rel="stylesheet" href="/css/style.css">
 
-        function loadLogin() {
-            $.ajax({
-                type: "POST",
-                data: {"name": "login.html"},
-                url: "/",
-                success: function (data) {
-                    $('#login').html(data);
-                }
-            });
-        }
-
-        $(document).ready(function(){
-            loadLogin();
-            if (window.location.hash.length > 0) {
-                loadPage();
-            }
-            else {
-                $('#page-content').html("No page specified");
-            }
-        });
-
-        window.onhashchange = loadPage;
-    </script>
 </head>
 
 <body>
@@ -57,9 +23,6 @@
         <li><a href="#0" class="cd-btn" id="test_1"><span class=" glyphicon glyphicon-user large"></span></a></li>
     </ul>
 </div>
-<div id="page-content" >
-    <!--body content is inserted here for now. Eventually will be very different and animated.-->
-</div>
 
 <div class="cd-panel from-right">
     <header class="cd-panel-header">
@@ -73,6 +36,7 @@
         </div> <!-- cd-panel-content -->
     </div> <!-- cd-panel-container -->
 </div> <!-- cd-panel -->
+
 
 
 <script>
@@ -91,6 +55,15 @@
         });
     });
 </script>
+
+<div id="page-content">
+    <!--DO NOT CHANGE THIS COMMENT-->
+    <!--body content is inserted here for now. Eventually will be very different and animated.-->
+
+</div>
+
+
+
 
 
 </body>
