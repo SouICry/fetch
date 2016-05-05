@@ -1,4 +1,6 @@
 /*global jQuery, Handlebars, Router */
+var this_is_data = {};
+
 jQuery(function ($) {
 	'use strict';
 
@@ -40,6 +42,7 @@ jQuery(function ($) {
 			if (arguments.length > 1) {
                 console.log("\tfrom if: = jSON.stringfy(data)", JSON.stringify(data));
                 //console.log("\tfrom if: store=", store);
+				this_is_data = data;
 				return localStorage.setItem(namespace, JSON.stringify(data));
 			} else {
 				var store = localStorage.getItem(namespace);
