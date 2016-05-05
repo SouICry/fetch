@@ -1,19 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link href='https://fonts.googleapis.com/css?family=Droid+Sans:400,700|Droid+Serif' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="frontEnd/Soheil/slide-in-panel/css/reset.css"> <!-- CSS reset -->
+    <link rel="stylesheet" href="frontEnd/Soheil/slide-in-panel/css/style.css"> <!-- Resource style -->
+    <link rel="stylesheet" href="frontEnd/Soheil/styling.css">
+
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-
-    <link rel="stylesheet" href="/css/slide-in-panel.css">
-    <link rel="stylesheet" href="/css/style.css">
-
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<!-- <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script> --> 
+    <script src="frontEnd/Soheil/slide-in-panel/js/modernizr.js"></script> <!-- Modernizr -->
+	<script src="frontEnd/Soheil/slide-in-panel/js/jquery-2.1.1.js"></script>
+	<script src="frontEnd/Soheil/slide-in-panel/js/main.js"></script> <!-- Resource jQuery -->
 </head>
-
 <body>
 
 <!--All style should go in the scss files. Avoid inline styles as much as possible (basically always)-->
+
 
 <div style="position:absolute; right:55%; top:0% ">
     <h1 style="position:absolute; top:15px">FETCH</h1>
@@ -24,6 +33,10 @@
     </ul>
 </div>
 
+<div id="page-content" style="width:100%; height:100%; position:absolute; top:8%; overflow: hidden" >
+    <!--<object  width="100%" style="position:absolute; height:100%" id="pageOrg" data="frontEnd/frontPage/frontPage.html"></object>-->
+</div>
+
 <div class="cd-panel from-right">
     <header class="cd-panel-header">
         <h1>Title Goes Here</h1>
@@ -31,14 +44,12 @@
     </header>
 
     <div class="cd-panel-container">
-        <div class="cd-panel-content" id="login">
-
+        <div class="cd-panel-content">
+            <iframe width="100%" height=100% src="frontEnd/Soheil/login.html" name="iframe_a"></iframe>
         </div> <!-- cd-panel-content -->
     </div> <!-- cd-panel-container -->
 </div> <!-- cd-panel -->
 
-
-<hr>
 
 <script>
     jQuery(document).ready(function($){
@@ -57,17 +68,8 @@
     });
 </script>
 
-
-<div id="page-content">
-    <!--DO NOT CHANGE THIS COMMENT-->
-    <!--body content is inserted here for now. Eventually will be very different and animated.-->
-
-</div>
-
-
-
-
+<hr>
 
 </body>
-
 </html>
+
