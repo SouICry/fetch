@@ -408,6 +408,17 @@ body {
   max-height: 5%;
   color: #f36100; }
 
+.glyphicon {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  color: grey; }
+  .glyphicon :hover {
+    color: #f36100; }
+
 /* this ensure the container is never
    larger than 80% of the screen */
 .container-fluid {
@@ -651,18 +662,6 @@ h1 {
   @media (min-width: 768px) {
     #homePage .container {
       width: 100%; } }
-@font-face {
-  #homePage {
-    font-family: Glamour;
-    src: url(/resources/fonts/Glamor-BoldExtended.ttf); } }
-@font-face {
-  #homePage {
-    font-family: Fetch;
-    src: url(/resources/fonts/aery.ttf); } }
-@font-face {
-  #homePage {
-    font-family: Brandon;
-    src: url(/resources/fonts/Brandon_light.otf); } }
   #homePage body {
     font-family: sans-serif;
     line-height: 0.4em;

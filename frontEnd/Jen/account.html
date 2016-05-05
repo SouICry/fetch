@@ -1,0 +1,60 @@
+<script src="/js/load.js"></script>
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+        <title>Account Settings</title>
+        <link rel="stylesheet" href="css/style.css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+    </head>
+    <body>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        <script src="js/script.js"></script>
+        <div id="account-page"></div>
+
+        <div class="container-fluid">
+            <h1>Account</h1>
+            <h3>Username: </h3><p id="user"></p><br>
+
+            <form action="demo_form.asp">
+                <h4>Email Address</h4>
+                <input name="email" id="email" type="text" text=""><p><br>
+
+                <h4>Address</h4>
+                <input name="address" id="address" type="text" text=""><p><br>
+
+                <h4>Phone Number</h4>
+                <input name="phone" id="phone" type="text" text =""><p><p><br>
+
+                <h4>Payment: </h4>
+                Card Type: <input name="card" id="card" type="text" text =""><p><p><br>
+                Card Number: <input name="num" id="num" type="password" text =""><p><p><br>
+
+            <input type="submit" value="Save Changes">
+            </form>
+
+        </div>
+
+    </body>
+</html>
+
+<script>
+    $(window).load(function () {
+        $("#user").text("user123");
+        $("#email").val("user123@email.com");
+        $("#address").val("123 college street");
+        $("#phone").val("626-123-4567");
+        $("#card").val("Visa");
+        $("#num").val("123456789");
+
+    });
+</script>
+
