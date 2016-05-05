@@ -395,7 +395,6 @@ http://engageinteractive.co.uk/blog/how-many-fonts-is-too-many-fonts
 body {
   font-family: sans-serif;
   padding-top: 100px;
-  overflow: hidden;
   line-height: 0.4em;
   background-color: #ffffff;
   max-width: 100%; }
@@ -824,7 +823,7 @@ h1 {
   #homePage .todo-list li .destroy:hover {
     color: #af5b5e; }
   #homePage .todo-list li .destroy:after {
-    content: '×'; }
+    content: '├ù'; }
   #homePage .todo-list li:hover .destroy {
     display: block; }
   #homePage .todo-list li .edit {
