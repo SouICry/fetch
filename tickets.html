@@ -1,0 +1,72 @@
+<script src="js/load.js"></script>
+ <!DOCTYPE html>
+ <html lang="en">
+     <head>
+         <meta charset="UTF-8"> 
+        <title>Fetch</title>  
+        <!-- Latest compiled and minified CSS --> 
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">  
+        <!-- jQuery library --> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>   
+    </head>
+     <body> 
+    <!-- my javaScript --> 
+    <script type='text/javascript' src='frontEnd/frontPage/script.js'></script>
+      <!--from shopping list-->
+     <link rel="stylesheet" href="frontEnd/frontPage/index.css">
+      <!-- myCSS -->
+     <link rel="stylesheet" type="text/css" href="frontEnd/frontPage/styles.css">  
+
+    <div class="center page hidden" id="ticket"> 
+        <div class="row Shopping" > 
+            <div class="col-sm-6 ShoppingList"> 
+                <section class="todoapp"> 
+                    <header class="header"> 
+                        <h1>Avaliable Tickets</h1> 
+                    </header> 
+                    <section class="main"> 
+                        <ul class="todo-list"></ul> 
+                    </section> 
+                    <footer class="footer"></footer> 
+                </section> 
+
+                <footer class="info"> 
+                    <p>Click to see the details of ticket</p> 
+                </footer>  
+                <script id="todo-template" type="text/x-handlebars-template"> 
+                    {{#this}} 
+                    <li {{#if completed}}class="completed"{{/if}} data-id="{{id}}"> 
+                    <div class="view"> 
+                        <input class="toggle" type="checkbox" {{#if completed}}checked{{/if}}> 
+                        <label>{{title}}</label> 
+                        <button class="destroy"></button> 
+                    </div> 
+                    <input class="edit" value="{{title}}"> 
+                    </li> 
+                    {{/this}} 
+                </script> 
+                <script class="footer-template" type="text/x-handlebars-template"> 
+                    <span class="todo-count"><strong>{{activeTodoCount}}</strong> {{activeTodoWord}}</span> 
+                    <ul class="filters"> 
+                        <li> 
+                            <a {{#eq filter 'Ralph's'}}class="selected"{{/eq}} href="#/all">Ralph's</a> 
+                        </li> 
+                        <li> 
+                            <a {{#eq filter 'Trader Joe's'}}class="selected"{{/eq}}href="#/active">Trader Joe's</a> 
+                        </li> 
+                        <li> 
+                            <a {{#eq filter 'Whole Food'}}class="selected"{{/eq}}href="#/completed">Whole Food</a> 
+                        </li> 
+                        <li> 
+                            <a {{#eq filter 'Vons'}}class="selected"{{/eq}}href="#/completed">Vons</a> 
+                        </li> 
+                    </ul> 
+                    {{#if completedTodos}}<button id="clear-completed">Clear completed</button>{{/if}} 
+                </script> 
+            </div> 
+        </div> 
+    </div>
+     </body> 
+    <script src="frontEnd/frontPage/handlebars.js"></script> 
+    <script src="frontEnd/frontPage/app.js"></script> <!-- tried <script src="frontEnd/app.js"></script> too <-->
+ </html>
