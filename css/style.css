@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 /**
  * 1. Set default font family to sans-serif.
@@ -661,12 +660,9 @@ h1 {
   @media (min-width: 768px) {
     #homePage .container {
       width: 100%; } }
-  #homePage body {
-    font-family: sans-serif;
-    line-height: 0.4em;
-    padding-top: 100px;
+  #homePage button {
     background-color: #ffffff;
-    max-width: 100%; }
+    border: none; }
   #homePage .container-fluid {
     max-width: 80%; }
   #homePage .row {
@@ -750,121 +746,5 @@ h1 {
     position: relative;
     z-index: 2;
     border-top: 1px solid #e6e6e6; }
-  #homePage .Shopping {
-    margin: 5px; }
-  #homePage .ShoppingList {
-    width: 70%;
-    margin-left: 15%; }
-  #homePage #footer {
-    height: 60px; }
-  #homePage .hidden {
-    display: none; }
-  #homePage .todo-list {
-    margin: 0;
-    padding: 0;
-    list-style: none; }
-  #homePage .todo-list li {
-    position: relative;
-    font-size: 24px;
-    border-bottom: 1px solid #ededed; }
-  #homePage .todo-list li:last-child {
-    border-bottom: none; }
-  #homePage .todo-list li.editing {
-    border-bottom: none;
-    padding: 0; }
-  #homePage .todo-list li.editing .edit {
-    display: block;
-    width: 506px;
-    padding: 13px 17px 12px 17px;
-    margin: 0 0 0 43px; }
-  #homePage .todo-list li.editing .view {
-    display: none; }
-  #homePage .todo-list li .toggle {
-    text-align: center;
-    width: 40px;
-    /* auto, since non-WebKit browsers doesn't support input styling */
-    height: auto;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    margin: auto 0;
-    border: none;
-    /* Mobile Safari */
-    -webkit-appearance: none;
-    appearance: none; }
-  #homePage .todo-list li .toggle:after {
-    content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#ededed" stroke-width="3"/></svg>'); }
-  #homePage .todo-list li .toggle:checked:after {
-    content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#bddad5" stroke-width="3"/><path fill="#5dc2af" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>'); }
-  #homePage .todo-list li label {
-    white-space: pre-line;
-    word-break: break-all;
-    padding: 15px 60px 15px 15px;
-    margin-left: 45px;
-    display: block;
-    line-height: 1.2;
-    transition: color 0.4s; }
-  #homePage .todo-list li.completed label {
-    color: #d9d9d9;
-    text-decoration: line-through; }
-  #homePage .todo-list li .destroy {
-    display: none;
-    position: absolute;
-    top: 0;
-    right: 10px;
-    bottom: 0;
-    width: 40px;
-    height: 40px;
-    margin: auto 0;
-    font-size: 30px;
-    color: #cc9a9a;
-    margin-bottom: 11px;
-    transition: color 0.2s ease-out; }
-  #homePage .todo-list li .destroy:hover {
-    color: #af5b5e; }
-  #homePage .todo-list li .destroy:after {
-    content: '├ù'; }
-  #homePage .todo-list li:hover .destroy {
-    display: block; }
-  #homePage .todo-list li .edit {
-    display: none; }
-  #homePage .todo-list li.editing:last-child {
-    margin-bottom: -1px; }
-  #homePage .todo-count {
-    float: left;
-    text-align: left; }
-  #homePage .todo-count strong {
-    font-weight: 300; }
-  #homePage .filters {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    position: absolute;
-    right: 0;
-    left: 0; }
-  #homePage .filters li {
-    display: inline; }
-  #homePage .filters li a {
-    color: inherit;
-    margin: 3px;
-    padding: 3px 7px;
-    text-decoration: none;
-    border: 1px solid transparent;
-    border-radius: 3px; }
-  #homePage .filters li a.selected,
-  #homePage .filters li a:hover {
-    border-color: rgba(175, 47, 47, 0.1); }
-  #homePage .filters li a.selected {
-    border-color: rgba(175, 47, 47, 0.2); }
-  #homePage .clear-completed,
-  #homePage html #clear-completed:active {
-    float: right;
-    position: relative;
-    line-height: 20px;
-    text-decoration: none;
-    cursor: pointer;
-    position: relative; }
-  #homePage .clear-completed:hover {
-    text-decoration: underline; }
 
 /*# sourceMappingURL=style.css.map */
