@@ -23,24 +23,26 @@
 <div class="container-fluid">
 
     <h1>Shopping List</h1>
-    <div id="list">
-        <form name="form">
+    <div id="box">
+        <div id="list">
+            <form name="form">
                 <span><input class="input" type="text" name="checkListItem" placeholder="What do you need?"
                              autocomplete="off"
                              autofocus/></span>
-        </form>
-    </div>
-    <div class="todo-footer">
-        <strong><span class="count-todos"></span></strong>
-        <div id="item-div">
-            <div id="item"></div>
+            </form>
         </div>
-        <div id="sub-div"><span id="sub">Submit</span></div>
-        <div id="placehodler"></div>
+        <div class="todo-footer">
+            <strong><span class="count-todos"></span></strong>
+            <div id="container">
+                <div id="item"></div>
+                <div id="sub-div"><a><span id="sub"></span></a></div>
+                <div id="placeholder"></div>
+            </div>
+        </div>
     </div>
-
+    <div class="footer2"></div>
+    <div class="footer3"></div>
 </div>
-
 </body>
 </html>
 

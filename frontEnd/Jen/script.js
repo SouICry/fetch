@@ -9,7 +9,6 @@ $(document).ready(function () {
     // item count
     var count = 0
 
-
     // click button
     $('#button').click(function () {
         if ($('input[name=checkListItem]').val() !== '') {
@@ -53,6 +52,10 @@ $(document).ready(function () {
             else {
                 $("#item").text(count + " items");
             }
+
+            if (count != 0) {
+                $("#sub").text("Submit");
+            }
             /* $('#list').prepend('<li class="item">' + toAdd + '</li>') */
         }
         ;
@@ -68,8 +71,18 @@ $(document).ready(function () {
         if (count == 1) {
             $("#item").text("1 item");
         }
+        else if (count == 0) {
+            $("#item").text("");
+        }
         else {
             $("#item").text(count + " items");
+        }
+
+        if (count != 0) {
+            $("#sub").text("Submit");
+        }
+        else {
+            $("#sub").text("");
         }
     });
 
