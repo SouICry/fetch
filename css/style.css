@@ -379,10 +379,6 @@ ex.
   }
 }
 */
-/*
-Three font file includes max please. This includes the variations on each font other than the standard <b> and<i>.
-http://engageinteractive.co.uk/blog/how-many-fonts-is-too-many-fonts
-*/
 @font-face {
   font-family: Fetch;
   src: url(/resources/fonts/aery.ttf); }

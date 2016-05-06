@@ -65,7 +65,7 @@
             r3.removeClass("selected");
             r4.removeClass("selected");
             r5.removeClass("selected");
-            rating = 1;
+            _rating = 1;
         });
         r2.hover(function () {
             r1.addClass("selected");
@@ -73,7 +73,7 @@
             r3.removeClass("selected");
             r4.removeClass("selected");
             r5.removeClass("selected");
-            rating = 2;
+            _rating = 2;
         });
         r3.hover(function () {
             r1.addClass("selected");
@@ -81,7 +81,7 @@
             r3.addClass("selected");
             r4.removeClass("selected");
             r5.removeClass("selected");
-            rating = 3;
+            _rating = 3;
         });
         r4.hover(function () {
             r1.addClass("selected");
@@ -89,7 +89,7 @@
             r3.addClass("selected");
             r4.addClass("selected");
             r5.removeClass("selected");
-            rating = 4;
+            _rating = 4;
         });
         r5.hover(function () {
             r1.addClass("selected");
@@ -97,14 +97,14 @@
             r3.addClass("selected");
             r4.addClass("selected");
             r5.addClass("selected");
-            rating = 5;
+            _rating = 5;
         });
 
         $('#rate-user').click(function () {
 
-            if (rating !== 0) {
+            if (_rating !== 0) {
                 info_to_send.id = $('#user-name').data('id');
-                info_to_send.rating = rating;
+                info_to_send.rating = _rating;
                 alert(JSON.stringify(info_to_send));
                 /*$.ajax({
                     type: "POST",
