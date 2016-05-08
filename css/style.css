@@ -643,14 +643,6 @@ h1 {
   /* this ensure the container is never
      larger than 90% of the screen */
   /* needed to overwrite bootstraps margins*/ }
-  @media only screen and (max-width: 768px) {
-    #homePage {
-      /* For mobile phones: */ }
-      #homePage [class*="col-"] {
-        width: 100%; } }
-  @media (min-width: 768px) {
-    #homePage .container {
-      width: 100%; } }
   @media (min-width: 1200px) {
     #homePage .container {
       width: 100%; } }
@@ -663,8 +655,6 @@ h1 {
   #homePage button {
     background-color: #ffffff;
     border: none; }
-  #homePage .container-fluid {
-    max-width: 80%; }
   #homePage .row {
     margin-left: 10%;
     margin-right: 10%; }
@@ -687,64 +677,5 @@ h1 {
   #homePage figure {
     position: relative;
     margin: 0; }
-  #homePage footer {
-    font-size: 12px;
-    padding: 20px 0; }
-  #homePage footer .col-sm-8 {
-    display: flex;
-    justify-content: flex-end; }
-  #homePage footer ul {
-    list-style: none; }
-  #homePage footer li img {
-    width: 32px;
-    height: 32px; }
-  #homePage .footer {
-    height: 60px; }
-  #homePage .footer {
-    color: #777;
-    padding: 10px 15px;
-    height: 45px;
-    text-align: center;
-    border-top: 1px solid #e6e6e6; }
-  #homePage .footer:before {
-    content: '';
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    height: 50px;
-    overflow: hidden;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 8px 0 -3px #f6f6f6, 0 9px 1px -3px rgba(0, 0, 0, 0.2), 0 16px 0 -6px #f6f6f6, 0 17px 2px -6px rgba(0, 0, 0, 0.2); }
-  #homePage .todoapp {
-    background: #fff;
-    margin: 130px 0 40px 0;
-    position: relative;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1); }
-  #homePage .todoapp .header h1 {
-    margin-top: 70px;
-    color: #f36100;
-    opacity: .8;
-    font: 50px 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-weight: 100; }
-  #homePage .todoapp h1 {
-    position: absolute;
-    top: -155px;
-    width: 100%;
-    text-align: center;
-    text-rendering: optimizeLegibility; }
-  #homePage .todo-list {
-    margin: 0;
-    padding: 0;
-    list-style: none; }
-  #homePage .info {
-    margin: 65px auto 0;
-    color: #bfbfbf;
-    font-size: 10px;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-    text-align: center; }
-  #homePage .main {
-    position: relative;
-    z-index: 2;
-    border-top: 1px solid #e6e6e6; }
 
 /*# sourceMappingURL=style.css.map */
