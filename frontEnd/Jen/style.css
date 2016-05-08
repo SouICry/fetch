@@ -48,6 +48,11 @@ form {
     line-height: 2;
 }
 
+.btn-group {
+    margin-top: 10px;
+    margin-bottom: 25px;
+}
+
 span {
     display: block;
     overflow: hidden;
@@ -106,9 +111,6 @@ button:focus {
 #sub {
     text-align: center;
     width: 33%;
-}
-
-a {
     color: #f36100;
 }
 
