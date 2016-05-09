@@ -1,121 +1,36 @@
 <body>
-
 <div id="shopping">
-
-    <div class="container-fluid">
-
-        <h1>Shopping List</h1>
-        <div id="box">
-            <div id="list">
-                <form name="form">
+    <div class="container-fluid row">
+        <div class="col-xs-12">
+            <h1>Shopping List</h1>
+            <div id="box">
+                <div id="list">
+                    <form name="form">
                 <span><input class="input" type="text" name="checkListItem" placeholder="What do you need?"
                              autocomplete="off"
                              autofocus/></span>
-                </form>
-            </div>
-            <div class="todo-footer">
-                <strong><span class="count-todos"></span></strong>
-                <div id="container">
-                    <div id="item"></div>
-                    <div id="sub-div">
-                        <button type="button" class="btn btn-link" id="sub" data-toggle="modal" data-target="#myModal">
-                            Submit
-                        </button>
-                        </span></a></div>
-                    <div id="placeholder"></div>
+                    </form>
+                </div>
+                <div class="todo-footer">
+                    <strong><span class="count-todos"></span></strong>
+                    <div id="container">
+                        <div id="item"></div>
+                        <div id="sub-div">
+                            <button type="button" class="btn btn-link" id="sub" data-toggle="modal"
+                                    data-target="#myModal">
+                                Submit
+                            </button>
+                            </span></a></div>
+                        <div id="placeholder"></div>
+                    </div>
                 </div>
             </div>
+            <div class="footer2"></div>
+            <div class="footer3"></div>
         </div>
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div>
-
-    <div class="container">
-        <!-- Modal -->
-        <div class="modal fade" id="myModal" role="dialog">
-            <div class="modal-dialog modal-lg">
-
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Checkout</h4>
-                    </div>
-                    <div class="modal-body">
-                        <h4>If driver cannot locate your specific item, buy... </h4>
-                        <div class="btn-group" data-toggle="buttons">
-                            <label class="btn btn-warning active">
-                                <input type="radio" name="options" id="option1" autocomplete="off" checked> Cheapest option (preselected)
-                            </label>
-                            <label class="btn btn-warning">
-                                <input type="radio" name="options" id="option2" autocomplete="off"> Most expensive option
-                            </label>
-                            <label class="btn btn-warning">
-                                <input type="radio" name="options" id="option3" autocomplete="off"> None (do not buy)
-                            </label>
-                        </div>
-
-                        <h4>Available times for drop-off.</h4>
-                        <div class="btn-group" data-toggle="buttons">
-                            <label class="btn btn-warning">
-                                <input type="checkbox"  autocomplete="off"> 8am
-                            </label>
-                            <label class="btn btn-warning">
-                                <input type="checkbox" autocomplete="off"> 9am
-                            </label>
-                            <label class="btn btn-warning">
-                                <input type="checkbox" autocomplete="off"> 10am
-                            </label>
-                            <label class="btn btn-warning">
-                                <input type="checkbox" autocomplete="off"> 11am
-                            </label>
-                            <label class="btn btn-warning">
-                                <input type="checkbox" autocomplete="off"> 12pm
-                            </label>
-                            <label class="btn btn-warning">
-                                <input type="checkbox" autocomplete="off"> 1pm
-                            </label>
-                            <label class="btn btn-warning">
-                                <input type="checkbox" autocomplete="off"> 2pm
-                            </label>
-                            <label class="btn btn-warning">
-                                <input type="checkbox" autocomplete="off"> 3pm
-                            </label>
-                            <label class="btn btn-warning">
-                                <input type="checkbox" autocomplete="off"> 4pm
-                            </label>
-                            <label class="btn btn-warning">
-                                <input type="checkbox" autocomplete="off"> 5pm
-                            </label>
-                            <label class="btn btn-warning">
-                                <input type="checkbox" autocomplete="off"> 6pm
-                            </label>
-                            <label class="btn btn-warning">
-                                <input type="checkbox" autocomplete="off"> 7pm
-                            </label>
-                            <label class="btn btn-warning">
-                                <input type="checkbox" autocomplete="off"> 8pm
-                            </label>
-                            <label class="btn btn-warning">
-                                <input type="checkbox" autocomplete="off"> 9pm
-                            </label>
-                            <label class="btn btn-warning">
-                                <input type="checkbox" autocomplete="off"> 10pm
-                            </label>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Continue</button>
-                        <a href="/account.html"class="btn btn-default" data-dismiss="modal" role="button">Close</a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
     </div>
 </div>
 
 <script src="js/_shopping.js"></script>
-
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 </body>

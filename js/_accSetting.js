@@ -5,9 +5,11 @@ $(document).ready(function () {
     $('.nav-tabs a').on('click', function (e) {
 
         e.preventDefault();
-
+        $('#address').hide();
+        $('#payment').hide();
+        $('#home').hide();
         $(this).parent().addClass('active');
-        $(this).parent().siblings().removeClass('active');
+     //   $(this).parent().siblings().removeClass('active');
 
         target = $(this).attr('href');
 

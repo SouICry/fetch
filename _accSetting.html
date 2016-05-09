@@ -1,44 +1,85 @@
 <body>
-<div id="accSetting">
-    <div class="well">
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#home">Profile</a></li>
-            <li><a href="#address">Address</a></li>
-            <li><a href="#payment">Payment Info</a></li>
+<div id="accSetting" style="text-align: center">
+    <div class="well row">
+        <div class="col-xs-12">
+            <ul class="nav nav-tabs .nav-justified">
+                <li class="active"><a href="#home">Profile</a></li>
+                <li><a href="#address">Address</a></li>
+                <li><a href="#payment">Payment Info</a></li>
 
-        </ul>
-        <div class="tab-content">
-            <div id="home">
-                <form id="tab">
-                    <label>Username</label>
-                    <input type="text" value="jsmith" class="input-xlarge">
-                    <label>First Name</label>
-                    <input type="text" value="John" class="input-xlarge">
-                    <label>Last Name</label>
-                    <input type="text" value="Smith" class="input-xlarge">
-                    <label>Email</label>
-                    <input type="text" value="jsmith@yourcompany.com" class="input-xlarge">
-                    <div>
-                        <label>New Password</label>
-                        <input type="password" class="input-xlarge">
-                        <div>
-                            <button class="btn btn-primary">Update</button>
+            </ul>
+            <div class="tab-content">
+                <div id="home">
+                    <form id="tab">
+                        <div class="row">
+                            <label>Username</label>
                         </div>
-                    </div>
-                </form>
+                        <div class="row">
+                            <input type="text" value="jsmith" class="input-xlarge">
+                        </div>
+                        <div class="row">
+                            <label>First Name</label>
+                        </div>
+                        <div class="row">
+                            <input type="text" value="John" class="input-xlarge">
+                        </div>
+                        <div class="row">
+                            <label>Last Name</label>
+                        </div>
+                        <div class="row">
+                            <input type="text" value="Smith" class="input-xlarge">
+                        </div>
+                        <div class="row">
+                            <label>Email</label>
+                        </div>
+                        <div class="row">
+                            <input type="text" value="jsmith@yourcompany.com" class="input-xlarge">
+                        </div>
+
+                        <div class="row">
+                            <div><label>New Password</label>
+                            </div>
+                            <div class="row">
+                                <input type="password" class="input-xlarge">
+                            </div>
+                            <div>
+                                <button class="btn btn-primary">Update</button>
+                            </div>
+                    </form>
+                </div>
             </div>
             <div id="address">
                 <form id="tab2">
-                    <label>Line 1</label>
-                    <input type="text" value="address line 1" class="input-xlarge">
-                    <label>Line 2</label>
-                    <input type="text" value="address line 2" class="input-xlarge">
-                    <label>City</label>
-                    <input type="text" value="city" class="input-xlarge">
-                    <label>State</label>
-                    <input type="text" value="state" class="input-xlarge">
-                    <label>ZIP</label>
-                    <input type="text" value="zip" class="input-xlarge">
+                    <div class="row">
+                        <label>Line 1</label>
+                    </div>
+                    <div class="row">
+                        <input type="text" value="address line 1" class="input-xlarge">
+                    </div>
+                    <div class="row">
+                        <label>Line 2</label>
+                    </div>
+                    <div class="row">
+                        <input type="text" value="address line 2" class="input-xlarge">
+                    </div>
+                    <div class="row">
+                        <label>City</label>
+                    </div>
+                    <div class="row">
+                        <input type="text" value="city" class="input-xlarge">
+                    </div>
+                    <div class="row">
+                        <label>State</label>
+                    </div>
+                    <div class="row">
+                        <input type="text" value="state" class="input-xlarge">
+                    </div>
+                    <div class="row">
+                        <label>ZIP</label>
+                    </div>
+                    <div class="row">
+                        <input type="text" value="zip" class="input-xlarge">
+                    </div>
                     <div>
                         <button class="btn btn-primary">Update</button>
                     </div>
@@ -137,4 +178,8 @@
     </div>
 </div>
 <script src="/js/_accSetting.js"></script>
+<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<link rel="stylesheet" type="text/css" href="/scss/_accSetting.scss">
+
 </body>
