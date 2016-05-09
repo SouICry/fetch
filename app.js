@@ -32,7 +32,7 @@ app.post('/', function (req, res) {
 });
 
 app.get('/*', function (req, res) {
-    if ((req.originalUrl).indexOf(".htm") > 0 && (req.originalUrl).indexOf("login") < 0) {
+    if ((req.originalUrl).indexOf(".htm") > 0) {
         fs.readFile(__dirname + "/template.html", 'utf8', function (err, data) {
             if (err) {
                 console.log(err);
