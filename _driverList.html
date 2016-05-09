@@ -49,8 +49,12 @@
                                 arr.push($(this).text());
                             });
 
-                            document.getElementById("left").innerHTML = (items.length - arr.length) + " items left";
-
+                            if((items.length - arr.length) === 1){
+                                document.getElementById("left").innerHTML = (items.length - arr.length) + " item left";
+                            }
+                            else {
+                                document.getElementById("left").innerHTML = (items.length - arr.length) + " items left";
+                            }
                         });
 
                         $(document).ready(function () {
@@ -64,8 +68,14 @@
                                 });
 
                                 if(arr.length != items.length) {
-                                    var flag = confirm("You still have " + (items.length - arr.length) + " items left in the" +
-                                    " shopping list, Are you sure to finish shopping now?");
+                                    if((items.length - arr.length) === 1){
+                                        var flag = confirm("You still have " + (items.length - arr.length) + " item left in the" +
+                                                " shopping list, Are you sure to finish shopping now?");
+                                    }
+                                    else {
+                                        var flag = confirm("You still have " + (items.length - arr.length) + " items left in the" +
+                                                " shopping list, Are you sure to finish shopping now?");
+                                    }
                                 }
 
                                 if(arr.length === items.length || flag === true) {
