@@ -561,10 +561,9 @@ ex.
     position: relative;
     margin: 0; }
 
-.state-icon {
+#driver .state-icon {
   left: -5px; }
-
-button {
+#driver button {
   background-color: white !important;
   border: none !important;
   padding: 10px !important;
@@ -573,69 +572,54 @@ button {
   text-decoration: none !important;
   width: 100%;
   display: table-cell; }
-
-button.selected {
+#driver button.selected {
   color: gainsboro !important;
   border-bottom: dotted gainsboro 2px !important; }
-
-h6 {
+#driver h6 {
   color: orangered !important; }
-
-h5 {
+#driver h5 {
   color: orangered !important; }
-
-h3 {
+#driver h3 {
   color: orangered !important; }
-
-ul {
+#driver ul {
   padding: 0;
   list-style-type: none; }
-
-li {
+#driver li {
   color: orangered;
   display: inline; }
-
-#dropbtn {
+#driver #dropbtn {
   border: none;
   cursor: pointer;
   align-self: center;
   width: 100% !important; }
-
-.dropdown {
+#driver .dropdown {
   position: relative;
   display: inline-block;
   width: 100% !important; }
-
-#myDropdown {
+#driver #myDropdown {
   display: none;
   color: orangered;
   position: relative;
   min-width: 100% !important;
   overflow: auto; }
-
-.middletext {
+#driver .middletext {
   vertical-align: middle; }
-
-#ready {
+#driver #ready {
   background-color: white;
   color: orangered !important;
   border: none;
   cursor: pointer;
   position: relative;
   padding: 0 !important; }
-
-.show {
+#driver .show {
   display: block; }
-
-#left {
+#driver #left {
   color: #dddddd; }
-
-.well {
+#driver .well {
   background-color: white !important;
   padding: 0 !important;
   border: 0 !important; }
-
-.btn {
+#driver .btn {
   border-bottom: dotted orangered 2px !important; }
 
 ul {
