@@ -30,6 +30,19 @@ body {
 #page-content{
   margin: 15%;
 }
+@media screen and(min-width: 200px){
+  #Fetch{
+    margin-top: -10px;
+    font-size: 130%;
+  }
+}
+@media screen and(min-width: 1000px){
+  #Fetch{
+    margin-top: -20px;
+    font-size: 190%;
+  }
+}
+
 //}
 //
 //#header{
