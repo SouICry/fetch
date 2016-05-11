@@ -8,10 +8,11 @@
   .rating {
     width: 21.5rem;
     margin: auto;
-    i {
+    span {
+      font-size: 3.2rem;
       width: 4rem;
     }
-    i.selected {
+    span.selected {
       color: yellow;
     }
   }

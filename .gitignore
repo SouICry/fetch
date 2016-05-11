@@ -3,7 +3,9 @@
 */_MACOSX/*
 _MACOSX/*
 .idea/*
+.idea
 
+css
 css/*
 style.css
 style.css.map
@@ -46,8 +48,6 @@ node_modules
 
 
 
-.idea
-.idea/*
 
 # Created by .ignore support plugin (hsz.mobi)
 ### JetBrains template
