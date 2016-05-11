@@ -3,7 +3,7 @@ $fetchOrange: #f36100;
   background-color: white;
   position: fixed;
   width: 100%;
-  height: 100px;
+  height: 85px;
   z-index: 2000;
   border-bottom: solid  lightgrey 1px;
   top: 0
@@ -40,11 +40,17 @@ body {
     //margin-top: -10px;
     font-size: 130%;
   }
+  #page-content{
+    margin-top:20%;
+  }
 }
 @media screen and(min-width: 1000px){
   #Fetch{
     //margin-top: -20px;
     font-size: 190%;
+  }
+  #page-content{
+    margin-top:8%;
   }
 }
 
