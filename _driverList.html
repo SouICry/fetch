@@ -1,25 +1,25 @@
-<script src="/js/load.js"></script>
-<!DOCTYPE html>
-<html lang="en">
-    <meta charset="UTF-8">
-    <title>Fetch|Tickets you've taken</title>
-    <link rel="stylesheet" href="./scss/_driverList.scss">
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<!--<script src="/js/load.js"></script>-->
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+    <!--<meta charset="UTF-8">-->
+    <!--<title>Fetch|Tickets you've taken</title>-->
+    <!--<link rel="stylesheet" href="./scss/_driverList.scss">-->
+    <!--&lt;!&ndash; Latest compiled and minified CSS &ndash;&gt;-->
+    <!--<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">-->
 
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css"/>
+    <!--&lt;!&ndash; jQuery library &ndash;&gt;-->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>-->
+    <!--<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>-->
+    <!--<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>-->
+    <!--<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css"/>-->
 
-    <!-- Latest compiled JavaScript -->
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--&lt;!&ndash; Latest compiled JavaScript &ndash;&gt;-->
+    <!--<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
 
-</head>
+<!--</head>-->
 <body>
-<div id="checkboxes">
+<div id="driver">
     <div class="row">
         <div class="col-xs-12">
             <h3 class="text-center">Gary's Shopping List</h3>
@@ -49,8 +49,12 @@
                                 arr.push($(this).text());
                             });
 
-                            document.getElementById("left").innerHTML = (items.length - arr.length) + " items left";
-
+                            if((items.length - arr.length) === 1){
+                                document.getElementById("left").innerHTML = (items.length - arr.length) + " item left";
+                            }
+                            else {
+                                document.getElementById("left").innerHTML = (items.length - arr.length) + " items left";
+                            }
                         });
 
                         $(document).ready(function () {
@@ -64,8 +68,14 @@
                                 });
 
                                 if(arr.length != items.length) {
-                                    var flag = confirm("You still have " + (items.length - arr.length) + " items left in the" +
-                                    " shopping list, Are you sure to finish shopping now?");
+                                    if((items.length - arr.length) === 1){
+                                        var flag = confirm("You still have " + (items.length - arr.length) + " item left in the" +
+                                                " shopping list, Are you sure to finish shopping now?");
+                                    }
+                                    else {
+                                        var flag = confirm("You still have " + (items.length - arr.length) + " items left in the" +
+                                                " shopping list, Are you sure to finish shopping now?");
+                                    }
                                 }
 
                                 if(arr.length === items.length || flag === true) {
@@ -118,4 +128,4 @@
 
 </div>
 </body>
-</html>
+<!--</html>-->

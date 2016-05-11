@@ -1,28 +1,39 @@
 <body>
-
 <div id="shopping">
-
-    <div class="container-fluid">
-
-        <!-- list -->
-        </p>
-        <h1>Shopping List</h1>
-
-        <div id="list">
-            <form name="form">
+    <div class="container-fluid ">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1>Shopping List</h1>
+                <div id="box">
+                    <div id="list">
+                        <form name="form">
                 <span><input class="input" type="text" name="checkListItem" placeholder="What do you need?"
                              autocomplete="off"
                              autofocus/></span>
-            </form>
-        </div>
-        <div class="todo-footer">
-            <strong><span class="count-todos"></span></strong>
-            <div id="item-div">
-                <text id="item"></text>
+                        </form>
+                    </div>
+                    <div class="todo-footer">
+                        <strong><span class="count-todos"></span></strong>
+                        <div id="container">
+                            <div id="item"></div>
+                            <div id="sub-div">
+                                <button type="button" class="btn btn-link" id="sub" data-toggle="modal"
+                                        data-target="#myModal">
+                                    Submit
+                                </button>
+                                </span></a></div>
+                            <div id="placeholder"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer2"></div>
+                <div class="footer3"></div>
             </div>
-            <div id="sub-div"><span id="sub">Submit</span></div>
         </div>
-
     </div>
 </div>
+</div>
+
+<script src="js/_shopping.js"></script>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 </body>
