@@ -527,9 +527,10 @@ ex.
 #rating-page .rating {
   width: 21.5rem;
   margin: auto; }
-  #rating-page .rating i {
+  #rating-page .rating span {
+    font-size: 3.2rem;
     width: 4rem; }
-  #rating-page .rating i.selected {
+  #rating-page .rating span.selected {
     color: yellow; }
 #rating-page a.btn {
   width: 100%; }
@@ -538,14 +539,9 @@ ex.
   /* this ensure the container is never
      larger than 90% of the screen */
   /* needed to overwrite bootstraps margins*/ }
-  #homePage button {
+  #homePage div {
     background-color: #ffffff;
     border: none; }
-  #homePage h2 {
-    margin: 0; }
-  #homePage h1 {
-    margin: 5px 0 0 0;
-    font-size: 45px; }
   #homePage .name {
     font-family: Brandon;
     position: absolute;
@@ -554,7 +550,7 @@ ex.
     width: 100%;
     top: 42%; }
   #homePage figure img {
-    margin: 5% 0;
+    margin: 0 0;
     border-radius: 5px;
     max-width: 100%; }
   #homePage figure {

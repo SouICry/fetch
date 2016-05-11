@@ -1,12 +1,10 @@
 
 #homePage {
 
-
-
-  button{
+  div{
     background-color: #ffffff;
     border:none;
-  };
+  }
 
   /* this ensure the container is never
      larger than 90% of the screen */
@@ -20,14 +18,7 @@
   //}
 
   /* needed to overwrite bootstraps margins*/
-  h2 {
-    margin: 0;
-  }
 
-  h1 {
-    margin: 5px 0 0 0;
-    font-size: 45px;
-  }
 
   .name {
     font-family: Brandon;
@@ -39,7 +30,7 @@
   }
 
   figure img {
-    margin: 5% 0;
+    margin: 0 0;
     border-radius: 5px;
     max-width: 100%;
   }
