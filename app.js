@@ -3,24 +3,28 @@ var cookieParser = require('cookie-parser');
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
+var bcrypt = require('bcrypt');
+var passport = require('passport'),
+    LocalStrategy = require('passport-local').Strategy;
+var session = require('express-session');
 var bodyParser = require('body-parser');
 var fs = require('fs');
 
 var mongodb_url = 'mongodb://test_user:test@ds013221.mlab.com:13221/insanely_creatives_db';
 
-
 var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
-//app.use(express.static(__dirname));
+app.use(session({ resave: true, saveUninitialized: true, secret: 'williamiscool' }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(express.static('public'));
 
-
-// This responds with "Hello World" on the homepage
+//This responds with "Hello World" on the homepage
 app.get('/', function (req, res) {
     res.send("<script>window.location.href = 'template.html' </script>");
 });
-
 
 app.post('/', function (req, res) {
     fs.readFile(req.body.name, 'utf8', function (err, data) {
@@ -32,7 +36,7 @@ app.post('/', function (req, res) {
 });
 
 app.get('/*', function (req, res) {
-    if ((req.originalUrl).indexOf(".htm") > 0) {
+    if ((req.originalUrl).indexOf(".htm") > 0 && (req.originalUrl).indexOf("login") < 0) {
         fs.readFile(__dirname + "/template.html", 'utf8', function (err, data) {
             if (err) {
                 console.log(err);
