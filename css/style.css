@@ -592,6 +592,9 @@ h2 {
   width: 100%; }
 
 #homePage {
+  margin: 15%;
+  min-width: 250px;
+  margin-top: -100px;
   /* this ensure the container is never
      larger than 90% of the screen */
   /* needed to overwrite bootstraps margins*/ }
