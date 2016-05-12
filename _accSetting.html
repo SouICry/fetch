@@ -6,7 +6,7 @@
                 <li class="active"><a href="#home">Profile</a></li>
                 <li><a href="#address">Address</a></li>
                 <li><a href="#payment">Payment Info</a></li>
-
+                <li><a href="#delete">Delete Account</a></li>
             </ul>
             <div class="tab-content">
                 <div id="home">
@@ -41,8 +41,6 @@
                         <div class="row">
                             <input type="phone" value="123-456-7890" class="input-xlarge" required>
                         </div>
-
-
                         <div class="row">
                             <div><label>New Password</label>
                             </div>
@@ -50,147 +48,144 @@
                                 <input type="password" class="input-xlarge">
                             </div>
                             <div>
-                                <button class="btn btn-primary">Update</button>
+                                <button class="btn btn-warning">Update</button>
                             </div>
                         </div>
                     </form>
                 </div>
-            </div>
-            <div id="address">
-                <form id="tab2">
-                    <div class="row">
-                        <label>Line 1</label>
-                    </div>
-                    <div class="row">
-                        <input type="text" value="address line 1" class="input-xlarge" required>
-                    </div>
-                    <div class="row">
-                        <label>Line 2</label>
-                    </div>
-                    <div class="row">
-                        <input type="text" value="address line 2" class="input-xlarge" required>
-                    </div>
-                    <div class="row">
-                        <label>City</label>
-                    </div>
-                    <div class="row">
-                        <input type="text" value="city" class="input-xlarge" required>
-                    </div>
-                    <div class="row">
-                        <label>State</label>
-                    </div>
-                    <div class="row">
-                        <input type="text" value="state" class="input-xlarge" required>
-                    </div>
-                    <div class="row">
-                        <label>ZIP</label>
-                    </div>
-                    <div class="row">
-                        <input type="text" value="zip" class="input-xlarge" required>
-                    </div>
-                    <div>
-                        <button class="btn btn-primary">Update</button>
-                    </div>
-                </form>
-            </div>
-            <div id="payment">
-                <form class="form-horizontal span6">
-                    <fieldset>
-
-                        <div class="control-group">
-                            <label class="control-label">Card Holder's Name</label>
-                            <div class="controls">
-                                <input type="text" class="input-block-level" pattern="\w+ \w+.*"
-                                       title="Fill your first and last name" required>
-                            </div>
+                <div id="address">
+                    <form id="tab2">
+                        <div class="row">
+                            <label>Line 1</label>
                         </div>
+                        <div class="row">
+                            <input type="text" value="address line 1" class="input-xlarge" required>
+                        </div>
+                        <div class="row">
+                            <label>Line 2</label>
+                        </div>
+                        <div class="row">
+                            <input type="text" value="address line 2" class="input-xlarge" required>
+                        </div>
+                        <div class="row">
+                            <label>City</label>
+                        </div>
+                        <div class="row">
+                            <input type="text" value="city" class="input-xlarge" required>
+                        </div>
+                        <div class="row">
+                            <label>State</label>
+                        </div>
+                        <div class="row">
+                            <input type="text" value="state" class="input-xlarge" required>
+                        </div>
+                        <div class="row">
+                            <label>ZIP</label>
+                        </div>
+                        <div class="row">
+                            <input type="text" value="zip" class="input-xlarge" required>
+                        </div>
+                        <div>
+                            <button class="btn btn-warning">Update</button>
+                        </div>
+                    </form>
+                </div>
+                <div id="payment">
+                    <form class="form-horizontal span6">
+                        <fieldset>
+                            <div class="control-group">
+                                <label class="control-label">Card Holder's Name</label>
+                                <div class="controls">
+                                    <input type="text" class="input-block-level" pattern="\w+ \w+.*"
+                                           title="Fill your first and last name" required>
+                                </div>
+                            </div>
 
-                        <div class="control-group">
-                            <label class="control-label">Card Number</label>
-                            <div class="controls">
-                                <div class="row-fluid">
-                                    <div class="span3">
-                                        <input type="number" class="input-block-level" autocomplete="off"
-                                               maxlength="4" pattern="\d{4}" title="First four digits" required>
-                                    </div>
-                                    <div class="span3">
-                                        <input type="number" class="input-block-level" autocomplete="off"
-                                               maxlength="4" pattern="\d{4}" title="Second four digits"
-                                               required>
-                                    </div>
-                                    <div class="span3">
-                                        <input type="number" class="input-block-level" autocomplete="off"
-                                               maxlength="4" pattern="\d{4}" title="Third four digits" required>
-                                    </div>
-                                    <div class="span3">
-                                        <input type="number" class="input-block-level" autocomplete="off"
-                                               maxlength="4" pattern="\d{4}" title="Fourth four digits"
-                                               required>
+                            <div class="control-group">
+                                <label class="control-label">Card Number</label>
+                                <div class="controls">
+                                    <div class="row-fluid">
+                                        <div class="span3">
+                                            <input type="number" class="input-block-level" autocomplete="off"
+                                                   maxlength="4" pattern="\d{4}" title="First four digits" required>
+                                        </div>
+                                        <div class="span3">
+                                            <input type="number" class="input-block-level" autocomplete="off"
+                                                   maxlength="4" pattern="\d{4}" title="Second four digits"
+                                                   required>
+                                        </div>
+                                        <div class="span3">
+                                            <input type="number" class="input-block-level" autocomplete="off"
+                                                   maxlength="4" pattern="\d{4}" title="Third four digits" required>
+                                        </div>
+                                        <div class="span3">
+                                            <input type="number" class="input-block-level" autocomplete="off"
+                                                   maxlength="4" pattern="\d{4}" title="Fourth four digits"
+                                                   required>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="control-group">
-                            <label class="control-label">Card Expiry Date</label>
-                            <div class="controls">
-                                <div class="row-fluid">
-                                    <div class="span9">
-                                        <select class="input-block-level">
-                                            <option>January</option>
-                                            <option>February</option>
-                                            <option>March</option>
-                                            <option>April</option>
-                                            <option>May</option>
-                                            <option>June</option>
-                                            <option>July</option>
-                                            <option>August</option>
-                                            <option>September</option>
-                                            <option>October</option>
-                                            <option>November</option>
-                                            <option>December</option>
-                                        </select>
-                                    </div>
-                                    <div class="span3">
-                                        <select class="input-block-level">
-                                            <option>2015</option>
-                                            <option>2016</option>
-                                            <option>2017</option>
-                                            <option>2018</option>
-                                            <option>2019</option>
-                                            <option>2020</option>
-                                        </select>
+                            <div class="control-group">
+                                <label class="control-label">Card Expiration Date</label>
+                                <div class="controls">
+                                    <div class="row-fluid">
+                                        <div class="span9">
+                                            <select class="input-block-level">
+                                                <option>January</option>
+                                                <option>February</option>
+                                                <option>March</option>
+                                                <option>April</option>
+                                                <option>May</option>
+                                                <option>June</option>
+                                                <option>July</option>
+                                                <option>August</option>
+                                                <option>September</option>
+                                                <option>October</option>
+                                                <option>November</option>
+                                                <option>December</option>
+                                            </select>
+                                        </div>
+                                        <div class="span3">
+                                            <select class="input-block-level">
+                                                <option>2015</option>
+                                                <option>2016</option>
+                                                <option>2017</option>
+                                                <option>2018</option>
+                                                <option>2019</option>
+                                                <option>2020</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="control-group">
-                            <label class="control-label">Card CVV</label>
-                            <div class="controls">
-                                <div class="row-fluid">
-                                    <div class="span3">
-                                        <input type="text" class="input-block-level" autocomplete="off"
-                                               maxlength="3" pattern="\d{3}"
-                                               title="Three digits at back of your card" required>
+                            <div class="control-group">
+                                <label class="control-label">Card CVV</label>
+                                <div class="controls">
+                                    <div class="row-fluid">
+                                        <div class="span3">
+                                            <input type="text" class="input-block-level" autocomplete="off"
+                                                   maxlength="3" pattern="\d{3}"
+                                                   title="Three digits at back of your card" required>
+                                        </div>
                                     </div>
+                                    <br>
+                                    <button class="btn btn-warning">Update</button>
                                 </div>
-                                <br>
-                                <button class="btn btn-primary">Update</button>
                             </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div id="delete">
+                    <form id="tab3">
+                        <div class="row">
+                            <label>Are you sure you want to delete your account?</label>
                         </div>
-                    </fieldset>
-                </form>
-            </div>
-            <div id="delete">
-                <form id="">
-                    <div class="row">
-                        <label>Are you sure you want to delete your account?</label>
-                    </div>
-                    <div>
-                        <button class="btn btn-primary">Delete</button>
-                    </div>
-                </form>
+                        <div>
+                            <button class="btn btn-warning">Delete</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
