@@ -1,6 +1,10 @@
 $fetchOrange: #f36100;
 .cd-panel-container{
   background-color: #2E3233;
+
+}
+.cd-main-content{
+  overflow: hidden;
 }
 .cd-panel-header{
   background-color: darkorange;
@@ -19,6 +23,9 @@ $fetchOrange: #f36100;
 }
 
 #Fetch{
+  div{
+    font-size:190%;
+  }
   font-size: 190%;
   margin-top:0px;
   Font-family: Fetch;
@@ -37,7 +44,7 @@ $fetchOrange: #f36100;
   }
 }
 #Butt{
-  margin-top:5%;
+  margin-top:8%;
   div{
     cursor: pointer;
     width:100%;
