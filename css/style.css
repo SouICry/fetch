@@ -598,28 +598,37 @@ ul {
 
 @media only screen and (min-width: 200px) {
   .cd-panel-container {
-    width: 90%; }
+    width: 300px; }
 
   .cd-panel-content {
-    margin-top: 10%; } }
+    margin-top: 10%; }
+
+  .cd-panel-header {
+    width: 300px; } }
 @media only screen and (min-width: 600px) {
   .cd-panel-container {
-    width: 60%; }
+    width: 300px; }
 
   .cd-panel-header {
-    width: 60%; }
+    width: 300px; }
 
   .cd-panel-content {
-    margin-top: 5%; } }
+    margin-top: 10%; }
+
+  #Butt div {
+    font-size: large; } }
 @media only screen and (min-width: 1170px) {
   .cd-panel-container {
-    width: 25%; }
+    width: 300px; }
 
   .cd-panel-content {
-    margin-top: 15%; }
+    margin-top: 13%; }
 
   .cd-panel-header {
-    width: 25%; } }
+    width: 300px; }
+
+  #Butt div {
+    font-size: x-large; } }
 .cd-panel-content {
   position: absolute;
   top: 0;
@@ -675,7 +684,7 @@ button:focus {
   #Butt div {
     cursor: pointer;
     width: 100%;
-    height: 40px;
+    height: 60px;
     border: 0;
     padding: 0;
     border: none;
@@ -723,8 +732,6 @@ body {
   margin: 15%;
   min-width: 250px;
   margin-top: -50px;
-  /* this ensure the container is never
-     larger than 90% of the screen */
   /* needed to overwrite bootstraps margins*/ }
   #homePage button {
     background-color: #ffffff;
@@ -952,5 +959,13 @@ body {
   line-height: 2; }
 #shopping .item:hover {
   background-color: rgba(255, 125, 65, 0.24); }
+
+#passwordReset .form-group {
+  border: none;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  height: 30px; }
+#passwordReset #submit {
+  margin-top: 40px; }
 
 /*# sourceMappingURL=style.css.map */
