@@ -248,35 +248,50 @@
 }
 @media only screen and (min-width: 200px) {
   .cd-panel-container {
-    width: 90%;
+    width: 300px;
   }
   .cd-panel-content{
     margin-top:10%;
+  }
+  .cd-panel-header{
+    width: 300px;
   }
 
 }
 @media only screen and (min-width: 600px) {
   .cd-panel-container {
-    width: 60%;
+    width: 300px;
   }
   .cd-panel-header{
-    width: 60%;
+    width: 300px;
   }
   .cd-panel-content{
-    margin-top:5%;
+    margin-top:10%;
+  }
+  #Butt{
+    div{
+
+      font-size: large;
+    }
   }
 }
 
 
 @media only screen and (min-width: 1170px) {
   .cd-panel-container {
-    width: 25%;
+    width: 300px;
   }
   .cd-panel-content{
-    margin-top:15%;
+    margin-top:13%;
   }
   .cd-panel-header{
-    width:25%;
+    width:300px;
+  }
+  #Butt{
+    div{
+
+      font-size: x-large;
+    }
   }
 }
 
