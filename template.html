@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -7,55 +7,75 @@
 
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-
-    <link rel="stylesheet" href="/css/slide-in-panel.css">
+    <!--<link rel="stylesheet"-->
+          <!--href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/4.0.1/bootstrap-material-design.min.css">-->
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
 
 <div id="User">
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
-        <div class="col-xs-3"></div>
-        <div id="Fetch"class="col-xs-6" style="text-align: center">
-            <h1>Fetch</h1>
-            <button onclick="window.location.href='/_shopping.html'"class="shop">shopper</button>
-            <button onclick="window.location.href='/_driverList.html'"class="drive">driver</button>
-            <button onclick="window.location.href='/_homePage.html'" class="home">home</button>
-        </div>
-        <div id="Glyph" class="col-xs-3">
-            <div class="cd-btn btn btn-lg pull-right"><span class="glyphicon glyphicon-user large"></span></div>
-        </div>
+            <div class="col-xs-3"></div>
+            <div id="Fetch" class="col-xs-6" style="text-align:center">
+                <div id="title">Fetch</div>
+                <button onclick="window.location.href='/_shopping.html'" class="shop">shopper</button>
+                <button onclick="window.location.href='/_driverList.html'" class="drive">driver</button>
+                <button onclick="window.location.href='/_homePage.html'" class="home">home</button>
+            </div>
+            <div id="Glyph" class="col-xs-3">
+                <div id="open-menu-drawer" class="btn btn-lg pull-right"><span
+                        class="glyphicon glyphicon-user large"></span></div>
+            </div>
         </div>
     </div>
 </div>
 
 
-<div id="page-content" style="margin-top: 50px;">
+<div id="page-content">
     <!--DO NOT CHANGE THIS COMMENT-->
     <!--body content is inserted here for now. Eventually will be very different and animated.-->
 
 </div>
 
-<div class="cd-panel from-right" style="z-index: 3000">
+<div id="menu-drawer" class="cd-panel from-right" style="z-index: 3000">
     <header class="cd-panel-header">
         <h1>Title Goes Here</h1>
-        <a href="#0" class="cd-panel-close">Close</a>
+        <div id="close-menu" class="cd-panel-close">Close</div>
     </header>
 
     <div class="cd-panel-container">
         <div class="cd-panel-content">
-            <div>
-                <button onclick="window.location.href='/_login.html'"class="log" style="color:red; margin-top:100px;">Loging</button>
-                <button onclick="window.location.href='/_signUp.html'"class="sign"style="color:red;">Sign-Up</button>
-                <button onclick="window.location.href='/_passwordRecovery.html'"class="sign"style="color:red;">Password Recovery</button>
-                <button onclick="window.location.href='/_passwordReset.html'"class="sign"style="color:red;">Password Reset</button>
-                <button onclick="window.location.href='/_rating.html'"class="sign"style="color:red;">Rating</button>
-                <button onclick="window.location.href='/_tickets.html'"class="sign"style="color:red;">Tickets</button>
-                <button onclick="window.location.href='/_congrats.html'"class="sign"style="color:red;">Congrats</button>
-                <button onclick="window.location.href='/_checkout.html'"class="sign"style="color:red;">Checkout</button>
-                <button onclick="window.location.href='/_accSetting.html'"class="sign"style="color:red;">Setting</button>
+            <div id="Butt">
+                <div id="COG" data-link='/_accSetting.html' class="sign"><span
+                        class="glyphicon glyphicon-cog"></span>Setting
+                </div>
+                <div data-link='/_login.html' class="log"><span
+                        class="glyphicon glyphicon-log-in"></span>Loging
+                </div>
+                <div data-link='/_signUp.html' class="sign"><span
+                        class="glyphicon glyphicon-off"></span>Sign-Up
+                </div>
+                <div data-link='/_passwordRecovery.html' class="sign"><span
+                        class="glyphicon glyphicon-wrench"></span>Password Recovery
+                </div>
+                <div data-link='/_passwordReset.html' class="sign"><span
+                        class="glyphicon glyphicon-repeat"></span>Password
+                    Reset
+                </div>
+                <div data-link='/_rating.html' class="sign"><span
+                        class="glyphicon glyphicon-signal"></span>Rating
+                </div>
+                <div data-link='/_tickets.html' class="sign"><span
+                        class="glyphicon glyphicon-list-alt"></span>Tickets
+                </div>
+                <div data-link='/_congrats.html' class="sign">Congrats
+                </div>
+                <div data-link='/_checkout.html' class="sign"><span
+                        class="glyphicon glyphicon-check"></span>Checkout
+                </div>
+
 
             </div>
         </div> <!-- cd-panel-content -->
@@ -64,17 +84,32 @@
 
 
 <script>
+    
+    
+    
     jQuery(document).ready(function ($) {
         //open the lateral panel
-        $('.cd-btn').on('click', function (event) {
-            $('.cd-panel').addClass('is-visible');
+        $('#open-menu-drawer').on('click', function (event) {
+            $('#menu-drawer').addClass('is-visible');
         });
         //clode the lateral panel
-        $('.cd-panel').on('click', function (event) {
+        $('#menu-drawer').on('click', function (event) {
             if ($(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close')) {
-                $('.cd-panel').removeClass('is-visible');
+                $('#menu-drawer').removeClass('is-visible');
             }
         });
+        
+        $('#Butt div').click(function(){
+            window.location.href= $(this).data("link");
+        });
+//        $('#Fetch div').click(function(){
+//            windows.location.href= $(this).data("link");
+//        });
+        
+        
+        
+        
+        
     });
 </script>
 

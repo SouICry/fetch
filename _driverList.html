@@ -1,131 +1,104 @@
-<!--<script src="/js/load.js"></script>-->
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-    <!--<meta charset="UTF-8">-->
-    <!--<title>Fetch|Tickets you've taken</title>-->
-    <!--<link rel="stylesheet" href="./scss/_driverList.scss">-->
-    <!--&lt;!&ndash; Latest compiled and minified CSS &ndash;&gt;-->
-    <!--<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">-->
-
-    <!--&lt;!&ndash; jQuery library &ndash;&gt;-->
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>-->
-    <!--<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>-->
-    <!--<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>-->
-    <!--<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css"/>-->
-
-    <!--&lt;!&ndash; Latest compiled JavaScript &ndash;&gt;-->
-    <!--<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
-
-<!--</head>-->
 <body>
 <div id="driver">
     <div class="row">
         <div class="col-xs-12">
             <h3 class="text-center">Gary's Shopping List</h3>
-            <h6 class="text-center">Phone: 123-456-7890</h6>
-            <div class="well" style="max-height: 400px;overflow: auto;">
-                <ul id="thisone">
+            <p class="text-center">Phone: 123-456-7890</p>
 
-                    <style>
-                        .selected {
-                            background-color: gray;
-                        }
-                    </style>
+            <ul id="thisone">
 
-                    <script>
-                        var arr = [];
-                        var items = ["aa", "bb", "cc", "dd"];
-
-                        for (var i = 0; i < items.length; i++) {
-                            $("#thisone").append('<li><button class="driveritem" id="item' + i + '" class="btn">' + items[i] + '</button></li>');
-                        }
-
-                        $(".driveritem").click(function () {
-                            $(this).toggleClass("selected");
-
-                            arr = [];
-                            $('.driveritem.selected').each(function () {
-                                arr.push($(this).text());
-                            });
-
-                            if((items.length - arr.length) === 1){
-                                document.getElementById("left").innerHTML = (items.length - arr.length) + " item left";
-                            }
-                            else {
-                                document.getElementById("left").innerHTML = (items.length - arr.length) + " items left";
-                            }
-                        });
-
-                        $(document).ready(function () {
-
-                            document.getElementById("left").innerHTML = (items.length - arr.length) + " items left";
-
-                            $("#ready").click(function () {
-                                arr = [];
-                                $('.driveritem.selected').each(function () {
-                                    arr.push($(this).text());
-                                });
-
-                                if(arr.length != items.length) {
-                                    if((items.length - arr.length) === 1){
-                                        var flag = confirm("You still have " + (items.length - arr.length) + " item left in the" +
-                                                " shopping list, Are you sure to finish shopping now?");
-                                    }
-                                    else {
-                                        var flag = confirm("You still have " + (items.length - arr.length) + " items left in the" +
-                                                " shopping list, Are you sure to finish shopping now?");
-                                    }
-                                }
-
-                                if(arr.length === items.length || flag === true) {
-                                    alert("Succeed! Your customer will be notified soon.");
-                                }
-                            });
-                        });
-
-
-                        function myFunction() {
-                            document.getElementById("myDropdown").classList.toggle("show");
-                        }
-
-                        // Close the dropdown if the user clicks outside of it
-                        window.onclick = function(event) {
-                            if (!event.target.matches('#dropbtn')) {
-
-                                var dropdowns = document.getElementById("myDropdown");
-                                var i;
-                                for (i = 0; i < dropdowns.length; i++) {
-                                    var openDropdown = dropdowns[i];
-                                    if (openDropdown.classList.contains('show')) {
-                                        openDropdown.classList.remove('show');
-                                    }
-                                }
-                            }
-                        }
-
-                    </script>
-
-                </ul>
-                <p id="left" align="center"></p>
-                <div class="dropdown">
-                    <button onclick="myFunction()" id="dropbtn" class="btn-block">Special Notes<span class="caret"></span></button>
-                    <div id="myDropdown" align="center">
-                        <ul style="list-style-type:none">
-                            <li><input type="checkbox" class="check" value="cheap">Get the Cheapest one</li>
-                            <li><input type="checkbox" class="check" value="expensive">Get the most expensive one</li>
-                            <li><input type="checkbox" class="check" value="none">Don't get it</li>
-                        </ul>
-                        <span class="middletext">I want coconut juice from VITA COCO brand.</span>
-                    </div>
+            </ul>
+            <div class="dropdown">
+                <button onclick="myFunction()" id="dropbtn" class="btn-block">Special Notes<span
+                        class="caret"></span></button>
+                <div id="myDropdown" align="center">
+                    <ul style="list-style-type:none">
+                        <li><input type="checkbox" class="check" value="cheap">Get the Cheapest one</li>
+                        <li><input type="checkbox" class="check" value="expensive">Get the most expensive one</li>
+                        <li><input type="checkbox" class="check" value="none">Don't get it</li>
+                    </ul>
+                    <span class="middletext">I want coconut juice from VITA COCO brand.</span>
                 </div>
             </div>
+            <button id="ready" class="btn-block">Ready For shipping!</button>
+
         </div>
     </div>
-    <div>
-        <button id="ready" class="btn-block">Ready For shipping!</button>
-    </div>
-
 </div>
+
+
+<script>
+    var arr = [];
+    var items = ["aa", "bb", "cc", "dd"];
+
+    for (var i = 0; i < items.length; i++) {
+        $("#thisone").append('<li><button class="driveritem" id="item' + i + '" class="btn">' + items[i] + '</button></li>');
+    }
+
+    $(".driveritem").click(function () {
+        $(this).toggleClass("selected");
+
+        arr = [];
+        $('.driveritem.selected').each(function () {
+            arr.push($(this).text());
+        });
+
+        if ((items.length - arr.length) === 1) {
+            document.getElementById("left").innerHTML = (items.length - arr.length) + " item left";
+        }
+        else {
+            document.getElementById("left").innerHTML = (items.length - arr.length) + " items left";
+        }
+    });
+
+    $(document).ready(function () {
+
+        document.getElementById("left").innerHTML = (items.length - arr.length) + " items left";
+
+        $("#ready").click(function () {
+            arr = [];
+            $('.driveritem.selected').each(function () {
+                arr.push($(this).text());
+            });
+
+            if (arr.length != items.length) {
+                if ((items.length - arr.length) === 1) {
+                    var flag = confirm("You still have " + (items.length - arr.length) + " item left in the" +
+                            " shopping list, Are you sure to finish shopping now?");
+                }
+                else {
+                    var flag = confirm("You still have " + (items.length - arr.length) + " items left in the" +
+                            " shopping list, Are you sure to finish shopping now?");
+                }
+            }
+
+            if (arr.length === items.length || flag === true) {
+                alert("Succeed! Your customer will be notified soon.");
+            }
+        });
+    });
+
+
+    function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function (event) {
+        if (!event.target.matches('#dropbtn')) {
+
+            var dropdowns = document.getElementById("myDropdown");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+
+</script>
+
 </body>
 <!--</html>-->
