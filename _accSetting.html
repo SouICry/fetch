@@ -15,26 +15,33 @@
                             <label>Username</label>
                         </div>
                         <div class="row">
-                            <input type="text" value="jsmith" class="input-xlarge">
+                            <input type="text" value="jsmith" class="input-xlarge" required>
                         </div>
                         <div class="row">
                             <label>First Name</label>
                         </div>
                         <div class="row">
-                            <input type="text" value="John" class="input-xlarge">
+                            <input type="text" value="John" class="input-xlarge" required>
                         </div>
                         <div class="row">
                             <label>Last Name</label>
                         </div>
                         <div class="row">
-                            <input type="text" value="Smith" class="input-xlarge">
+                            <input type="text" value="Smith" class="input-xlarge" required>
                         </div>
                         <div class="row">
                             <label>Email</label>
                         </div>
                         <div class="row">
-                            <input type="text" value="jsmith@yourcompany.com" class="input-xlarge">
+                            <input type="email" value="jsmith@yourcompany.com" class="input-xlarge" required>
                         </div>
+                        <div class="row">
+                            <label>Phone</label>
+                        </div>
+                        <div class="row">
+                            <input type="phone" value="123-456-7890" class="input-xlarge" required>
+                        </div>
+
 
                         <div class="row">
                             <div><label>New Password</label>
@@ -55,31 +62,31 @@
                         <label>Line 1</label>
                     </div>
                     <div class="row">
-                        <input type="text" value="address line 1" class="input-xlarge">
+                        <input type="text" value="address line 1" class="input-xlarge" required>
                     </div>
                     <div class="row">
                         <label>Line 2</label>
                     </div>
                     <div class="row">
-                        <input type="text" value="address line 2" class="input-xlarge">
+                        <input type="text" value="address line 2" class="input-xlarge" required>
                     </div>
                     <div class="row">
                         <label>City</label>
                     </div>
                     <div class="row">
-                        <input type="text" value="city" class="input-xlarge">
+                        <input type="text" value="city" class="input-xlarge" required>
                     </div>
                     <div class="row">
                         <label>State</label>
                     </div>
                     <div class="row">
-                        <input type="text" value="state" class="input-xlarge">
+                        <input type="text" value="state" class="input-xlarge" required>
                     </div>
                     <div class="row">
                         <label>ZIP</label>
                     </div>
                     <div class="row">
-                        <input type="text" value="zip" class="input-xlarge">
+                        <input type="text" value="zip" class="input-xlarge" required>
                     </div>
                     <div>
                         <button class="btn btn-primary">Update</button>
@@ -103,20 +110,20 @@
                             <div class="controls">
                                 <div class="row-fluid">
                                     <div class="span3">
-                                        <input type="text" class="input-block-level" autocomplete="off"
+                                        <input type="number" class="input-block-level" autocomplete="off"
                                                maxlength="4" pattern="\d{4}" title="First four digits" required>
                                     </div>
                                     <div class="span3">
-                                        <input type="text" class="input-block-level" autocomplete="off"
+                                        <input type="number" class="input-block-level" autocomplete="off"
                                                maxlength="4" pattern="\d{4}" title="Second four digits"
                                                required>
                                     </div>
                                     <div class="span3">
-                                        <input type="text" class="input-block-level" autocomplete="off"
+                                        <input type="number" class="input-block-level" autocomplete="off"
                                                maxlength="4" pattern="\d{4}" title="Third four digits" required>
                                     </div>
                                     <div class="span3">
-                                        <input type="text" class="input-block-level" autocomplete="off"
+                                        <input type="number" class="input-block-level" autocomplete="off"
                                                maxlength="4" pattern="\d{4}" title="Fourth four digits"
                                                required>
                                     </div>
@@ -173,6 +180,16 @@
                             </div>
                         </div>
                     </fieldset>
+                </form>
+            </div>
+            <div id="delete">
+                <form id="">
+                    <div class="row">
+                        <label>Are you sure you want to delete your account?</label>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary">Delete</button>
+                    </div>
                 </form>
             </div>
         </div>

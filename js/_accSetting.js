@@ -7,6 +7,7 @@ $(document).ready(function () {
         e.preventDefault();
         $('#address').hide();
         $('#payment').hide();
+        $('#delete')
         $('#home').hide();
         $(this).parent().addClass('active');
      //   $(this).parent().siblings().removeClass('active');
