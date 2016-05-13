@@ -10,6 +10,17 @@
     border:none;
   };
 
+  /* this ensure the container is never
+     larger than 90% of the screen */
+  .container-fluid {
+    //max-width: 80%;
+  }
+
+  //.row {
+  //  margin-left: 10%;
+  //  margin-right: 10%;
+  //}
+
   /* needed to overwrite bootstraps margins*/
   h2 {
     margin: 0;

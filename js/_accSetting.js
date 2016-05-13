@@ -3,14 +3,15 @@ $(document).ready(function () {
     $('#payment').hide();
 
     $('.nav-tabs a').on('click', function (e) {
+        $('li').removeClass('active');
 
         e.preventDefault();
+        $('#delete').hide();
         $('#address').hide();
         $('#payment').hide();
-        $('#delete')
         $('#home').hide();
         $(this).parent().addClass('active');
-     //   $(this).parent().siblings().removeClass('active');
+        $(this).parent().siblings().removeClass('active');
 
         target = $(this).attr('href');
 
