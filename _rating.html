@@ -34,12 +34,6 @@
     </div>
     <script>
 
-        var simulated_user = {
-            id: 1234567,
-            name: "Bob",
-            "profile-picture": null
-        };
-        var info_to_send = {};
 
 
         var _rating = 0;
@@ -88,23 +82,75 @@
         $('#rate-user').click(function () {
 
             if (_rating !== 0) {
-                info_to_send.id = $('#user-name').data('id');
-                info_to_send.rating = _rating;
-                alert(JSON.stringify(info_to_send));
-                /*$.ajax({
-                 type: "POST",
-                 url: "/rate",
-                 data: info_to_send
-                 })*/
+                sendToServer();
             }
         });
 
+        function sendToServer(){
+            var info_to_send = {};
+            info_to_send.id = $('#user-name').data('id');
+            info_to_send.rating = _rating;
+
+            //Simulation (alert or console.log to check for yourself)
+            //alert(JSON.stringify(info_to_send));
+
+            //Actual
+            /*$.ajax({
+                type: "POST",
+                url: "/rate",
+                data: info_to_send,
+                success: function(data){
+                    //data is the object sent back on success (could also just be string)
+                    alert("Congrats!");
+                },
+                fail: function(data){
+                    //data is the object send back on fail (could also just be string)
+                }
+            });*/
+        }
+
+
+
+
         $('#simulate-load-user').click(function () {
-            $('#user-name').text(simulated_user.name).data('id', simulated_user.id);
-            if (simulated_user["profile-picture"] !== null) {
-                $('#user-image').data('src', simulated_user["profile-picture"]);
-            }
+            //Actual:
+            //loadFromServer();
+
+            //Simulation:
+            var simulated_user = {
+                id: 1234567,
+                name: "Bob",
+                "profile-picture": null
+            };
+            displayLoadedData(simulated_user);
         });
+
+        function loadFromServer () {
+            var info_to_send = {
+                "userId" : "asdf18273624",
+                "data": null
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/rate",
+                data: info_to_send,
+                success: function(data){
+                    //data is the object sent back on success (could also just be string)
+                    displayLoadedData(data);
+                },
+                fail: function(data) {
+                    //data is the object send back on fail (could also just be string)
+                }
+            });
+        }
+
+        function displayLoadedData(data) {
+            $('#user-name').text(data.name).data('id', data.id);
+            if (data["profile-picture"] !== null) {
+                $('#user-image').data('src', data["profile-picture"]);
+            }
+        }
 
 
     </script>
