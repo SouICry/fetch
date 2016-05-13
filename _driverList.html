@@ -2,22 +2,23 @@
 <div id="driver">
     <div class="row">
         <div class="col-xs-12">
-            <h3 class="text-center">Gary's Shopping List</h3>
-            <p class="text-center">Phone: 123-456-7890</p>
+            <h1 class="text-center" id="listName">Gary's Shopping List</h1>
+            <h5 class="text-center">Phone: 123-456-7890</h5>
 
             <ul id="thisone">
 
             </ul>
+            <p id="left" class="text-center"></p>
             <div class="dropdown">
                 <button onclick="myFunction()" id="dropbtn" class="btn-block">Special Notes<span
                         class="caret"></span></button>
                 <div id="myDropdown" align="center">
                     <ul style="list-style-type:none">
-                        <li><input type="checkbox" class="check" value="cheap">Get the Cheapest one</li>
-                        <li><input type="checkbox" class="check" value="expensive">Get the most expensive one</li>
-                        <li><input type="checkbox" class="check" value="none">Don't get it</li>
-                    </ul>
-                    <span class="middletext">I want coconut juice from VITA COCO brand.</span>
+                        <li class="col-xs-4"><input type="checkbox" class="check" value="cheap">Get the Cheapest one</li>
+                        <li class="col-xs-4"><input type="checkbox" class="check" value="expensive">Get the most expensive one</li>
+                        <li class="col-xs-4"><input type="checkbox" class="check" value="none">Don't get it</li>
+                    </ul><br>
+                    <p class="col-xs-12">I want coconut juice from VITA COCO brand.</p>
                 </div>
             </div>
             <button id="ready" class="btn-block">Ready For shipping!</button>

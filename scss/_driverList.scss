@@ -17,14 +17,17 @@
       color: gainsboro!important;
       border-bottom: dotted gainsboro 2px!important;
   }
-  h6{
-      color: orangered!important;
+  #listName{
+      margin-top: 3%;
+      color: #f36100;
+      opacity: .8;
+      font: 50px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-weight: 100;
+      text-align: center;
   }
-  h5{
-      color: orangered!important;
-  }
-  h3{
-      color: orangered!important;
+  h3, h5, h6{
+      color: #f36100;
+      margin: auto;
   }
 
   ul{
