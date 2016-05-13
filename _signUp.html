@@ -4,13 +4,46 @@
     <div class="row">
         <div class="col-xs-12">
         <h2 class="form-signin-heading">Fetch Sign-Up</h2>
-        <input type="text" class="form-control" name="Email" placeholder="User Email" required="" autofocus=""/>
-        <input type="text" class="form-control" name="username" placeholder="User Name" required="" autofocus=""/>
-        <input type="password" class="form-control" name="password" placeholder="Password" required=""/>
-        <button class="btn btn-lg btn-warning btn-block" type="submit">Sign-Up</button>
+        <input type="text" class="form-control" name="Email" placeholder="User Email" id="Email" required="" autofocus=""/>
+        <input type="text" class="form-control" name="username" placeholder="User Name" id="user-name" required="" autofocus=""/>
+        <input type="password" class="form-control" name="password" placeholder="Password" id="pass" required=""/>
+        <button class="btn btn-lg btn-warning btn-block" id="signup" type="submit">Sign-Up</button>
         </div>
     </div>
 </div>
+<script>
+    $('#signup').click(function () {
 
+        sendToServer();
+
+    });
+
+    function sendToServer(){
+        var info_to_send = {};
+        info_to_send.email= $('#Email').val()
+        info_to_send.name = $('#user-name').val();
+        info_to_send.passWord = $('#pass').val();
+        info_to_send.type = "get";
+
+        //Simulation (alert or console.log to check for yourself)
+        alert(JSON.stringify(info_to_send));
+
+        //Actual
+        $.ajax({
+            type: "POST",
+            url: "/_signUp",
+            data: info_to_send,
+            success: function(data){
+                //data is the object sent back on success (could also just be string)
+                alert("Congrats!");
+            },
+            fail: function(data){
+                alert("fail");
+                //data is the object send back on fail (could also just be string)
+            }
+        });
+    }
+
+</script>
 
 </body>
