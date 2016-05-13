@@ -1,0 +1,45 @@
+<body>
+<div id="payment">
+    <div class="container-fluid text-center row">
+        <div class="col-xs-12">
+            <h1>Payment</h1>
+
+            <h4>Your Order: </h4>
+            <p>Service Charge: $5.00</p>
+            <p id="cost">Estimated Cost: $</p>
+            <p>______________________________</p>
+
+            <p id="total">Estimated Total: $</p>
+
+        </div>
+        <div class="footer " style="text-align: center">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Confirm</button>
+            <a href="/account.html" class="btn btn-default" data-dismiss="modal" role="button">Cancel</a>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+<script>
+
+    function loadPage() {
+        var cost = 10;
+        var c=cost.toFixed(2);
+
+        // grab cost
+
+        $('#cost').append(c);
+
+        var total = cost + 5.00;
+        var t=total.toFixed(2);
+
+        $('#total').append(t);
+    }
+    $(document).ready(function () {
+        loadPage();
+
+    });
+</script>
+</body>
