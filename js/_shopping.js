@@ -22,14 +22,14 @@ $(document).ready(function () {
     });
 
     //press enter
-    $('form').submit(function () {
+    $('#add-shopping-item').submit(function () {
         if ($('input[name=checkListItem]').val() !== '') {
             toAdd = $('input[name=checkListItem]').val();
             var newItem = document.createElement('li');
             newItem.innerHTML = toAdd;
             newItem.className = 'item'
 
-            $('#list').append(newItem);
+            $('#list').prepend(newItem);
             count++;
             if (count == 1) {
                 $("#item").text("1 item");
@@ -38,9 +38,7 @@ $(document).ready(function () {
                 $("#item").text(count + " items");
             }
 
-            if (count != 0) {
-                $("#sub").text("Submit");
-            }
+
             if (count != 0) {
                 $("#container").show();
             }
@@ -76,9 +74,6 @@ $(document).ready(function () {
             $("#container").hide();
         }
     });
-
-
-
 });
 
 
