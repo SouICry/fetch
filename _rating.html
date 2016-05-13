@@ -33,9 +33,6 @@
         </div>
     </div>
     <script>
-
-
-
         var _rating = 0;
         var r1 = $('#rating-1'), r2 = $('#rating-2'), r3 = $('#rating-3'), r4 = $('#rating-4'), r5 = $('#rating-5');
         r1.hover(function () {
@@ -80,7 +77,6 @@
         });
 
         $('#rate-user').click(function () {
-
             if (_rating !== 0) {
                 sendToServer();
             }
@@ -92,7 +88,7 @@
             info_to_send.rating = _rating;
 
             //Simulation (alert or console.log to check for yourself)
-            //alert(JSON.stringify(info_to_send));
+            alert(JSON.stringify(info_to_send));
 
             //Actual
             /*$.ajax({
