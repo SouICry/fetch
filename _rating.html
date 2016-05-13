@@ -86,14 +86,15 @@
             var info_to_send = {};
             info_to_send.id = $('#user-name').data('id');
             info_to_send.rating = _rating;
+            info_to_send.type = "send";
 
             //Simulation (alert or console.log to check for yourself)
             alert(JSON.stringify(info_to_send));
 
             //Actual
-            /*$.ajax({
+            $.ajax({
                 type: "POST",
-                url: "/rate",
+                url: "/_rating",
                 data: info_to_send,
                 success: function(data){
                     //data is the object sent back on success (could also just be string)
@@ -102,7 +103,7 @@
                 fail: function(data){
                     //data is the object send back on fail (could also just be string)
                 }
-            });*/
+            });
         }
 
 
@@ -122,15 +123,16 @@
         });
 
         function loadFromServer () {
-            var info_to_send = {
+            var request = {
+                "type" : "get",
                 "userId" : "asdf18273624",
                 "data": null
             };
 
             $.ajax({
                 type: "POST",
-                url: "/rate",
-                data: info_to_send,
+                url: "/_rating",
+                data: request,
                 success: function(data){
                     //data is the object sent back on success (could also just be string)
                     displayLoadedData(data);
