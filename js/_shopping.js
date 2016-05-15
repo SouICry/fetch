@@ -1,5 +1,4 @@
-// add item
-$(document).ready(function () {
+function _shopping() {
     // item count
     var count = 0;
 
@@ -23,7 +22,6 @@ $(document).ready(function () {
             else {
                 $("#item").text(count + " items");
             }
-
 
             if (count != 0) {
                 $("#container").show();
@@ -74,9 +72,10 @@ $(document).ready(function () {
 
 
     $('#submit_list').click(function () {
-        if (_shopping !== []) {
+        if (_shopping != []) {
             sendToServer();
         }
+        loader.next();
     });
 
     function sendToServer(){
@@ -102,6 +101,8 @@ $(document).ready(function () {
             }
         });
     }
-});
+}
+
+shopping();
 
 
