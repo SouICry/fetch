@@ -103,6 +103,6 @@ function _shopping() {
     }
 }
 
-shopping();
+_shopping();
 
 

@@ -8,9 +8,10 @@ function _checkout() {
 
     $('#submitcheckout').click(function () {
 
-        temp = document.getElementById("#time1");
-        _checkout.time1 = temp.options[temp.options[temp.selectedIndex].value];
-
+        var x = document.getElementById("time1").value;
+        time1 = x;
+        console.log(x);
+        
         if (_checkout != {
                 special_notes:"",
                 time1:"",
@@ -47,4 +48,4 @@ function _checkout() {
     }
 }
 
-checkout();
+_checkout();
