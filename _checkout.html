@@ -1,77 +1,77 @@
 <body>
-<div id="checkout">
-    <div class="container-fluid text-center row" >
-        <div class="col-xs-12">
+<div id="checkouts">
+    <div class="container-fluid text-center row">
+        <div class="col-xs-2"></div>
+        <div class="col-xs-8">
             <h1>Checkout</h1>
 
             <h4>If driver cannot locate your specific item, buy... </h4>
-            <div class="btn-group" data-toggle="buttons">
-                <label class="btn btn-warning active">
-                    <input type="radio" name="options" id="option1" autocomplete="off" checked> Cheapest option
+            <div class="list-group" data-toggle="buttons">
+                <label class="btn list-group-item active">
+                    <input type="radio" name="options" id="option1" autocomplete="off" checked>Cheapest option
                 </label>
-                <label class="btn btn-warning">
-                    <input type="radio" name="options" id="option2" autocomplete="off"> Most expensive option
+                <label class="btn list-group-item">
+                    <input type="radio" name="options" id="option2" autocomplete="off">Most expensive option
                 </label>
-                <label class="btn btn-warning">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> Nothing
+                <label class="btn list-group-item">
+                    <input type="radio" name="options" id="option3" autocomplete="off">Nothing
                 </label>
             </div>
-            <br>
 
             <h4>Available times for drop-off.</h4>
-            <div class="btn-group" data-toggle="buttons">
-                <label class="btn btn-warning">
-                    <input type="checkbox" autocomplete="off"> 8am
-                </label>
-                <label class="btn btn-warning">
-                    <input type="checkbox" autocomplete="off"> 9am
-                </label>
-                <label class="btn btn-warning">
-                    <input type="checkbox" autocomplete="off"> 10am
-                </label>
-                <label class="btn btn-warning">
-                    <input type="checkbox" autocomplete="off"> 11am
-                </label>
-                <label class="btn btn-warning">
-                    <input type="checkbox" autocomplete="off"> 12pm
-                </label>
-                <label class="btn btn-warning">
-                    <input type="checkbox" autocomplete="off"> 1pm
-                </label>
-                <label class="btn btn-warning">
-                    <input type="checkbox" autocomplete="off"> 2pm
-                </label>
-                <label class="btn btn-warning">
-                    <input type="checkbox" autocomplete="off"> 3pm
-                </label>
-                <label class="btn btn-warning">
-                    <input type="checkbox" autocomplete="off"> 4pm
-                </label>
-                <label class="btn btn-warning">
-                    <input type="checkbox" autocomplete="off"> 5pm
-                </label>
-                <label class="btn btn-warning">
-                    <input type="checkbox" autocomplete="off"> 6pm
-                </label>
-                <label class="btn btn-warning">
-                    <input type="checkbox" autocomplete="off"> 7pm
-                </label>
-                <label class="btn btn-warning">
-                    <input type="checkbox" autocomplete="off"> 8pm
-                </label>
-                <label class="btn btn-warning">
-                    <input type="checkbox" autocomplete="off"> 9pm
-                </label>
-                <label class="btn btn-warning">
-                    <input type="checkbox" autocomplete="off"> 10pm
-                </label>
+            <div class="row">
+                <div class="form-group col-xs-5">
+                    <select class="form-control" id="time1">
+                        <option>9AM</option>
+                        <option>10AM</option>
+                        <option>11AM</option>
+                        <option>12PM</option>
+                        <option>1PM</option>
+                        <option>2PM</option>
+                        <option>3PM</option>
+                        <option>4PM</option>
+                        <option>5PM</option>
+                        <option>6PM</option>
+                        <option>7PM</option>
+                        <option>8PM</option>
+                        <option>9PM</option>
+                        <option>10PM</option>
+                        <option>11PM</option>
+                        <option>12PM</option>
+                        <option>1AM</option>
+                    </select>
+                </div>
+                <div class="col-xs-2">
+                    <p>to</p>
+                </div>
+                <div class="form-group col-xs-5">
+                    <select class="form-control" id="time2">
+                        <option>9AM</option>
+                        <option>10AM</option>
+                        <option>11AM</option>
+                        <option>12PM</option>
+                        <option>1PM</option>
+                        <option>2PM</option>
+                        <option>3PM</option>
+                        <option>4PM</option>
+                        <option>5PM</option>
+                        <option>6PM</option>
+                        <option>7PM</option>
+                        <option>8PM</option>
+                        <option>9PM</option>
+                        <option>10PM</option>
+                        <option>11PM</option>
+                        <option>12PM</option>
+                        <option>1AM</option>
+                    </select>
+                </div>
             </div>
-            <br>
 
-            <div class="footer " style="text-align: center">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Continue</button>
-                <a href="/account.html" class="btn btn-default" data-dismiss="modal" role="button">Close</a>
+            <div class="row" style="text-align: center">
+                <button type="button" class="btn btn-default">Continue</button>
+                <a href="/account.html" class="btn btn-default" role="button">Close</a>
             </div>
+
         </div>
     </div>
 </div>
