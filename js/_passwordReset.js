@@ -2,9 +2,9 @@
  * Created by tylercuddy on 5/10/16.
  */
 
-$(document).ready(function(){
-    $("#submit ").prop("disabled", true);
-});
+// $(document).ready(function(){
+    $("#submitPass").prop("disabled", true);
+// });
 
 function checkPass()
 {
@@ -27,14 +27,14 @@ function checkPass()
         message.style.color = goodColor;
         message.innerHTML = "Passwords Match!"
 
-        $("#submit").prop("disabled", false);
+        $("#submitPass").prop("disabled", false);
     }else{
         //The passwords do not match.
         //Set the color to the bad color and
         //notify the user.
 
         // pass2.style.backgroundColor = badColor;
-        $("#submit").prop("disabled", true);
+        $("#submitPass").prop("disabled", true);
         message.style.color = badColor;
         message.innerHTML = "Passwords Do Not Match!"
     }
