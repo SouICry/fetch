@@ -1,4 +1,9 @@
 
+$fetchOrange: #f36100;
+
+body {
+  background-color: #ffffff;
+}
 
 img {
   width: 100%;
@@ -14,3 +19,11 @@ ul {
 li {
 
 }
+
+button{
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 100%;
+}
+
