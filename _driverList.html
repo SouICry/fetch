@@ -1,28 +1,28 @@
 <body>
-<div id="driver">
+<div class="container text-center">
     <div class="row">
         <div class="col-xs-12">
-            <h1 class="text-center" id="listName">Gary's Shopping List</h1>
-            <h5 class="text-center">Phone: 123-456-7890</h5>
+            <h1 id="listName">Gary's Shopping List</h1>
+            <p>Phone: 123-456-7890</p>
 
             <ul id="list">
-
-            </ul>
-            <p id="left" class="text-center"></p>
-            <div class="dropdown">
-                <button onclick="myFunction()" id="dropbtn" class="btn-block">Special Notes<span
-                        class="caret"></span></button>
-                <div id="myDropdown" align="center">
-                    <ul style="list-style-type:none">
-                        <li class="col-xs-4"><input type="checkbox" class="check" value="cheap">Get the Cheapest one</li>
-                        <li class="col-xs-4"><input type="checkbox" class="check" value="expensive">Get the most expensive one</li>
-                        <li class="col-xs-4"><input type="checkbox" class="check" value="none">Don't get it</li>
-                    </ul><br>
-                    <p class="col-xs-12">I want coconut juice from VITA COCO brand.</p>
-                </div>
             </div>
-            <button id="ready" class="btn-block">Ready For shipping!</button>
-
+            <p id="left"></p>
+            <button type="button" data-toggle="collapse" data-target="#dropdown1" class=" btn-block btn-primary btn-lg">Special Notes<span
+                    class="caret"></span></button>
+        </div>
+    </div>
+    <div id="dropdown1" class="collapse row">
+        <div class="col-xs-4"><input type="checkbox" class="check" value="cheap">Get the Cheapest one</div>
+        <div class="col-xs-4"><input type="checkbox" class="check" value="expensive">Get the most expensive
+            one
+        </div>
+        <div class="col-xs-4"><input type="checkbox" class="check" value="none">Don't get it</div>
+        <p class="col-xs-12">I want coconut juice from VITA COCO brand.</p>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <button id="ready" type="button" class="btn-block btn-primary btn-lg">Ready For shipping!</button>
         </div>
     </div>
 </div>
@@ -33,7 +33,7 @@
     var items = ["aa", "bb", "cc", "dd"];
 
     for (var i = 0; i < items.length; i++) {
-        $("#thisone").append('<li><button class="driveritem" id="item' + i + '" class="btn">' + items[i] + '</button></li>');
+        $("#driver-items").append('<div class="driveritem" id="item' + i + '" class="btn">' + items[i] + '</div>');
     }
 
     $(".driveritem").click(function () {
@@ -78,28 +78,6 @@
             }
         });
     });
-
-
-    function myFunction() {
-        document.getElementById("myDropdown").classList.toggle("show");
-    }
-
-    // Close the dropdown if the user clicks outside of it
-    window.onclick = function (event) {
-        if (!event.target.matches('#dropbtn')) {
-
-            var dropdowns = document.getElementById("myDropdown");
-            var i;
-            for (i = 0; i < dropdowns.length; i++) {
-                var openDropdown = dropdowns[i];
-                if (openDropdown.classList.contains('show')) {
-                    openDropdown.classList.remove('show');
-                }
-            }
-        }
-    }
-
 </script>
 
 </body>
-<!--</html>-->
