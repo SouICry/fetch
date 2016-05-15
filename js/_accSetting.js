@@ -1,6 +1,7 @@
 $(document).ready(function () {
     $('#address').hide();
     $('#payment').hide();
+    $('#delete').hide();
 
     $('.nav-tabs a').on('click', function (e) {
         $('li').removeClass('active');
