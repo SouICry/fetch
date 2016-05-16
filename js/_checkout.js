@@ -1,23 +1,31 @@
 function _checkout() {
 
     var _checkout = {
-        special_notes:"",
-        time1:"",
-        time2:""
+        notes:"",
+        range1:"",
+        range2:""
     };
 
     $('#submitcheckout').click(function () {
 
-        var x = document.getElementById("time1").value;
-        time1 = x;
-        console.log(x);
-        
-        if (_checkout != {
-                special_notes:"",
-                time1:"",
-                time2:""
-            }) {
+        var valid = false;
+
+        _checkout.notes = $('input[name="specialnotes"]:checked', '#notes').val();
+        _checkout.range1 = $("#time1").val();
+        _checkout.range2 = $("#time2").val();
+
+        index1 = $("#time1").prop('selectedIndex');
+
+        if ($("#time1").prop('selectedIndex') < $("#time2").prop('selectedIndex')){
+            valid = true;
+        }
+
+
+        if (valid == true) {
             sendToServer();
+        }
+        else {
+            confirm("Enter a valid valid time range.");
         }
 
         loader.next();
