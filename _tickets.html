@@ -3,67 +3,141 @@
 <div id="tickets">
     <div class="row">
         <div class="col-xs-12">
-        <h1>Avaliable Tickets</h1>
-            <div class="container-fluid">
-                <ul id="buttons">
-                    <li>
-                        <button id = "R" class="btn-warning">Ralph's</button>
+        <h1 class="text-center">Avaliable Tickets</h1>
+            <div class="container">
+                <div class="text-center">
+                <div class="row">
+                <ul id="buttons" class="col-xs-12">
+                    <li class="col-xs-3">
+                        <div data-name="ralphs" class="store">Ralph's</div>
                     </li>
-                    <li>
-                        <button id = "T" class="btn-warning">TJ's</button>
+                    <li class="col-xs-3">
+                        <div data-name ="tjs" class="store">TJ's</div>
                     </li>
-                    <li>
-                        <button id = "W" class="btn-warning">WholeFood</button>
+                    <li class="col-xs-3">
+                        <div data-name ="wholeFoods" class="store">WholeFoods</div>
                     </li>
-                    <li>
-                        <button id = "V" class="btn-warning">Vons</button>
+                    <li class="col-xs-3">
+                        <div data-name ="vons" class="store">Vons</div>
                     </li>
                 </ul>
+                </div>
+                </div>
             </div>
     <div class="col-xs-12">
-    <ul id="thisone">
+    <ul id="tickets_content" class = "text-center">
 
         <script>
             var arr = [];
-            var tickets = [{name: "WholeFood", time: "12:00 pm"},{name: "Ralph's", time: "5:00 pm"}, {name: "TJ's", time: "6:00 pm"},
-                {name: "Ralph's", time: "7:00 pm"}, {name: "Vons", time: "7:00 pm"}];
+            var tickets = [{name: "wholeFoods", time: "12:00 pm"},{name: "ralphs", time: "5:00 pm"}, {name: "tjs", time: "6:00 pm"},
+                {name: "ralphs", time: "7:00 pm"}, {name: "vons", time: "7:00 pm"}];
+
+            function toName(nameString){
+                var name = {};
+                name['wholeFoods'] = "WholeFoods";
+                name['ralphs'] = "Ralph's";
+                name['tjs'] = "Trader Joe's";
+                name['vons'] = "Vons";
+
+                return name[nameString];
+            }
+
+            var selected = {
+                ralphs: true,
+                wholeFoods: true,
+                tjs:true,
+                vons:true
+            };
 
             for (var i = 0; i < tickets.length; i++) {
-                $("#thisone").append('<li class = ' + tickets[i].name + '><button class="btn-block" name =' +tickets[i].name+ ' >' + tickets[i].name + ' <br> Estimate Deliver Time: ' + tickets[i].time + '</button></li>');
+                $("#tickets_content").append('<li class = ' + tickets[i].name + '><div id =' +tickets[i].name+ ' >' + toName(tickets[i].name) + ' <br> Estimate Deliver Time: ' + tickets[i].time + '</div></li>');
             }
 
             $(document).ready(function () {
-                $( ".btn-warning" ).each(function() {
-                    $( this ).click(function (){
-                        $( this ).toggleClass("selected");
-                        arr = [];
-                        $("#thisone").html("");
+                $( ".store" ).each(function() {
+                    for(var x in selected){
+                        selected[x] = false;
+                    }
 
-                        $('.btn-warning.selected').each(function () {
-                            arr.push(this.innerHTML);
-                        });
+                    $( this ).click(function () {
+                        $(this).toggleClass("selected");
 
-                        if(arr.length === 0){
-                            for (var i = 0; i < tickets.length; i++) {
-                                $("#thisone").append('<li class = ' + tickets[i].name + '><button class="btn-block" name =' +tickets[i].name+ ' >' + tickets[i].name + ' <br> Estimate Deliver Time: ' + tickets[i].time + '</button></li>');
-                            }
-                        }
-                        else {
-                            for (var j = 0; j < arr.length; j++) {
-                                for (var i = 0; i < tickets.length; i++) {
-                                    if (arr[j] === tickets[i].name) {
-                                        $("#thisone").append('<li class = ' + tickets[i].name + '><button class="btn-block" name =' + tickets[i].name + ' >' + tickets[i].name + ' <br> Estimate Deliver Time: ' + tickets[i].time + '</button></li>');
-                                    }
+
+                        selected[$(this).data("name")] = true;
+                        console.log(selected['tjs']);
+                        console.log(selected['wholeFoods']);
+
+                        for(var x in selected){
+                            var a = "."+x;
+                            //console.log(selected[x]);
+                            if(selected[x] == true){
+                                if($(a).hasClass("hidden")){
+                                    $(a).removeClass("hidden");
                                 }
+                                $(a).addClass("show");
+                            }
+                            else{
+                                //console.log("hide");
+                                if($(a).hasClass("show")){
+                                    $(a).removeClass("show");
+                                }
+                                $(a).addClass("hidden");
                             }
                         }
-                    })
+                    });
+
+
+//                    if(selected[$(this).data("name")] === true){
+//                        $(this).addClass("show");
+//                    }
+//                    else{
+//                        $(this).addClass("hidden");
+//                    }
+
+//
+//                        arr = [];
+//                        //$("#tickets_content").html("");
+//
+//                        $('.store.selected').each(function () {
+//                            arr.push($(this).data("name"));
+//                        });
+
+//                        if(arr.length === 0){
+//                            for (var i = 0; i < tickets.length; i++) {
+//                                $("#tickets_content").append('<li class = ' + tickets[i].name + '><div id =' +tickets[i].name+ ' >' + tickets[i].name + ' <br> Estimate Deliver Time: ' + tickets[i].time + '</div></li>');
+//
+//                            }
+//                        }
+//                        else
+//                            for (var j = 0; j < arr.length; j++) {
+//                                for (var i = 0; i < tickets.length; i++) {
+//                                    if (arr[j] === tickets[i].name) {
+//                                        $("#tickets_content").append('<li class = ' + tickets[i].name + '><div id =' + tickets[i].name + ' >' + tickets[i].name + ' <br> Estimate Deliver Time: ' + tickets[i].time + '</div></li>');
+//                                    }
+//                                }
+//                            }
+//                        }
+
+//                        for(var i = 0; i < arr.length; i++) {
+//                            var name = "." + arr[i];
+//                            $(name).each(function(){
+//                                $(this).addClass("show");
+//                            });
+//                        }
+
+
+//                    })
                 });
+            });
+
+            $('#tickets_content div').click(function () {
+                window.location.href = $(this).data("link");
             });
 
         </script>
     </ul>
     </div>
+            </div>
+        </div>
 </div>
 </body>
-</html>
