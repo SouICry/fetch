@@ -1,31 +1,32 @@
-function accSetting() {
-    $('#address').hide();
-    $('#payment').hide();
-    $('#delete').hide();
+function _checkout() {
 
-    $('.nav-tabs a').on('click', function (e) {
-        $('li').removeClass('active');
+    var _checkout = {
+        special_notes:"",
+        time1:"",
+        time2:""
+    };
 
-        e.preventDefault();
-        $('#delete').hide();
-        $('#address').hide();
-        $('#payment').hide();
-        $('#home').hide();
-        $(this).parent().addClass('active');
-        $(this).parent().siblings().removeClass('active');
+    $('#submitcheckout').click(function () {
 
-        target = $(this).attr('href');
+        var x = document.getElementById("time1").value;
+        time1 = x;
+        console.log(x);
+        
+        if (_checkout != {
+                special_notes:"",
+                time1:"",
+                time2:""
+            }) {
+            sendToServer();
+        }
 
-        $('.tab-content > div').not(target).hide();
-
-        $(target).fadeIn(600);
-
+        loader.next();
     });
 
     function sendToServer(){
         var info_to_send = {};
         info_to_send.id = $('#user-name').data('id');
-        info_to_send.list = _shopping;
+        info_to_send.notesTime = _checkout;
         info_to_send.type = "send";
 
         //Simulation (alert or console.log to check for yourself)
@@ -34,7 +35,7 @@ function accSetting() {
         //Actual
         $.ajax({
             type: "POST",
-            url: "/_shopping",
+            url: "/_checkout",
             data: info_to_send,
             success: function(data){
                 //data is the object sent back on success (could also just be string)
@@ -47,4 +48,4 @@ function accSetting() {
     }
 }
 
-accSetting();
+_checkout();

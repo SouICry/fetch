@@ -1,189 +1,180 @@
 <body>
-<div id="accSetting" style="text-align: center">
-    <div class="well row">
-        <div class="col-xs-12">
+<div id="accSetting" class="container" style="text-align: center">
+    <div class="row">
+        <div class="col-xs-12" style="padding-top: 25px">
             <ul class="nav nav-tabs .nav-justified">
-                <li class="active"><a href="#home">Profile</a></li>
+                <li class="active"><a href="#home">Account</a></li>
                 <li><a href="#address">Address</a></li>
                 <li><a href="#payment">Payment Info</a></li>
                 <li><a href="#delete">Delete Account</a></li>
             </ul>
             <div class="tab-content">
-                <div id="home">
-                    <form id="tab">
+                <div id="home" class="container">
+                    <h2>Account Information</h2>
+                    <form role="form">
                         <div class="row">
-                            <label>Username</label>
-                        </div>
-                        <div class="row">
-                            <input type="text" value="jsmith" class="input-xlarge" required>
-                        </div>
-                        <div class="row">
-                            <label>First Name</label>
-                        </div>
-                        <div class="row">
-                            <input type="text" value="John" class="input-xlarge" required>
-                        </div>
-                        <div class="row">
-                            <label>Last Name</label>
-                        </div>
-                        <div class="row">
-                            <input type="text" value="Smith" class="input-xlarge" required>
-                        </div>
-                        <div class="row">
-                            <label>Email</label>
-                        </div>
-                        <div class="row">
-                            <input type="email" value="jsmith@yourcompany.com" class="input-xlarge" required>
-                        </div>
-                        <div class="row">
-                            <label>Phone</label>
-                        </div>
-                        <div class="row">
-                            <input type="phone" value="123-456-7890" class="input-xlarge" required>
-                        </div>
-                        <div class="row">
-                            <div><label>New Password</label>
-                            </div>
-                            <div class="row">
-                                <input type="password" class="input-xlarge">
-                            </div>
-                            <div>
-                                <button class="btn btn-warning">Update</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div id="address">
-                    <form id="tab2">
-                        <div class="row">
-                            <label>Line 1</label>
-                        </div>
-                        <div class="row">
-                            <input type="text" value="address line 1" class="input-xlarge" required>
-                        </div>
-                        <div class="row">
-                            <label>Line 2</label>
-                        </div>
-                        <div class="row">
-                            <input type="text" value="address line 2" class="input-xlarge" required>
-                        </div>
-                        <div class="row">
-                            <label>City</label>
-                        </div>
-                        <div class="row">
-                            <input type="text" value="city" class="input-xlarge" required>
-                        </div>
-                        <div class="row">
-                            <label>State</label>
-                        </div>
-                        <div class="row">
-                            <input type="text" value="state" class="input-xlarge" required>
-                        </div>
-                        <div class="row">
-                            <label>ZIP</label>
-                        </div>
-                        <div class="row">
-                            <input type="text" value="zip" class="input-xlarge" required>
-                        </div>
-                        <div>
-                            <button class="btn btn-warning">Update</button>
-                        </div>
-                    </form>
-                </div>
-                <div id="payment">
-                    <form class="form-horizontal span6">
-                        <fieldset>
-                            <div class="control-group">
-                                <label class="control-label">Card Holder's Name</label>
-                                <div class="controls">
-                                    <input type="text" class="input-block-level" pattern="\w+ \w+.*"
-                                           title="Fill your first and last name" required>
+                            <div class="col-xs-8 col-xs-offset-2">
+                                <div class="form-group">
+                                    <label for="usr">Username:</label>
+                                    <input type="text" class="form-control" id="usr">
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8 col-xs-offset-2">
+                                <div class="form-group">
+                                    <label for="fname">First Name:</label>
+                                    <input type="text" class="form-control" id="fname">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8 col-xs-offset-2">
 
-                            <div class="control-group">
-                                <label class="control-label">Card Number</label>
-                                <div class="controls">
-                                    <div class="row-fluid">
-                                        <div class="span3">
-                                            <input type="number" class="input-block-level" autocomplete="off"
-                                                   maxlength="4" pattern="\d{4}" title="First four digits" required>
-                                        </div>
-                                        <div class="span3">
-                                            <input type="number" class="input-block-level" autocomplete="off"
-                                                   maxlength="4" pattern="\d{4}" title="Second four digits"
-                                                   required>
-                                        </div>
-                                        <div class="span3">
-                                            <input type="number" class="input-block-level" autocomplete="off"
-                                                   maxlength="4" pattern="\d{4}" title="Third four digits" required>
-                                        </div>
-                                        <div class="span3">
-                                            <input type="number" class="input-block-level" autocomplete="off"
-                                                   maxlength="4" pattern="\d{4}" title="Fourth four digits"
-                                                   required>
-                                        </div>
-                                    </div>
+                                <div class="form-group">
+                                    <label for="lname">Last Name:</label>
+                                    <input type="string" class="form-control" id="lname">
                                 </div>
                             </div>
-                            <div class="control-group">
-                                <label class="control-label">Card Expiration Date</label>
-                                <div class="controls">
-                                    <div class="row-fluid">
-                                        <div class="span9">
-                                            <select class="input-block-level">
-                                                <option>January</option>
-                                                <option>February</option>
-                                                <option>March</option>
-                                                <option>April</option>
-                                                <option>May</option>
-                                                <option>June</option>
-                                                <option>July</option>
-                                                <option>August</option>
-                                                <option>September</option>
-                                                <option>October</option>
-                                                <option>November</option>
-                                                <option>December</option>
-                                            </select>
-                                        </div>
-                                        <div class="span3">
-                                            <select class="input-block-level">
-                                                <option>2015</option>
-                                                <option>2016</option>
-                                                <option>2017</option>
-                                                <option>2018</option>
-                                                <option>2019</option>
-                                                <option>2020</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label">Card CVV</label>
-                                <div class="controls">
-                                    <div class="row-fluid">
-                                        <div class="span3">
-                                            <input type="text" class="input-block-level" autocomplete="off"
-                                                   maxlength="3" pattern="\d{3}"
-                                                   title="Three digits at back of your card" required>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <button class="btn btn-warning">Update</button>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </form>
-                </div>
-                <div id="delete">
-                    <form id="tab3">
+                        </div>
                         <div class="row">
-                            <label>Are you sure you want to delete your account?</label>
+                            <div class="col-xs-8 col-xs-offset-2">
+                                <div class="form-group">
+                                    <label for="email">Email:</label>
+                                    <input type="email" class="form-control" id="email"
+                                           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <button class="btn btn-warning">Delete</button>
+                        <div class="row">
+                            <div class="col-xs-8 col-xs-offset-2">
+                                <div class="form-group">
+                                    <label for="phone">Phone Number:</label>
+                                    <input type="text" class="form-control bfh-phone" data-country="US" id="phone">
+                                </div>
+                            </div>
                         </div>
+                    </form>
+                    <div class="row">
+                        <button id="submit_accInfo" type="button" class="btn btn-primary">Update</button>
+                    </div>
+                </div>
+
+                <div id="address" class="container">
+                    <h2>Account Information</h2>
+                    <form role="form">
+                        <div class="row">
+                            <div class="col-xs-8 col-xs-offset-2">
+                                <div class="form-group">
+                                    <label for="addressI">Address:</label>
+                                    <input type="text" class="form-control" id="addressI">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8 col-xs-offset-2">
+                                <div class="form-group">
+                                    <label for="city">City:</label>
+                                    <input type="text" class="form-control" id="city">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8 col-xs-offset-2">
+                                <div class="form-group">
+                                    <label for="state">State:</label>
+                                    <input type="string" class="form-control" id="state">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8 col-xs-offset-2">
+                                <div class="form-group">
+                                    <label for="zip">ZIP Code:</label>
+                                    <input type="number" class="form-control" id="zip">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row">
+                        <button id="submit_address" type="button" class="btn btn-primary">Update</button>
+                    </div>
+                </div>
+
+                <div id="payment" class="container">
+                    <h2>Account Information</h2>
+                    <form role="form">
+                        <div class="row">
+                            <div class="col-xs-8 col-xs-offset-2">
+                                <div class="form-group">
+                                    <label for="cardName">Card Holder's Name:</label>
+                                    <input type="text" class="form-control" id="cardName">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8 col-xs-offset-2">
+                                <div class="form-group">
+                                    <label for="card">Card Number:</label>
+                                    <input type="number" class="form-control" id="card">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="ex-month">Card Expiration Date:</label>
+                            <div class="form-inline col-xs-8 col-xs-offset-2">
+                                <div class="form-group">
+                                    <select class="form-control" id="ex-month">
+                                        <option>January</option>
+                                        <option>February</option>
+                                        <option>March</option>
+                                        <option>April</option>
+                                        <option>May</option>
+                                        <option>June</option>
+                                        <option>July</option>
+                                        <option>August</option>
+                                        <option>September</option>
+                                        <option>October</option>
+                                        <option>November</option>
+                                        <option>December</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <select class="form-control" id="ex-year">
+                                        <option>2015</option>
+                                        <option>2016</option>
+                                        <option>2017</option>
+                                        <option>2018</option>
+                                        <option>2019</option>
+                                        <option>2020</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8 col-xs-offset-2">
+                                <div class="form-group">
+                                    <label for="cvv">Card CVV:</label>
+                                    <input type="text" class="form-control" id="cvv"
+                                           pattern="(?=.*[0-9a-zA-Z]).{3,}" title="Must contain 3 digits">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row">
+                        <button id="submit_card" type="button" class="btn btn-primary">Update</button>
+                    </div>
+                </div>
+
+                <div id="delete" class="container">
+                    <h2>Account Information</h2>
+                    <form role="form">
+                        <div class="row">
+                            <div class="col-xs-8 col-xs-offset-2">
+                                <label>Are you sure you want to delete your account?</label>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary">Delete</button>
                     </form>
                 </div>
             </div>
@@ -191,5 +182,8 @@
     </div>
 </div>
 <script src="/js/_accSetting.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-formhelpers/2.3.0/js/bootstrap-formhelpers.min.js"></script>
+<link rel="stylesheet" type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-formhelpers/2.3.0/css/bootstrap-formhelpers.min.css">
 
 </body>
