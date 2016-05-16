@@ -22,10 +22,60 @@ function accSetting() {
 
     });
 
-    function sendToServer(){
+    var _account = {
+        username:"",
+        first:"",
+        last:"",
+        email:"",
+        phone:"",
+        street:"",
+        city:"",
+        state:"",
+        zip:"",
+        cardName:"",
+        cardNumber:"",
+        cardMonth:"",
+        cardYear:"",
+        cardCVV:""
+    };
+
+    $('#submit_accInfo').click(function () {
+        _account.username= $('#usr').val();
+        _account.first= $('#fname').val();
+        _account.last= $('#lname').val();
+        _account.email= $('#email').val();
+        _account.phone= $('#phone').val();
+
+        sendToServer();
+    });
+
+    $('#submit_address').click(function () {
+        _account.street= $('#street').val();
+        _account.city= $('#city').val();
+        _account.state= $('#state').val();
+        _account.zip= $('#zip').val();
+
+        sendToServer();
+    });
+
+    $('#submit_card').click(function () {
+        _account.cardName= $('#cardName').val();
+        _account.cardNumber= $('#card').val();
+        _account.cardMonth= $('#month').val();
+        _account.cardYear= $('#year').val();
+        _account.cardCVV= $('#cvv').val();
+
+        sendToServer();
+    });
+
+    $('#submit_delete').click(function () {
+        sendToServer();
+    });
+
+        function sendToServer(){
         var info_to_send = {};
         info_to_send.id = $('#user-name').data('id');
-        info_to_send.list = _shopping;
+        info_to_send.list = _account;
         info_to_send.type = "send";
 
         //Simulation (alert or console.log to check for yourself)
