@@ -3,81 +3,123 @@
     <div class="row">
         <div class="col-xs-12">
             <h1 id="listName">Gary's Shopping List</h1>
-            <p>Phone: 123-456-7890</p>
+            <p id="phone">Phone: 123-456-7890</p>
 
-            <ul id="list">
-            </div>
-            <p id="left"></p>
-            <button type="button" data-toggle="collapse" data-target="#dropdown1" class=" btn-block btn-primary btn-lg">Special Notes<span
-                    class="caret"></span></button>
+            <ul id="driver-items"></ul>
         </div>
+        <p id="left"></p>
+        <button type="button" data-toggle="collapse" data-target="#dropdown1" class=" btn-block btn-primary btn-lg">
+            Special Notes<span class="caret"></span></button>
     </div>
-    <div id="dropdown1" class="collapse row">
-        <div class="col-xs-4"><input type="checkbox" class="check" value="cheap">Get the Cheapest one</div>
-        <div class="col-xs-4"><input type="checkbox" class="check" value="expensive">Get the most expensive
-            one
-        </div>
-        <div class="col-xs-4"><input type="checkbox" class="check" value="none">Don't get it</div>
-        <p class="col-xs-12">I want coconut juice from VITA COCO brand.</p>
+</div>
+<div id="dropdown1" class="collapse row">
+    <div class="col-xs-12"><input type="checkbox" class="check" value="cheap">Get the Cheapest one</div>
+    <div class="col-xs-12"><input type="checkbox" class="check" value="expensive">Get the most expensive
+        one
     </div>
-    <div class="row">
-        <div class="col-xs-12">
-            <button id="ready" type="button" class="btn-block btn-primary btn-lg">Ready For shipping!</button>
-        </div>
+    <div class="col-xs-12"><input type="checkbox" class="check" value="none">Don't get it</div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <button id="ready" type="button" class="btn-block btn-primary btn-lg">Ready For shipping!</button>
     </div>
+</div>
 </div>
 
 
 <script>
-    var arr = [];
-    var items = ["aa", "bb", "cc", "dd"];
 
-    for (var i = 0; i < items.length; i++) {
-        $("#driver-items").append('<div class="driveritem" id="item' + i + '" class="btn">' + items[i] + '</div>');
-    }
 
-    $(".driveritem").click(function () {
-        $(this).toggleClass("selected");
+    function _driverList_load() {
+        //Actual:
+        //loadFromServer();
 
-        arr = [];
-        $('.driveritem.selected').each(function () {
-            arr.push($(this).text());
-        });
+        //Simulation:
+        var simulated_user = {
+            id: 1234567,
+            name: "Bob",
+            items: ["aa", "bb", "cc", "dd"],
+            contact: 1234567890
+        };
+        displayLoadedData(simulated_user);
 
-        if ((items.length - arr.length) === 1) {
-            document.getElementById("left").innerHTML = (items.length - arr.length) + " item left";
-        }
-        else {
-            document.getElementById("left").innerHTML = (items.length - arr.length) + " items left";
-        }
-    });
+        function loadFromServer() {
+            var request = {
+                "type": "get",
+                "data": null
+            };
 
-    $(document).ready(function () {
-
-        document.getElementById("left").innerHTML = (items.length - arr.length) + " items left";
-
-        $("#ready").click(function () {
-            arr = [];
-            $('.driveritem.selected').each(function () {
-                arr.push($(this).text());
+            $.ajax({
+                type: "POST",
+                url: "/_driverList",
+                data: request,
+                success: function (data) {
+                    //data is the object sent back on success (could also just be string)
+                    displayLoadedData(data);
+                },
+                fail: function (data) {
+                    //data is the object send back on fail (could also just be string)
+                }
             });
+        }
 
-            if (arr.length != items.length) {
+        function displayLoadedData(data) {
+            var arr = [];
+            var items = data.items;
+
+            document.getElementById("listName").innerHTML = data.name + "'s Shopping List";
+            document.getElementById("phone").innerHTML = data.contact;
+            for (var i = 0; i < items.length; i++) {
+                $("#driver-items").append('<div class="driveritem" id="item' + i + '" class="btn">' + items[i] + '</div>');
+            }
+
+            $(".driveritem").click(function () {
+                $(this).toggleClass("selected");
+
+                arr = [];
+                $('.driveritem.selected').each(function () {
+                    arr.push($(this).text());
+                });
+
                 if ((items.length - arr.length) === 1) {
-                    var flag = confirm("You still have " + (items.length - arr.length) + " item left in the" +
-                            " shopping list, Are you sure to finish shopping now?");
+                    document.getElementById("left").innerHTML = (items.length - arr.length) + " item left";
                 }
                 else {
-                    var flag = confirm("You still have " + (items.length - arr.length) + " items left in the" +
-                            " shopping list, Are you sure to finish shopping now?");
+                    document.getElementById("left").innerHTML = (items.length - arr.length) + " items left";
                 }
-            }
+            });
 
-            if (arr.length === items.length || flag === true) {
-                alert("Succeed! Your customer will be notified soon.");
-            }
-        });
-    });
+            $(document).ready(function () {
+
+                document.getElementById("left").innerHTML = (items.length - arr.length) + " items left";
+
+                $("#ready").click(function () {
+                    arr = [];
+                    $('.driveritem.selected').each(function () {
+                        arr.push($(this).text());
+                    });
+
+                    if (arr.length != items.length) {
+                        if ((items.length - arr.length) === 1) {
+                            var flag = confirm("You still have " + (items.length - arr.length) + " item left in the" +
+                                    " shopping list, Are you sure to finish shopping now?");
+                        }
+                        else {
+                            var flag = confirm("You still have " + (items.length - arr.length) + " items left in the" +
+                                    " shopping list, Are you sure to finish shopping now?");
+                        }
+                    }
+
+                    if (arr.length === items.length || flag === true) {
+                        alert("Succeed! Your customer will be notified soon.");
+                    }
+                });
+            });
+
+        }
+    }
+
+    _driverList_load();
 </script>
 
 </body>
