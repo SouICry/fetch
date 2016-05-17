@@ -25,7 +25,7 @@ function _driving() {
 
     function displayLoadedData(data) {
         document.getElementById("listName").innerHTML = data.name + "'s Shopping List";
-        document.getElementById("phone").innerHTML = data.contact;
+        document.getElementById("phone").innerHTML = "Phone: " + data.contact;
     }
 
     $("#footerInfo, #footerBars").show();
