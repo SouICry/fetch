@@ -1,3 +1,5 @@
+_shopping();
+
 function _shopping() {
     // item count
     var count = 0;
@@ -103,6 +105,5 @@ function _shopping() {
     }
 }
 
-_shopping();
 
 

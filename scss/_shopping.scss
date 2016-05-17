@@ -32,9 +32,12 @@
   }
 
   #submit_list {
-    //text-align: center;
+    text-align: center;
     width: 33%;
     color: $fetchOrange;
+    border:0;
+    outline:none;
+    text-decoration: none;
   }
 
 }

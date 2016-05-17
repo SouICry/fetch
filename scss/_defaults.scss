@@ -92,6 +92,11 @@ h3 {
     background-color: rgba(255, 125, 65, 0.24);
   }
 
+  .selected{
+    text-decoration: line-through;
+    opacity: .5;
+  }
+
   #numItems {
     float: left;
     width: 33%;
