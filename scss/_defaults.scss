@@ -25,5 +25,87 @@ button{
   border: 0;
   background: none;
   font-size: 100%;
+  color: $fetchOrange;
+}
+
+
+h2, h4{
+  color: $fetchOrange;
+  margin:auto;
+}
+
+h2 {
+  margin-top: 3%;
+  color: #f36100;
+  opacity: .8;
+  font: 50px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 100;
+  text-align: center;
+}
+
+// this is for the box's around the shopping and driver list
+#box {
+  padding:0px;
+  margin: auto;
+  text-align: center;
+  width: 100%;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+  0 25px 50px 0 rgba(0, 0, 0, 0.1);
+
+  .input {
+    position: relative;
+    font-size: 24px;
+    //font-family: inherit;
+    //font-weight: inherit;
+    outline: none;
+    //color: inherit;
+    -webkit-font-smoothing: antialiased;
+    text-align: left;
+    border: none;
+    //background: #fff;
+    width: 100%;
+    line-height: 2;
+    text-indent:7%;
+  }
+
+
+  .item {
+    position: relative;
+    font-size: 24px;
+    border-top: 1px solid #ededed;
+    font-weight: bold;
+    width: 100%;
+    line-height: 2;
+  }
+
+  .item:hover {
+    background-color: rgba(255, 125, 65, 0.24);
+  }
+
+  #numItems {
+    float: left;
+    width: 33%;
+    //display: inline;
+  }
+
+  #list {
+    list-style: none;
+    background: #fff;
+    position: relative;
+    text-align: left;
+    //margin: 5% auto auto;
+    text-indent: 7%;
+  }
+
+  .todo-footer{
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+    0 25px 50px 0 rgba(0, 0, 0, 0.1);
+    margin: auto;
+    text-align: left;
+    border: 1px solid #ededed;
+    padding: 8px;
+    background: #fff;
+    line-height: 2;
+  }
 }
 

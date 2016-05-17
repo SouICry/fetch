@@ -17,10 +17,10 @@ function _shopping() {
             $('#list').prepend(newItem);
             count++;
             if (count == 1) {
-                $("#item").text("1 item");
+                $("#numItems").text("1 item");
             }
             else {
-                $("#item").text(count + " items");
+                $("#numItems").text(count + " items");
             }
 
             if (count != 0) {
@@ -45,13 +45,13 @@ function _shopping() {
 
         count--;
         if (count == 1) {
-            $("#item").text("1 item");
+            $("#numItems").text("1 item");
         }
         else if (count == 0) {
-            $("#item").text("");
+            $("#numItems").text("");
         }
         else {
-            $("#item").text(count + " items");
+            $("#numItems").text(count + " items");
         }
 
         if (count != 0) {
