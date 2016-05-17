@@ -26,10 +26,12 @@ button{
   background: none;
   font-size: 100%;
   color: $fetchOrange;
+  outline:none;
+  text-decoration: none;
 }
 
 
-h2, h4{
+h2, h3, h4{
   color: $fetchOrange;
   margin:auto;
 }
@@ -42,10 +44,18 @@ h2 {
   font-weight: 100;
   text-align: center;
 }
+h3 {
+  //margin-top: 3%;
+  color: #f36100;
+  opacity: .8;
+  font: 30px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 100;
+  text-align: center;
+}
 
 // this is for the box's around the shopping and driver list
 #box {
-  padding:0px;
+  padding:0;
   margin: auto;
   text-align: center;
   width: 100%;
