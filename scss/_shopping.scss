@@ -1,27 +1,12 @@
 #shopping {
-  html {
-    height: 100%;
-  }
 
-  body {
-    text-align: left;
-    position: relative;
-    justify-content: center;
-    /*margin: 30px 250px 30px 250px; */
-    font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    background: #fff;
-    color: #4d4d4d;
-    margin: 0 auto;
-    -webkit-font-smoothing: antialiased;
-    font-weight: 300;
-  }
 
-  h1, h4{
-    color: #211300;
+  h2, h4{
+    color: $fetchOrange;
     margin:auto;
   }
 
-  h1 {
+  h2 {
     margin-top: 3%;
     color: #f36100;
     opacity: .8;
@@ -30,24 +15,22 @@
     text-align: center;
   }
 
-  form {
-    margin-bottom: 0;
-  }
+
 
   .input {
     position: relative;
     font-size: 24px;
-    font-family: inherit;
-    font-weight: inherit;
+    //font-family: inherit;
+    //font-weight: inherit;
     outline: none;
-    color: inherit;
+    //color: inherit;
     -webkit-font-smoothing: antialiased;
     text-align: left;
     border: none;
-    background: #fff;
+    //background: #fff;
     width: 100%;
     line-height: 2;
-    padding-left: 15px;
+    text-indent:7%;
   }
 
   .btn-group {
@@ -60,7 +43,7 @@
     overflow: hidden;
   }
 
-  input:focus,
+  input:focus
   select:focus,
   textarea:focus,
   button:focus {
@@ -78,28 +61,30 @@
     line-height: 2;
   }
 
-  .footer2 {
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
-    0 25px 50px 0 rgba(0, 0, 0, 0.1);
-    margin-left: auto;
-    margin-right: auto;
-    width: 69%;
-    text-align: left;
-    border: 1px solid #ededed;
-    padding: 4px;
-    background-color: #fff;
-  }
+  #footerBars {
+    .footer2 {
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+      0 25px 50px 0 rgba(0, 0, 0, 0.1);
+      margin-left: auto;
+      margin-right: auto;
+      width: 99%;
+      text-align: left;
+      border: 1px solid #ededed;
+      padding: 4px;
+      background-color: #fff;
+    }
 
-  .footer3{
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
-    0 25px 50px 0 rgba(0, 0, 0, 0.1);
-    margin-left: auto;
-    margin-right: auto;
-    width: 68%;
-    text-align: left;
-    border: 1px solid #ededed;
-    padding: 3px;
-    background-color: #fff;
+    .footer3 {
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+      0 25px 50px 0 rgba(0, 0, 0, 0.1);
+      margin-left: auto;
+      margin-right: auto;
+      width: 98%;
+      text-align: left;
+      border: 1px solid #ededed;
+      padding: 3px;
+      background-color: #fff;
+    }
   }
 
   .todo-footer span{
@@ -112,10 +97,10 @@
     width: 33%
   }
 
-  #sub {
+  #submit_list {
     text-align: center;
     width: 33%;
-    color: #f36100;
+    color: $fetchOrange;
   }
 
   #item {
@@ -137,14 +122,15 @@
     background: #fff;
     position: relative;
     text-align: left;
-    margin: 5% auto auto;
+    //margin: 5% auto auto;
     text-indent: 7%;
   }
 
   #box {
+    padding:0px;
     margin: auto;
     text-align: center;
-    width: 70%;
+    width: 100%;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
     0 25px 50px 0 rgba(0, 0, 0, 0.1);
   }

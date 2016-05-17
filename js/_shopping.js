@@ -4,7 +4,7 @@ function _shopping() {
 
     var _shopping = [];
 
-    $("#container").hide();
+    $("#footerInfo, #footerBars").hide();
 
     //press enter
     $('#add-shopping-item').submit(function () {
@@ -24,10 +24,10 @@ function _shopping() {
             }
 
             if (count != 0) {
-                $("#container").show();
+                $("#footerInfo, #footerBars").show();
             }
             else {
-                $("#container").hide();
+                $("#footerInfo,#footerBars").hide();
             }
         }
         ;
@@ -55,10 +55,10 @@ function _shopping() {
         }
 
         if (count != 0) {
-            $("#container").show();
+            $("#footerInfo, #footerBars").show();
         }
         else {
-            $("#container").hide();
+            $("#footerInfo, #footerBars").hide();
         }
 
         var index = _shopping.indexOf($(this).text());
