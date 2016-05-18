@@ -1,23 +1,8 @@
 #rating-page {
-  h2 {
-    text-align: center;
+  span {
+    font-size: 4rem;
   }
-  img {
-    width: 100%;
-  }
-  .rating {
-    width: 21.5rem;
-    margin: auto;
-    span {
-      font-size: 3.2rem;
-      width: 4rem;
-    }
-    span.selected {
-      color: yellow;
-    }
-  }
-
-  a.btn {
-    width: 100%;
+  span.selected {
+    color: yellow;
   }
 }

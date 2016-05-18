@@ -1,110 +1,34 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-    <!--<meta charset="UTF-8">-->
-    <!--<title>Fetch|Avaliable tickets</title>-->
-    <!--<link rel="stylesheet" href="./scss/_tickets.scss">-->
-    <!--&lt;!&ndash; Latest compiled and minified CSS &ndash;&gt;-->
-    <!--<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">-->
 
-    <!--&lt;!&ndash; jQuery library &ndash;&gt;-->
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>-->
-
-    <!--&lt;!&ndash; Latest compiled JavaScript &ndash;&gt;-->
-    <!--<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>-->
-
-<!--</head>-->
 <body>
 <div id="tickets">
-<h1>Avaliable Tickets</h1>
-<div class="container-fluid">
-    <ul id="buttons">
-        <!--<div class="row" >-->
-            <!--<div class="col-sm-3">-->
-                <!--<li>-->
-                    <!--<button class="btn-warning">Ralph's</button>-->
-                <!--</li>-->
-            <!--</div>-->
-            <!--<div class="col-sm-3">-->
-                <!--<li>-->
-                    <!--<button class="btn-warning">TJ's</button>-->
-                <!--</li>-->
-            <!--</div>-->
-            <!--<div class="col-sm-3">-->
-                <!--<li>-->
-                    <!--<button class="btn-warning">WholeFood</button>-->
-                <!--</li>-->
-            <!--</div>-->
-            <!--<div class="col-sm-3">-->
-                <!--<li>-->
-                    <!--<button class="btn-warning">Vons</button>-->
-                <!--</li>-->
-            <!--</div>-->
-        <!--<li class="col-xs-3">-->
-        <li>
-            <button id = "R" class="btn-warning">Ralph's</button>
-        </li>
-        <!--<li class="col-xs-3">-->
-        <li>
-            <button id = "T" class="btn-warning">TJ's</button>
-        </li>
-        <!--<li class="col-xs-3">-->
-        <li>
-            <button id = "W" class="btn-warning">WholeFood</button>
-        </li>
-        <!--<li class="col-xs-3">-->
-        <li>
-            <button id = "V" class="btn-warning">Vons</button>
-        </li>
-        <!--</div>-->
-    </ul>
-</div>
+    <div class="row">
+        <div class="col-xs-12">
+        <h1 class="text-center">Avaliable Tickets</h1>
+            <div class="container">
+                <div class="text-center">
+                <div class="row">
+                <ul id="buttons" class="col-xs-12">
+                    <li class="col-xs-3">
+                        <div data-name="ralphs" class="store">Ralph's</div>
+                    </li>
+                    <li class="col-xs-3">
+                        <div data-name ="tjs" class="store">TJ's</div>
+                    </li>
+                    <li class="col-xs-3">
+                        <div data-name ="wholeFoods" class="store">WholeFoods</div>
+                    </li>
+                    <li class="col-xs-3">
+                        <div data-name ="vons" class="store">Vons</div>
+                    </li>
+                </ul>
+                </div>
+                </div>
+            </div>
     <div class="col-xs-12">
-    <ul id="thisone">
-
-        <script>
-            var arr = [];
-            var tickets = [{name: "WholeFood", time: "12:00 pm"},{name: "Ralph's", time: "5:00 pm"}, {name: "TJ's", time: "6:00 pm"},
-                {name: "Ralph's", time: "7:00 pm"}, {name: "Vons", time: "7:00 pm"}];
-
-            for (var i = 0; i < tickets.length; i++) {
-                $("#thisone").append('<li class = ' + tickets[i].name + '><button class="btn-block" name =' +tickets[i].name+ ' >' + tickets[i].name + ' <br> Estimate Deliver Time: ' + tickets[i].time + '</button></li>');
-            }
-
-            $(document).ready(function () {
-                $( ".btn-warning" ).each(function() {
-                    $( this ).click(function (){
-                        $( this ).toggleClass("selected");
-                        arr = [];
-                        $("#thisone").html("");
-
-                        $('.btn-warning.selected').each(function () {
-                            arr.push(this.innerHTML);
-                        });
-
-                        if(arr.length === 0){
-                            for (var i = 0; i < tickets.length; i++) {
-                                $("#thisone").append('<li class = ' + tickets[i].name + '><button class="btn-block" name =' +tickets[i].name+ ' >' + tickets[i].name + ' <br> Estimate Deliver Time: ' + tickets[i].time + '</button></li>');
-                            }
-                        }
-                        else {
-                            for (var j = 0; j < arr.length; j++) {
-                                for (var i = 0; i < tickets.length; i++) {
-                                    if (arr[j] === tickets[i].name) {
-                                        $("#thisone").append('<li class = ' + tickets[i].name + '><button class="btn-block" name =' + tickets[i].name + ' >' + tickets[i].name + ' <br> Estimate Deliver Time: ' + tickets[i].time + '</button></li>');
-                                    }
-                                }
-                            }
-                        }
-                    })
-                });
-            });
-
-        </script>
-    </ul>
+    <ul id="tickets_content" class = "text-center"></ul>
+            </div>
+        </div>
     </div>
 </div>
+<script type="text/javascript", src="/js/_tickets.js"></script>
 </body>
-</html>

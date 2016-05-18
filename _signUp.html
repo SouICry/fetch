@@ -1,20 +1,62 @@
-
 <body>
-<link rel="stylesheet" href="scss/_login.scss">
+
 <div class="container">
-    <h2 class="form-signin-heading">Fetch Sign-Up</h2>
-    <input type="text" class="form-control" name="Email" placeholder="User Email" required="" autofocus="" />
-    <br>
-    <input type="text" class="form-control" name="username" placeholder="User Name" required="" autofocus="" />
-    <br>
-    <input type="password" class="form-control" name="password" placeholder="Password" required=""/>
-    <br>
-    <br>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign-Up</button>
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-lg-4 col-md-offset-3 col-lg-offset-4">
+        <h2 class="form-signin-heading">Fetch Sign-Up</h2><br>
+        <input type="email" class="form-control" name="email" placeholder="Your email" id="Email" required="" autofocus=""/><br>
+        <input type="text" class="form-control" name="username" placeholder="Your name" id="user-name" required="" autofocus=""/><br>
+        <input type="tel" class="form-control" name="usrtel" placeholder="Your phone number" id="phone" required=""/><br>
+        <input type="password" class="form-control" name="password" placeholder="Create a password" id="pass" required=""/><br>
+        <input type="password" class="form-control" name="password" placeholder="Confirm your password" id="re-pass" required=""/><br>
+        <button class="btn btn-lg btn-warning btn-block" id="signup" type="submit">Sign-Up</button><br>
+        </div>
+    </div>
 </div>
+<script>
+    $('#signup').prop('disabled',true);
+    $('#Email,#user-name,#pass,#re-pass').keyup(function(){
+        if($('#user-name').val()&& $('#pass').val()&& $('#Email').val()&& $('#re-pass').val() && $('#phone').val() && ($('#pass').val() == $('#re-pass').val())) {
+            $('#signup').prop('disabled',false);
 
+        }
+        else{
+            $('#signup').prop('disabled',true);
+        }
+    });
+    $('#signup').click(function () {
 
+        sendToServer();
 
+    });
 
+    function sendToServer(){
+        var info_to_send = {};
+        info_to_send.email= $('#Email').val()
+        info_to_send.name = $('#user-name').val();
+        info_to_send.password = $('#pass').val();
+        info_to_send.phone_number = $('#phone').val();
+        info_to_send.type = "get";
+
+        //Simulation (alert or console.log to check for yourself)
+        alert(JSON.stringify(info_to_send));
+
+        //Actual
+        $.ajax({
+            type: "POST",
+            url: "/_signUp",
+            data: info_to_send,
+            success: function(data){
+                //data is the object sent back on success (could also just be string)
+                alert("Congrats!");
+            },
+            fail: function(data){
+                alert("fail");
+                //data is the object send back on fail (could also just be string)
+            }
+        });
+    }
+
+</script>
 
 </body>
