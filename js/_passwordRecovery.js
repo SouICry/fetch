@@ -5,16 +5,16 @@
 
 
 
-$("#submit_btn ").prop("disabled", true);
+$("#submit_email ").prop("disabled", true);
 
 
 $("#eMail").keyup(function(){
 
     if($('#eMail').val()){
-        $("#submit_btn ").prop("disabled", false);
+        $("#submit_email ").prop("disabled", false);
     }
     if(!$('#eMail').val()){
-        $("#submit_btn ").prop("disabled", true);
+        $("#submit_email ").prop("disabled", true);
     }
 });
 
