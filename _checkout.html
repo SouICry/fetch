@@ -1,20 +1,20 @@
 <body>
-<div id="checkouts">
+<div id="checkout">
     <div class="container-fluid text-center row">
         <div class="col-xs-2"></div>
         <div class="col-xs-8">
             <h1>Checkout</h1>
 
             <h4>If driver cannot locate your specific item, buy... </h4>
-            <div class="list-group" data-toggle="buttons">
+            <div class="list-group" id="notes" data-toggle="buttons">
                 <label class="btn list-group-item active">
-                    <input type="radio" name="options" id="option1" autocomplete="off" checked>Cheapest option
+                    <input type="radio" name="specialnotes" id="option1" value="cheapest" autocomplete="off" checked>Cheapest option
                 </label>
                 <label class="btn list-group-item">
-                    <input type="radio" name="options" id="option2" autocomplete="off">Most expensive option
+                    <input type="radio" name="specialnotes" id="option2" value="expensive" autocomplete="off">Most expensive option
                 </label>
                 <label class="btn list-group-item">
-                    <input type="radio" name="options" id="option3" autocomplete="off">Nothing
+                    <input type="radio" name="specialnotes" id="option3" value="none" autocomplete="off">Nothing
                 </label>
             </div>
 
@@ -68,11 +68,13 @@
             </div>
 
             <div class="row" style="text-align: center">
-                <button type="button" class="btn btn-default">Continue</button>
-                <a href="/account.html" class="btn btn-default" role="button">Close</a>
+                <button type="button" id="submitcheckout" class="btn btn-default">Continue</button>
+                <a href="/_homePage.html" class="btn btn-default" role="button">Close</a>
             </div>
 
         </div>
     </div>
 </div>
+
+<script src="js/_checkout.js"></script>
 </body>

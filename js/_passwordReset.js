@@ -2,9 +2,9 @@
  * Created by tylercuddy on 5/10/16.
  */
 
-$(document).ready(function(){
-    $("#submit ").prop("disabled", true);
-});
+// $(document).ready(function(){
+    $("#submitPass").prop("disabled", true);
+// });
 
 function checkPass()
 {
@@ -27,15 +27,43 @@ function checkPass()
         message.style.color = goodColor;
         message.innerHTML = "Passwords Match!"
 
-        $("#submit").prop("disabled", false);
+        $("#submitPass").prop("disabled", false);
     }else{
         //The passwords do not match.
         //Set the color to the bad color and
         //notify the user.
 
         // pass2.style.backgroundColor = badColor;
-        $("#submit").prop("disabled", true);
+        $("#submitPass").prop("disabled", true);
         message.style.color = badColor;
         message.innerHTML = "Passwords Do Not Match!"
     }
+}
+
+$('#submitPass').click(function () {
+    sendToServer();
+});
+
+function sendToServer() {
+    var info_to_send = {};
+    info_to_send.pass = $('#pass1').val();;
+    info_to_send.type = "send";
+
+    //Simulation (alert or console.log to check for yourself)
+    alert(JSON.stringify(info_to_send));
+
+    //Actual
+    $.ajax({
+        type: "POST",
+        url: "/_rating",
+        data: info_to_send,
+        success: function (data) {
+            //data is the object sent back on success (could also just be string)
+            alert("congrats!");
+        },
+        fail: function (data) {
+            alert("congrats!");
+            //data is the object send back on fail (could also just be string)
+        }
+    });
 }

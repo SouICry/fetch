@@ -1,11 +1,12 @@
-// add item
-$(document).ready(function () {
+_shopping();
+
+function _shopping() {
     // item count
     var count = 0;
 
     var _shopping = [];
 
-    $("#container").hide();
+    $("#footerInfo, #footerBars").hide();
 
     //press enter
     $('#add-shopping-item').submit(function () {
@@ -18,18 +19,17 @@ $(document).ready(function () {
             $('#list').prepend(newItem);
             count++;
             if (count == 1) {
-                $("#item").text("1 item");
+                $("#numItems").text("1 item");
             }
             else {
-                $("#item").text(count + " items");
+                $("#numItems").text(count + " items");
             }
-
 
             if (count != 0) {
-                $("#container").show();
+                $("#footerInfo, #footerBars").show();
             }
             else {
-                $("#container").hide();
+                $("#footerInfo,#footerBars").hide();
             }
         }
         ;
@@ -47,20 +47,20 @@ $(document).ready(function () {
 
         count--;
         if (count == 1) {
-            $("#item").text("1 item");
+            $("#numItems").text("1 item");
         }
         else if (count == 0) {
-            $("#item").text("");
+            $("#numItems").text("");
         }
         else {
-            $("#item").text(count + " items");
+            $("#numItems").text(count + " items");
         }
 
         if (count != 0) {
-            $("#container").show();
+            $("#footerInfo, #footerBars").show();
         }
         else {
-            $("#container").hide();
+            $("#footerInfo, #footerBars").hide();
         }
 
         var index = _shopping.indexOf($(this).text());
@@ -74,9 +74,10 @@ $(document).ready(function () {
 
 
     $('#submit_list').click(function () {
-        if (_shopping !== []) {
+        if (_shopping != []) {
             sendToServer();
         }
+        loader.next();
     });
 
     function sendToServer(){
@@ -102,6 +103,7 @@ $(document).ready(function () {
             }
         });
     }
-});
+}
+
 
 
