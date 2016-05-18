@@ -243,41 +243,41 @@ passport.deserializeUser(function (id, done) {
 
 // Routes
 
-app.get('/_login', function (req, res) {
-    res.render('_login', {
-        user: req.user
-    });
-});
+// app.get('/_login', function (req, res) {
+//     res.render('_login', {
+//         user: req.user
+//     });
+// });
 
-app.get('/_signUp', function (req, res) {
-    res.render('/_signUp', {
-        user: req.user
-    });
-});
+// app.get('/_signUp', function (req, res) {
+//     res.render('/_signUp', {
+//         user: req.user
+//     });
+// });
 
-app.get('/logout', function (req, res) {
-    req.logout();
-    res.redirect('/');
-});
+// app.get('/logout', function (req, res) {
+//     req.logout();
+//     res.redirect('/');
+// });
 
 
-app.get('/forgot', function (req, res) {
-    res.render('forgot', {
-        user: req.user
-    });
-});
+// app.get('/forgot', function (req, res) {
+//     res.render('forgot', {
+//         user: req.user
+//     });
+// });
 
-app.get('/reset/:token', function (req, res) {
-    User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now()}}, function (err, user) {
-        if (!user) {
-            req.flash('error', 'Password reset token is invalid or has expired.');
-            return res.redirect('/forgot');
-        }
-        res.render('reset', {
-            user: req.user
-        });
-    });
-});
+// app.get('/reset/:token', function (req, res) {
+//     User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now()}}, function (err, user) {
+//         if (!user) {
+//             req.flash('error', 'Password reset token is invalid or has expired.');
+//             return res.redirect('/forgot');
+//         }
+//         res.render('reset', {
+//             user: req.user
+//         });
+//     });
+// });
 
 
 app.post('/_signUp', passport.authenticate('signup',
