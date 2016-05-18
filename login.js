@@ -15,7 +15,6 @@ app.post('login',function(req, res) {
                 bcrypt.compare(password, item.password_hash, function(err, result) {
                     assert(null, err);
 
-                    // TODO: what to do after successful/bad login
                     if (result) {
                         res.send("success");
                         //

@@ -4,18 +4,15 @@ block content
     form(method='POST')
         legend Signup
         .form-group
-            label(for='username') First Name
-            input.form-control(type='text', name='first_name', autofocus)
-        .form-group
-            label(for='username') Last Name
-            input.form-control(type='text', name='last_name', autofocus)
+            label(for='full_name') Full Name
+            input.form-control(type='text', name='full_name', autofocus)
         .form-group
             label(for='email') Email
             input.form-control(type='text', name='email')
         .form-group
-            label(for='password') Password
-            input.form-control(type='password', name='password')
+            label(for='phone_number') Phone Number
+            input.form-control(type='text', name='phone_number')
         .form-group
-            label(for='confirm') Confirm Password
-            input.form-control(type='password', name='confirm')
+            label(for='password') Password
+            input.form-control(type='text', name='password')
         button.btn.btn-primary(type='submit') Signup
