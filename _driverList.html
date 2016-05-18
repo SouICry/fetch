@@ -13,113 +13,21 @@
     </div>
 </div>
 <div id="dropdown1" class="collapse row">
-    <div class="col-xs-12"><input type="checkbox" class="check" value="cheap">Get the Cheapest one</div>
-    <div class="col-xs-12"><input type="checkbox" class="check" value="expensive">Get the most expensive
-        one
+    <div class="text-center">
+        <div class="col-xs-12"><input type="checkbox" class="check" value="cheap" id = "cheap">Get the Cheapest one</div>
+        <div class="col-xs-12"><input type="checkbox" class="check" value="expensive" id="expensive">Get the most expensive
+            one</div>
+        <div class="col-xs-12"><input type="checkbox" class="check" value="none" id="none">Don't get it</div>
     </div>
-    <div class="col-xs-12"><input type="checkbox" class="check" value="none">Don't get it</div>
 </div>
 <div class="row">
     <div class="col-xs-12">
-        <button id="ready" type="button" class="btn-block btn-primary btn-lg">Ready For shipping!</button>
+        <button id="ready" type="button" class="btn-block">Ready For shipping!</button>
     </div>
 </div>
 </div>
 
 
-<script>
-
-
-    function _driverList_load() {
-        //Actual:
-        //loadFromServer();
-
-        //Simulation:
-        var simulated_user = {
-            id: 1234567,
-            name: "Bob",
-            items: ["aa", "bb", "cc", "dd"],
-            contact: 1234567890
-        };
-        displayLoadedData(simulated_user);
-
-        function loadFromServer() {
-            var request = {
-                "type": "get",
-                "data": null
-            };
-
-            $.ajax({
-                type: "POST",
-                url: "/_driverList",
-                data: request,
-                success: function (data) {
-                    //data is the object sent back on success (could also just be string)
-                    displayLoadedData(data);
-                },
-                fail: function (data) {
-                    //data is the object send back on fail (could also just be string)
-                }
-            });
-        }
-
-        function displayLoadedData(data) {
-            var arr = [];
-            var items = data.items;
-
-            document.getElementById("listName").innerHTML = data.name + "'s Shopping List";
-            document.getElementById("phone").innerHTML = data.contact;
-            for (var i = 0; i < items.length; i++) {
-                $("#driver-items").append('<div class="driveritem" id="item' + i + '" class="btn">' + items[i] + '</div>');
-            }
-
-            $(".driveritem").click(function () {
-                $(this).toggleClass("selected");
-
-                arr = [];
-                $('.driveritem.selected').each(function () {
-                    arr.push($(this).text());
-                });
-
-                if ((items.length - arr.length) === 1) {
-                    document.getElementById("left").innerHTML = (items.length - arr.length) + " item left";
-                }
-                else {
-                    document.getElementById("left").innerHTML = (items.length - arr.length) + " items left";
-                }
-            });
-
-            $(document).ready(function () {
-
-                document.getElementById("left").innerHTML = (items.length - arr.length) + " items left";
-
-                $("#ready").click(function () {
-                    arr = [];
-                    $('.driveritem.selected').each(function () {
-                        arr.push($(this).text());
-                    });
-
-                    if (arr.length != items.length) {
-                        if ((items.length - arr.length) === 1) {
-                            var flag = confirm("You still have " + (items.length - arr.length) + " item left in the" +
-                                    " shopping list, Are you sure to finish shopping now?");
-                        }
-                        else {
-                            var flag = confirm("You still have " + (items.length - arr.length) + " items left in the" +
-                                    " shopping list, Are you sure to finish shopping now?");
-                        }
-                    }
-
-                    if (arr.length === items.length || flag === true) {
-                        alert("Succeed! Your customer will be notified soon.");
-                    }
-                });
-            });
-
-        }
-    }
-
-    _driverList_load();
-</script>
+<script type="text/javascript" src = "/js/_driverList.js"></script>
 
 </body>
