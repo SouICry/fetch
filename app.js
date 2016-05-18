@@ -145,14 +145,14 @@ passport.use('login', new LocalStrategy(
 
                 // User with email passed in not found
                 if (!user)
-                    return done(null, false, {'message': 'User with email \'' + email + '\' not found.'});
+                    return done(null, false, {message: 'User with email \'' + email + '\' not found.'});
 
                 // Passwords do not match
                 if (!user.comparePassword(password))
-                    return done(null, false, {'message': 'Incorrect password.'});
+                    return done(null, false, {message: 'Incorrect password.'});
 
                 // Successful login
-                return done(null, user);
+                return done(null, user, {message: 'successful login'});
             });
         });
     }
@@ -183,10 +183,10 @@ passport.use('signup', new LocalStrategy(
         date = mm + '/' + dd + '/' + yyyy;
 
         if (!validEmail(email))
-            return done(null, false);
+            return done(null, false, {message: 'invalid email format'});
 
         if (!validPhoneNumber(req.body.phone_number))
-            return done(null, false);
+            return done(null, false, {message: 'invalid phone number format'});
 
         console.log(email);
 
@@ -199,8 +199,7 @@ passport.use('signup', new LocalStrategy(
                 }
                 // If user exists, dont make new user
                 if (user) {
-                    console.log('user already exists');
-                    return done(null, false);
+                    return done(null, false, {message: 'user already exists'});
                 }
                 else {
                     var newUser = new User({
@@ -222,7 +221,7 @@ passport.use('signup', new LocalStrategy(
                         if (err)
                             return done(null, false);
                     });
-                    return done(null, newUser);
+                    return done(null, newUser, {message: 'successful signup'});
                 }
             });
         });
@@ -263,28 +262,30 @@ passport.deserializeUser(function (id, done) {
 
 app.post('/_signUp', function(req, res, next) {
     passport.authenticate('signup', function(err, user, info) {
+        console.log(info.message);
+
         if (!user) {
-            console.log('failed to sign up user');
             res.status(500);
-            res.send('error signup');
-        } else {
-            console.log('successful signup!');
-            res.redirect('/_homePage.html');
+            res.send(info.message);
+        }
+        else {
+            res.send(user);
+            //res.redirect('/_homePage.html');
         }
     })(req, res, next);
 });
 
 app.post('/_login', function(req, res, next) {
     passport.authenticate('login', function(err, user, info) {
-        console.log('INFO: ');
-        req.flash(info);
+        console.log(info.message);
+
         if (!user) {
-            console.log('failed to login user');
             res.status(500);
-            res.send('error login');
+            res.send(info.message);
         } else {
-            console.log('successful login!');
-            res.redirect('/_homePage.html');
+            res.send(user);
+            // Why doesn't redirecting work?
+            //res.redirect('/_homePage.html');
         }
     })(req, res, next);
 });
