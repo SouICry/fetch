@@ -143,7 +143,6 @@ passport.use('signup', new LocalStrategy(
         passReqToCallback: true // allows us to pass back the entire request to the callback
     },
     function (req, email, password, done) { // all other input fields are in req.body
-        console.log("HELLOW");
         var date = new Date();
         console.log(date);
         var dd = date.getDate();
@@ -203,6 +202,7 @@ passport.deserializeUser(function (id, done) {
 // Routes
 app.get('/', function (req, res) {
     res.render('index', {title: 'Express', user: req.user});
+    //res.render('_signUp', {title: 'SignUp', user: req.user});
 });
 
 app.get('/login', function (req, res) {
@@ -211,8 +211,8 @@ app.get('/login', function (req, res) {
     });
 });
 
-app.get('/signup', function (req, res) {
-    res.render('signup', {
+app.get('/_signUp.html', function (req, res) {
+    res.render('/_signUp.html', {
         user: req.user
     });
 });
@@ -285,10 +285,10 @@ app.get('/reset/:token', function (req, res) {
 //     });
 // });
 
-app.post('/signup', passport.authenticate('signup',
+app.post('/_signUp.html', passport.authenticate('signup',
     {
         successRedirect: '/',
-        failureRedirect: '/signup',
+        failureRedirect: '/_signUp.html',
         failureFlash: true
     }
 ));
