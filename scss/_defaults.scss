@@ -1,8 +1,15 @@
 
 $fetchOrange: #f36100;
 
-body {
+* {
+  overflow: hidden;
+}
+
+body, html {
   background-color: #ffffff;
+  overflow: visible;
+  width: 100vw;
+  height: 100vh;
   //min-width:460px;
 }
 

@@ -1,0 +1,22 @@
+<button onclick="notifyMe()">test</button>
+
+<script>
+    function notifyMe(text) {
+    if (!("Notification" in window) || window.innerWidth < 800) {
+        //No notification
+    }
+    else if (Notification.permission === "granted") {
+        var notification = new Notification(text);
+    }
+    else if (Notification.permission !== 'denied') {
+        Notification.requestPermission(function (permission) {
+            if (permission === "granted") {
+                var notification = new Notification(text);
+            }
+        });
+    }
+
+    var audio = new Audio('notify.mp3');
+    audio.play();
+}
+</script>
