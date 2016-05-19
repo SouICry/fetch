@@ -1,5 +1,6 @@
 .cd-panel-container{
   background-color: #2E3233;
+  overflow-y: scroll;
 
 }
 .cd-main-content{
@@ -46,7 +47,8 @@ button:focus {
   }
 }
 #Butt{
-  margin-top:8%;
+  margin-top:50px;
+  overflow-y: auto;
   div{
     cursor: pointer;
     width:100%;

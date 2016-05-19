@@ -14,7 +14,7 @@
 
     <script src="js/loader.js"></script>
 </head>
-<body>
+<body style="overflow: hidden; position: relative;">
 
 
 <div id="User">
@@ -22,7 +22,7 @@
         <div class="row">
             <div class="col-xs-3"></div>
             <div id="Fetch" class="col-xs-6" style="text-align:center">
-                <div id="title">Fetchaaaaaaaaaaaaaa</div>
+                <div id="title">Fetch</div>
             </div>
 
             <div id="Glyph" class="col-xs-3">
@@ -34,28 +34,12 @@
 </div>
 
 
-<style>
-    #page-content {
-        height: calc(100vh - 50px);
-        margin-top: 50px;
-    }
-
-    #above {
-        width: 100%;
-        height: 100%;
-        overflow: scroll;
-    }
-</style>
-<div id="page-content">
-    <div id="abovePages">
-
-    </div>
-    <div id="userTickets"></div>
-    <div id="driverTickets"></div>
-    <div id="createTicket"></div>
-    <div id="acceptTicket"></div>
-    <div id="confirmTicket"></div>
-    <div id="driverFlow"></div>
+<div id="page-content" style="overflow-x: visible">
+    <div id="abovePages" class="hidden"></div>
+    <div id="createTicket" class=""></div>
+    <div id="acceptTicket" class="hidden"></div>
+    <div id="confirmTicket" class="hidden"></div>
+    <div id="driverFlow" class="hidden"></div>
 </div>
 
 <div id="menu-drawer" class="cd-panel from-right" style="z-index: 3000">
@@ -67,6 +51,8 @@
     <div class="cd-panel-container">
         <div class="cd-panel-content">
             <div id="Butt">
+
+
                 <div id="COG" data-link='/_accSetting.html' class="sign"><span
                         class="glyphicon glyphicon-cog"></span>Setting
                 </div>
@@ -107,18 +93,42 @@
 
 <script>
 
-    function loadPage(pageName, element){
+    function setFlowVisible(which){
+
+        $("#page-content").children().each(function(){
+            if ($(this).data("ownId") != which){
+                $(this).addClass("hidden");
+            }
+        });
+        $('#' + which).removeClass("hidden");
+    }
+
+    function goToPage(id){
+
+        var item = $('#' + id);
+        var parent = $(item).data('parent');
+        setFlowVisible(parent);
+        $("#" + parent).css('transform', 'translateX(-' + $(item).data("pos") * window.innerWidth + 'px)')
+    }
+
+    window.onhashchange = function(){
+        goToPage(window.location.hash.substring(1));
+    };
+
+    function loadPage(pageName, element, index) {
         $.ajax({
             type: "POST",
             url: "/loadPage",
-            data: pageName,
+            data: {name: pageName},
             success: function (data) {
-                $(element).append("<div id='" + pageName +"'>" + data + "</div>");
+                $(element).append("<div id='" + pageName + "' data-ownId='" + pageName +"' data-pos='" + index + "' data-parent='" + element.substring(1) + "'>" + data + "</div>");
             }
         });
     }
 
     $(document).ready(function () {
+
+
         var abovePages = ["_accSetting", "_contact", "_history", "_passwordRecovery", "_passwordReset", "_signUp", "_login"];
 
         var createTicket = ["_homePage", "_shopping", "_checkout", "_submitted"];
@@ -127,24 +137,35 @@
 
         var driverFlow = ['_tickets', '_driverList', '_confirmCompletion', '_completeTicket', '_rating', '_congrats'];
 
-        loadPage("_driverTickets", $('#driverTickets'));
-        loadPage("_userTickets", $('#userTickets'));
+        loadPage("_driverTickets", '#driverTickets');
+        loadPage("_userTickets", '#userTickets');
 
         var i;
-        for (i = 0; i < abovePages.length; i++){
-            loadPage(abovePages[i], $('#abovePages'));
+        var whichid;
+        for (i = 0; i < abovePages.length; i++) {
+            whichid = abovePages[i];
+            loadPage(whichid, '#abovePages', i);
+            $('#Butt').prepend("<div data-link='/#"+whichid+"' class='sign'>" + whichid + "</div>");
         }
-        for (i = 0; i < createTicket.length; i++){
-            loadPage(createTicket[i], $('#createTicket'));
+        for (i = 0; i < createTicket.length; i++) {
+            whichid = createTicket[i];
+            loadPage(createTicket[i], '#createTicket', i);
+            $('#Butt').prepend("<div data-link='/#"+whichid+"' class='sign'>" + whichid + "</div>");
         }
-        for (i = 0; i < acceptTicket.length; i++){
-            loadPage(acceptTicket[i], $('#acceptTicket'));
+        for (i = 0; i < acceptTicket.length; i++) {
+            whichid = acceptTicket[i];
+            loadPage(acceptTicket[i], '#acceptTicket', i);
+            $('#Butt').prepend("<div data-link='/#"+whichid+"' class='sign'>" + whichid + "</div>");
         }
-        for (i = 0; i < confirmTicket.length; i++){
-            loadPage(confirmTicket[i], $('#confirmTicket'));
+        for (i = 0; i < confirmTicket.length; i++) {
+            whichid = confirmTicket[i];
+            loadPage(confirmTicket[i], '#confirmTicket', i);
+            $('#Butt').prepend("<div data-link='/#"+whichid+"' class='sign'>" + whichid + "</div>");
         }
-        for (i = 0; i < driverFlow.length; i++){
-            loadPage(driverFlow[i], $('#driverFlow'));
+        for (i = 0; i < driverFlow.length; i++) {
+            whichid = driverFlow[i];
+            loadPage(driverFlow[i], '#driverFlow', i);
+            $('#Butt').prepend("<div data-link='/#"+whichid+"' class='sign'>" + whichid + "</div>");
         }
         //TODO: app.js handler
 
