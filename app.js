@@ -54,7 +54,6 @@ app.get('/*', function (req, res) {
 });
 
 
-
 var email_regex = /.*@ucsd.edu/;
 
 // TODO: verify phone # by stripping all chars except digits
@@ -259,6 +258,16 @@ passport.deserializeUser(function (id, done) {
 // });
 
 
+app.post('/template', function(req, res, next) {
+    console.log('hello??');
+    if (req.body.logoff) {
+        req.logout();
+        console.log('logged out');
+        console.log(req.session);
+        res.send(req.session);
+    }
+});
+
 
 app.post('/_signUp', function(req, res, next) {
     passport.authenticate('signup', function(err, user, info) {
@@ -269,6 +278,15 @@ app.post('/_signUp', function(req, res, next) {
             res.send(info.message);
         }
         else {
+            user.save(function(err) {
+                req.login(user, function(err){
+                    if (err) {
+                        //return next(err);
+                        console.log('login failed: ', err)
+                        res.status(500);
+                    }
+                });
+            });
             res.send(user);
             //res.redirect('/_homePage.html');
         }
@@ -277,12 +295,24 @@ app.post('/_signUp', function(req, res, next) {
 
 app.post('/_login', function(req, res, next) {
     passport.authenticate('login', function(err, user, info) {
-        console.log(info.message);
+        console.log('login session:');
+        console.log(req.session);
+        //console.log(info.message);
 
         if (!user) {
             res.status(500);
             res.send(info.message);
         } else {
+
+            req.login(user, function(err) {
+                if (err) {
+                    console.log('failed login: ', err);
+                    res.status(500);
+                    res.send(err);
+                }
+            });
+
+            console.log(req.session);
             res.send(user);
             // Why doesn't redirecting work?
             //res.redirect('/_homePage.html');
