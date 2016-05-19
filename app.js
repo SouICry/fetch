@@ -33,23 +33,8 @@ app.use(passport.session());
 app.use(express.static('public'));
 
 
-
-//This responds with "Hello World" on the homepage
-// app.get('/', function (req, res) {
-//     res.send("<script>window.location.href = 'template.html' </script>");
-// });
-
-// app.post('/', function (req, res) {
-//     fs.readFile(req.body.name, 'utf8', function (err, data) {
-//         if (err) {
-//             return console.log(err);
-//         }
-//         res.send(data.substring(data.indexOf("<body>") + 6, data.indexOf("</body>")));
-//     });
-// });
-
 app.get('/*', function (req, res) {
-    if ((req.originalUrl).indexOf(".html") > 0 && (req.originalUrl).indexOf("login") < 0) {
+    if ((req.originalUrl).indexOf(".html") > 0) {
         fs.readFile(__dirname + "/template.html", 'utf8', function (err, data) {
             if (err) {
                 console.log(err);
@@ -69,11 +54,12 @@ app.get('/*', function (req, res) {
 });
 
 
-
 var email_regex = /.*@ucsd.edu/;
+
+// TODO: verify phone # by stripping all chars except digits
 var phone_number_regex = /\d{3}-\d{3}-\d{4}/;
 
-// Set up schema
+// Set up schema for users
 var userSchema = new mongoose.Schema(
     {
         full_name: {type: String, required: true, unique: false},
@@ -117,6 +103,7 @@ userSchema.methods.comparePassword = function (password) {
     return bcrypt.compareSync(password, this.password);
 };
 
+// Used to check if valid email format
 var validEmail = function(email) {
     if (!email_regex.test(email)) {
         console.log('invalid email format');
@@ -125,6 +112,7 @@ var validEmail = function(email) {
     return true;
 };
 
+// Used to check if valid phone number format
 var validPhoneNumber = function(phone_number) {
     if (!phone_number_regex.test(phone_number)) {
         console.log('invalid phone format');
@@ -139,6 +127,7 @@ var User = mongoose.model('User', userSchema, 'users');
 
 // Connect to db
 mongoose.connect(mongodb_url);
+
 
 // To check for login
 passport.use('login', new LocalStrategy(
@@ -155,19 +144,20 @@ passport.use('login', new LocalStrategy(
 
                 // User with email passed in not found
                 if (!user)
-                    return done(null, false, {'message': 'User with email \'' + email + '\' not found.'});
+                    return done(null, false, {message: 'User with email \'' + email + '\' not found.'});
 
                 // Passwords do not match
                 if (!user.comparePassword(password))
-                    return done(null, false, {'message': 'Incorrect password.'});
+                    return done(null, false, {message: 'Incorrect password.'});
 
                 // Successful login
-                return done(null, user);
+                return done(null, user, {message: 'successful login'});
             });
         });
     }
 ));
 
+// For signup
 passport.use('signup', new LocalStrategy(
     {
         usernameField: 'email', // Change username field to email
@@ -175,6 +165,11 @@ passport.use('signup', new LocalStrategy(
         passReqToCallback: true // allows us to pass back the entire request to the callback
     },
     function (req, email, password, done) { // all other input fields are in req.body
+        if (password.length === 0) {
+            console.log('Password has length 0');
+            return done(null, false);
+        }
+
         var date = new Date();
         var dd = date.getDate();
         var mm = date.getMonth() + 1;
@@ -187,21 +182,23 @@ passport.use('signup', new LocalStrategy(
         date = mm + '/' + dd + '/' + yyyy;
 
         if (!validEmail(email))
-            return done(null, false, {'message': 'Invalid email format your_ucsd_email@ucsd.edu'});
+            return done(null, false, {message: 'invalid email format'});
 
         if (!validPhoneNumber(req.body.phone_number))
-            return done(null, false, {'message': 'Invalid phone format ###-###-####'});
+            return done(null, false, {message: 'invalid phone number format'});
 
         console.log(email);
 
         process.nextTick(function() {
             User.findOne({'email': email}, function(err, user) {
-                assert.equal(err, null);
 
+                if (err) {
+                    console.log('Error: ', err);
+                    return done(err);
+                }
                 // If user exists, dont make new user
                 if (user) {
-                    console.log('user already exists');
-                    return done(null, false, {'message': 'User with email \'' + email + '\' already exists!'});
+                    return done(null, false, {message: 'user already exists'});
                 }
                 else {
                     var newUser = new User({
@@ -220,16 +217,15 @@ passport.use('signup', new LocalStrategy(
 
 
                     newUser.save(function(err) {
-                        assert.equal(null, err);
-                        return done(null, newUser);
+                        if (err)
+                            return done(null, false);
                     });
+                    return done(null, newUser, {message: 'successful signup'});
                 }
             });
         });
     }
 ));
-
-
 
 passport.serializeUser(function (user, done) {
     done(null, user.id);
@@ -243,30 +239,12 @@ passport.deserializeUser(function (id, done) {
 
 // Routes
 
-// app.get('/_login', function (req, res) {
-//     res.render('_login', {
-//         user: req.user
-//     });
-// });
-
-// app.get('/_signUp', function (req, res) {
-//     res.render('/_signUp', {
-//         user: req.user
-//     });
-// });
-
-// app.get('/logout', function (req, res) {
-//     req.logout();
-//     res.redirect('/');
-// });
-
-
 // app.get('/forgot', function (req, res) {
 //     res.render('forgot', {
 //         user: req.user
 //     });
 // });
-
+//
 // app.get('/reset/:token', function (req, res) {
 //     User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now()}}, function (err, user) {
 //         if (!user) {
@@ -280,30 +258,78 @@ passport.deserializeUser(function (id, done) {
 // });
 
 
-app.post('/_signUp', passport.authenticate('signup',
-    {
-        successRedirect: '/_homePage.html',
-        failureRedirect: '/_signUp.html',
-        failureFlash: true
+app.post('/template', function(req, res, next) {
+    console.log('hello??');
+    if (req.body.logoff) {
+        req.logout();
+        console.log('logged out');
+        console.log(req.session);
+        res.send(req.session);
     }
-));
+});
 
 
-app.post('/_login', passport.authenticate('login',
-    {
-        successRedirect: '/_homePage.html',
-        failureRedirect: '/_login.html',
-        failureFlash: true
-    }
-));
+app.post('/_signUp', function(req, res, next) {
+    passport.authenticate('signup', function(err, user, info) {
+        console.log(info.message);
 
-app.post('/forgot', function (req, res, next) {
+        if (!user) {
+            res.status(500);
+            res.send(info.message);
+        }
+        else {
+            user.save(function(err) {
+                req.login(user, function(err){
+                    if (err) {
+                        //return next(err);
+                        console.log('login failed: ', err)
+                        res.status(500);
+                    }
+                });
+            });
+            res.send(user);
+            //res.redirect('/_homePage.html');
+        }
+    })(req, res, next);
+});
+
+app.post('/_login', function(req, res, next) {
+    passport.authenticate('login', function(err, user, info) {
+        console.log('login session:');
+        console.log(req.session);
+        //console.log(info.message);
+
+        if (!user) {
+            res.status(500);
+            res.send(info.message);
+        } else {
+
+            req.login(user, function(err) {
+                if (err) {
+                    console.log('failed login: ', err);
+                    res.status(500);
+                    res.send(err);
+                }
+            });
+
+            console.log(req.session);
+            res.send(user);
+            // Why doesn't redirecting work?
+            //res.redirect('/_homePage.html');
+        }
+    })(req, res, next);
+});
+
+
+app.post('/_passwordRecovery', function (req, res, next) {
     var email = req.body.email;
 
-    if (email_regex.test(email) === false) {
+    if (!validEmail(email)) {
         console.log("invalid email format");
         req.flash('error', 'Invalid email format your_ucsd_email@ucsd.edu');
-        return res.redirect('/forgot');
+        res.status(500);
+        return;
+        //return res.redirect('/forgot');
     }
 
     async.waterfall([
@@ -317,7 +343,9 @@ app.post('/forgot', function (req, res, next) {
             User.findOne({email: req.body.email}, function (err, user) {
                 if (!user) {
                     req.flash('error', 'No account with that email address exists.');
-                    return res.redirect('/forgot');
+                    res.status(500);
+                    return;
+                    //return res.redirect('/forgot');
                 }
 
                 user.resetPasswordToken = token;
@@ -350,6 +378,7 @@ app.post('/forgot', function (req, res, next) {
                 if (err) {
                     console.log('Error occurred');
                     console.log(err.message);
+                    res.status(500);
                     return;
                 }
                 req.flash('info', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
@@ -358,7 +387,7 @@ app.post('/forgot', function (req, res, next) {
         }
     ], function (err) {
         if (err) return next(err);
-        res.redirect('/forgot');
+        //res.redirect('/forgot');
     });
 });
 
@@ -371,7 +400,9 @@ app.post('/reset/:token', function (req, res) {
             }, function (err, user) {
                 if (!user) {
                     req.flash('error', 'Password reset token is invalid or has expired.');
-                    return res.redirect('back');
+                    res.status(500);
+                    return;
+                    //return res.redirect('back');
                 }
 
                 user.password = req.body.password;
@@ -379,7 +410,7 @@ app.post('/reset/:token', function (req, res) {
                 user.resetPasswordExpires = undefined;
 
                 user.save(function (err) {
-                    req.logIn(user, function (err) {
+                    req.login(user, function (err) {
                         done(err, user);
                     });
                 });
@@ -404,6 +435,7 @@ app.post('/reset/:token', function (req, res) {
                 if (err) {
                     console.log('Error occurred');
                     console.log(err.message);
+                    res.status(500);
                     return;
                 }
                 req.flash('success', 'Success! Your password has been changed.');
@@ -411,9 +443,12 @@ app.post('/reset/:token', function (req, res) {
             });
         }
     ], function (err) {
-        res.redirect('/');
+        res.status(500);
+        return;
+        //res.redirect('/');
     });
 });
+
 
 var server = app.listen(3000, function () {
 
