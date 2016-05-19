@@ -53,36 +53,36 @@
             <div id="Butt">
 
 
-                <div id="COG" data-link='/_accSetting.html' class="sign"><span
-                        class="glyphicon glyphicon-cog"></span>Setting
-                </div>
-                <div data-link='/_login.html' class="log"><span
-                        class="glyphicon glyphicon-log-in"></span>Login
-                </div>
-                <div data-link='/_signUp.html' class="sign"><span
-                        class="glyphicon glyphicon-plus-sign"></span>Sign-Up
-                </div>
-                <div data-link='/_passwordRecovery.html' class="sign"><span
-                        class="glyphicon glyphicon-wrench"></span>Password Recovery
-                </div>
-                <div data-link='/_passwordReset.html' class="sign"><span
-                        class="glyphicon glyphicon-repeat"></span>Password
-                    Reset
-                </div>
-                <div data-link='/_rating.html' class="sign"><span
-                        class="glyphicon glyphicon-signal"></span>Rating
-                </div>
-                <div data-link='/_tickets.html' class="sign"><span
-                        class="glyphicon glyphicon-list-alt"></span>Tickets
-                </div>
-                <div data-link='/_congrats.html' class="sign">Congrats
-                </div>
-                <div data-link='/_checkout.html' class="sign"><span
-                        class="glyphicon glyphicon-check"></span>Checkout
-                </div>
-                <div data-link='/_homePage.html' class="log-out"><span
-                        class="glyphicon glyphicon-off"></span>Log-Out
-                </div>
+                <!--<div id="COG" data-link='/_accSetting.html' class="sign"><span-->
+                        <!--class="glyphicon glyphicon-cog"></span>Setting-->
+                <!--</div>-->
+                <!--<div data-link='/_login.html' class="log"><span-->
+                        <!--class="glyphicon glyphicon-log-in"></span>Login-->
+                <!--</div>-->
+                <!--<div data-link='/_signUp.html' class="sign"><span-->
+                        <!--class="glyphicon glyphicon-plus-sign"></span>Sign-Up-->
+                <!--</div>-->
+                <!--<div data-link='/_passwordRecovery.html' class="sign"><span-->
+                        <!--class="glyphicon glyphicon-wrench"></span>Password Recovery-->
+                <!--</div>-->
+                <!--<div data-link='/_passwordReset.html' class="sign"><span-->
+                        <!--class="glyphicon glyphicon-repeat"></span>Password-->
+                    <!--Reset-->
+                <!--</div>-->
+                <!--<div data-link='/_rating.html' class="sign"><span-->
+                        <!--class="glyphicon glyphicon-signal"></span>Rating-->
+                <!--</div>-->
+                <!--<div data-link='/_tickets.html' class="sign"><span-->
+                        <!--class="glyphicon glyphicon-list-alt"></span>Tickets-->
+                <!--</div>-->
+                <!--<div data-link='/_congrats.html' class="sign">Congrats-->
+                <!--</div>-->
+                <!--<div data-link='/_checkout.html' class="sign"><span-->
+                        <!--class="glyphicon glyphicon-check"></span>Checkout-->
+                <!--</div>-->
+                <!--<div data-link='/_homePage.html' class="log-out"><span-->
+                        <!--class="glyphicon glyphicon-off"></span>Log-Out-->
+                <!--</div>-->
 
 
             </div>
@@ -145,27 +145,27 @@
         for (i = 0; i < abovePages.length; i++) {
             whichid = abovePages[i];
             loadPage(whichid, '#abovePages', i);
-            $('#Butt').prepend("<div data-link='/#"+whichid+"' class='sign'>" + whichid + "</div>");
+            $('#Butt').append("<div data-link='/#"+whichid+"' class='sign'>" + whichid + "</div>");
         }
         for (i = 0; i < createTicket.length; i++) {
             whichid = createTicket[i];
             loadPage(createTicket[i], '#createTicket', i);
-            $('#Butt').prepend("<div data-link='/#"+whichid+"' class='sign'>" + whichid + "</div>");
+            $('#Butt').append("<div data-link='/#"+whichid+"' class='sign'>" + whichid + "</div>");
         }
         for (i = 0; i < acceptTicket.length; i++) {
             whichid = acceptTicket[i];
             loadPage(acceptTicket[i], '#acceptTicket', i);
-            $('#Butt').prepend("<div data-link='/#"+whichid+"' class='sign'>" + whichid + "</div>");
+            $('#Butt').append("<div data-link='/#"+whichid+"' class='sign'>" + whichid + "</div>");
         }
         for (i = 0; i < confirmTicket.length; i++) {
             whichid = confirmTicket[i];
             loadPage(confirmTicket[i], '#confirmTicket', i);
-            $('#Butt').prepend("<div data-link='/#"+whichid+"' class='sign'>" + whichid + "</div>");
+            $('#Butt').append("<div data-link='/#"+whichid+"' class='sign'>" + whichid + "</div>");
         }
         for (i = 0; i < driverFlow.length; i++) {
             whichid = driverFlow[i];
             loadPage(driverFlow[i], '#driverFlow', i);
-            $('#Butt').prepend("<div data-link='/#"+whichid+"' class='sign'>" + whichid + "</div>");
+            $('#Butt').append("<div data-link='/#"+whichid+"' class='sign'>" + whichid + "</div>");
         }
         //TODO: app.js handler
 
