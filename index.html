@@ -120,6 +120,7 @@
             type: "POST",
             url: "/loadPage",
             data: {name: pageName},
+            async: false,
             success: function (data) {
                 $(element).append("<div id='" + pageName + "' data-ownId='" + pageName +"' data-pos='" + index + "' data-parent='" + element.substring(1) + "'>" + data + "</div>");
             }
@@ -127,18 +128,17 @@
     }
 
     $(document).ready(function () {
-
-
         var abovePages = ["_accSetting", "_contact", "_history", "_passwordRecovery", "_passwordReset", "_signUp", "_login"];
 
         var createTicket = ["_homePage", "_shopping", "_checkout", "_submitted"];
         var acceptTicket = ['_acceptTicket', '_paid'];
-        var confirmTicket = ['_confirmTicket', "_rating", '_congrats'];
+        var confirmTicket = ['_confirmTicket', "_rating", '_ticketClosed'];
 
         var driverFlow = ['_tickets', '_driverList', '_confirmCompletion', '_completeTicket', '_rating', '_congrats'];
-
         loadPage("_driverTickets", '#driverTickets');
         loadPage("_userTickets", '#userTickets');
+
+
 
         var i;
         var whichid;
