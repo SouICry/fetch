@@ -49,7 +49,7 @@ app.use(express.static('public'));
 // });
 
 app.get('/*', function (req, res) {
-    if ((req.originalUrl).indexOf(".html") > 0 && (req.originalUrl).indexOf("login") < 0) {
+    if ((req.originalUrl).indexOf(".html") > 0) {
         fs.readFile(__dirname + "/template.html", 'utf8', function (err, data) {
             if (err) {
                 console.log(err);
