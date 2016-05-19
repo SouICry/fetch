@@ -1,17 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Rating</title>
-</head>
-<body>
+
 <div id="rating-page">
     <div class="container text-center">
         <div class="row">
-            <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-lg-4 col-md-offset-3 col-lg-offset-4">
+            <div class="col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4 col-md-4 col-lg-4 col-md-offset-4 col-lg-offset-4">
                 <h2 id="user-name" data-id="5876">User Name</h2>
-
-                <img id="user-image" src="/placeholder/person.png"/>
+                <div class="row">
+                    <div class="col-xs-8 col-xs-offset-2">
+                        <img id="user-image" src="/placeholder/person.png"/>
+                    </div>
+                </div>
                 <div class="rating">
                     <span id="rating-1" class="glyphicon glyphicon-star"></span>
                     <span id="rating-2" class="glyphicon glyphicon-star"></span>
@@ -19,139 +16,22 @@
                     <span id="rating-4" class="glyphicon glyphicon-star"></span>
                     <span id="rating-5" class="glyphicon glyphicon-star"></span>
                 </div>
-                <button id="rate-user" type="button" class="btn-block btn-lg btn-warning">
-                    Rate!
-                </button>
-                <button id="rate-skip" type="button" class="btn-block btn-lg btn-warning">
-                    Skip
-                </button>
-                <button id="simulate-load-user" type="button" class="btn-block btn-lg btn-warning">
-                    Simulate loading actual user
-                </button>
-
+                <div class="row">
+                    <div class="col-xs-10 col-xs-offset-1">
+                    <button id="rate-user" type="button" class="btn-block btn-lg btn-warning">
+                        Rate!
+                    </button>
+                    <button id="rate-skip" type="button" class="btn-block btn-lg btn-warning">
+                        Skip
+                    </button>
+                    <button id="simulate-load-user" type="button" class="btn-block btn-lg btn-warning">
+                        Simulate loading actual user
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-    <script>
-        var _rating = 0;
-        var r1 = $('#rating-1'), r2 = $('#rating-2'), r3 = $('#rating-3'), r4 = $('#rating-4'), r5 = $('#rating-5');
-        r1.hover(function () {
-            r1.addClass("selected");
-            r2.removeClass("selected");
-            r3.removeClass("selected");
-            r4.removeClass("selected");
-            r5.removeClass("selected");
-            _rating = 1;
-        });
-        r2.hover(function () {
-            r1.addClass("selected");
-            r2.addClass("selected");
-            r3.removeClass("selected");
-            r4.removeClass("selected");
-            r5.removeClass("selected");
-            _rating = 2;
-        });
-        r3.hover(function () {
-            r1.addClass("selected");
-            r2.addClass("selected");
-            r3.addClass("selected");
-            r4.removeClass("selected");
-            r5.removeClass("selected");
-            _rating = 3;
-        });
-        r4.hover(function () {
-            r1.addClass("selected");
-            r2.addClass("selected");
-            r3.addClass("selected");
-            r4.addClass("selected");
-            r5.removeClass("selected");
-            _rating = 4;
-        });
-        r5.hover(function () {
-            r1.addClass("selected");
-            r2.addClass("selected");
-            r3.addClass("selected");
-            r4.addClass("selected");
-            r5.addClass("selected");
-            _rating = 5;
-        });
-
-        $('#rate-user').click(function () {
-            if (_rating !== 0) {
-                sendToServer();
-            }
-        });
-
-        function sendToServer(){
-            var info_to_send = {};
-            info_to_send.id = $('#user-name').data('id');
-            info_to_send.rating = _rating;
-            info_to_send.type = "send";
-
-            //Simulation (alert or console.log to check for yourself)
-            alert(JSON.stringify(info_to_send));
-
-            //Actual
-            $.ajax({
-                type: "POST",
-                url: "/_rating",
-                data: info_to_send,
-                success: function(data){
-                    //data is the object sent back on success (could also just be string)
-                    alert("Congrats!");
-                },
-                fail: function(data){
-                    //data is the object send back on fail (could also just be string)
-                }
-            });
-        }
-
-
-
-
-        $('#simulate-load-user').click(function () {
-            //Actual:
-            //loadFromServer();
-
-            //Simulation:
-            var simulated_user = {
-                id: 1234567,
-                name: "Bob",
-                "profile-picture": null
-            };
-            displayLoadedData(simulated_user);
-        });
-
-        function loadFromServer () {
-            var request = {
-                "type" : "get",
-                "userId" : "asdf18273624",
-                "data": null
-            };
-
-            $.ajax({
-                type: "POST",
-                url: "/_rating",
-                data: request,
-                success: function(data){
-                    //data is the object sent back on success (could also just be string)
-                    displayLoadedData(data);
-                },
-                fail: function(data) {
-                    //data is the object send back on fail (could also just be string)
-                }
-            });
-        }
-
-        function displayLoadedData(data) {
-            $('#user-name').text(data.name).data('id', data.id);
-            if (data["profile-picture"] !== null) {
-                $('#user-image').data('src', data["profile-picture"]);
-            }
-        }
-
-
-    </script>
 </div>
-</body>
-</html>
+</div>
+<script src="js/_rating.js"></script>
+

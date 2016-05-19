@@ -61,7 +61,7 @@ function sendToServer() {
             //data is the object sent back on success (could also just be string)
             alert("congrats!");
         },
-        fail: function (data) {
+        error: function (data) {
             alert("congrats!");
             //data is the object send back on fail (could also just be string)
         }

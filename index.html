@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/normalize.css">
+    <!--<link rel="stylesheet"-->
+    <!--href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/4.0.1/bootstrap-material-design.min.css">css-->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="js/loader.js"></script>
+</head>
+<body style="overflow: hidden; position: relative;">
+
+
+<div id="User">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-3"></div>
+            <div id="Fetch" class="col-xs-6" style="text-align:center">
+                <div id="title">Fetch</div>
+            </div>
+
+            <div id="Glyph" class="col-xs-3">
+                <div id="open-menu-drawer" class="btn btn-lg pull-right"><span
+                        class="glyphicon glyphicon-user large"></span></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="page-content" style="overflow-x: visible">
+    <div id="abovePages" class="hidden"></div>
+    <div id="createTicket" class=""></div>
+    <div id="acceptTicket" class="hidden"></div>
+    <div id="confirmTicket" class="hidden"></div>
+    <div id="driverFlow" class="hidden"></div>
+</div>
+
+<div id="menu-drawer" class="cd-panel from-right" style="z-index: 3000">
+    <header class="cd-panel-header">
+        <h1></h1>
+        <div id="close-menu" class="cd-panel-close">Close</div>
+    </header>
+
+    <div class="cd-panel-container">
+        <div class="cd-panel-content">
+            <div id="Butt">
+
+
+                <!--<div id="COG" data-link='/_accSetting.html' class="sign"><span-->
+                        <!--class="glyphicon glyphicon-cog"></span>Setting-->
+                <!--</div>-->
+                <!--<div data-link='/_login.html' class="log"><span-->
+                        <!--class="glyphicon glyphicon-log-in"></span>Login-->
+                <!--</div>-->
+                <!--<div data-link='/_signUp.html' class="sign"><span-->
+                        <!--class="glyphicon glyphicon-plus-sign"></span>Sign-Up-->
+                <!--</div>-->
+                <!--<div data-link='/_passwordRecovery.html' class="sign"><span-->
+                        <!--class="glyphicon glyphicon-wrench"></span>Password Recovery-->
+                <!--</div>-->
+                <!--<div data-link='/_passwordReset.html' class="sign"><span-->
+                        <!--class="glyphicon glyphicon-repeat"></span>Password-->
+                    <!--Reset-->
+                <!--</div>-->
+                <!--<div data-link='/_rating.html' class="sign"><span-->
+                        <!--class="glyphicon glyphicon-signal"></span>Rating-->
+                <!--</div>-->
+                <!--<div data-link='/_tickets.html' class="sign"><span-->
+                        <!--class="glyphicon glyphicon-list-alt"></span>Tickets-->
+                <!--</div>-->
+                <!--<div data-link='/_congrats.html' class="sign">Congrats-->
+                <!--</div>-->
+                <!--<div data-link='/_checkout.html' class="sign"><span-->
+                        <!--class="glyphicon glyphicon-check"></span>Checkout-->
+                <!--</div>-->
+                <!--<div data-link='/_homePage.html' class="log-out"><span-->
+                        <!--class="glyphicon glyphicon-off"></span>Log-Out-->
+                <!--</div>-->
+
+
+            </div>
+        </div> <!-- cd-panel-content -->
+    </div> <!-- cd-panel-container -->
+</div> <!-- cd-panel -->
+
+
+<script>
+
+    function setFlowVisible(which){
+
+        $("#page-content").children().each(function(){
+            if ($(this).data("ownId") != which){
+                $(this).addClass("hidden");
+            }
+        });
+        $('#' + which).removeClass("hidden");
+    }
+
+    function goToPage(id){
+
+        var item = $('#' + id);
+        var parent = $(item).data('parent');
+        setFlowVisible(parent);
+        $("#" + parent).css('transform', 'translateX(-' + $(item).data("pos") * window.innerWidth + 'px)')
+    }
+
+    window.onhashchange = function(){
+        goToPage(window.location.hash.substring(1));
+    };
+
+    function loadPage(pageName, element, index) {
+        $.ajax({
+            type: "POST",
+            url: "/loadPage",
+            data: {name: pageName},
+            async: false,
+            success: function (data) {
+                $(element).append("<div id='" + pageName + "' data-ownId='" + pageName +"' data-pos='" + index + "' data-parent='" + element.substring(1) + "'>" + data + "</div>");
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        var abovePages = ["_accSetting", "_contact", "_history", "_passwordRecovery", "_passwordReset", "_signUp", "_login"];
+
+        var createTicket = ["_homePage", "_shopping", "_checkout", "_submitted"];
+        var acceptTicket = ['_acceptTicket', '_paid'];
+        var confirmTicket = ['_confirmTicket', "_rating", '_ticketClosed'];
+
+        var driverFlow = ['_tickets', '_driverList', '_confirmCompletion', '_completeTicket', '_rating', '_congrats'];
+        loadPage("_driverTickets", '#driverTickets');
+        loadPage("_userTickets", '#userTickets');
+
+
+
+        var i;
+        var whichid;
+        for (i = 0; i < abovePages.length; i++) {
+            whichid = abovePages[i];
+            loadPage(whichid, '#abovePages', i);
+            $('#Butt').append("<div data-link='/#"+whichid+"' class='sign'>" + whichid + "</div>");
+        }
+        for (i = 0; i < createTicket.length; i++) {
+            whichid = createTicket[i];
+            loadPage(createTicket[i], '#createTicket', i);
+            $('#Butt').append("<div data-link='/#"+whichid+"' class='sign'>" + whichid + "</div>");
+        }
+        for (i = 0; i < acceptTicket.length; i++) {
+            whichid = acceptTicket[i];
+            loadPage(acceptTicket[i], '#acceptTicket', i);
+            $('#Butt').append("<div data-link='/#"+whichid+"' class='sign'>" + whichid + "</div>");
+        }
+        for (i = 0; i < confirmTicket.length; i++) {
+            whichid = confirmTicket[i];
+            loadPage(confirmTicket[i], '#confirmTicket', i);
+            $('#Butt').append("<div data-link='/#"+whichid+"' class='sign'>" + whichid + "</div>");
+        }
+        for (i = 0; i < driverFlow.length; i++) {
+            whichid = driverFlow[i];
+            loadPage(driverFlow[i], '#driverFlow', i);
+            $('#Butt').append("<div data-link='/#"+whichid+"' class='sign'>" + whichid + "</div>");
+        }
+        //TODO: app.js handler
+
+    });
+
+
+    jQuery(document).ready(function ($) {
+        //open the lateral panel
+        $('#open-menu-drawer').on('click', function (event) {
+            $('#menu-drawer').addClass('is-visible');
+        });
+        //clode the lateral panel
+        $('#menu-drawer').on('click', function (event) {
+            if ($(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close')) {
+                $('#menu-drawer').removeClass('is-visible');
+            }
+        });
+
+        $('#Butt div').click(function () {
+            window.location.href = $(this).data("link");
+        });
+//        $('#Fetch div').click(function(){
+//            windows.location.href= $(this).data("link");
+//        });
+    });
+</script>
+
+
+</body>
+</html>
+

@@ -11,6 +11,8 @@
     <!--<link rel="stylesheet"-->
           <!--href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/4.0.1/bootstrap-material-design.min.css">css-->
     <link rel="stylesheet" href="/css/style.css">
+
+    <script src="js/loader.js"></script>
 </head>
 <body>
 
@@ -42,7 +44,7 @@
 
 <div id="menu-drawer" class="cd-panel from-right" style="z-index: 3000">
     <header class="cd-panel-header">
-        <h1></h1>
+        <h1 id="us"></h1>
         <div id="close-menu" class="cd-panel-close">Close</div>
     </header>
 
@@ -103,8 +105,27 @@
         });
 
         $('#Butt div').click(function () {
-            window.location.href = $(this).data("link");
+            if($(this).data("link") == "/_homePage.html"){
+                var info_to_send = {logoff: true};
+                $.ajax({
+                    type: "POST",
+                    url: "/template",
+                    data: info_to_send,
+                    success: function(data){
+                        //data is the object sent back on success (could also just be string)
+                        alert("Loged out!");
+                        window.location.href =" /_homePage.html";
+                    },
+                    error: function(data){
+                        alert("fail");
+                        //data is the object send back on fail (could also just be string)
+                    }
+                });
+            }
+            else
+                window.location.href = $(this).data("link");
         });
+        //document.getElementById("us").innerHTML = JSON.stringify($(this).user);
 //        $('#Fetch div').click(function(){
 //            windows.location.href= $(this).data("link");
 //        });
