@@ -1,25 +1,25 @@
 
 
-$('#signup').prop('disabled',true);
-$('#Email,#user-name,#pass,#re-pass').keyup(function(){
-    if($('#user-name').val()&& $('#pass').val()&& $('#Email').val()&& $('#re-pass').val() && $('#phone').val() && ($('#pass').val() == $('#re-pass').val())) {
+$('#signUp-email').prop('disabled',true);
+$('#User-Email,#signUp-user-name,#User-pass,#re-pass').keyup(function(){
+    if($('#signUp-user-name').val()&& $('#pass').val()&& $('#User-Email').val()&& $('#re-pass').val() && $('#phone').val() && ($('#User-pass').val() == $('#re-pass').val())) {
         $('#signup').prop('disabled',false);
 
     }
     else{
-        $('#signup').prop('disabled',true);
+        $('#signUp').prop('disabled',true);
     }
 });
 
-$('#signup').click(function () {
+$('#signUp').click(function () {
     assholes2();
 });
 
 function assholes2() {
     var info_to_send = {};
-    info_to_send.email= $('#Email').val()
-    info_to_send.full_name = $('#user-name').val();
-    info_to_send.password = $('#pass').val();
+    info_to_send.email= $('#User-Email').val()
+    info_to_send.full_name = $('#signUp-user-nameuser').val();
+    info_to_send.password = $('#User-pass').val();
     info_to_send.phone_number = $('#phone').val();
     info_to_send.type = "get";
 
@@ -35,7 +35,7 @@ function assholes2() {
             //data is the object sent back on success (could also just be string)
             alert(JSON.stringify(data));
         },
-        fail: function(data){
+        error: function(data){
             alert('error');
             //data is the object send back on fail (could also just be string)
         }
