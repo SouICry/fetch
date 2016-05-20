@@ -1,26 +1,6 @@
 /**
  * Created by juneruijiang on 5/17/16.
  */
-function history(){
-    $('#Driver').hide();
-
-    $('.nav-tabs a').on('click', function (e) {
-        $('li').removeClass('active');
-    });
-
-    e.preventDefault();
-    $('#Driver').hide();
-
-    $(this).parent().addClass('active');
-    $(this).parent().siblings().removeClass('active');
-
-    target = $(this).attr('href');
-
-    $('.tab-content > div').not(target).hide();
-
-    $(target).fadeIn(600);s
-
-};
 
 function _historyLoad() {
     //Actual:
@@ -28,9 +8,11 @@ function _historyLoad() {
 
     //Simulation:
     var simulated_user = {
-        order626: ["green eggs", "ham", "cheese"],
-        order604: ["noodles", "ketchup", "egg", "cabbage", "chicken soup base"],
-        order452: ["rice", "chicken"]
+        shoppingOrder626: ["green eggs", "ham", "cheese"],
+        shoppingOrder604: ["noodles", "ketchup", "egg", "cabbage", "chicken soup base"],
+        shoppingOrder452: ["rice", "chicken"],
+        // driverOrder726: ["noodles","egg","cabbage"],
+        // driverOrder704: ["pasta", "sausa" ,]
     };
     displayLoadedData(simulated_user);
 
@@ -42,10 +24,26 @@ function _historyLoad() {
     }
 
     function displayLoadedData(data) {
-        var arr = [];
-        var items1 = data.order626;
-        var items2 = data.order604;
-        var items3 = data.order452;
+
+        var driveryGrocery = request driver_grocery_list;
+        var userGrocery = request user_grocery_list;
+
+        var groceryObj1 = {
+                            store: "whole_foods",
+                            items: ['snowbubbles', 'mango', 'pineapple', 'banana'],
+                            time_created: '9/9/16 5:58:00 PM',
+                            list_taken: false
+                        };
+
+        var groceryObj2= {
+            store: "vons",
+            items: ['mango', 'pineapple', 'banana'],
+            time_created: '8/9/16 5:58:00 PM',
+            list_taken: false
+        };
+
+
+        var arr = [groceryObj1, groceryObj2];
 
         for (var i = 0; i < items1.length; i++) {
             $("#driver-items1").append('<div class="driveritem" id="item' + i + '" class="btn">' + items1[i] + '</div>');
@@ -58,6 +56,31 @@ function _historyLoad() {
         }
 
     }
+
+    // function history(){
+    //     $('#accordionDriver').hide();
+    //
+    //     $('.nav-tabs a').on('click', function (e) {
+    //         $('li').removeClass('active');
+    //        
+    //         e.preventDefault();
+    //         $('#accordion').hide();
+    //         $('#accordionDriver').show();
+    //
+    //         $(this).parent().addClass('active');
+    //         $(this).parent().siblings().removeClass('active');
+    //
+    //         target = $(this).attr('href');
+    //
+    //         $('.tab-content > div').not(target).hide();
+    //
+    //         $(target).fadeIn(600);
+    //     });
+    //
+    // };
+    // history();
 }
 
 _historyLoad();
+
+
