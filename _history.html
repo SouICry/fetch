@@ -3,7 +3,10 @@
     <div class="row">
         <div class="col-xs-12">
             <h1>History</h1>
-
+            <ul class="nav nav-tabs .nav-justified">
+                <li class="active"><a href="#accordion">Shopper</a></li>
+                <li><a href="#Driver">Driver</a></li>
+            </ul>
             <div class="panel-group" id="accordion">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -41,6 +44,46 @@
                         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Cancel Order</button>
                     </div>
                 </div>
+
+                <div id="Driver" class="container">
+                    <div class="panel-group" id="accordionDriver">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                                        Order #626</a>
+                                </h4>
+                            </div>
+                            <div id="collapseD1" class="panel-collapse collapse in">
+                                <ul id="driver-itemsD1"></ul>
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Cancel Order</button>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                                        Order #604</a>
+                                </h4>
+                            </div>
+                            <div id="collapseD2" class="panel-collapse collapse">
+                                <ul id="driver-itemsD2"></ul>
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Cancel Order</button>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+                                        Order #452</a>
+                                </h4>
+                            </div>
+                            <div id="collapseD3" class="panel-collapse collapse">
+                                <ul id="driver-itemsD3"></ul>
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Cancel Order</button>
+                            </div>
+                        </div>
+                </div>
             </div>
         </div>
 
@@ -66,45 +109,5 @@
 </div>
 
 <script>
-
-    function _historyLoad() {
-        //Actual:
-        //loadFromServer();
-
-        //Simulation:
-        var simulated_user = {
-            order626: ["green eggs", "ham", "cheese"],
-            order604: ["noodles", "ketchup", "egg", "cabbage", "chicken soup base"],
-            order452: ["rice", "chicken"]
-        };
-        displayLoadedData(simulated_user);
-
-        function loadFromServer() {
-            var request = {
-                "type": "get",
-                "data": null
-            };
-        }
-
-        function displayLoadedData(data) {
-            var arr = [];
-            var items1 = data.order626;
-            var items2 = data.order604;
-            var items3 = data.order452;
-
-            for (var i = 0; i < items1.length; i++) {
-                $("#driver-items1").append('<div class="driveritem" id="item' + i + '" class="btn">' + items1[i] + '</div>');
-            }
-            for (var i = 0; i < items2.length; i++) {
-                $("#driver-items2").append('<div class="driveritem" id="item' + i + '" class="btn">' + items2[i] + '</div>');
-            }
-            for (var i = 0; i < items3.length; i++) {
-                $("#driver-items3").append('<div class="driveritem" id="item' + i + '" class="btn">' + items3[i] + '</div>');
-            }
-
-        }
-    }
-
-    _historyLoad()
 </script>
 
