@@ -34,11 +34,11 @@
 
 <!--Move to grid for laying out everything in same page-->
 <div id="page-content" style="overflow-x: visible">
-    <div id="abovePages" class="hidden"></div>
+    <div id="abovePages" class=""></div>
     <div id="createTicket" class=""></div>
-    <div id="acceptTicket" class="hidden"></div>
-    <div id="confirmTicket" class="hidden"></div>
-    <div id="driverFlow" class="hidden"></div>
+    <!--<div id="acceptTicket" class=""></div>-->
+    <div id="confirmTicket" class=""></div>
+    <div id="driverFlow" class=""></div>
 </div>
 
 <div id="menu-drawer" class="cd-panel from-right" style="z-index: 3000">
@@ -121,75 +121,100 @@
         }
     }
 
+    function goToPreviousPage(){
+        goToPage(loader.previousPage);
+    }
+
+
     function goToPage(id) {
         var item = $('#' + id);
         var parent = $(item).data('parent');
-        setFlowVisible(parent);
+//        setFlowVisible(parent);
         currentPage = id;
-        $("#" + parent).css('transform', 'translateX(-' + $(item).data("pos") * window.innerWidth + 'px)')
+        $("#page-content").css('transform',
+                'translate(-' + $(item).data("pos") * 100 + '%, -' + $(item).data("vpos") * 100 + '%)')
     }
 
     window.onhashchange = function () {
         goToPage(window.location.hash.substring(1));
     };
 
-    function loadPage(pageName, element, index) {
+    function loadPage(pageName, element, index, vindex) {
         $.ajax({
             type: "POST",
             url: "/loadPage",
             data: {name: pageName},
             async: false,
             success: function (data) {
-                $(element).append("<div id='" + pageName + "' data-ownId='" + pageName + "' data-pos='" + index + "' data-parent='" + element.substring(1) + "'>" + data + "</div>");
+                $(element).append("<div id='" + pageName + "' data-ownId='" + pageName + "' " +
+                        "data-pos='" + index + "' data-vpos='" + vindex + "' " +
+                        "data-parent='" + element.substring(1) + "'>" + data + "</div>");
             }
         });
     }
 
 
-    var allSections = ['abovePages', 'createTicket', 'acceptTicket', 'confirmTicket', 'driverFlow'];
-    var glyphiconClasses = {
-        abovePages: ["glyphicon glyphicon-cog", "", "", "glyphicon glyphicon-wrench", "glyphicon glyphicon-repeat", "glyphicon glyphicon-plus-sign", "glyphicon glyphicon-log-in"],
-        createTicket: ["", "", "glyphicon glyphicon-check", ""],
-        acceptTicket: ['', ''],
-        confirmTicket: ['_confirmTicket', "glyphicon glyphicon-signal", '_ticketClosed'],
-        driverFlow: ['glyphicon glyphicon-list-alt', '_driverList', '', '', 'glyphicon glyphicon-signal', '']};
+
+    var allSections = ['abovePages', 'createTicket', /*'acceptTicket',*/ 'confirmTicket', 'driverFlow'];
     var allPages = {
-        abovePages: ["_accSetting", "_contact", "_history", "_passwordRecovery", "_passwordReset", "_signUp", "_login"],
-        createTicket: ["_homePage", "_shopping", "_checkout", "_submitted"],
-        acceptTicket: ['_acceptTicket', '_paid'],
-        confirmTicket: ['_confirmTicket', "_rating", '_ticketClosed'],
-        driverFlow: ['_tickets', '_driverList', '_confirmCompletion', '_completeTicket', '_rating', '_congrats']
-    };
-    var title = {
-        abovePages: ["Account Setting", "Contact", "History", "Password Recovery", "Password Reset", "Sign Up", "Login"],
-        createTicket: ["Home Page", "Shopping", "Checkout", "Submitted"],
-        acceptTicket: ['Accept Ticket', 'Paid'],
-        confirmTicket: ['Confirm Ticket', "Rating", 'Ticket Closed'],
-        driverFlow: ['Tickets', 'DriverList', 'Confirm Completion', 'Complete Ticket', 'Rating', 'Congrats']
+        abovePages: ["_accSetting", "_contact", "_history", "_passwordRecovery" /*,"_passwordReset" ",_signUp", "_login"*/],
+        createTicket: ["_homePage", "_shopping", "_checkout", "_login"/*, "_submitted"*/],
+        /*acceptTicket: ['_acceptTicket', '_paid'],*/
+        confirmTicket: [/*'_confirmTicket',*/ "_rating", /*'_ticketClosed',*/"_passwordReset","_signUp"],
+        driverFlow: ['_tickets', '_driverList', /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats']
     };
     loadPage("_driverTickets", '#driverTickets');
     loadPage("_userTickets", '#userTickets');
 
 
+    var loader = {
+        userId: "",
+        previousPage: ""
+
+    };
+
     $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: "/init",
+            data: {},
+            success: function(data){
+                if (data == null){
+
+                }
+                else {
+                    loader = data;
+
+                }
+            }
+        });
         var i;
         var whichid;
-        var glyph;
-        var name;
         for (var j = 0; j < allSections.length; j++) {
             var sectionName = allSections[j];
             var section = allPages[sectionName];
-            var glyphName =  glyphiconClasses[sectionName];
-            var pageNmae =  title[sectionName];
             for (i = 0; i < section.length; i++) {
                 whichid = section[i];
-                glyph = glyphName[i];
-                name = pageNmae[i];
-                loadPage(whichid, '#' + sectionName, i);
-                $('#Butt').append("<div data-link='/#" + whichid + "'> <span class= '" +glyph+"'></span> "+name+" </div>");
+                loadPage(whichid, '#' + sectionName, i, j);
+                $('#Butt').append("<div data-link='/#" + whichid + "' class='sign'>" + whichid + "</div>");
             }
         }
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     jQuery(document).ready(function ($) {
