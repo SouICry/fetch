@@ -160,6 +160,13 @@
         confirmTicket: ['_confirmTicket', "_rating", '_ticketClosed'],
         driverFlow: ['_tickets', '_driverList', '_confirmCompletion', '_completeTicket', '_rating', '_congrats']
     };
+    var title = {
+        abovePages: ["Account Setting", "Contact", "History", "Password Recovery", "Password Reset", "Sign Up", "Login"],
+        createTicket: ["Home Page", "Shopping", "Checkout", "Submitted"],
+        acceptTicket: ['Accept Ticket', 'Paid'],
+        confirmTicket: ['Confirm Ticket', "Rating", 'Ticket Closed'],
+        driverFlow: ['Tickets', 'DriverList', 'Confirm Completion', 'Complete Ticket', 'Rating', 'Congrats']
+    };
     loadPage("_driverTickets", '#driverTickets');
     loadPage("_userTickets", '#userTickets');
 
@@ -168,15 +175,18 @@
         var i;
         var whichid;
         var glyph;
+        var name;
         for (var j = 0; j < allSections.length; j++) {
             var sectionName = allSections[j];
             var section = allPages[sectionName];
             var glyphName =  glyphiconClasses[sectionName];
+            var pageNmae =  title[sectionName];
             for (i = 0; i < section.length; i++) {
                 whichid = section[i];
                 glyph = glyphName[i];
+                name = pageNmae[i];
                 loadPage(whichid, '#' + sectionName, i);
-                $('#Butt').append("<div data-link='/#" + whichid + "' class= '" +glyph+"'>" + whichid + "</div>");
+                $('#Butt').append("<div data-link='/#" + whichid + "'> <span class= '" +glyph+"'></span> "+name+" </div>");
             }
         }
     });
