@@ -9,10 +9,10 @@ $('#User-Email, #User-pass').keyup(function(){
     }
 });
 $('#login').click(function () {
-    sendToServer();
+    assholes();
 });
 
-function sendToServer(){
+function assholes() {
     var info_to_send = {};
     info_to_send.email = $('#User-Email').val();
     info_to_send.password = $('#User-pass').val();
@@ -28,8 +28,8 @@ function sendToServer(){
         data: info_to_send,
         success: function(data){
             //data is the object sent back on success (could also just be string)
+            goToPage('_homePage');
             alert("Congrats!");
-            window.location.href =" /_homePage.html";
         },
         error: function(data){
             alert("fail");

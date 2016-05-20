@@ -59,7 +59,9 @@ var userSchema = new mongoose.Schema(
         time_created: {type: String, required: false, unique: false},
         grocery_list: {type: [], required: false, unique: false},
         delivery_list: {type: [], required: false, unique: false},
-        history: {type: [], required: false, unique: false},
+        user_history: {type: [], required: false, unique: false},
+        delivery_history: {type: [], required: false, unique: false},
+        is_driver: {type: Boolean, required: false, unique: false},
         resetPasswordToken: String,
         resetPasswordExpires: Date
     }
@@ -156,6 +158,7 @@ passport.use('signup', new LocalStrategy(
         passReqToCallback: true // allows us to pass back the entire request to the callback
     },
     function (req, email, password, done) { // all other input fields are in req.body
+        console.log('GOODBYE');
         if (password.length === 0) {
             console.log('Password has length 0');
             return done(null, false);
@@ -190,16 +193,21 @@ passport.use('signup', new LocalStrategy(
                         phone_number: req.body.phone_number,
                         total_rating: 0.0,
                         num_times_rated: 0,
-                        time_created: date.toLocaleDateString() + date.toLocaleTimeString(),
+                        time_created: date.toLocaleDateString() + ' ' + date.toLocaleTimeString(),
                         grocery_list: [],
                         delivery_list: [],
-                        history: []
+                        user_history: [],
+                        delivery_history: [],
+                        is_driver: false
                     });
 
                     newUser.save(function(err) {
-                        if (err)
+                        if (err) {
+                            console.log('this is an error: ' + err);
                             return done(null, false);
+                        }
                     });
+                    console.log('success');
                     return done(null, newUser, {message: 'successful signup'});
                 }
             });
@@ -251,7 +259,9 @@ app.post('/_logout', function(req, res, next) {
 });
 
 app.post('/_signUp', function(req, res, next) {
+    console.log('IDJGKAJGNAKLJFGHNAKFJGHADFKJHGDFAG');
     passport.authenticate('signup', function(err, user, info) {
+        console.log('HELLOOOOOOOOOO');
         console.log(info.message);
 
         if (!user) {

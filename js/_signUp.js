@@ -10,11 +10,12 @@ $('#Email,#user-name,#pass,#re-pass').keyup(function(){
         $('#signup').prop('disabled',true);
     }
 });
+
 $('#signup').click(function () {
-    sendToServer();
+    assholes2();
 });
 
-function sendToServer(){
+function assholes2() {
     var info_to_send = {};
     info_to_send.email= $('#Email').val()
     info_to_send.full_name = $('#user-name').val();
@@ -33,9 +34,8 @@ function sendToServer(){
         success: function(data){
             //data is the object sent back on success (could also just be string)
             alert(JSON.stringify(data));
-            window.location.href = "/_homePage.html";
         },
-        error: function(data){
+        fail: function(data){
             alert('error');
             //data is the object send back on fail (could also just be string)
         }
