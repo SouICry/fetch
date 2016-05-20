@@ -156,12 +156,25 @@
 
 
     var allSections = ['abovePages', 'createTicket', /*'acceptTicket',*/ 'confirmTicket', 'driverFlow'];
+    var glyphiconClasses = {
+        abovePages: ["glyphicon glyphicon-cog", "", "", "glyphicon glyphicon-wrench", "glyphicon glyphicon-repeat", "glyphicon glyphicon-plus-sign", "glyphicon glyphicon-log-in"],
+        createTicket: ["", "", "glyphicon glyphicon-check", ""],
+        acceptTicket: ['', ''],
+        confirmTicket: ['_confirmTicket', "glyphicon glyphicon-signal", '_ticketClosed'],
+        driverFlow: ['glyphicon glyphicon-list-alt', '_driverList', '', '', 'glyphicon glyphicon-signal', '']};
     var allPages = {
         abovePages: ["_accSetting", "_contact", "_history", "_passwordRecovery" /*,"_passwordReset" ",_signUp", "_login"*/],
         createTicket: ["_homePage", "_shopping", "_checkout", "_login"/*, "_submitted"*/],
         /*acceptTicket: ['_acceptTicket', '_paid'],*/
         confirmTicket: [/*'_confirmTicket',*/ "_rating", /*'_ticketClosed',*/"_passwordReset","_signUp"],
         driverFlow: ['_tickets', '_driverList', /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats']
+    };
+    var title = {
+        abovePages: ["Account Setting", "Contact", "History", "Password Recovery", "Password Reset", "Sign Up", "Login"],
+        createTicket: ["Home Page", "Shopping", "Checkout", "Submitted"],
+        acceptTicket: ['Accept Ticket', 'Paid'],
+        confirmTicket: ['Confirm Ticket', "Rating", 'Ticket Closed'],
+        driverFlow: ['Tickets', 'DriverList', 'Confirm Completion', 'Complete Ticket', 'Rating', 'Congrats']
     };
     loadPage("_driverTickets", '#driverTickets');
     loadPage("_userTickets", '#userTickets');
@@ -190,13 +203,19 @@
         });
         var i;
         var whichid;
+        var glyph;
+        var name;
         for (var j = 0; j < allSections.length; j++) {
             var sectionName = allSections[j];
             var section = allPages[sectionName];
+            var glyphName =  glyphiconClasses[sectionName];
+            var pageNmae =  title[sectionName];
             for (i = 0; i < section.length; i++) {
                 whichid = section[i];
+                glyph = glyphName[i];
+                name = pageNmae[i];
                 loadPage(whichid, '#' + sectionName, i, j);
-                $('#Butt').append("<div data-link='/#" + whichid + "' class='sign'>" + whichid + "</div>");
+                $('#Butt').append("<div data-link='/#" + whichid + "'> <span class= '" +glyph+"'></span> "+name+"   </div>");
             }
         }
     });
