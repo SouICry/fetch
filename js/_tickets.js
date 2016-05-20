@@ -56,7 +56,9 @@ function _tickets_load() {
         };
 
         for (var i = 0; i < tickets.length; i++) {
-            $("#tickets_content").append('<li class = ' + tickets[i].name + '><div id =' + tickets[i].name + ' >' + toName(tickets[i].name) + ' <br> Estimate Deliver Time: ' + tickets[i].time + '</div></li>');
+            $("#tickets_content").append('<li class = "' + tickets[i].name + ' ticket" ' +
+                ' ><div id =' + tickets[i].name + ' >' + toName(tickets[i].name) +
+                ' <br> Estimate Deliver Time: ' + tickets[i].time + '</div></li>');
         }
 
         $(document).ready(function () {
@@ -71,7 +73,7 @@ function _tickets_load() {
 
                     $('.store.selected').each(function () {
                         selected[$(this).data("name")] = true;
-                    })
+                    });
 
 
                     for (var x in selected) {
