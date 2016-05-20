@@ -16,7 +16,6 @@
 </head>
 <body style="overflow: hidden; position: relative;">
 
-
 <div id="User">
     <div class="container">
         <div class="row">
@@ -33,13 +32,13 @@
     </div>
 </div>
 
-
+<!--Move to grid for laying out everything in same page-->
 <div id="page-content" style="overflow-x: visible">
-    <div id="abovePages" class="hidden"></div>
+    <div id="abovePages" class=""></div>
     <div id="createTicket" class=""></div>
-    <div id="acceptTicket" class="hidden"></div>
-    <div id="confirmTicket" class="hidden"></div>
-    <div id="driverFlow" class="hidden"></div>
+    <!--<div id="acceptTicket" class=""></div>-->
+    <div id="confirmTicket" class=""></div>
+    <div id="driverFlow" class=""></div>
 </div>
 
 <div id="menu-drawer" class="cd-panel from-right" style="z-index: 3000">
@@ -54,34 +53,34 @@
 
 
                 <!--<div id="COG" data-link='/_accSetting.html' class="sign"><span-->
-                        <!--class="glyphicon glyphicon-cog"></span>Setting-->
+                <!--class="glyphicon glyphicon-cog"></span>Setting-->
                 <!--</div>-->
                 <!--<div data-link='/_login.html' class="log"><span-->
-                        <!--class="glyphicon glyphicon-log-in"></span>Login-->
+                <!--class="glyphicon glyphicon-log-in"></span>Login-->
                 <!--</div>-->
                 <!--<div data-link='/_signUp.html' class="sign"><span-->
-                        <!--class="glyphicon glyphicon-plus-sign"></span>Sign-Up-->
+                <!--class="glyphicon glyphicon-plus-sign"></span>Sign-Up-->
                 <!--</div>-->
                 <!--<div data-link='/_passwordRecovery.html' class="sign"><span-->
-                        <!--class="glyphicon glyphicon-wrench"></span>Password Recovery-->
+                <!--class="glyphicon glyphicon-wrench"></span>Password Recovery-->
                 <!--</div>-->
                 <!--<div data-link='/_passwordReset.html' class="sign"><span-->
-                        <!--class="glyphicon glyphicon-repeat"></span>Password-->
-                    <!--Reset-->
+                <!--class="glyphicon glyphicon-repeat"></span>Password-->
+                <!--Reset-->
                 <!--</div>-->
                 <!--<div data-link='/_rating.html' class="sign"><span-->
-                        <!--class="glyphicon glyphicon-signal"></span>Rating-->
+                <!--class="glyphicon glyphicon-signal"></span>Rating-->
                 <!--</div>-->
                 <!--<div data-link='/_tickets.html' class="sign"><span-->
-                        <!--class="glyphicon glyphicon-list-alt"></span>Tickets-->
+                <!--class="glyphicon glyphicon-list-alt"></span>Tickets-->
                 <!--</div>-->
                 <!--<div data-link='/_congrats.html' class="sign">Congrats-->
                 <!--</div>-->
                 <!--<div data-link='/_checkout.html' class="sign"><span-->
-                        <!--class="glyphicon glyphicon-check"></span>Checkout-->
+                <!--class="glyphicon glyphicon-check"></span>Checkout-->
                 <!--</div>-->
                 <!--<div data-link='/_homePage.html' class="log-out"><span-->
-                        <!--class="glyphicon glyphicon-off"></span>Log-Out-->
+                <!--class="glyphicon glyphicon-off"></span>Log-Out-->
                 <!--</div>-->
 
 
@@ -93,83 +92,129 @@
 
 <script>
 
-    function setFlowVisible(which){
+    var currentPage = "_homePage";
+    function setFlowVisible(which) {
 
-        $("#page-content").children().each(function(){
-            if ($(this).data("ownId") != which){
+        $("#page-content").children().each(function () {
+            if ($(this).data("ownId") != which) {
                 $(this).addClass("hidden");
             }
         });
         $('#' + which).removeClass("hidden");
     }
 
-    function goToPage(id){
-
-        var item = $('#' + id);
+    function next() {
+        var item = $('#' + currentPage);
         var parent = $(item).data('parent');
-        setFlowVisible(parent);
-        $("#" + parent).css('transform', 'translateX(-' + $(item).data("pos") * window.innerWidth + 'px)')
+        var pos = $(item).data('pos');
+        if (pos < allPages[parent].length - 1) {
+            goToPage(allPages[parent][pos + 1]);
+        }
     }
 
-    window.onhashchange = function(){
+    function previous() {
+        var item = $('#' + currentPage);
+        var parent = $(item).data('parent');
+        var pos = $(item).data('pos');
+        if (pos > 0) {
+            goToPage(allPages[parent][pos - 1]);
+        }
+    }
+
+    function goToPreviousPage(){
+        goToPage(loader.previousPage);
+    }
+
+
+    function goToPage(id) {
+        var item = $('#' + id);
+        var parent = $(item).data('parent');
+//        setFlowVisible(parent);
+        currentPage = id;
+        $("#page-content").css('transform',
+                'translate(-' + $(item).data("pos") * 100 + '%, -' + $(item).data("vpos") * 100 + '%)')
+    }
+
+    window.onhashchange = function () {
         goToPage(window.location.hash.substring(1));
     };
 
-    function loadPage(pageName, element, index) {
+    function loadPage(pageName, element, index, vindex) {
         $.ajax({
             type: "POST",
             url: "/loadPage",
             data: {name: pageName},
             async: false,
             success: function (data) {
-                $(element).append("<div id='" + pageName + "' data-ownId='" + pageName +"' data-pos='" + index + "' data-parent='" + element.substring(1) + "'>" + data + "</div>");
+                $(element).append("<div id='" + pageName + "' data-ownId='" + pageName + "' " +
+                        "data-pos='" + index + "' data-vpos='" + vindex + "' " +
+                        "data-parent='" + element.substring(1) + "'>" + data + "</div>");
             }
         });
     }
 
+
+
+    var allSections = ['abovePages', 'createTicket', /*'acceptTicket',*/ 'confirmTicket', 'driverFlow'];
+    var allPages = {
+        abovePages: ["_accSetting", "_contact", "_history", "_passwordRecovery" /*,"_passwordReset" ",_signUp", "_login"*/],
+        createTicket: ["_homePage", "_shopping", "_checkout", "_login"/*, "_submitted"*/],
+        /*acceptTicket: ['_acceptTicket', '_paid'],*/
+        confirmTicket: [/*'_confirmTicket',*/ "_rating", /*'_ticketClosed',*/"_passwordReset","_signUp"],
+        driverFlow: ['_tickets', '_driverList', /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats']
+    };
+    loadPage("_driverTickets", '#driverTickets');
+    loadPage("_userTickets", '#userTickets');
+
+
+    var loader = {
+        userId: "",
+        previousPage: ""
+
+    };
+
     $(document).ready(function () {
-        var abovePages = ["_accSetting", "_contact", "_history", "_passwordRecovery", "_passwordReset", "_signUp", "_login"];
+        $.ajax({
+            type: "POST",
+            url: "/init",
+            data: {},
+            success: function(data){
+                if (data == null){
 
-        var createTicket = ["_homePage", "_shopping", "_checkout", "_submitted"];
-        var acceptTicket = ['_acceptTicket', '_paid'];
-        var confirmTicket = ['_confirmTicket', "_rating", '_ticketClosed'];
+                }
+                else {
+                    loader = data;
 
-        var driverFlow = ['_tickets', '_driverList', '_confirmCompletion', '_completeTicket', '_rating', '_congrats'];
-        loadPage("_driverTickets", '#driverTickets');
-        loadPage("_userTickets", '#userTickets');
-
-
-
+                }
+            }
+        });
         var i;
         var whichid;
-        for (i = 0; i < abovePages.length; i++) {
-            whichid = abovePages[i];
-            loadPage(whichid, '#abovePages', i);
-            $('#Butt').append("<div data-link='/#"+whichid+"' class='sign'>" + whichid + "</div>");
+        for (var j = 0; j < allSections.length; j++) {
+            var sectionName = allSections[j];
+            var section = allPages[sectionName];
+            for (i = 0; i < section.length; i++) {
+                whichid = section[i];
+                loadPage(whichid, '#' + sectionName, i, j);
+                $('#Butt').append("<div data-link='/#" + whichid + "' class='sign'>" + whichid + "</div>");
+            }
         }
-        for (i = 0; i < createTicket.length; i++) {
-            whichid = createTicket[i];
-            loadPage(createTicket[i], '#createTicket', i);
-            $('#Butt').append("<div data-link='/#"+whichid+"' class='sign'>" + whichid + "</div>");
-        }
-        for (i = 0; i < acceptTicket.length; i++) {
-            whichid = acceptTicket[i];
-            loadPage(acceptTicket[i], '#acceptTicket', i);
-            $('#Butt').append("<div data-link='/#"+whichid+"' class='sign'>" + whichid + "</div>");
-        }
-        for (i = 0; i < confirmTicket.length; i++) {
-            whichid = confirmTicket[i];
-            loadPage(confirmTicket[i], '#confirmTicket', i);
-            $('#Butt').append("<div data-link='/#"+whichid+"' class='sign'>" + whichid + "</div>");
-        }
-        for (i = 0; i < driverFlow.length; i++) {
-            whichid = driverFlow[i];
-            loadPage(driverFlow[i], '#driverFlow', i);
-            $('#Butt').append("<div data-link='/#"+whichid+"' class='sign'>" + whichid + "</div>");
-        }
-        //TODO: app.js handler
-
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     jQuery(document).ready(function ($) {

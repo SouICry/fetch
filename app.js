@@ -30,34 +30,22 @@ app.use(cookieParser());
 app.use(session({ resave: true, saveUninitialized: true, secret: 'williamiscool' }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static('public'));
+app.use(express.static(__dirname));
 
 
-app.get('/*', function (req, res) {
-    if ((req.originalUrl).indexOf(".html") > 0) {
-        fs.readFile(__dirname + "/template.html", 'utf8', function (err, data) {
+app.post('/loadPage', function (req, res) {
+    try {
+        fs.readFile(__dirname + "/" + req.body.name + ".html", 'utf8', function (err, data) {
             if (err) {
                 console.log(err);
             }
-            fs.readFile(__dirname + req.originalUrl, 'utf8', function (err, odata) {
-                if (err) {
-                    console.log(err);
-                }
-                var pos = data.indexOf('<!--DO NOT CHANGE THIS COMMENT-->');
-                res.send(data.substring(0, pos) + odata.substring(odata.indexOf("<body>") + 6, odata.indexOf("</body>")) + data.substring(pos));
-            });
+            res.send(data);
         });
     }
-    else {
-        res.sendFile(__dirname + req.url);
+    catch (e) {
+        res.send("");
     }
 });
-
-
-var email_regex = /.*@ucsd.edu/;
-
-// TODO: verify phone # by stripping all chars except digits
-var phone_number_regex = /\d{3}-\d{3}-\d{4}/;
 
 // Set up schema for users
 var userSchema = new mongoose.Schema(
@@ -71,7 +59,9 @@ var userSchema = new mongoose.Schema(
         time_created: {type: String, required: false, unique: false},
         grocery_list: {type: [], required: false, unique: false},
         delivery_list: {type: [], required: false, unique: false},
-        history: {type: [], required: false, unique: false},
+        user_history: {type: [], required: false, unique: false},
+        delivery_history: {type: [], required: false, unique: false},
+        is_driver: {type: Boolean, required: false, unique: false},
         resetPasswordToken: String,
         resetPasswordExpires: Date
     }
@@ -103,8 +93,10 @@ userSchema.methods.comparePassword = function (password) {
     return bcrypt.compareSync(password, this.password);
 };
 
-// Used to check if valid email format
+// Used to check if valid email format (@ucsd.edu)
 var validEmail = function(email) {
+    var email_regex = /.*@ucsd.edu/;
+
     if (!email_regex.test(email)) {
         console.log('invalid email format');
         return false;
@@ -114,7 +106,8 @@ var validEmail = function(email) {
 
 // Used to check if valid phone number format
 var validPhoneNumber = function(phone_number) {
-    if (!phone_number_regex.test(phone_number)) {
+    phone_number = phone_number.replace(/\D/g,'');
+    if (phone_number.length != 10) {
         console.log('invalid phone format');
         return false;
     }
@@ -138,7 +131,7 @@ passport.use('login', new LocalStrategy(
     },
     function (req, email, password, done) {
         process.nextTick( function() {
-            User.findOne({email: email}, function (err, user) {
+            User.findOne({email: email.toLowerCase()}, function (err, user) {
                 if (err)
                     return done(err);
 
@@ -157,7 +150,7 @@ passport.use('login', new LocalStrategy(
     }
 ));
 
-// For signup
+// Strategy for signup
 passport.use('signup', new LocalStrategy(
     {
         usernameField: 'email', // Change username field to email
@@ -165,21 +158,11 @@ passport.use('signup', new LocalStrategy(
         passReqToCallback: true // allows us to pass back the entire request to the callback
     },
     function (req, email, password, done) { // all other input fields are in req.body
+        console.log('GOODBYE');
         if (password.length === 0) {
             console.log('Password has length 0');
             return done(null, false);
         }
-
-        var date = new Date();
-        var dd = date.getDate();
-        var mm = date.getMonth() + 1;
-        var yyyy = date.getFullYear();
-
-        if (dd < 10)
-            dd = '0' + dd;
-        if (mm < 10)
-            mm = '0' + mm;
-        date = mm + '/' + dd + '/' + yyyy;
 
         if (!validEmail(email))
             return done(null, false, {message: 'invalid email format'});
@@ -187,7 +170,7 @@ passport.use('signup', new LocalStrategy(
         if (!validPhoneNumber(req.body.phone_number))
             return done(null, false, {message: 'invalid phone number format'});
 
-        console.log(email);
+        console.log('signup email: ' + email);
 
         process.nextTick(function() {
             User.findOne({'email': email}, function(err, user) {
@@ -201,6 +184,8 @@ passport.use('signup', new LocalStrategy(
                     return done(null, false, {message: 'user already exists'});
                 }
                 else {
+                    var date = new Date();
+
                     var newUser = new User({
                         full_name: req.body.full_name,
                         email: email,
@@ -208,18 +193,21 @@ passport.use('signup', new LocalStrategy(
                         phone_number: req.body.phone_number,
                         total_rating: 0.0,
                         num_times_rated: 0,
-                        time_created: date,
+                        time_created: date.toLocaleDateString() + ' ' + date.toLocaleTimeString(),
                         grocery_list: [],
                         delivery_list: [],
-                        history: []
+                        user_history: [],
+                        delivery_history: [],
+                        is_driver: false
                     });
-                    console.log(JSON.stringify(newUser));
-
 
                     newUser.save(function(err) {
-                        if (err)
+                        if (err) {
+                            console.log('this is an error: ' + err);
                             return done(null, false);
+                        }
                     });
+                    console.log('success');
                     return done(null, newUser, {message: 'successful signup'});
                 }
             });
@@ -227,10 +215,13 @@ passport.use('signup', new LocalStrategy(
     }
 ));
 
+// Serialize user for storing to session
+// Saved to req.session.passport.user
 passport.serializeUser(function (user, done) {
     done(null, user.id);
 });
 
+// Deserialize user for storing to session
 passport.deserializeUser(function (id, done) {
     User.findById(id, function (err, user) {
         done(err, user);
@@ -257,20 +248,20 @@ passport.deserializeUser(function (id, done) {
 //     });
 // });
 
-
-app.post('/template', function(req, res, next) {
-    console.log('hello??');
-    if (req.body.logoff) {
-        req.logout();
-        console.log('logged out');
-        console.log(req.session);
-        res.send(req.session);
-    }
+app.post('/_logout', function(req, res, next) {
+    // If 'logout' button pressed, log user out. Passportjs will
+    // call deserialize to remove user from session.
+    req.logout();
+    req.session.destroy();
+    console.log('logged out');
+    console.log(req.session);
+    res.send(req.session);
 });
 
-
 app.post('/_signUp', function(req, res, next) {
+    console.log('IDJGKAJGNAKLJFGHNAKFJGHADFKJHGDFAG');
     passport.authenticate('signup', function(err, user, info) {
+        console.log('HELLOOOOOOOOOO');
         console.log(info.message);
 
         if (!user) {
@@ -288,22 +279,20 @@ app.post('/_signUp', function(req, res, next) {
                 });
             });
             res.send(user);
-            //res.redirect('/_homePage.html');
         }
     })(req, res, next);
 });
 
+// For user login. Authenticates user and serializes user to session
+// if successful login
 app.post('/_login', function(req, res, next) {
     passport.authenticate('login', function(err, user, info) {
-        console.log('login session:');
-        console.log(req.session);
-        //console.log(info.message);
-
+        // Check if user was successfully authenticated, send error otherwise
         if (!user) {
             res.status(500);
             res.send(info.message);
-        } else {
-
+        }
+        else {
             req.login(user, function(err) {
                 if (err) {
                     console.log('failed login: ', err);
@@ -312,15 +301,13 @@ app.post('/_login', function(req, res, next) {
                 }
             });
 
-            console.log(req.session);
+            // If everything was successful, send user back to frontend
             res.send(user);
-            // Why doesn't redirecting work?
-            //res.redirect('/_homePage.html');
         }
     })(req, res, next);
 });
 
-
+// TODO: need to fix pwrecovery. does not work atm
 app.post('/_passwordRecovery', function (req, res, next) {
     var email = req.body.email;
 

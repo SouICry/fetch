@@ -1,55 +1,100 @@
-//#tickets {
-//    ul {
-//        list-style-type: none;
-//        margin: 0;
-//        padding: 0;
-//        overflow: hidden;
-//        width: 100%;
-//        align-items: stretch;
-//    }
-//
-//    #buttons {
-//        display: flex !important;
-//
-//    }
-//
-//    #buttons li {
-//        float: left;
-//        flex: 1 1 auto;
-//        flex-basis: 25%;
-//    }
-//
-//    #R, #T, #W, #V {
-//        padding: 20px;
-//        text-align: center;
-//        text-decoration: none;
-//        display: table-cell;
-//        width: 100%;
-//        height: 100%;
-//        margin: 0;
-//        -webkit-text-size-adjust: 100%;
-//        -ms-text-size-adjust: 100%;
-//    }
-//
-//    #buttons li button.selected {
-//        background-color: darkorange;
-//        color: white;
-//    }
-//
-//.selected{
-//    background-color: darkorange;
-//    color: white;
-//}
-.hidden{
-    display: none;
-}
+#tickets {
+  .ticket {
+      position: relative;
+      font-size: 14px;
+      border-top: 1px solid #ededed;
+      font-weight: bold;
+      width: 100%;
+      line-height: 2;
+    }
 
-.show{
+    .ticket:hover {
+      background-color: rgba(33, 19, 0, 0.07);
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  #buttons {
+    display: flex !important;
+
+  }
+
+  #buttons li {
+    float: left;
+    flex: 1 1 auto;
+    flex-basis: 25%;
+    font-size: 24px;
+  }
+
+  #R, #T, #W, #V {
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: table-cell;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+  }
+
+  #buttons li button.selected {
+    background-color: darkorange;
+    color: white;
+  }
+
+  .store:hover {
+    background-color: rgba(33, 19, 0, 0.07);
+  }
+
+  .selected {
+    border: 2px solid rgba(33, 19, 0, 0.11);
+    border-bottom: 0;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .show {
     display: flex;
+  }
+  h1 {
+    font-family: "Iowan Old Style" !important;
+    color: orangered !important;
+    text-align: center;
+  }
+
+  #footerBars {
+    .footer2 {
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+      0 25px 50px 0 rgba(0, 0, 0, 0.1);
+      margin-left: auto;
+      margin-right: auto;
+      width: 79%;
+      text-align: left;
+      border: 1px solid #ededed;
+      padding: 4px;
+      background-color: #fff;
+    }
+
+    .footer3 {
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+      0 25px 50px 0 rgba(0, 0, 0, 0.1);
+      margin-left: auto;
+      margin-right: auto;
+      width: 78%;
+      text-align: left;
+      border: 1px solid #ededed;
+      padding: 3px;
+      background-color: #fff;
+    }
+  }
 }
-//    h1 {
-//        font-family: "Iowan Old Style" !important;
-//        color: orangered !important;
-//        text-align: center;
-//    }
-//}
