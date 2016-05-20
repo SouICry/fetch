@@ -2,15 +2,9 @@
     <div class="row text-center">
         <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-lg-4 col-md-offset-3 col-lg-offset-4">
             <h2 class="form-signin-heading">Fetch Login</h2><br>
-<<<<<<< HEAD
             <input type="email" class="form-control" id="User-Email" name="email" placeholder="Email"  required="" autofocus=""/><br>
             <input type="password" class="form-control" id="User-pass" name="password" placeholder="Password" required=""/><br>
-=======
-            <input type="email" class="form-control" id="Email" name="email" placeholder="Email" required=""
-                   autofocus=""/><br>
-            <input type="password" class="form-control" id="pass" name="password" placeholder="Password"
-                   required=""/><br>
->>>>>>> 06406408d62f12f0b13e9f50dfa8415b40b3ee05
+
             <div class="checkbox">
                 <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Remember me<br>
             </div>
@@ -18,45 +12,6 @@
         </div>
     </div>
 </div>
-<<<<<<< HEAD
+
 <script src="js/_login.js"></script>
-=======
-<script>
-    $('#login').prop('disabled', true);
-    $('#Email, #pass').keyup(function () {
-        if ($('#Email').val() && $('#pass').val()) {
-            $('#login').prop('disabled', false);
-        }
-        else {
-            $('#login').prop('disabled', true);
-        }
-    });
-    $('#login').click(function () {
-        sendToServer();
-    });
 
-    function sendToServer() {
-        var info_to_send = {};
-        info_to_send.email = $('#Email').val();
-        info_to_send.password = $('#pass').val();
-        info_to_send.type = "get";
-
-        //Simulation (alert or console.log to check for yourself)
-        alert(JSON.stringify(info_to_send));
-
-        //Actual
-        $.ajax({
-            type: "POST",
-            url: "/_login",
-            data: info_to_send,
-            success: function (data) {
-
-            }
-        });
-    }
-
-</script>
-
-
-
->>>>>>> 06406408d62f12f0b13e9f50dfa8415b40b3ee05
