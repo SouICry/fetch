@@ -129,7 +129,7 @@ passport.use('login', new LocalStrategy(
     },
     function (req, email, password, done) {
         process.nextTick( function() {
-            User.findOne({email: email}, function (err, user) {
+            User.findOne({email: email.toLowerCase()}, function (err, user) {
                 if (err)
                     return done(err);
 
@@ -240,18 +240,15 @@ passport.deserializeUser(function (id, done) {
 //     });
 // });
 
-
-app.post('/template', function(req, res, next) {
+app.post('/_logout', function(req, res, next) {
     // If 'logout' button pressed, log user out. Passportjs will
     // call deserialize to remove user from session.
-    if (req.body.logoff) {
-        req.logout();
-        console.log('logged out');
-        console.log(req.session);
-        res.send(req.session);
-    }
+    req.logout();
+    req.session.destroy();
+    console.log('logged out');
+    console.log(req.session);
+    res.send(req.session);
 });
-
 
 app.post('/_signUp', function(req, res, next) {
     passport.authenticate('signup', function(err, user, info) {
@@ -272,7 +269,6 @@ app.post('/_signUp', function(req, res, next) {
                 });
             });
             res.send(user);
-            //res.redirect('/_homePage.html');
         }
     })(req, res, next);
 });
@@ -297,9 +293,6 @@ app.post('/_login', function(req, res, next) {
 
             // If everything was successful, send user back to frontend
             res.send(user);
-
-            // Why doesn't redirecting work?
-            //res.redirect('/_homePage.html');
         }
     })(req, res, next);
 });
