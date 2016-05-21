@@ -25,30 +25,30 @@ function accSetting() {
     });
 
     var _account = {
-        username:"",
-        first:"",
-        last:"",
-        email:"",
-        phone:"",
-        street:"",
-        city:"",
-        state:"",
-        zip:"",
-        cardName:"",
-        cardNumber:"",
-        cardMonth:"",
-        cardYear:"",
-        cardCVV:""
+        full_name: "",
+        email: "",
+        phone_number: "",
+        address: {
+            street: "",
+            city: "",
+            state: "",
+            zip: ""
+        },
+        payment_info: {
+            card_holder_name: '',
+            card_number: '',
+            exp_month: '',
+            exp_year: '',
+            cvv: ''
+        }
     };
 
     $('#submit_accInfo').click(function () {
-        _account.username= $('#usr').val();
-        _account.first= $('#fname').val();
-        _account.last= $('#lname').val();
+        _account.full_name= $('#usr').val();
         _account.email= $('#email').val();
         _account.phone= $('#phone').val();
 
-        sendToServer();
+        asshole3();
     });
 
     $('#submit_address').click(function () {
@@ -57,7 +57,7 @@ function accSetting() {
         _account.state= $('#state').val();
         _account.zip= $('#zip').val();
 
-        sendToServer();
+        asshole3();
     });
 
     $('#submit_card').click(function () {
@@ -67,7 +67,7 @@ function accSetting() {
         _account.cardYear= $('#year').val();
         _account.cardCVV= $('#cvv').val();
 
-        sendToServer();
+        asshole3();
     });
 
     window.onload = function() {
@@ -79,34 +79,30 @@ function accSetting() {
             success: function(data) {
                 alert('called post to update');
 
-                $('#usr').val(data.username);
-                $('#fname').val(data.first);
-                $('#lname').val(data.last);
-                $('#email').val(data.email);
-                $('#phone').val(data.phone);
+                $('#accsetting_full_name').val(data.full_name);
+                $('#accsetting_email').val(data.email);
+                $('#accsetting_phone').val(data.phone);
 
-                $('#street').val(data.street);
-                $('#city').val(data.city);
-                $('#state').val(data.state);
-                $('#zip').val(data.zip);
+                $('#street').val(data.address.street);
+                $('#city').val(data.address.city);
+                $('#state').val(data.address.state);
+                $('#zip').val(data.address.zip);
 
-                $('#cardName').val(data.cardName);
-                $('#card').val(data.card);
-                $('#month').val(data.month);
-                $('#year').val(data.year);
-                $('#cvv').val(data.cvv);
-
-        });
+                $('#cardName').val(data.payment_info.card_holder_name);
+                $('#card').val(data.payment_info.card_number);
+                $('#month').val(data.payment_info.exp_month);
+                $('#year').val(data.payment_info.exp_year);
+                $('#cvv').val(data.payment_info.cvv);
+        }});
     };
 
     $('#submit_delete').click(function () {
-        sendToServer();
+        asshole3();
     });
 
-    function sendToServer(){
+    function asshole3() {
         var info_to_send = {};
-        info_to_send.id = $('#user-name').data('id');
-        info_to_send.list = _account;
+        info_to_send.user = _account;
         info_to_send.type = "send";
 
         //Simulation (alert or console.log to check for yourself)
