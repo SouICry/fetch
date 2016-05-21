@@ -82,7 +82,9 @@
 
 
     function goToPage(id) {
-        loader.setCurrentPage(id);
+
+        loader.goToPage(id);
+        //loader.setCurrentPage(id);
     }
 
     window.onhashchange = function () {
@@ -171,6 +173,7 @@
 
     var loader = {
         isDriver: false,
+        isLoggedIn: false,
         userId: "",
         pageCount: 0,
         previousPage: "",
@@ -286,38 +289,53 @@
         },
         //set to run every second elsewhere
         getUpdates: function () {
-            $.post("/getUpdate", {
+            $.post("/getUpdates", {
                 data: {
                     pageCount: loader.pageCount,
                     page: loader.currentPage
                 }
             }, function (resp) {
+                if (resp.i)
+
+
                 //Change page if page is newer
-                if (resp.pageCount > loader.pageCount) {
-                    loader.previousPage = resp.previousPage;
-                    loader.currentPage = resp.currentPage;
-                    loader.currentPageObject = loader[resp.currentPage];
-                    loader.currentPageObject.version = resp.version;
-                    if (loader.currentPageObject.loadData != null) {
-                        loader.currentPageObject.loadData(resp.data);
-                    }
-                }
-                //Update page if on same page and new version
-                else if (resp.pageCount == loader.pageCount) {
-                    if (resp.version > loader.currentPageObject.version) {
+                    if (resp.pageCount > loader.pageCount) {
+                        loader.previousPage = resp.previousPage;
+                        loader.currentPage = resp.currentPage;
+                        loader.currentPageObject = loader[resp.currentPage];
+                        loader.currentPageObject.version = resp.version;
                         if (loader.currentPageObject.loadData != null) {
                             loader.currentPageObject.loadData(resp.data);
                         }
                     }
-                }
-                else {
-                    //do nothing since this local copy is newer
-                }
+                    //Update page if on same page and new version
+                    else if (resp.pageCount == loader.pageCount) {
+                        if (resp.version > loader.currentPageObject.version) {
+                            if (loader.currentPageObject.loadData != null) {
+                                loader.currentPageObject.loadData(resp.data);
+                            }
+                        }
+                    }
+                    else {
+                        //do nothing since this local copy is newer
+                    }
 
             });
+        },
+
+        login: function () {
+            //TODO:
+        },
+        logout: function () {
+            //TODO: delete cookie and refresh page
+        },
+        switchToDriver: function () {
+
+        },
+        switchToShopper: function () {
+
         }
     };
-
 
 
     /*
@@ -330,10 +348,16 @@
      */
 
     function pageInit() {
+
+        //TODO: check for coookie to see if logged in
+        var id;
+
         $.ajax({
             type: "POST",
             url: "/init",
-            data: {},
+            data: {
+                userId: loader.userId //"" or valid user id string
+            },
             success: function (resp) {
                 //If has existing session, load it!
                 if (resp != "none") {
