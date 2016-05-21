@@ -226,7 +226,11 @@
         userId: "",
         previousPage: "",
         currentPage: "",
-        currentPageObject: null,
+        currentPageObject: {
+            getData: null,
+            loadData: null,
+            data: null
+        },
         setCurrentPage: function (page) {
             loader.currentPage = page;
             if (loader.hasOwnProperty(page)) {
@@ -234,7 +238,7 @@
             }
             else {
                 loader.currentPageObject = {
-                    sendData: null,
+                    getData: null,
                     loadData: null,
                     data: null
                 }
@@ -370,23 +374,14 @@
 
 
     jQuery(document).ready(function ($) {
-        //open the lateral panel
         $('#open-menu-drawer').on('click', function (event) {
             $('#menu-drawer').addClass('is-visible');
         });
-        //clode the lateral panel
         $('#menu-drawer').on('click', function (event) {
             if ($(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close')) {
                 $('#menu-drawer').removeClass('is-visible');
             }
         });
-
-//        $('#Butt div').click(function () {
-//            window.location.href = $(this).data("link");
-//        });
-//        $('#Fetch div').click(function(){
-//            windows.location.href= $(this).data("link");
-//        });
     });
 </script>
 

@@ -2,6 +2,7 @@ _shopping();
 
 // item count
 var shopping_count = 0;
+var shoppping_toAdd;
 
 loader._shopping = {
     data: ["greenEggs", "ham"],
@@ -11,9 +12,9 @@ loader._shopping = {
     loadData: function (data) {
         var arr = [];
         for (var i = 0; i < data.length; i++) {
-            toAdd = data[i];
+            shoppping_toAdd = data[i];
             var newItem = document.createElement('li');
-            newItem.innerHTML = toAdd;
+            newItem.innerHTML = shoppping_toAdd;
             newItem.className = 'item';
             $("#list").append(newItem);
 
@@ -45,9 +46,9 @@ function _shopping() {
     //press enter
     $('#add-shopping-item').submit(function () {
         if ($('input[name=checkListItem]').val() !== '') {
-            toAdd = $('input[name=checkListItem]').val();
+            shoppping_toAdd = $('input[name=checkListItem]').val();
             var newItem = document.createElement('li');
-            newItem.innerHTML = toAdd;
+            newItem.innerHTML = shoppping_toAdd;
             newItem.className = 'item';
 
             $('#list').prepend(newItem);
@@ -66,12 +67,12 @@ function _shopping() {
                 $("#footerInfo,#footerBars").hide();
             }
 
-            //loader.currentPageChanged();
+            loader.currentPageChanged();
         }
         $('input[name=checkListItem]').val('');
         $('#input').focus();
 
-        _shopping.push(toAdd);
+        _shopping.push(shoppping_toAdd);
 
         return false;
     });
