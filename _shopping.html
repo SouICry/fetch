@@ -1,46 +1,46 @@
+<div class="container text-center" id="shopping">
 
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>Shopping List</h2>
+        </div>
+    </div>
 
-    <div class="container text-center" id="shopping">
+    <div class="container" id="box">
+        <div class="row">
+            <div class="col-xs-12">
+                <form id="shoppping_list_form">
+                <span><input id="shoppingCheckListItem" class="input" type="text" name="checkListItem"
+                             placeholder="What do you need?" autocomplete="off"
+                             autofocus/><button id="add-shopping-item" type="button"
+                                                class="btn btn-primary">Submit</button></span>
+                </form>
+                <ul id="list">
 
-            <div class="row" >
-                <div class="col-xs-12">
-                    <h2>Shopping List</h2>
-                </div>
+                </ul>
             </div>
+        </div>
 
-        <div class="container" id = "box">
-            <div class="row" >
-                <div class="col-xs-12">
-                    <form id="add-shopping-item">
-                        <span><input class="input" type="text" name="checkListItem" placeholder="What do you need?" autocomplete="off"
-                               autofocus/></span>
-                    </form>
-                    <ul id="list">
-
-                    </ul>
-                </div>
-            </div>
-
-            <div class = "row">
-                <div class="col-xs-12">
-                    <div class="todo-footer">
-                        <div id="footerInfo">
-                            <div id="numItems"></div>
-                            <button id="submit_list" type="button" class="btn btn-link">
-                                Submit
-                            </button>
-                        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="todo-footer">
+                    <div id="footerInfo">
+                        <div id="numItems"></div>
+                        <button id="submit_list" type="button" class="btn btn-link">
+                            Submit
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div id = "footerBars">
-            <div class="footer2"></div>
-            <div class="footer3"></div>
-        </div>
-
     </div>
+
+    <div id="footerBars">
+        <div class="footer2"></div>
+        <div class="footer3"></div>
+    </div>
+
+</div>
 
 <script src="js/_shopping.js"></script>
 
