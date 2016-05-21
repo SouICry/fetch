@@ -94,7 +94,6 @@
 
 <script>
 
-    var currentPage = "_homePage";
     function setFlowVisible(which) {
 
         $("#page-content").children().each(function () {
@@ -106,7 +105,7 @@
     }
 
     function next() {
-        var item = $('#' + currentPage);
+        var item = $('#' + loader.currentPage);
         var parent = $(item).data('parent');
         var pos = $(item).data('pos');
         if (pos < allPages[parent].length - 1) {
@@ -115,7 +114,7 @@
     }
 
     function previous() {
-        var item = $('#' + currentPage);
+        var item = $('#' + loader.currentPage);
         var parent = $(item).data('parent');
         var pos = $(item).data('pos');
         if (pos > 0) {
@@ -123,16 +122,19 @@
         }
     }
 
-    function goToPreviousPage(){
+    function goToPreviousPage() {
         goToPage(loader.previousPage);
     }
 
 
     function goToPage(id) {
+        loader.sendData();
+        loader.previousPage = loader.currentPage;
         var item = $('#' + id);
         var parent = $(item).data('parent');
 //        setFlowVisible(parent);
-        currentPage = id;
+        loader.setCurrentPage(id);
+        loader.loadData();
         $("#page-content").css('transform',
                 'translate(-' + $(item).data("pos") * 100 + '%, -' + $(item).data("vpos") * 100 + '%)')
     }
@@ -156,7 +158,6 @@
     }
 
 
-
     var allSections = ['abovePages', 'createTicket', /*'acceptTicket',*/ 'confirmTicket', 'driverFlow'];
 
     var all=["_accSetting", "_contact", "_history", "_passwordRecovery","_homePage", "_shopping", "_checkout", "_login",
@@ -174,7 +175,8 @@
         abovePages: ["_accSetting", "_contact", "_history", "_passwordRecovery" /*,"_passwordReset" ",_signUp", "_login"*/],
         createTicket: ["_homePage", "_shopping", "_checkout", "_login"/*, "_submitted"*/],
         /*acceptTicket: ['_acceptTicket', '_paid'],*/
-        confirmTicket: [/*'_confirmTicket',*/ "_rating", /*'_ticketClosed',*/"_passwordReset","_signUp", "_yourDeliveries"],
+        /*acceptTicket: ['_cancelTicket','_cancelled'],*/
+        confirmTicket: [/*'_confirmTicket',*/ "_rating", /*'_ticketClosed',*/"_passwordReset", "_signUp"],
         driverFlow: ['_tickets', '_driverList', /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats']
     };
 
@@ -182,19 +184,164 @@
     loadPage("_userTickets", '#userTickets');
 
 
+    /*
+    TODO:
+    Each page MUST specify function to send/received data, or null
+
+    Each page will call goToPage onclick to go to the correct page
+
+
+
+    */
+
+
+    //Backend loads/stores ticket into page objects:
+    function loadTicket(){
+
+    }
+    function saveTicket(){
+
+    }
+    var ticketPrototype = {
+        ticket: {
+            id: "",
+            state: "",
+            store: "",
+            user: {
+                id: "",
+                contact: "",
+                rating: ""
+            },
+            driver: {
+                id: "",
+                rating: ""
+            },
+            list: [],
+            options: {},
+            checkoff: []
+        }
+    };
     var loader = {
+        isDriver: false,
         userId: "",
-        previousPage: ""
+        previousPage: "",
+        currentPage: "",
+        currentPageObject: {
+            getData: null,
+            loadData: null,
+            data: null
+        },
+        setCurrentPage: function (page) {
+            loader.currentPage = page;
+            if (loader.hasOwnProperty(page)) {
+                loader.currentPageObject = loader[page];
+            }
+            else {
+                loader.currentPageObject = {
+                    getData: null,
+                    loadData: null,
+                    data: null
+                }
+            }
+            $.post("/changePage", {
+                data: {
+                    page : page
+                }
+            }, function(){
+                callback();
+            });
+        },
+
+        //Saves current active ticket (if any), then fetches new one and loads page data corresponding to ticket status in back end store
+        getTicket: function (ticketId, state, store) {
+            if (arguments.length < 3){
+                store = null;
+            }
+            if (state != "accepted" || loader.isDriver) {
+                $.post("/getTicket", {
+                    data: {
+                        id: ticketId,
+                        store: store
+                    }
+                }, function () {
+                    if (loader.isDriver) {
+                        switch (state) {
+                            case "accepted" :
+                                goToPage("_driverList");
+                                break;
+                            case "shopped":
+                                goToPage("_completeTicket");
+                                break;
+                            case "" :
+                        }
+                    }
+                    else {
+                        switch (state) {
+                            case "draft" :
+                                goToPage("_shopping");
+                                break;
+                            case "pending":
+                                goToPage("_cancelTicket");
+                                break;
+                            case "shopped":
+                                goToPage("_acceptTicket");
+                                break;
+                        }
+                    }
+                });
+            }
+        },
+        currentPageChanged : function(){
+            //Submit data
+            //Throttle.
+        },
+        sendData: function () { //Gets data from page and sends to server for update. Server will send back version num
+            if (loader.currentPageObject.getData != null) {
+                loader.currentPageObject.data = loader.currentPageObject.getData();
+                $.post("/sendData", {
+                    data: {
+                        page: loader.currentPage,
+                        data: loader.currentPageObject.data
+                    }
+                }, function (res) {
+                    if (loader.currentPageObject.version < res) {
+                        loader.currentPageObject.version = res;
+                    }
+                });
+            }
+        },
+        loadData: function () { //Gets data from server to load page with
+            if (loader.currentPageObject.loadData != null) {
+                $.post("/" + loader.currentPage, {data: loader.currentPageObject.version}, function (res) {
+                    if (data != null) {
+                        loader.currentPageObject.data = res.data;
+                        loader.currentPageObject.version = res.version;
+                        loader.currentPageObject.loadData();
+                    }
+                });
+            }
+        }
+
 
     };
+
+    /*
+     Each page that needs like sync (edit ticket pages and stateless pages) has:
+     data:
+     version:
+     getData: packages page data.
+     loadData: loads data package
+     Otherwise it is a missing property; the other pages load data through their own ajax(?)
+     */
+
 
     $(document).ready(function () {
         $.ajax({
             type: "POST",
             url: "/init",
             data: {},
-            success: function(data){
-                if (data == null){
+            success: function (data) {
+                if (data == null) {
 
                 }
                 else {
@@ -227,39 +374,15 @@
     });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     jQuery(document).ready(function ($) {
-        //open the lateral panel
         $('#open-menu-drawer').on('click', function (event) {
             $('#menu-drawer').addClass('is-visible');
         });
-        //clode the lateral panel
         $('#menu-drawer').on('click', function (event) {
             if ($(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close')) {
                 $('#menu-drawer').removeClass('is-visible');
             }
         });
-
-//        $('#Butt div').click(function () {
-//            window.location.href = $(this).data("link");
-//        });
-//        $('#Fetch div').click(function(){
-//            windows.location.href= $(this).data("link");
-//        });
     });
 </script>
 
