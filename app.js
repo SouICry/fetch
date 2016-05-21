@@ -206,6 +206,19 @@ passport.use('signup', new LocalStrategy(
                         email: email,
                         password: password,
                         phone_number: req.body.phone_number,
+                        address: {
+                            street: 'milf st.',
+                            city: 'milf city',
+                            state: 'CA',
+                            zip: '696969'
+                        },
+                        payment_info: {
+                            card_holder_name: '69',
+                            card_number: '69',
+                            exp_month: '6',
+                            exp_year: '69',
+                            cvv: '699'
+                        },
                         total_rating: 0.0,
                         num_times_rated: 0,
                         time_created: date.toLocaleDateString() + ' ' + date.toLocaleTimeString(),
