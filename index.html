@@ -32,7 +32,6 @@
     </div>
 </div>
 
-<!--Move to grid for laying out everything in same page-->
 <div id="page-content" style="overflow-x: visible">
     <div id="abovePages" class=""></div>
     <div id="createTicket" class=""></div>
@@ -42,49 +41,13 @@
 </div>
 
 <div id="menu-drawer" class="cd-panel from-right" style="z-index: 3000">
-
-
     <div class="cd-panel-container">
-        <header id = "panel-Header"class="">
+        <header id="panel-Header" class="">
             <h1>hellp</h1>
             <div id="close-menu" class="cd-panel-close">Close</div>
         </header>
         <div class="cd-panel-content">
-
             <div id="Butt">
-
-
-                <!--<div id="COG" data-link='/_accSetting.html' class="sign"><span-->
-                <!--class="glyphicon glyphicon-cog"></span>Setting-->
-                <!--</div>-->
-                <!--<div data-link='/_login.html' class="log"><span-->
-                <!--class="glyphicon glyphicon-log-in"></span>Login-->
-                <!--</div>-->
-                <!--<div data-link='/_signUp.html' class="sign"><span-->
-                <!--class="glyphicon glyphicon-plus-sign"></span>Sign-Up-->
-                <!--</div>-->
-                <!--<div data-link='/_passwordRecovery.html' class="sign"><span-->
-                <!--class="glyphicon glyphicon-wrench"></span>Password Recovery-->
-                <!--</div>-->
-                <!--<div data-link='/_passwordReset.html' class="sign"><span-->
-                <!--class="glyphicon glyphicon-repeat"></span>Password-->
-                <!--Reset-->
-                <!--</div>-->
-                <!--<div data-link='/_rating.html' class="sign"><span-->
-                <!--class="glyphicon glyphicon-signal"></span>Rating-->
-                <!--</div>-->
-                <!--<div data-link='/_tickets.html' class="sign"><span-->
-                <!--class="glyphicon glyphicon-list-alt"></span>Tickets-->
-                <!--</div>-->
-                <!--<div data-link='/_congrats.html' class="sign">Congrats-->
-                <!--</div>-->
-                <!--<div data-link='/_checkout.html' class="sign"><span-->
-                <!--class="glyphicon glyphicon-check"></span>Checkout-->
-                <!--</div>-->
-                <!--<div data-link='/_homePage.html' class="log-out"><span-->
-                <!--class="glyphicon glyphicon-off"></span>Log-Out-->
-                <!--</div>-->
-
 
             </div>
         </div> <!-- cd-panel-content -->
@@ -94,15 +57,6 @@
 
 <script>
 
-    function setFlowVisible(which) {
-
-        $("#page-content").children().each(function () {
-            if ($(this).data("ownId") != which) {
-                $(this).addClass("hidden");
-            }
-        });
-        $('#' + which).removeClass("hidden");
-    }
 
     function next() {
         var item = $('#' + loader.currentPage);
@@ -128,15 +82,7 @@
 
 
     function goToPage(id) {
-        loader.sendData();
-        loader.previousPage = loader.currentPage;
-        var item = $('#' + id);
-        var parent = $(item).data('parent');
-//        setFlowVisible(parent);
         loader.setCurrentPage(id);
-        loader.loadData();
-        $("#page-content").css('transform',
-                'translate(-' + $(item).data("pos") * 100 + '%, -' + $(item).data("vpos") * 100 + '%)')
     }
 
     window.onhashchange = function () {
@@ -160,16 +106,16 @@
 
     var allSections = ['abovePages', 'createTicket', /*'acceptTicket',*/ 'confirmTicket', 'driverFlow'];
 
-    var all=["_accSetting", "_contact", "_history", "_passwordRecovery","_homePage", "_shopping", "_checkout", "_login",
-        "_rating","_passwordReset","_signUp","_tickets", "_driverList2", '_congrats',"_yourDeliveries"];
+    var all = ["_accSetting", "_contact", "_history", "_passwordRecovery", "_homePage", "_shopping", "_checkout", "_login",
+        "_rating", "_passwordReset", "_signUp", "_tickets", "_driverList2", '_congrats', "_yourDeliveries"];
 
-    var allGlyphs = ["glyphicon glyphicon-cog","","","glyphicon glyphicon-wrench","glyphicon glyphicon-home",
-        "","glyphicon glyphicon-check","glyphicon glyphicon-log-in","glyphicon glyphicon-signal",
+    var allGlyphs = ["glyphicon glyphicon-cog", "", "", "glyphicon glyphicon-wrench", "glyphicon glyphicon-home",
+        "", "glyphicon glyphicon-check", "glyphicon glyphicon-log-in", "glyphicon glyphicon-signal",
         "glyphicon glyphicon-repeat",
-        "glyphicon glyphicon-plus-sign","","", ""];
+        "glyphicon glyphicon-plus-sign", "", "", ""];
 
-    var pageNames = ["Setting", "Contact", "History", "Password Recovery","Home", "Shopping", "Checkout", "Login",
-        "Rating","Password Reset","Sign Up","Tickets", "Driver List", 'Congrats', "Your Deliveries"];
+    var pageNames = ["Setting", "Contact", "History", "Password Recovery", "Home", "Shopping", "Checkout", "Login",
+        "Rating", "Password Reset", "Sign Up", "Tickets", "Driver List", 'Congrats', "Your Deliveries"];
 
     var allPages = {
         abovePages: ["_accSetting", "_contact", "_history", "_passwordRecovery" /*,"_passwordReset" ",_signUp", "_login"*/],
@@ -185,21 +131,21 @@
 
 
     /*
-    TODO:
-    Each page MUST specify function to send/received data, or null
+     TODO:
+     Each page MUST specify function to send/received data, or null
 
-    Each page will call goToPage onclick to go to the correct page
+     Each page will call goToPage onclick to go to the correct page
 
 
 
-    */
+     */
 
 
     //Backend loads/stores ticket into page objects:
-    function loadTicket(){
+    function loadTicket() {
 
     }
-    function saveTicket(){
+    function saveTicket() {
 
     }
     var ticketPrototype = {
@@ -221,9 +167,12 @@
             checkoff: []
         }
     };
+
+
     var loader = {
         isDriver: false,
         userId: "",
+        pageCount: 0,
         previousPage: "",
         currentPage: "",
         currentPageObject: {
@@ -231,30 +180,42 @@
             loadData: null,
             data: null
         },
+        goToPage(id){
+            var item = $('#' + id);
+            $("#page-content").css('transform',
+                    'translate(-' + $(item).data("pos") * 100 + '%, -' + $(item).data("vpos") * 100 + '%)')
+        },
         setCurrentPage: function (page) {
+            loader.pageCount++;
+            var oldPage = loader.currentPage;
             loader.currentPage = page;
-            if (loader.hasOwnProperty(page)) {
-                loader.currentPageObject = loader[page];
+            if (loader.currentPageObject.getData != null) {
+                loader.currentPageObject.data = loader.currentPageObject.getData();
             }
             else {
-                loader.currentPageObject = {
-                    getData: null,
-                    loadData: null,
-                    data: null
-                }
+                loader.currentPageObject.data = null;
             }
+
             $.post("/changePage", {
                 data: {
-                    page : page
+                    pageCount: loader.pageCount,
+                    newPage: page,
+                    oldPage: oldPage,
+                    oldData: loader.currentPageObject.data
                 }
-            }, function(){
-                callback();
+            }, function (newPageData) {
+                loader.goToPage(page);
+                loader.previousPage = oldPage;
+                loader.currentPageObject = loader[page];
+                if (loader.currentPageObject.loadData != null) {
+                    loader.currentPageObject.loadData(newPageData);
+                }
             });
         },
 
         //Saves current active ticket (if any), then fetches new one and loads page data corresponding to ticket status in back end store
         getTicket: function (ticketId, state, store) {
-            if (arguments.length < 3){
+            if (arguments.length < 3) {
                 store = null;
             }
             if (state != "accepted" || loader.isDriver) {
@@ -291,7 +252,7 @@
                 });
             }
         },
-        currentPageChanged : function(){
+        currentPageChanged: function () {
             //Submit data
             //Throttle.
         },
@@ -303,25 +264,61 @@
                         page: loader.currentPage,
                         data: loader.currentPageObject.data
                     }
-                }, function (res) {
-                    if (loader.currentPageObject.version < res) {
-                        loader.currentPageObject.version = res;
+                }, function (resp) {
+                    if (loader.currentPageObject.version < resp) {
+                        loader.currentPageObject.version = resp;
                     }
                 });
             }
         },
         loadData: function () { //Gets data from server to load page with
             if (loader.currentPageObject.loadData != null) {
-                $.post("/loadData" + loader.currentPage, {data: loader.currentPageObject.version}, function (res) {
+                $.post("/loadData" + loader.currentPage, {
+                    data: loader.currentPageObject.version
+                }, function (resp) {
                     if (data != null) {
-                        loader.currentPageObject.data = res.data;
-                        loader.currentPageObject.version = res.version;
+                        loader.currentPageObject.data = resp.data;
+                        loader.currentPageObject.version = resp.version;
                         loader.currentPageObject.loadData();
                     }
                 });
             }
+        },
+        //set to run every second elsewhere
+        getUpdates: function () {
+            $.post("/getUpdate", {
+                data: {
+                    pageCount: loader.pageCount,
+                    page: loader.currentPage
+                }
+            }, function (resp) {
+                //Change page if page is newer
+                if (resp.pageCount > loader.pageCount) {
+                    loader.previousPage = resp.previousPage;
+                    loader.currentPage = resp.currentPage;
+                    loader.currentPageObject = loader[resp.currentPage];
+                    loader.currentPageObject.version = resp.version;
+                    if (loader.currentPageObject.loadData != null) {
+                        loader.currentPageObject.loadData(resp.data);
+                    }
+                }
+                //Update page if on same page and new version
+                else if (resp.pageCount == loader.pageCount) {
+                    if (resp.version > loader.currentPageObject.version) {
+                        if (loader.currentPageObject.loadData != null) {
+                            loader.currentPageObject.loadData(resp.data);
+                        }
+                    }
+                }
+                else {
+                    //do nothing since this local copy is newer
+                }
+
+            });
         }
     };
+
+
 
     /*
      Each page that needs like sync (edit ticket pages and stateless pages) has:
@@ -332,22 +329,36 @@
      Otherwise it is a missing property; the other pages load data through their own ajax(?)
      */
 
-
-    $(document).ready(function () {
+    function pageInit() {
         $.ajax({
             type: "POST",
             url: "/init",
             data: {},
-            success: function (data) {
-                if (data == null) {
+            success: function (resp) {
+                //If has existing session, load it!
+                if (resp != "none") {
+                    loader.isDriver = resp.isDriver;
+                    loader.userId = resp.userId;
+                    loader.pageCount = resp.pageCount;
+                    loader.previousPage = resp.previousPage;
+                    loader.currentPage = resp.currentPage;
+                    loader.currentPageObject = loader[resp.currentPage];
 
-                }
-                else {
-                    loader = data;
+                    loader.currentPageObject.version = resp.version;
+                    if (loader.currentPageObject.loadData != null) {
+                        loader.currentPageObject.loadData(resp.data);
+                    }
 
+                    loader.goToPage(resp.currentPage);
                 }
+
+                window.setInterval(loader.getUpdates, 1000);
             }
         });
+    }
+
+    $(document).ready(function () {
+        pageInit();
         var i;
         var whichid;
         var glyph;
@@ -357,8 +368,8 @@
             var section = allPages[sectionName];
             for (i = 0; i < section.length; i++) {
                 whichid = section[i];
-                for(var k=0; k<all.length; k++){
-                    if(whichid == all[k]){
+                for (var k = 0; k < all.length; k++) {
+                    if (whichid == all[k]) {
                         glyph = allGlyphs[k];
                         name = pageNames[k];
                         break;
@@ -366,7 +377,7 @@
                 }
                 loadPage(whichid, '#' + sectionName, i, j);
                 var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
-                $("#Butt").append("<div " + clickVal + " > <span class= '" +glyph+"'></span> "+name+"   </div>");
+                $("#Butt").append("<div " + clickVal + " > <span class= '" + glyph + "'></span> " + name + "   </div>");
             }
         }
     });
