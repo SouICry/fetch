@@ -32,7 +32,7 @@ function assholes2() {
         data: info_to_send,
         success: function(data){
             //data is the object sent back on success (could also just be string)
-            alert(JSON.stringify(data));
+            alert('success!');
         },
         error: function(data){
             alert('error');
