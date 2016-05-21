@@ -22,11 +22,11 @@ app.use(express.static('public'));
 
 var db = MongoClient.db(mongodb_url);
 
-
 // Saves user's grocery list to
 app.post('/_shopping', function(req, res) {
     var list_id = req.body.id;
     var glist = {
+                    _id: list_id,
                     shopping_cart: req.body.list
                 };
 
@@ -44,10 +44,31 @@ app.post('/_shopping', function(req, res) {
         res.send({message: 'user is not logged in'});
     }
     else {
-        var updateGroceryList = function(db, callback) {
-            db.collection('users').update({_id: req.session.passport.user},
-                {$push: {grocery_list: glist}}
+        var updateGroceryListAndQueue = function(db, callback) {
+            var grocery_list = null;
+
+            // Update user to hold grocery list submitted
+            db.collection('users').update({_id: req.session.passport.user}, {$push: {grocery_list: glist}},
+                function(err, doc) {
+                    if (err) {
+                        console.log('error updating user grocery list');
+                        res.status(500);
+                        res.send(err);
+                    }
+                    grocery_list = doc;
+                }
             );
+
+            // If grocery list successfully added to user's grocery list, add list to queue
+            if (!grocery_list) {
+                db.collection('grocery_queue').insert(grocery_list, function (err, doc) {
+                    if (err) {
+                        console.log('error adding list to queue: ' + err);
+                        res.status(500);
+                        res.send(err);
+                    }
+                });
+            }
         };
 
         MongoClient.connect(mongodb_url, function(err, db) {
@@ -56,7 +77,7 @@ app.post('/_shopping', function(req, res) {
                 res.send(err);
             }
             else {
-                updateGroceryList(db, function() {
+                updateGroceryListAndQueue(db, function() {
                     db.close();
                 });
             }

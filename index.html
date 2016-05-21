@@ -32,7 +32,6 @@
     </div>
 </div>
 
-<!--Move to grid for laying out everything in same page-->
 <div id="page-content" style="overflow-x: visible">
     <div id="abovePages" class=""></div>
     <div id="createTicket" class=""></div>
@@ -42,47 +41,13 @@
 </div>
 
 <div id="menu-drawer" class="cd-panel from-right" style="z-index: 3000">
-    <header class="cd-panel-header">
-        <h1></h1>
-        <div id="close-menu" class="cd-panel-close">Close</div>
-    </header>
-
     <div class="cd-panel-container">
+        <header id="panel-Header" class="">
+            <h1>hellp</h1>
+            <div id="close-menu" class="cd-panel-close">Close</div>
+        </header>
         <div class="cd-panel-content">
             <div id="Butt">
-
-
-                <!--<div id="COG" data-link='/_accSetting.html' class="sign"><span-->
-                <!--class="glyphicon glyphicon-cog"></span>Setting-->
-                <!--</div>-->
-                <!--<div data-link='/_login.html' class="log"><span-->
-                <!--class="glyphicon glyphicon-log-in"></span>Login-->
-                <!--</div>-->
-                <!--<div data-link='/_signUp.html' class="sign"><span-->
-                <!--class="glyphicon glyphicon-plus-sign"></span>Sign-Up-->
-                <!--</div>-->
-                <!--<div data-link='/_passwordRecovery.html' class="sign"><span-->
-                <!--class="glyphicon glyphicon-wrench"></span>Password Recovery-->
-                <!--</div>-->
-                <!--<div data-link='/_passwordReset.html' class="sign"><span-->
-                <!--class="glyphicon glyphicon-repeat"></span>Password-->
-                <!--Reset-->
-                <!--</div>-->
-                <!--<div data-link='/_rating.html' class="sign"><span-->
-                <!--class="glyphicon glyphicon-signal"></span>Rating-->
-                <!--</div>-->
-                <!--<div data-link='/_tickets.html' class="sign"><span-->
-                <!--class="glyphicon glyphicon-list-alt"></span>Tickets-->
-                <!--</div>-->
-                <!--<div data-link='/_congrats.html' class="sign">Congrats-->
-                <!--</div>-->
-                <!--<div data-link='/_checkout.html' class="sign"><span-->
-                <!--class="glyphicon glyphicon-check"></span>Checkout-->
-                <!--</div>-->
-                <!--<div data-link='/_homePage.html' class="log-out"><span-->
-                <!--class="glyphicon glyphicon-off"></span>Log-Out-->
-                <!--</div>-->
-
 
             </div>
         </div> <!-- cd-panel-content -->
@@ -92,19 +57,9 @@
 
 <script>
 
-    var currentPage = "_homePage";
-    function setFlowVisible(which) {
-
-        $("#page-content").children().each(function () {
-            if ($(this).data("ownId") != which) {
-                $(this).addClass("hidden");
-            }
-        });
-        $('#' + which).removeClass("hidden");
-    }
 
     function next() {
-        var item = $('#' + currentPage);
+        var item = $('#' + loader.currentPage);
         var parent = $(item).data('parent');
         var pos = $(item).data('pos');
         if (pos < allPages[parent].length - 1) {
@@ -113,7 +68,7 @@
     }
 
     function previous() {
-        var item = $('#' + currentPage);
+        var item = $('#' + loader.currentPage);
         var parent = $(item).data('parent');
         var pos = $(item).data('pos');
         if (pos > 0) {
@@ -121,18 +76,15 @@
         }
     }
 
-    function goToPreviousPage(){
+    function goToPreviousPage() {
         goToPage(loader.previousPage);
     }
 
 
     function goToPage(id) {
-        var item = $('#' + id);
-        var parent = $(item).data('parent');
-//        setFlowVisible(parent);
-        currentPage = id;
-        $("#page-content").css('transform',
-                'translate(-' + $(item).data("pos") * 100 + '%, -' + $(item).data("vpos") * 100 + '%)')
+
+        loader.goToPage(id);
+        //loader.setCurrentPage(id);
     }
 
     window.onhashchange = function () {
@@ -154,25 +106,25 @@
     }
 
 
-
     var allSections = ['abovePages', 'createTicket', /*'acceptTicket',*/ 'confirmTicket', 'driverFlow'];
 
-    var all=["_accSetting", "_contact", "_history", "_passwordRecovery","_homePage", "_shopping", "_checkout", "_login",
-        "_rating","_passwordReset","_signUp","_tickets", "_driverList", '_congrats'];
+    var all = ["_accSetting", "_contact", "_history", "_passwordRecovery", "_homePage", "_shopping", "_checkout", "_login",
+        "_rating", "_passwordReset", "_signUp", "_tickets", "_driverList2", '_congrats', "_yourDeliveries"];
 
-    var allGlyphs = ["glyphicon glyphicon-cog","","","glyphicon glyphicon-wrench","glyphicon glyphicon-home",
-        "","glyphicon glyphicon-check","glyphicon glyphicon-log-in","glyphicon glyphicon-signal",
+    var allGlyphs = ["glyphicon glyphicon-cog", "", "", "glyphicon glyphicon-wrench", "glyphicon glyphicon-home",
+        "", "glyphicon glyphicon-check", "glyphicon glyphicon-log-in", "glyphicon glyphicon-signal",
         "glyphicon glyphicon-repeat",
-        "glyphicon glyphicon-plus-sign","","", ""];
+        "glyphicon glyphicon-plus-sign", "", "", ""];
 
-    var pageNames = ["Setting", "Contact", "History", "Password Recovery","Home", "Shopping", "Checkout", "Login",
-        "Rating","Password Reset","Sign Up","Tickets", "Driver List", 'Congrats'];
+    var pageNames = ["Setting", "Contact", "History", "Password Recovery", "Home", "Shopping", "Checkout", "Login",
+        "Rating", "Password Reset", "Sign Up", "Tickets", "Driver List", 'Congrats', "Your Deliveries"];
 
     var allPages = {
         abovePages: ["_accSetting", "_contact", "_history", "_passwordRecovery" /*,"_passwordReset" ",_signUp", "_login"*/],
         createTicket: ["_homePage", "_shopping", "_checkout", "_login"/*, "_submitted"*/],
         /*acceptTicket: ['_acceptTicket', '_paid'],*/
-        confirmTicket: [/*'_confirmTicket',*/ "_rating", /*'_ticketClosed',*/"_passwordReset","_signUp"],
+        /*acceptTicket: ['_cancelTicket','_cancelled'],*/
+        confirmTicket: [/*'_confirmTicket',*/ "_rating", /*'_ticketClosed',*/"_passwordReset", "_signUp"],
         driverFlow: ['_tickets', '_driverList', /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats']
     };
 
@@ -180,27 +132,257 @@
     loadPage("_userTickets", '#userTickets');
 
 
-    var loader = {
-        userId: "",
-        previousPage: ""
+    /*
+     TODO:
+     Each page MUST specify function to send/received data, or null
 
+     Each page will call goToPage onclick to go to the correct page
+
+
+
+     */
+
+
+    //Backend loads/stores ticket into page objects:
+    function loadTicket() {
+
+    }
+    function saveTicket() {
+
+    }
+    var ticketPrototype = {
+        ticket: {
+            id: "",
+            state: "",
+            store: "",
+            user: {
+                id: "",
+                contact: "",
+                rating: ""
+            },
+            driver: {
+                id: "",
+                rating: ""
+            },
+            list: [],
+            options: {},
+            checkoff: []
+        }
     };
 
-    $(document).ready(function () {
+
+    var loader = {
+        isDriver: false,
+        isLoggedIn: false,
+        userId: "",
+        pageCount: 0,
+        previousPage: "",
+        currentPage: "",
+        currentPageObject: {
+            getData: null,
+            loadData: null,
+            data: null
+        },
+        goToPage(id){
+            var item = $('#' + id);
+            $("#page-content").css('transform',
+                    'translate(-' + $(item).data("pos") * 100 + '%, -' + $(item).data("vpos") * 100 + '%)')
+        },
+        setCurrentPage: function (page) {
+            loader.pageCount++;
+            var oldPage = loader.currentPage;
+            loader.currentPage = page;
+            if (loader.currentPageObject.getData != null) {
+                loader.currentPageObject.data = loader.currentPageObject.getData();
+            }
+            else {
+                loader.currentPageObject.data = null;
+            }
+
+            $.post("/changePage", {
+                data: {
+                    pageCount: loader.pageCount,
+                    newPage: page,
+                    oldPage: oldPage,
+                    oldData: loader.currentPageObject.data
+                }
+            }, function (newPageData) {
+                loader.goToPage(page);
+                loader.previousPage = oldPage;
+                loader.currentPageObject = loader[page];
+                if (loader.currentPageObject.loadData != null) {
+                    loader.currentPageObject.loadData(newPageData);
+                }
+            });
+        },
+
+        //Saves current active ticket (if any), then fetches new one and loads page data corresponding to ticket status in back end store
+        getTicket: function (ticketId, state, store) {
+            if (arguments.length < 3) {
+                store = null;
+            }
+            if (state != "accepted" || loader.isDriver) {
+                $.post("/getTicket", {
+                    data: {
+                        id: ticketId,
+                        store: store
+                    }
+                }, function () {
+                    if (loader.isDriver) {
+                        switch (state) {
+                            case "accepted" :
+                                goToPage("_driverList");
+                                break;
+                            case "shopped":
+                                goToPage("_completeTicket");
+                                break;
+                            case "" :
+                        }
+                    }
+                    else {
+                        switch (state) {
+                            case "draft" :
+                                goToPage("_shopping");
+                                break;
+                            case "pending":
+                                goToPage("_cancelTicket");
+                                break;
+                            case "shopped":
+                                goToPage("_acceptTicket");
+                                break;
+                        }
+                    }
+                });
+            }
+        },
+        currentPageChanged: function () {
+            //Submit data
+            //Throttle.
+        },
+        sendData: function () { //Gets data from page and sends to server for update. Server will send back version num
+            if (loader.currentPageObject.getData != null) {
+                loader.currentPageObject.data = loader.currentPageObject.getData();
+                $.post("/sendData", {
+                    data: {
+                        page: loader.currentPage,
+                        data: loader.currentPageObject.data
+                    }
+                }, function (resp) {
+                    if (loader.currentPageObject.version < resp) {
+                        loader.currentPageObject.version = resp;
+                    }
+                });
+            }
+        },
+        loadData: function () { //Gets data from server to load page with
+            if (loader.currentPageObject.loadData != null) {
+                $.post("/loadData" + loader.currentPage, {
+                    data: loader.currentPageObject.version
+                }, function (resp) {
+                    if (data != null) {
+                        loader.currentPageObject.data = resp.data;
+                        loader.currentPageObject.version = resp.version;
+                        loader.currentPageObject.loadData();
+                    }
+                });
+            }
+        },
+        //set to run every second elsewhere
+        getUpdates: function () {
+            $.post("/getUpdates", {
+                data: {
+                    pageCount: loader.pageCount,
+                    page: loader.currentPage
+                }
+            }, function (resp) {
+                if (resp.i)
+
+
+                //Change page if page is newer
+                    if (resp.pageCount > loader.pageCount) {
+                        loader.previousPage = resp.previousPage;
+                        loader.currentPage = resp.currentPage;
+                        loader.currentPageObject = loader[resp.currentPage];
+                        loader.currentPageObject.version = resp.version;
+                        if (loader.currentPageObject.loadData != null) {
+                            loader.currentPageObject.loadData(resp.data);
+                        }
+                    }
+                    //Update page if on same page and new version
+                    else if (resp.pageCount == loader.pageCount) {
+                        if (resp.version > loader.currentPageObject.version) {
+                            if (loader.currentPageObject.loadData != null) {
+                                loader.currentPageObject.loadData(resp.data);
+                            }
+                        }
+                    }
+                    else {
+                        //do nothing since this local copy is newer
+                    }
+
+            });
+        },
+
+        login: function () {
+            //TODO:
+        },
+        logout: function () {
+            //TODO: delete cookie and refresh page
+        },
+        switchToDriver: function () {
+
+        },
+        switchToShopper: function () {
+
+        }
+    };
+
+
+    /*
+     Each page that needs like sync (edit ticket pages and stateless pages) has:
+     data:
+     version:
+     getData: packages page data.
+     loadData: loads data package
+     Otherwise it is a missing property; the other pages load data through their own ajax(?)
+     */
+
+    function pageInit() {
+
+        //TODO: check for coookie to see if logged in
+        var id;
+
         $.ajax({
             type: "POST",
             url: "/init",
-            data: {},
-            success: function(data){
-                if (data == null){
+            data: {
+                userId: loader.userId //"" or valid user id string
+            },
+            success: function (resp) {
+                //If has existing session, load it!
+                if (resp != "none") {
+                    loader.isDriver = resp.isDriver;
+                    loader.userId = resp.userId;
+                    loader.pageCount = resp.pageCount;
+                    loader.previousPage = resp.previousPage;
+                    loader.currentPage = resp.currentPage;
+                    loader.currentPageObject = loader[resp.currentPage];
 
-                }
-                else {
-                    loader = data;
+                    loader.currentPageObject.version = resp.version;
+                    if (loader.currentPageObject.loadData != null) {
+                        loader.currentPageObject.loadData(resp.data);
+                    }
 
+                    loader.goToPage(resp.currentPage);
                 }
+
+                window.setInterval(loader.getUpdates, 1000);
             }
         });
+    }
+
+    $(document).ready(function () {
+        pageInit();
         var i;
         var whichid;
         var glyph;
@@ -210,53 +392,30 @@
             var section = allPages[sectionName];
             for (i = 0; i < section.length; i++) {
                 whichid = section[i];
-                for(var k=0; k<all.length; k++){
-                    if(whichid == all[k]){
+                for (var k = 0; k < all.length; k++) {
+                    if (whichid == all[k]) {
                         glyph = allGlyphs[k];
                         name = pageNames[k];
                         break;
                     }
                 }
                 loadPage(whichid, '#' + sectionName, i, j);
-                $('#Butt').append("<div data-link='/#" + whichid + "'> <span class= '" +glyph+"'></span> "+name+"   </div>");
+                var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
+                $("#Butt").append("<div " + clickVal + " > <span class= '" + glyph + "'></span> " + name + "   </div>");
             }
         }
     });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     jQuery(document).ready(function ($) {
-        //open the lateral panel
         $('#open-menu-drawer').on('click', function (event) {
             $('#menu-drawer').addClass('is-visible');
         });
-        //clode the lateral panel
         $('#menu-drawer').on('click', function (event) {
             if ($(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close')) {
                 $('#menu-drawer').removeClass('is-visible');
             }
         });
-
-        $('#Butt div').click(function () {
-            window.location.href = $(this).data("link");
-        });
-//        $('#Fetch div').click(function(){
-//            windows.location.href= $(this).data("link");
-//        });
     });
 </script>
 

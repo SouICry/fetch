@@ -1,44 +1,85 @@
-_shopping();
+(function () {
+    loader._shopping = {
+        data: ["greenEggs", "ham"], //Optional
+        version: 0, //Must be 0
+        getData: function () { //must be null if not needed
+            return list_shopping;
+        },
+        loadData: function (data) { // MUST RESET PAGE AS WELL    //must be null if not needed
+            var arr = [];
+            for (var i = 0; i < data.length; i++) {
+                shoppping_toAdd = data[i];
+                var newItem = document.createElement('li');
+                newItem.innerHTML = shoppping_toAdd;
+                newItem.className = 'item';
+                $("#list").append(newItem);
 
-function _shopping() {
-    // item count
-    var count = 0;
+                shopping_count++;
+                if (shopping_count == 1) {
+                    $("#numItems").text("1 item");
+                }
+                else {
+                    $("#numItems").text(shopping_count + " data");
+                }
+                if (shopping_count != 0) {
+                    $("#footerInfo, #footerBars").show();
+                }
+                else {
+                    $("#footerInfo,#footerBars").hide();
+                }
+            }
+        }
 
-    var _shopping = [];
+    };
 
-    $("#footerInfo, #footerBars").hide();
+    var shopping_count = 0;
+    var shoppping_toAdd;
+    var list_shopping = [];
 
-    //press enter
-    $('#add-shopping-item').submit(function () {
-        if ($('input[name=checkListItem]').val() !== '') {
-            toAdd = $('input[name=checkListItem]').val();
+
+    $('#submit_list').click(function () {
+        if (list_shopping.length > 0) {
+            goToPage("_checkout");
+        }
+    });
+
+
+    $('#shoppping_list_form').submit(addItem);
+    $('#add-shopping-item').click(addItem);
+    function addItem() {
+        if ($('#shoppingCheckListItem').val() !== '') {
+            shoppping_toAdd = $('#shoppingCheckListItem').val();
             var newItem = document.createElement('li');
-            newItem.innerHTML = toAdd;
+            newItem.innerHTML = shoppping_toAdd;
             newItem.className = 'item';
 
             $('#list').prepend(newItem);
-            count++;
-            if (count == 1) {
+            shopping_count++;
+            if (shopping_count == 1) {
                 $("#numItems").text("1 item");
             }
             else {
-                $("#numItems").text(count + " items");
+                $("#numItems").text(shopping_count + " items");
             }
 
-            if (count != 0) {
+            if (shopping_count != 0) {
                 $("#footerInfo, #footerBars").show();
             }
             else {
                 $("#footerInfo,#footerBars").hide();
             }
-        }
-        $('input[name=checkListItem]').val('');
-        $('#input').focus();
 
-        _shopping.push(toAdd);
+            loader.currentPageChanged();
+        }
+        $('#shoppingCheckListItem').val('');
+        // $('#input').focus();
+
+        list_shopping.push(shoppping_toAdd);
 
         return false;
-    });
+    }
+
+
 
     // remove item
     $(document).on('click', '.item', function () {
@@ -62,103 +103,17 @@ function _shopping() {
             $("#footerInfo, #footerBars").hide();
         }
 
-        var index = _shopping.indexOf($(this).text());
+        var index = list_shopping.indexOf($(this).text());
 
         if (index > -1) {
-            _shopping.splice(index, 1);
+            list_shopping.splice(index, 1);
         }
 
-        console.log($(this).text());
+        loader.currentPageChanged();
     });
 
 
-    $('#submit_list').click(function () {
-        if (_shopping != []) {
-            sendToServer();
-        }
-        loader.next();
-    });
 
-    function sendToServer(){
-        var info_to_send = {};
-        info_to_send.id = $('#user-name').data('id');
-        info_to_send.list = _shopping;
-        info_to_send.type = "send";
-
-        //Simulation (alert or console.log to check for yourself)
-        alert(JSON.stringify(info_to_send));
-
-        //Actual
-        $.ajax({
-            type: "POST",
-            url: "/_shopping",
-            data: info_to_send,
-            success: function(data){
-                //data is the object sent back on success (could also just be string)
-                alert("Congrats!");
-            },
-            error: function(data){
-                //data is the object send back on fail (could also just be string)
-            }
-
-
-        });
-    }
-
-    //Simulation:
-    var simulated_user = {
-        id: 1234567,
-        name: "Bob",
-        items: ["green eggs", "ham"],
-    };
-  //  displayLoadedData(simulated_user);
-
-    function loadFromServer() {
-        var request = {
-            "type": "get",
-            "data": null
-        };
-
-        $.ajax({
-            type: "POST",
-            url: "/_shopping",
-            data: request,
-            success: function (data) {
-                //data is the object sent back on success (could also just be string)
-                displayLoadedData(data);
-            },
-            error: function (data) {
-                //data is the object send back on fail (could also just be string)
-            }
-        });
-    }
-
-    function displayLoadedData(data) {
-        var arr = [];
-        var items = data.items;
-        for (var i = 0; i < items.length; i++) {
-            toAdd = data.items[i];
-            var newItem = document.createElement('li');
-            newItem.innerHTML = toAdd;
-            newItem.className = 'item';
-            $("#list").append(newItem);
-
-            count++;
-            if (count == 1) {
-                $("#numItems").text("1 item");
-            }
-            else {
-                $("#numItems").text(count + " items");
-            }
-            if (count != 0) {
-                $("#footerInfo, #footerBars").show();
-            }
-            else {
-                $("#footerInfo,#footerBars").hide();
-            }
-        }
-    }
-}
-
+})();
 
 
