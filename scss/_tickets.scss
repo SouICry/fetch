@@ -50,13 +50,20 @@
     color: white;
   }
 
+  .store {
+    padding: 10px;
+  }
+
   .store:hover {
     background-color: rgba(33, 19, 0, 0.07);
+    color: $fetchOrange;
   }
 
   .selected {
     border: 2px solid rgba(33, 19, 0, 0.11);
     border-bottom: 0;
+    color: white;
+    background-color: $fetchOrange;
   }
 
   .hidden {
@@ -65,11 +72,6 @@
 
   .show {
     display: flex;
-  }
-  h1 {
-    font-family: "Iowan Old Style" !important;
-    color: orangered !important;
-    text-align: center;
   }
 
   #footerBars {
