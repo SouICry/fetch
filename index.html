@@ -42,13 +42,15 @@
 </div>
 
 <div id="menu-drawer" class="cd-panel from-right" style="z-index: 3000">
-    <header class="cd-panel-header">
-        <h1></h1>
-        <div id="close-menu" class="cd-panel-close">Close</div>
-    </header>
+
 
     <div class="cd-panel-container">
+        <header id = "panel-Header"class="">
+            <h1>hellp</h1>
+            <div id="close-menu" class="cd-panel-close">Close</div>
+        </header>
         <div class="cd-panel-content">
+
             <div id="Butt">
 
 
@@ -157,6 +159,18 @@
 
 
     var allSections = ['abovePages', 'createTicket', /*'acceptTicket',*/ 'confirmTicket', 'driverFlow'];
+
+    var all=["_accSetting", "_contact", "_history", "_passwordRecovery","_homePage", "_shopping", "_checkout", "_login",
+        "_rating","_passwordReset","_signUp","_tickets", "_driverList2", '_congrats',"_yourDeliveries"];
+
+    var allGlyphs = ["glyphicon glyphicon-cog","","","glyphicon glyphicon-wrench","glyphicon glyphicon-home",
+        "","glyphicon glyphicon-check","glyphicon glyphicon-log-in","glyphicon glyphicon-signal",
+        "glyphicon glyphicon-repeat",
+        "glyphicon glyphicon-plus-sign","","", ""];
+
+    var pageNames = ["Setting", "Contact", "History", "Password Recovery","Home", "Shopping", "Checkout", "Login",
+        "Rating","Password Reset","Sign Up","Tickets", "Driver List", 'Congrats', "Your Deliveries"];
+
     var allPages = {
         abovePages: ["_accSetting", "_contact", "_history", "_passwordRecovery" /*,"_passwordReset" ",_signUp", "_login"*/],
         createTicket: ["_homePage", "_shopping", "_checkout", "_login"/*, "_submitted"*/],
@@ -165,6 +179,7 @@
         confirmTicket: [/*'_confirmTicket',*/ "_rating", /*'_ticketClosed',*/"_passwordReset", "_signUp"],
         driverFlow: ['_tickets', '_driverList', /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats']
     };
+
     loadPage("_driverTickets", '#driverTickets');
     loadPage("_userTickets", '#userTickets');
 
@@ -332,13 +347,23 @@
         });
         var i;
         var whichid;
+        var glyph;
+        var name;
         for (var j = 0; j < allSections.length; j++) {
             var sectionName = allSections[j];
             var section = allPages[sectionName];
             for (i = 0; i < section.length; i++) {
                 whichid = section[i];
+                for(var k=0; k<all.length; k++){
+                    if(whichid == all[k]){
+                        glyph = allGlyphs[k];
+                        name = pageNames[k];
+                        break;
+                    }
+                }
                 loadPage(whichid, '#' + sectionName, i, j);
-                $('#Butt').append("<div data-link='/#" + whichid + "' class='sign'>" + whichid + "</div>");
+                var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
+                $("#Butt").append("<div " + clickVal + " > <span class= '" +glyph+"'></span> "+name+"   </div>");
             }
         }
     });
@@ -356,9 +381,9 @@
             }
         });
 
-        $('#Butt div').click(function () {
-            window.location.href = $(this).data("link");
-        });
+//        $('#Butt div').click(function () {
+//            window.location.href = $(this).data("link");
+//        });
 //        $('#Fetch div').click(function(){
 //            windows.location.href= $(this).data("link");
 //        });

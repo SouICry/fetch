@@ -1,8 +1,42 @@
 _shopping();
 
+// item count
+var shopping_count = 0;
+
+loader._shopping = {
+    data: ["greenEggs", "ham"],
+    getData: function () {
+        return _shopping;
+    },
+    loadData: function (data) {
+        var arr = [];
+        for (var i = 0; i < data.length; i++) {
+            toAdd = data[i];
+            var newItem = document.createElement('li');
+            newItem.innerHTML = toAdd;
+            newItem.className = 'item';
+            $("#list").append(newItem);
+
+            shopping_count++;
+            if (shopping_count == 1) {
+                $("#numItems").text("1 item");
+            }
+            else {
+                $("#numItems").text(shopping_count + " data");
+            }
+            if (shopping_count != 0) {
+                $("#footerInfo, #footerBars").show();
+            }
+            else {
+                $("#footerInfo,#footerBars").hide();
+            }
+        }
+    }
+
+};
+
+
 function _shopping() {
-    // item count
-    var count = 0;
 
     var _shopping = [];
 
@@ -31,6 +65,8 @@ function _shopping() {
             else {
                 $("#footerInfo,#footerBars").hide();
             }
+
+            //loader.currentPageChanged();
         }
         $('input[name=checkListItem]').val('');
         $('#input').focus();
@@ -68,7 +104,7 @@ function _shopping() {
             _shopping.splice(index, 1);
         }
 
-        console.log($(this).text());
+        loader.currentPageChanged();
     });
 
 
@@ -78,87 +114,6 @@ function _shopping() {
         }
         loader.next();
     });
-
-    function sendToServer(){
-        var info_to_send = {};
-        info_to_send.id = $('#user-name').data('id');
-        info_to_send.list = _shopping;
-        info_to_send.type = "send";
-
-        //Simulation (alert or console.log to check for yourself)
-        alert(JSON.stringify(info_to_send));
-
-        //Actual
-        $.ajax({
-            type: "POST",
-            url: "/_shopping",
-            data: info_to_send,
-            success: function(data){
-                //data is the object sent back on success (could also just be string)
-                alert("Congrats!");
-            },
-            error: function(data){
-                //data is the object send back on fail (could also just be string)
-            }
-
-
-        });
-    }
-
-    //Simulation:
-    var simulated_user = {
-        id: 1234567,
-        name: "Bob",
-        items: ["green eggs", "ham"],
-    };
-  //  displayLoadedData(simulated_user);
-
-    function loadFromServer() {
-        var request = {
-            "type": "get",
-            "data": null
-        };
-
-        $.ajax({
-            type: "POST",
-            url: "/_shopping",
-            data: request,
-            success: function (data) {
-                //data is the object sent back on success (could also just be string)
-                displayLoadedData(data);
-            },
-            error: function (data) {
-                //data is the object send back on fail (could also just be string)
-            }
-        });
-    }
-
-    function displayLoadedData(data) {
-        var arr = [];
-        var items = data.items;
-        for (var i = 0; i < items.length; i++) {
-            toAdd = data.items[i];
-            var newItem = document.createElement('li');
-            newItem.innerHTML = toAdd;
-            newItem.className = 'item';
-            $("#list").append(newItem);
-
-            count++;
-            if (count == 1) {
-                $("#numItems").text("1 item");
-            }
-            else {
-                $("#numItems").text(count + " items");
-            }
-            if (count != 0) {
-                $("#footerInfo, #footerBars").show();
-            }
-            else {
-                $("#footerInfo,#footerBars").hide();
-            }
-        }
-    }
 }
-
 
 

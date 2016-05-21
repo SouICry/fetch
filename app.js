@@ -54,6 +54,19 @@ var userSchema = new mongoose.Schema(
         email: {type: String, required: true, unique: true},
         password: {type: String, required: true},
         phone_number: {type: String, required: true},
+        address: {
+            street: '',
+            city: '',
+            state: '',
+            zip: ''
+        },
+        payment_info: {
+            card_holder_name: '',
+            card_number: '',
+            exp_month: '',
+            exp_year: '',
+            cvv: ''
+        },
         total_rating: {type: Number, required: false, unique: false},
         num_times_rated: {type: Number, required: false, unique: false},
         time_created: {type: String, required: false, unique: false},
@@ -106,12 +119,15 @@ var validEmail = function(email) {
 
 // Used to check if valid phone number format
 var validPhoneNumber = function(phone_number) {
+    // Strip non-digit chars from phone #
     phone_number = phone_number.replace(/\D/g,'');
+    console.log('stripped phone#: ' + phone_number);
+
     if (phone_number.length != 10) {
         console.log('invalid phone format');
-        return false;
+        return null;
     }
-    return true;
+    return phone_number;
 };
 
 
@@ -158,7 +174,6 @@ passport.use('signup', new LocalStrategy(
         passReqToCallback: true // allows us to pass back the entire request to the callback
     },
     function (req, email, password, done) { // all other input fields are in req.body
-        console.log('GOODBYE');
         if (password.length === 0) {
             console.log('Password has length 0');
             return done(null, false);
@@ -191,6 +206,19 @@ passport.use('signup', new LocalStrategy(
                         email: email,
                         password: password,
                         phone_number: req.body.phone_number,
+                        address: {
+                            street: 'milf st.',
+                            city: 'milf city',
+                            state: 'CA',
+                            zip: '696969'
+                        },
+                        payment_info: {
+                            card_holder_name: '69',
+                            card_number: '69',
+                            exp_month: '6',
+                            exp_year: '69',
+                            cvv: '699'
+                        },
                         total_rating: 0.0,
                         num_times_rated: 0,
                         time_created: date.toLocaleDateString() + ' ' + date.toLocaleTimeString(),
@@ -201,9 +229,10 @@ passport.use('signup', new LocalStrategy(
                         is_driver: false
                     });
 
+                    // Adding new user to database
                     newUser.save(function(err) {
                         if (err) {
-                            console.log('this is an error: ' + err);
+                            console.log('could not save user err: ' + err);
                             return done(null, false);
                         }
                     });
@@ -259,9 +288,7 @@ app.post('/_logout', function(req, res, next) {
 });
 
 app.post('/_signUp', function(req, res, next) {
-    console.log('IDJGKAJGNAKLJFGHNAKFJGHADFKJHGDFAG');
     passport.authenticate('signup', function(err, user, info) {
-        console.log('HELLOOOOOOOOOO');
         console.log(info.message);
 
         if (!user) {
@@ -275,6 +302,9 @@ app.post('/_signUp', function(req, res, next) {
                         //return next(err);
                         console.log('login failed: ', err)
                         res.status(500);
+                    }
+                    else {
+                        console.log('login success!');
                     }
                 });
             });
