@@ -1,14 +1,16 @@
+var data;
 
-$('#login').prop('disabled',true);
+$('#login_butt').prop('disabled',true);
 $('#login_user_email, #login_user_pass').keyup(function(){
     if($('#login_user_email').val()&& $('#login_user_pass').val()) {
-        $('#login').prop('disabled',false);
+        $('#login_butt').prop('disabled',false);
     }
-    else{
-        $('#login').prop('disabled',true);
+    else {
+        $('#login_butt').prop('disabled',true);
     }
 });
-$('#login').click(function () {
+
+$('#login_butt').click(function () {
     assholes();
 });
 
@@ -31,13 +33,15 @@ function assholes() {
 
             // TODO: redirect to previous page
             goToPage('_homePage');
-            alert("Congrats!");
+            //alert("Congrats!");
+            //alert('data after login: ' + data.full_name);
         },
         error: function(data){
             alert("fail");
             //data is the object send back on fail (could also just be string)
         }
-    });
+    }
+);
 }
 
 
