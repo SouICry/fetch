@@ -1,10 +1,11 @@
 (function () {
     loader._shopping = {
-        data: ["greenEggs", "ham"],
-        getData: function () {
+        data: ["greenEggs", "ham"], //Optional
+        version: 0, //Must be 0
+        getData: function () { //must be null if not needed
             return list_shopping;
         },
-        loadData: function (data) { // MUST RESET PAGE AS WELL
+        loadData: function (data) { // MUST RESET PAGE AS WELL    //must be null if not needed
             var arr = [];
             for (var i = 0; i < data.length; i++) {
                 shoppping_toAdd = data[i];
