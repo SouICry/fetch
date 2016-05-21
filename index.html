@@ -42,13 +42,15 @@
 </div>
 
 <div id="menu-drawer" class="cd-panel from-right" style="z-index: 3000">
-    <header class="cd-panel-header">
-        <h1></h1>
-        <div id="close-menu" class="cd-panel-close">Close</div>
-    </header>
+
 
     <div class="cd-panel-container">
+        <header id = "panel-Header"class="">
+            <h1>hellp</h1>
+            <div id="close-menu" class="cd-panel-close">Close</div>
+        </header>
         <div class="cd-panel-content">
+
             <div id="Butt">
 
 
@@ -218,7 +220,8 @@
                     }
                 }
                 loadPage(whichid, '#' + sectionName, i, j);
-                $('#Butt').append("<div data-link='/#" + whichid + "'> <span class= '" +glyph+"'></span> "+name+"   </div>");
+                var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
+                $("#Butt").append("<div " + clickVal + " > <span class= '" +glyph+"'></span> "+name+"   </div>");
             }
         }
     });
@@ -251,9 +254,9 @@
             }
         });
 
-        $('#Butt div').click(function () {
-            window.location.href = $(this).data("link");
-        });
+//        $('#Butt div').click(function () {
+//            window.location.href = $(this).data("link");
+//        });
 //        $('#Fetch div').click(function(){
 //            windows.location.href= $(this).data("link");
 //        });
