@@ -1,26 +1,25 @@
 
 
-$('#signUp-email').prop('disabled',true);
-$('#User-Email,#signUp-user-name,#User-pass,#re-pass').keyup(function(){
-    if($('#signUp-user-name').val()&& $('#pass').val()&& $('#User-Email').val()&& $('#re-pass').val() && $('#phone').val() && ($('#User-pass').val() == $('#re-pass').val())) {
-        $('#signup').prop('disabled',false);
-
+$('#signup_butt').prop('disabled',true);
+$('#signup_user_email,#signup_user_name,#signup_phone,#signup_user_pass,#signup_re_pass').keyup(function(){
+    if($('#signup_user_name').val()&& $('#signup_user_pass').val()&& $('#signup_user_email').val()&& $('#signup_re_pass').val() && $('#signup_phone').val() && ($('#signup_user_pass').val() == $('#signup_re_pass').val())) {
+        $('#signup_butt').prop('disabled',false);
     }
     else{
-        $('#signUp').prop('disabled',true);
+        $('#signup_butt').prop('disabled',true);
     }
 });
 
-$('#signUp').click(function () {
+$('#signup_butt').click(function () {
     assholes2();
 });
 
 function assholes2() {
     var info_to_send = {};
-    info_to_send.email= $('#User-Email').val()
-    info_to_send.full_name = $('#signUp-user-nameuser').val();
-    info_to_send.password = $('#User-pass').val();
-    info_to_send.phone_number = $('#phone').val();
+    info_to_send.email= $('#signup_user_email').val()
+    info_to_send.full_name = $('#signup_user_name').val();
+    info_to_send.password = $('#signup_user_pass').val();
+    info_to_send.phone_number = $('#signup_phone').val();
     info_to_send.type = "get";
 
     //Simulation (alert or console.log to check for yourself)

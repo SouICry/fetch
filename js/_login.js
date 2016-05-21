@@ -1,7 +1,7 @@
 
 $('#login').prop('disabled',true);
-$('#User-Email, #User-pass').keyup(function(){
-    if($('#User-Email').val()&& $('#User-pass').val()) {
+$('#login_user_email, #login_user_pass').keyup(function(){
+    if($('#login_user_email').val()&& $('#login_user_pass').val()) {
         $('#login').prop('disabled',false);
     }
     else{
@@ -14,8 +14,8 @@ $('#login').click(function () {
 
 function assholes() {
     var info_to_send = {};
-    info_to_send.email = $('#User-Email').val();
-    info_to_send.password = $('#User-pass').val();
+    info_to_send.email = $('#login_user_email').val();
+    info_to_send.password = $('#login_user_pass').val();
     info_to_send.type = "get";
 
     //Simulation (alert or console.log to check for yourself)
