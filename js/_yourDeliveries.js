@@ -1,4 +1,4 @@
-// // $('#tickets_content div').click(function () {
+ // // $('#tickets_content div').click(function () {
 // //     window.location.href = $(this).data("link");
 // // });
 //
