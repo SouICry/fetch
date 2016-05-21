@@ -312,7 +312,7 @@
         },
         loadData: function () { //Gets data from server to load page with
             if (loader.currentPageObject.loadData != null) {
-                $.post("/" + loader.currentPage, {data: loader.currentPageObject.version}, function (res) {
+                $.post("/loadData" + loader.currentPage, {data: loader.currentPageObject.version}, function (res) {
                     if (data != null) {
                         loader.currentPageObject.data = res.data;
                         loader.currentPageObject.version = res.version;
@@ -321,8 +321,6 @@
                 });
             }
         }
-
-
     };
 
     /*
