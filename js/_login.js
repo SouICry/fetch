@@ -1,6 +1,6 @@
 (function() {
     loader._login = {
-        data: ["greenEggs", "ham"], //Optional
+        data: "", //Optional
         version: 0, //Must be 0
         getData:null,
         loadData: null,

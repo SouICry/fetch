@@ -10,7 +10,18 @@
             _checkout.range2 = $("#time2").val();
             return _checkout;
         },
-        loadData: null,
+        loadData: function(data){
+            if(data != "none") {
+                 $('input[name="specialnotes"]:checked', '#notes').val(data.notes);
+                 $("#time1").val(data.range1);
+                 $("#time2").val(data.range2);
+            }
+            else{
+                $('input[name="specialnotes"]:checked', '#notes').val("");
+                $("#time1").val("");
+                $("#time2").val("");
+            }
+        },
     };
         var _checkout = {
             notes: "",
