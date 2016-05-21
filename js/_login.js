@@ -28,6 +28,8 @@ function assholes() {
         data: info_to_send,
         success: function(data){
             //data is the object sent back on success (could also just be string)
+
+            // TODO: redirect to previous page
             goToPage('_homePage');
             alert("Congrats!");
         },

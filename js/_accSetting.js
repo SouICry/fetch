@@ -1,3 +1,5 @@
+var user_data = null;
+
 function accSetting() {
     $('#address').hide();
     $('#payment').hide();
@@ -68,11 +70,40 @@ function accSetting() {
         sendToServer();
     });
 
+    window.onload = function() {
+        var data = null;
+        $.ajax({
+            type: 'POST',
+            url: '/_accSetting',
+            data: data,
+            success: function(data) {
+                alert('called post to update');
+
+                $('#usr').val(data.username);
+                $('#fname').val(data.first);
+                $('#lname').val(data.last);
+                $('#email').val(data.email);
+                $('#phone').val(data.phone);
+
+                $('#street').val(data.street);
+                $('#city').val(data.city);
+                $('#state').val(data.state);
+                $('#zip').val(data.zip);
+
+                $('#cardName').val(data.cardName);
+                $('#card').val(data.card);
+                $('#month').val(data.month);
+                $('#year').val(data.year);
+                $('#cvv').val(data.cvv);
+
+        });
+    };
+
     $('#submit_delete').click(function () {
         sendToServer();
     });
 
-        function sendToServer(){
+    function sendToServer(){
         var info_to_send = {};
         info_to_send.id = $('#user-name').data('id');
         info_to_send.list = _account;
