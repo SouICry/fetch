@@ -1,47 +1,39 @@
- // // $('#tickets_content div').click(function () {
-// //     window.location.href = $(this).data("link");
-// // });
-//
+
 // function _tickets_load() {
 //     //Actual:
 //     //loadFromServer();
 //
 //     //Simulation:
 //     var simulated_user = {
-//         id: 1234567,
-//         pending_tickets: [{name: "wholeFoods", time: "12:00 pm"}, {name: "ralphs", time: "5:00 pm"}, {name: "tjs", time: "6:00 pm"},
-//             {name: "ralphs", time: "7:00 pm"}, {name: "vons", time: "7:00 pm"}]
-//         // completed_tickets: [{name: "wholeFoods", time: "1:00 pm"}, {name: "ralphs", time: "2:00 pm"}, {name: "tjs", time: "3:00 pm"},
-//         //     {name: "ralphs", time: "4:00 pm"}, {name: "vons", time: "5:00 pm"}]
+//         pending_tickets: [{name: "wholeFoods", time: "12:00 pm", id: "123", state: "pending"}, {
+//             name: "ralphs",
+//             time: "5:00 pm",
+//             state: "pending"
+//         },
+//             {name: "tjs", time: "6:00 pm", state: "pending"}, {
+//                 name: "ralphs",
+//                 time: "7:00 pm",
+//                 state: "pending"
+//             }, {name: "vons", time: "7:00 pm", state: "pending"},
+//             {name: "wholeFoods", time: "1:00 pm", state: "pending"}, {
+//                 name: "ralphs",
+//                 time: "2:00 pm",
+//                 state: "pending"
+//             },
+//             {name: "tjs", time: "3:00 pm", state: "pending"}, {
+//                 name: "ralphs",
+//                 time: "4:00 pm",
+//                 state: "pending"
+//             }, {name: "vons", time: "5:00 pm", state: "pending"}]
 //     };
 //     displayLoadedData(simulated_user);
 //
-//     function loadFromServer() {
-//         var request = {
-//             "type": "get",
-//             "data": null
-//         };
-//
-//         $.ajax({
-//             type: "POST",
-//             url: "/_yourDeliveries",
-//             data: request,
-//             success: function (data) {
-//                 //data is the object sent back on success (could also just be string)
-//                 displayLoadedData(data);
-//             },
-//             error: function (data) {
-//                 //data is the object send back on fail (could also just be string)
-//             }
-//         });
-//     }
-//
-//     function displayLoadedData(data) {
+//     loader._yourDeliveries.loadData = function displayLoadedData(data) {
 //         var pending_tickets = [];
 //         pending_tickets = data.pending_tickets;
 //
-//         // var completed_tickets = [];
-//         // completed_tickets = data.completed_tickets;
+//         var completed_tickets = [];
+//         completed_tickets = data.completed_tickets;
 //
 //         function toName(nameString) {
 //             var name = {};
@@ -53,19 +45,31 @@
 //             return name[nameString];
 //         }
 //
+//
 //         for (var i = 0; i < pending_tickets.length; i++) {
-//             $("#pending_tickets").append('<li class = "' + tickets[i].name + ' ticket" ' +
-//                 ' ><div id =' + tickets[i].name + ' >' + toName(tickets[i].name) +
-//                 ' <br> Estimate Deliver Time: ' + tickets[i].time + '</div></li>');
+//             var ticket = pending_tickets[i];
+//
+//             $("#pending_tickets").append('<li data-id =' + pending_tickets[i].name + ' data-state="' +
+//                 pending_tickets[i].state + '" class = "yourDeliveries1 ' + pending_tickets[i].name + ' ticket" ' +
+//                 ' ><div  >' + toName(pending_tickets[i].name) +
+//                 ' <br> Estimate Deliver Time: ' + pending_tickets[i].time + '</div></li>');
 //         }
 //
-//         // for (var j = 0; j < completed_tickets.length; j++) {
-//         //     $("#completed_tickets").append('<li class = "' + tickets[j].name + ' ticket" ' +
-//         //         ' ><div id =' + tickets[j].name + ' >' + toName(tickets[j].name) +
-//         //         ' <br> Estimate Deliver Time: ' + tickets[j].time + '</div></li>');
-//         // }
+//         for (var i = 0; i < completed_tickets.length; i++) {
+//             $("#completed_tickets").append('<li class = "' + completed_tickets[i].name + ' ticket" ' +
+//                 ' ><div id =' + completed_tickets[i].name + ' >' + toName(completed_tickets[i].name) +
+//                 ' <br> Estimate Deliver Time: ' + completed_tickets[i].time + '</div></li>');
+//         }
+//
+//
+//         $('li.yourDeliveries').each(function () {
+//             $(this).click(loader.loadTicket($(this).data("id"), $(this).data("state")));
+//         });
+//
 //     }
 // }
-// _tickets_load();/**
+//
+// _tickets_load();
+// /**
 //  * Created by juneruijiang on 5/17/16.
 //  */
