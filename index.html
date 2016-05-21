@@ -161,6 +161,7 @@
         abovePages: ["_accSetting", "_contact", "_history", "_passwordRecovery" /*,"_passwordReset" ",_signUp", "_login"*/],
         createTicket: ["_homePage", "_shopping", "_checkout", "_login"/*, "_submitted"*/],
         /*acceptTicket: ['_acceptTicket', '_paid'],*/
+        /*acceptTicket: ['_cancelTicket','_cancelled'],*/
         confirmTicket: [/*'_confirmTicket',*/ "_rating", /*'_ticketClosed',*/"_passwordReset", "_signUp"],
         driverFlow: ['_tickets', '_driverList', /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats']
     };
@@ -168,8 +169,45 @@
     loadPage("_userTickets", '#userTickets');
 
 
+    /*
+    TODO:
+    Each page MUST specify function to send/received data, or null
 
+    Each page will call goToPage onclick to go to the correct page
+
+
+
+    */
+
+
+    //Backend loads/stores ticket into page objects:
+    function loadTicket(){
+
+    }
+    function saveTicket(){
+
+    }
+    var ticketPrototype = {
+        ticket: {
+            id: "",
+            state: "",
+            store: "",
+            user: {
+                id: "",
+                contact: "",
+                rating: ""
+            },
+            driver: {
+                id: "",
+                rating: ""
+            },
+            list: [],
+            options: {},
+            checkoff: []
+        }
+    };
     var loader = {
+        isDriver: false,
         userId: "",
         previousPage: "",
         currentPage: "",
@@ -180,21 +218,65 @@
                 loader.currentPageObject = loader[page];
             }
             else {
-                loader.currentPageObject = null;
+                loader.currentPageObject = {
+                    sendData: null,
+                    loadData: null,
+                    data: null
+                }
             }
-        },
-        //Saves current active ticket (if any), then fetches new one and loads page data corresponding to ticket status in back end store
-        getTicket: function (ticketId, callback) {
-            $.post("/getTicket", {
+            $.post("/changePage", {
                 data: {
-                    id : ticketId
+                    page : page
                 }
             }, function(){
                 callback();
             });
         },
+
+        //Saves current active ticket (if any), then fetches new one and loads page data corresponding to ticket status in back end store
+        getTicket: function (ticketId, state, store) {
+            if (arguments.length < 3){
+                store = null;
+            }
+            if (state != "accepted" || loader.isDriver) {
+                $.post("/getTicket", {
+                    data: {
+                        id: ticketId,
+                        store: store
+                    }
+                }, function () {
+                    if (loader.isDriver) {
+                        switch (state) {
+                            case "accepted" :
+                                goToPage("_driverList");
+                                break;
+                            case "shopped":
+                                goToPage("_completeTicket");
+                                break;
+                            case "" :
+                        }
+                    }
+                    else {
+                        switch (state) {
+                            case "draft" :
+                                goToPage("_shopping");
+                                break;
+                            case "pending":
+                                goToPage("_cancelTicket");
+                                break;
+                            case "shopped":
+                                goToPage("_acceptTicket");
+                                break;
+                        }
+                    }
+                });
+            }
+        },
+        currentPageChanged : function(){
+            //Submit data
+        },
         sendData: function () { //Gets data from page and sends to server for update. Server will send back version num
-            if (loader.currentPageObject != null) {
+            if (loader.currentPageObject.getData != null) {
                 loader.currentPageObject.data = loader.currentPageObject.getData();
                 $.post("/sendData", {
                     data: {
@@ -209,7 +291,7 @@
             }
         },
         loadData: function () { //Gets data from server to load page with
-            if (loader.currentPageObject != null) {
+            if (loader.currentPageObject.loadData != null) {
                 $.post("/" + loader.currentPage, {data: loader.currentPageObject.version}, function (res) {
                     if (data != null) {
                         loader.currentPageObject.data = res.data;
@@ -217,12 +299,12 @@
                         loader.currentPageObject.loadData();
                     }
                 });
-
             }
         }
 
 
     };
+
     /*
      Each page that needs like sync (edit ticket pages and stateless pages) has:
      data:
