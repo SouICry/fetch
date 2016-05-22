@@ -269,7 +269,7 @@
                                 goToPage("_completeTicket");
                                 break;
                             case "delivered" :
-                                goTopage()
+                                goToPage("_delivered");
                         }
                     }
                     else {
@@ -373,6 +373,8 @@
         login: function (data) { //Called after successful login, passing the returned data
             document.cookie = "user=" + data.userId + ";expires=" + new Date().setUTCFullYear(2345).toUTCString();
 
+
+
             //TODO
             //notdone
             alert(data);
@@ -442,7 +444,7 @@
             url: "/init",
             data: {
                 userId: loader.userId, //"" or valid user id string
-                isDriver: loader.isDriver
+                isDriver: loader.isDriver //TODO
             },
             success: function (resp) {
                 //If has existing session, load it!
