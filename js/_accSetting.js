@@ -1,76 +1,116 @@
-var user_data = null;
+(function () {
+    loader._accSetting = {
+        data: "", //Optional
+        version: 0, //Must be 0
+        getData: function () { //must be null if not needed
 
-function accSetting() {
-    $('#address').hide();
-    $('#payment').hide();
-    $('#delete').hide();
+            _account.full_name = $('#accsetting_full_name').val();
+            _account.email = $('#accsetting_email').val();
+            _account.phone = $('#accsetting_phone').val();
+            _account.address.street = $('#accsetting_street').val();
+            _account.address.city = $('#accsetting_city').val();
+            _account.address.state = $('#accsetting_state').val();
+            _account.address.zip = $('#accsetting_zip').val();
+            // _account.payment_info.card_holder_name = $('#cardName').val();
+            // _account.payment_info.card_number = $('#card').val();
+            // _account.payment_info.exp_month = $('#month').val();
+            // _account.payment_info.exp_year = $('#year').val();
+            // _account.payment_info.cvv = $('#cvv').val();
+            return _account;
+        },
+        loadData: function (data) { // MUST RESET PAGE AS WELL    //must be null if not needed
+            alert('accsetting: ' + data);
+            if (data != "none") {
+                $('#accsetting_full_name').val(data.full_name);
+                $('#accsetting_email').val(data.email);
+                $('#accsetting_phone').val(data.phone);
 
-    $('.nav-tabs a').on('click', function (e) {
-        $('li').removeClass('active');
+                $('#accsetting_street').val(data.address.street);
+                $('#accsetting_city').val(data.address.city);
+                $('#accsetting_state').val(data.address.state);
+                $('#accsetting_zip').val(data.address.zip);
 
-        e.preventDefault();
-        $('#delete').hide();
-        $('#address').hide();
-        $('#payment').hide();
-        $('#home').hide();
-        $(this).parent().addClass('active');
-        $(this).parent().siblings().removeClass('active');
+                // $('#cardName').val(data.payment_info.card_holder_name);
+                // $('#card').val(data.payment_info.card_number);
+                // $('#month').val(data.payment_info.exp_month);
+                // $('#year').val(data.payment_info.exp_year);
+                // $('#cvv').val(data.payment_info.cvv);
+            }
+            else {
+                _account = {
+                    full_name: "",
+                    email: "",
+                    phone: "",
+                    address: {
+                        street: "",
+                        city: "",
+                        state: "",
+                        zip: ""
+                    }
+                    // },
+                    // payment_info: {
+                    //     card_holder_name: '',
+                    //     card_number: '',
+                    //     exp_month: '',
+                    //     exp_year: '',
+                    //     cvv: ''
+                    // }
+                };
+                // $('#accsetting_full_name').val(_account.full_name);
+                // $('#accsetting_email').val(_account.email);
+                // $('#accsetting_phone').val(_account.phone);
+                //
+                // $('#accsetting_street').val(_account.address.street);
+                // $('#accsetting_city').val(_account.address.city);
+                // $('#accsetting_state').val(_account.address.state);
+                // $('#accsetting_zip').val(_account.address.zip);
 
-        target = $(this).attr('href');
+                // $('#cardName').val(_account.payment_info.card_holder_name);
+                // $('#card').val(_account.payment_info.card_number);
+                // $('#month').val(_account.payment_info.exp_month);
+                // $('#year').val(_account.payment_info.exp_year);
+                // $('#cvv').val(_account.payment_info.cvv);
+            }
+        }
 
-        $('.tab-content > div').not(target).hide();
-
-        $(target).fadeIn(600);
-
-    });
+    };
+    var user_data = null;
 
     var _account = {
         full_name: "",
         email: "",
-        phone_number: "",
+        phone: "",
         address: {
             street: "",
             city: "",
             state: "",
             zip: ""
-        },
-        payment_info: {
-            card_holder_name: '',
-            card_number: '',
-            exp_month: '',
-            exp_year: '',
-            cvv: ''
         }
+        // payment_info: {
+        //     card_holder_name: '',
+        //     card_number: '',
+        //     exp_month: '',
+        //     exp_year: '',
+        //     cvv: ''
+        // }
     };
 
-    $('#submit_accInfo').click(function () {
-        _account.full_name= $('#usr').val();
-        _account.email= $('#email').val();
-        _account.phone= $('#phone').val();
+    $('#submit_info').click(function () {
+        _account.full_name = $('#accsetting_full_name').val();
+        _account.email = $('#accsetting_email').val();
+        _account.phone = $('#accsetting_phone').val();
 
-        asshole3();
-    });
+        _account.street = $('#accsetting_street').val();
+        _account.city = $('#accsetting_city').val();
+        _account.state = $('#accsetting_state').val();
+        _account.zip = $('#accsetting_zip').val();
 
-    $('#submit_address').click(function () {
-        _account.street= $('#street').val();
-        _account.city= $('#city').val();
-        _account.state= $('#state').val();
-        _account.zip= $('#zip').val();
+        // _account.cardName = $('#cardName').val();
+        // _account.cardNumber = $('#card').val();
+        // _account.cardMonth = $('#month').val();
+        // _account.cardYear = $('#year').val();
+        // _account.cardCVV = $('#cvv').val();
 
-        asshole3();
-    });
-
-    $('#submit_card').click(function () {
-        _account.cardName= $('#cardName').val();
-        _account.cardNumber= $('#card').val();
-        _account.cardMonth= $('#month').val();
-        _account.cardYear= $('#year').val();
-        _account.cardCVV= $('#cvv').val();
-
-        asshole3();
-    });
-
-    $('#submit_delete').click(function () {
         asshole3();
     });
 
@@ -87,7 +127,7 @@ function accSetting() {
             type: "POST",
             url: "/_shopping",
             data: info_to_send,
-            success: function(data){
+            success: function (data) {
                 //data is the object sent back on success (could also just be string)
                 alert("Congrats!");
 
@@ -101,17 +141,16 @@ function accSetting() {
                 $('#state').val(data.address.state);
                 $('#zip').val(data.address.zip);
 
-                $('#cardName').val(data.payment_info.card_holder_name);
-                $('#card').val(data.payment_info.card_number);
-                $('#month').val(data.payment_info.exp_month);
-                $('#year').val(data.payment_info.exp_year);
-                $('#cvv').val(data.payment_info.cvv);
+                // $('#cardName').val(data.payment_info.card_holder_name);
+                // $('#card').val(data.payment_info.card_number);
+                // $('#month').val(data.payment_info.exp_month);
+                // $('#year').val(data.payment_info.exp_year);
+                // $('#cvv').val(data.payment_info.cvv);
             },
-            error: function(data){
+            error: function (data) {
                 //data is the object send back on fail (could also just be string)
             }
         });
     }
-}
 
-accSetting();
+})();

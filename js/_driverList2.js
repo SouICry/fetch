@@ -7,16 +7,13 @@
 
 
 
-
-_driving();
-
-function _driving() {
+(function () {
     // item count
     var count = 0;
     
     var simulated_user = {
         id: 1234567,
-        name: "Gary",
+        name: "Donkey",
         items: ["aa", "bb", "cc", "dd"],
         contact: 1234567890
     };
@@ -28,7 +25,7 @@ function _driving() {
         document.getElementById("phone").innerHTML = "Phone: " + data.contact;
     }
 
-    $("#footerInfo, #footerBars").show();
+    $("#_driver_footerInfo, #footerBars").show();
 
     makeList(simulated_user.items);
 
@@ -38,45 +35,45 @@ function _driving() {
             // Create the list item:
             var newItem = document.createElement('li');
             newItem.innerHTML = array[i];
-            newItem.className = 'item';
-            $('#list').prepend(newItem);
+            newItem.className = 'driverItem';
+            $('#_driverList2_list').prepend(newItem);
             count++;
             if (count == 1) {
-                $("#numItems").text("1 item left");
+                $("#_driver_numItems").text("1 item left");
             }
             else {
-                $("#numItems").text(count + " items left");
+                $("#_driver_numItems").text(count + " items left");
             }
 
             if (count != 0) {
-                $("#footerInfo, #footerBars").show();
+                $("#_driver_footerInfo, .footerBars").show();
             }
             else {
-                $("#footerInfo,#footerBars").hide();
+                $("#_driver_footerInfo,.footerBars").hide();
             }
         }
     }
 
-    $(document).on('click', '.item',function () {
+    $(document).on('click', '.driverItem',function () {
 
         $(this).toggleClass("selected");
 
         arr = [];
-        $('.item.selected').each(function () {
+        $('.driverItem.selected').each(function () {
             arr.push($(this).text());
         });
 
         if ((count - arr.length) === 1) {
-            $("#numItems").text("1 item left");
+            $("#_driver_numItems").text("1 item left");
         }
         else {
-            $("#numItems").text((count - arr.length) + " items left");
+            $("#_driver_numItems").text((count - arr.length) + " items left");
         }
     });
 
-    $("#submit_list").click(function () {
+    $("#_driver_submit_list").click(function () {
         arr = [];
-        $('.item.selected').each(function () {
+        $('.driverItem.selected').each(function () {
             arr.push($(this).text());
         });
 
@@ -93,34 +90,8 @@ function _driving() {
 
         if (arr.length === count || flag === true) {
             alert("Success! Your customer will be notified soon.");
-        //     sendToServer();
         }
     });
 
-}
-
-function sendToServer(){
-    var info_to_send = {};
-    // info_to_send.id = $('#user-name').data('id');
-    info_to_send.list = _shopping;
-    info_to_send.type = "send";
-
-    //Simulation (alert or console.log to check for yourself)
-    alert(JSON.stringify(simulated_user));
-
-
-    //Actual
-    $.ajax({
-        type: "POST",
-        url: "/_shopping",
-        data: info_to_send,
-        success: function(data){
-            //data is the object sent back on success (could also just be string)
-            alert("Congrats!");
-        },
-        error: function(data){
-            //data is the object send back on fail (could also just be string)
-        }
-    });
-}
+})();
 
