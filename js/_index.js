@@ -1,23 +1,23 @@
 /**
  * Created by zeusn_000 on 5/21/2016.
  */
-(function() {
+(function () {
     loader._index = {
         data: "", //Optional
         version: 0, //Must be 0
         getData: function () { //must be null if not needed
             return;
         },
-        loadData: function(data){
-            if(data != "none") {
+        loadData: function (data) {
+            if (data != "none") {
                 document.getElementById("index_user-name").innerHTML = data.full_name;
             }
-            else{
+            else {
                 document.getElementById("index_user-name").innerHTML = "error";
             }
         }
     };
-    var allSections = ['abovePages', 'createTicket', /*'acceptTicket',*/ 'confirmTicket', 'driverFlow'];
+    
 
     var all = ["_accSetting", "_contact", "_history", "_passwordRecovery", "_homePage", "_shopping", "_checkout", "_login",
         "_rating", "_passwordReset", "_signUp", "_tickets", "_driverList2", '_congrats', "_yourDeliveries"];
@@ -30,14 +30,7 @@
     var pageNames = ["Setting", "Contact", "History", "Password Recovery", "Home", "Shopping", "Checkout", "Login",
         "Rating", "Password Reset", "Sign Up", "Tickets", "Driver List", 'Congrats', "Your Deliveries"];
 
-    var allPages = {
-        abovePages: ["_accSetting", "_contact", "_history", "_passwordRecovery" /*,"_passwordReset" ",_signUp", "_login"*/],
-        createTicket: ["_homePage", "_shopping", "_checkout", "_login"/*, "_submitted"*/],
-        /*acceptTicket: ['_acceptTicket', '_paid'],*/
-        /*acceptTicket: ['_cancelTicket','_cancelled'],*/
-        confirmTicket: [/*'_confirmTicket',*/ "_rating", /*'_ticketClosed',*/"_passwordReset", "_signUp"],
-        driverFlow: ['_tickets', '_driverList2', /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats',"_yourDeliveries"]
-    };
+
     $(document).ready(function () {
         pageInit();
         var i;
