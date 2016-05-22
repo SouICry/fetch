@@ -4,9 +4,9 @@
         version: 0, //Must be 0
         getData: function () { //must be null if not needed
 
-            _account.full_name = $('#usr').val();
-            _account.email = $('#email').val();
-            _account.phone = $('#phone').val();
+            _account.full_name = $('#accsetting_full_name').val();
+            _account.email = $('#accsetting_email').val();
+            _account.phone = $('#accsetting_phone').val();
             _account.street = $('#street').val();
             _account.city = $('#city').val();
             _account.state = $('#state').val();
