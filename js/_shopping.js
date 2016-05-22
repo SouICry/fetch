@@ -8,7 +8,7 @@
         loadData: function (data) { // MUST RESET PAGE AS WELL    //must be null if not needed
             var arr = [];
 
-            $("#list").html("");
+            $("#shopping_list").html("");
             shopping_count = 0;
             list_shopping.splice(0,list_shopping.length)
 
@@ -17,20 +17,20 @@
                 var newItem = document.createElement('li');
                 newItem.innerHTML = shoppping_toAdd;
                 newItem.className = 'item';
-                $("#list").append(newItem);
+                $("#shopping_list").append(newItem);
 
                 shopping_count++;
                 if (shopping_count == 1) {
-                    $("#numItems").text("1 item");
+                    $("#shopping_numItems").text("1 item");
                 }
                 else {
-                    $("#numItems").text(shopping_count + " data");
+                    $("#shopping_numItems").text(shopping_count + " data");
                 }
                 if (shopping_count != 0) {
-                    $("#submit_list, #footerInfo, #footerBars").show();
+                    $("#shopping_footerInfo, #shopping_footerBars").show();
                 }
                 else {
-                    $("#submit_list, #footerInfo,#footerBars").hide();
+                    $("#shopping_footerInfo,#shopping_footerBars").hide();
                 }
             }
         }
@@ -41,43 +41,43 @@
     var shoppping_toAdd;
     var list_shopping = [];
 
+    $("#shopping_submit_list").hide();
 
-    $('#submit_list').click(function () {
+    $('#shopping_submit_list').click(function () {
         if (list_shopping.length > 0) {
             goToPage("_checkout");
         }
     });
 
 
-    $('#shoppping_list_form').submit(addItem);
-    $('#add-shopping-item').click(addItem);
+    $('#shopping_shoppping_list_form').submit(addItem);
     function addItem() {
-        if ($('#shoppingCheckListItem').val() !== '') {
-            shoppping_toAdd = $('#shoppingCheckListItem').val();
+        if ($('#shopping_shoppingCheckListItem').val() !== '') {
+            shoppping_toAdd = $('#shopping_shoppingCheckListItem').val();
             var newItem = document.createElement('li');
             newItem.innerHTML = shoppping_toAdd;
             newItem.className = 'item';
 
-            $('#list').prepend(newItem);
+            $('#shopping_list').prepend(newItem);
             shopping_count++;
             if (shopping_count == 1) {
-                $("#numItems").text("1 item");
+                $("#shopping_numItems").text("1 item");
             }
             else {
-                $("#numItems").text(shopping_count + " items");
+                $("#shopping_numItems").text(shopping_count + " items");
             }
 
             if (shopping_count != 0) {
-                $("#submit_list, #footerInfo, #footerBars").show();
+                $("#shopping_footerInfo, #shopping_footerBars, #shopping_submit_list").show();
             }
             else {
-                $("#submit_list, #footerInfo, #footerBars").hide();
+                $("#shopping_footerInfo, #shopping_footerBars").hide();
             }
 
             loader.currentPageChanged();
         }
-        $('#shoppingCheckListItem').val('');
-        //$('#input').focus();
+        $('#shopping_shoppingCheckListItem').val('');
+        //$('#shopping_input').focus();
 
         list_shopping.push(shoppping_toAdd);
 
@@ -89,24 +89,23 @@
     // remove item
     $(document).on('click', '.item', function () {
         $(this).remove();
+        $('#shopping_submit_list').hide();
 
         shopping_count--;
         if (shopping_count == 1) {
-            $("#numItems").text("1 item");
+            $("#shopping_numItems").text("1 item");
         }
         else if (shopping_count == 0) {
-            $("#numItems").text("");
+            $("#shopping_numItems").text("");
         }
         else {
-            $("#numItems").text(shopping_count + " items");
+            $("#shopping_numItems").text(shopping_count + " items");
         }
 
-        if (count != 0) {
-            $("#submit_list, #footerInfo, #footerBars").show();
+        if (shopping_count != 0) {
+            $("#shopping_submit_list, #shopping_footerInfo, #shopping_footerBars").show();
         }
-        else {
-            $("#submit_list, #footerInfo, #footerBars").hide();
-        }
+
 
         var index = list_shopping.indexOf($(this).text());
 

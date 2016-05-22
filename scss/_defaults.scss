@@ -68,13 +68,15 @@ h3 {
 }
 
 // this is for the box's around the shopping and driver list
-#box {
+.box {
+
   padding:0;
   margin: auto;
   text-align: center;
   width: 80%;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
   0 25px 50px 0 rgba(0, 0, 0, 0.1);
+
 
   .input {
     position: relative;
@@ -93,7 +95,7 @@ h3 {
   }
 
 
-  .item {
+  .item ,.driverItem{
     position: relative;
     font-size: 24px;
     border-top: 1px solid #ededed;
@@ -102,17 +104,13 @@ h3 {
     line-height: 2;
   }
 
-  .item:hover {
-    background-color: rgba(255, 125, 65, 0.24);
-  }
-
   .selected{
     text-decoration: line-through;
     opacity: .3;
   }
 
 
-  #numItems {
+  #numItems, #driver_numItems {
     float: left;
     width: 33%;
     //display: inline;
@@ -127,7 +125,7 @@ h3 {
     text-indent: 7%;
   }
 
-  .todo-footer{
+  .todo-footer, .driver-footer{
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
     0 25px 50px 0 rgba(0, 0, 0, 0.1);
     margin: auto;
@@ -136,6 +134,50 @@ h3 {
     padding: 8px;
     background: #fff;
     line-height: 2;
+
+
+  }
+
+  #_driver_footerInfo{
+  }
+
+  #submit_list, #_driver_submit_list {
+    text-align: center;
+    width: 33%;
+    color: $fetchOrange;
+    border:0;
+    outline:none;
+    text-decoration: none;
+    border:solid 1px;
+  }
+
+}
+
+.footerBars {
+  .footer2 {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+    0 25px 50px 0 rgba(0, 0, 0, 0.1);
+    margin-left: auto;
+    margin-right: auto;
+    width: 79%;
+    text-align: left;
+    border: 1px solid #ededed;
+    padding: 4px;
+    background-color: #fff;
+  }
+
+  .footer3 {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+    0 25px 50px 0 rgba(0, 0, 0, 0.1);
+    margin-left: auto;
+    margin-right: auto;
+    width: 78%;
+    text-align: left;
+    border: 1px solid #ededed;
+    padding: 3px;
+    background-color: #fff;
   }
 }
+
+
 
