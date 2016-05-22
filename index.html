@@ -43,7 +43,7 @@
 <div id="menu-drawer" class="cd-panel from-right" style="z-index: 3000">
     <div class="cd-panel-container">
         <header id="panel-Header" class="">
-            <h1>hellp</h1>
+            <h1 id="index_user-name">hellp</h1>
             <div id="close-menu" class="cd-panel-close">Close</div>
         </header>
         <div class="cd-panel-content">
@@ -125,7 +125,7 @@
         /*acceptTicket: ['_acceptTicket', '_paid'],*/
         /*acceptTicket: ['_cancelTicket','_cancelled'],*/
         confirmTicket: [/*'_confirmTicket',*/ "_rating", /*'_ticketClosed',*/"_passwordReset", "_signUp"],
-        driverFlow: ['_tickets', '_driverList', /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats']
+        driverFlow: ['_tickets', '_driverList2', /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats']
     };
 
     loadPage("_driverTickets", '#driverTickets');
@@ -352,8 +352,10 @@
             });
         },
 
-        login: function () {
-            //TODO:
+        login: function (data) {
+            alert(data);
+            document.getElementById("index_user-name").innerHTML = data.full_name;
+            goToPreviousPage();
         },
         logout: function () {
             //TODO: delete cookie and refresh page
@@ -410,30 +412,30 @@
         });
     }
 
-    $(document).ready(function () {
-        pageInit();
-        var i;
-        var whichid;
-        var glyph;
-        var name;
-        for (var j = 0; j < allSections.length; j++) {
-            var sectionName = allSections[j];
-            var section = allPages[sectionName];
-            for (i = 0; i < section.length; i++) {
-                whichid = section[i];
-                for (var k = 0; k < all.length; k++) {
-                    if (whichid == all[k]) {
-                        glyph = allGlyphs[k];
-                        name = pageNames[k];
-                        break;
-                    }
-                }
-                loadPage(whichid, '#' + sectionName, i, j);
-                var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
-                $("#Butt").append("<div " + clickVal + " > <span class= '" + glyph + "'></span> " + name + "   </div>");
-            }
-        }
-    });
+//    $(document).ready(function () {
+//        pageInit();
+//        var i;
+//        var whichid;
+//        var glyph;
+//        var name;
+//        for (var j = 0; j < allSections.length; j++) {
+//            var sectionName = allSections[j];
+//            var section = allPages[sectionName];
+//            for (i = 0; i < section.length; i++) {
+//                whichid = section[i];
+//                for (var k = 0; k < all.length; k++) {
+//                    if (whichid == all[k]) {
+//                        glyph = allGlyphs[k];
+//                        name = pageNames[k];
+//                        break;
+//                    }
+//                }
+//                loadPage(whichid, '#' + sectionName, i, j);
+//                var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
+//                $("#Butt").append("<div " + clickVal + " > <span class= '" + glyph + "'></span> " + name + "   </div>");
+//            }
+//        }
+//    });
 
 
     jQuery(document).ready(function ($) {
@@ -447,7 +449,7 @@
         });
     });
 </script>
-
+<script type="text/javascript" src="/js/_index.js"></script>
 
 </body>
 </html>
