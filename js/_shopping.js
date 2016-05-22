@@ -50,13 +50,10 @@
     });
 
 
-    document.getElementById("shopping_list_form").onsubmit = function(event) {
-        event.preventDefault();
-        return false;
-    };
-
     $('#shopping_list_form').submit(addItem);
     function addItem() {
+        event.preventDefault();
+
         if ($('#shoppingCheckListItem').val() !== '') {
             shoppping_toAdd = $('#shoppingCheckListItem').val();
             var newItem = document.createElement('li');
@@ -82,12 +79,9 @@
             loader.currentPageChanged();
         }
         $('#shoppingCheckListItem').val('');
-        //$('#shopping_input').focus();
 
         list_shopping.push(shoppping_toAdd);
-
     }
-
 
 
     // remove item
