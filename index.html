@@ -33,11 +33,7 @@
 </div>
 
 <div id="page-content" style="overflow-x: visible">
-    <!--<div id="abovePages" class=""></div>-->
-    <!--<div id="createTicket" class=""></div>-->
-    <!--&lt;!&ndash;<div id="acceptTicket" class=""></div>&ndash;&gt;-->
-    <!--<div id="confirmTicket" class=""></div>-->
-    <!--<div id="driverFlow" class=""></div>-->
+
 </div>
 
 <div id="menu-drawer" class="cd-panel from-right" style="z-index: 3000">
@@ -50,9 +46,9 @@
             <div id="Butt">
 
             </div>
-        </div> <!-- cd-panel-content -->
-    </div> <!-- cd-panel-container -->
-</div> <!-- cd-panel -->
+        </div>
+    </div>
+</div>
 
 
 <script>
@@ -73,33 +69,25 @@
     }
 
 
-    function loadPage(pageName, element, index, vindex) {
+    function loadPage(pageName, row, column) {
         $.ajax({
             type: "POST",
             url: "/loadPage",
             data: {name: pageName},
             async: false,
             success: function (data) {
-                $(element).append("<div id='" + pageName + "' data-ownId='" + pageName + "' " +
-                        "data-pos='" + index + "' data-vpos='" + vindex + "' " +
-                        "data-parent='" + element.substring(1) + "'>" + data + "</div>");
+                $('#section-' + row).append("<div id='" + pageName +
+                        "' data-x='" + column + "' data-y='" + row + "'>" + data + "</div>");
             }
         });
     }
 
-
-    var allSections = ['abovePages', 'createTicket',  'confirmTicket', 'driverFlow'];
-
-    var allPages = {
-        abovePages: ["_accSetting", "_contact", "_history", "_passwordRecovery" ,"_passwordReset", "_signUp", "_login"],
-        createTicket: ["_yourDeliveries", "_homePage", "_shopping", "_checkout"/*, "_submitted"*/],
-        /*acceptTicket: ['_cancelTicket','_cancelled'],*/ //Not going this anymore
-        confirmTicket: [/*'_confirmTicket',*/ "_rating" /*,'_ticketClosed'*/],
-        driverFlow: ['_tickets', '_driverList2', /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats']
-    };
-
-    loadPage("_driverTickets", '#driverTickets');
-    loadPage("_userTickets", '#userTickets');
+    var allPages = [
+        ["_accSetting", "_contact", "_history", "_passwordRecovery", "_passwordReset", "_signUp", "_login"],
+        ["_yourDeliveries", "_homePage", "_shopping", "_checkout"/*, "_submitted"*/],
+        [/*'_confirmTicket',*/ "_rating" /*,'_ticketClosed'*/],
+        ['_tickets', '_driverList2', /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats']
+    ];
 
 
     /*
@@ -149,7 +137,7 @@
                 var item = $('#' + id);
                 if (item) {
                     $("#page-content").css('transform',
-                            'translate(-' + $(item).data("pos") * 100 + '%, -' + $(item).data("vpos") * 100 + '%)')
+                            'translate(-' + $(item).data("x") * 100 + '%, -' + $(item).data("y") * 100 + '%)')
                 }
             }
 
@@ -189,37 +177,36 @@
 
         //Saves current active ticket (if any), then fetches new one and loads page data corresponding to ticket status in back end store
         getTicket: function (ticketId) {
-            if (state != "accepted" || loader.isDriver) {
-                $.post("/getTicket", {
-                    id: ticketId
-                }, function (state) {
-                    if (loader.isDriver) {
-                        switch (state) {
-                            case "accepted" :
-                                goToPage("_driverList");
-                                break;
-                            case "shopped":
-                                goToPage("_completeTicket");
-                                break;
-                            case "delivered" :
-                                goToPage("_delivered");
-                        }
+            $.post("/getTicket", {
+                id: ticketId
+            }, function (state) {
+                if (loader.isDriver) {
+                    switch (state) {
+                        case "accepted" :
+                            goToPage("_driverList");
+                            break;
+                        case "shopped":
+                            goToPage("_completeTicket");
+                            break;
+                        case "delivered" :
+                            goToPage("_delivered");
                     }
-                    else {
-                        switch (state) {
-                            case "draft" :
-                                goToPage("_shopping");
-                                break;
-                            case "pending":
-                                goToPage("_cancelTicket");
-                                break;
-                            case "shopped":
-                                goToPage("_acceptTicket");
-                                break;
-                        }
+                }
+                else {
+                    switch (state) {
+                        case "draft" :
+                            goToPage("_shopping");
+                            break;
+                        case "pending":
+                            goToPage("_cancelTicket");
+                            break;
+                        case "shopped":
+                            goToPage("_acceptTicket");
+                            break;
                     }
-                });
-            }
+                }
+            });
+
         },
         sendData: function () { //Gets data from page and sends to server for update. Server will send back version num
             if (loader.currentPageObject.getData != null) {
@@ -234,7 +221,8 @@
                     }
                 });
             }
-        },
+        }
+        ,
         loadData: function () { //Gets data from server to load page with
             if (loader.currentPageObject.loadData != null) {
                 $.post("/loadData" + loader.currentPage, {
@@ -248,7 +236,8 @@
                     }
                 });
             }
-        },
+        }
+        ,
         currentPageChanged: _.throttle(this.sendData, 500, {trailing: false}),
         //set to run every second elsewhere
         getUpdates: function () {
@@ -302,10 +291,11 @@
                 }
 
             });
-        },
+        }
+
+        ,
         login: function (data) { //Called after successful login, passing the returned data
             document.cookie = "user=" + data.userId + ";expires=" + new Date().setUTCFullYear(2345).toUTCString();
-
 
 
             //TODO
@@ -315,7 +305,8 @@
 
 
             goToPreviousPage();
-        },
+        }
+        ,
         logout: function () {
             document.cookie = "user=" + data.userId + ";expires=" + new Date(0).toUTCString();
 
@@ -323,20 +314,21 @@
             });
 
             window.location.reload();
-        },
+        }
+        ,
         switchToDriver: function () {
             loader.isDriver = true;
 
             $.post("/switchRole", {
-                isDriver : true
+                isDriver: true
             });
-
 
 
             //UI changes for menu bar
 
             goToPage("_yourDeliveries", true);
-        },
+        }
+        ,
         switchToShopper: function () {
             loader.isDriver = false;
 
@@ -405,8 +397,6 @@
                 }
 
 
-
-
                 window.setInterval(loader.getUpdates, 500);
             }
         });
@@ -414,14 +404,11 @@
 
     $(document).ready(function () {
         pageInit();
-        var i;
-        var whichid;
-        for (var j = 0; j < allSections.length; j++) {
-            var sectionName = allSections[j];
-            var section = allPages[sectionName];
-            for (i = 0; i < section.length; i++) {
-                whichid = section[i];
-                loadPage(whichid, '#' + sectionName, i, j);
+        for (var j = 0; j < allPages.length; j++) {
+            $('#page-content').append('<div id="section-' + j + '"></div>');
+            for (var i = 0; i < allPages[j].length; i++) {
+                var whichid = allPages[j][i];
+                loadPage(whichid, j, i);
                 var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
                 $("#Butt").append("<div " + clickVal + " >" + whichid + "</div>");
             }
