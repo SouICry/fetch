@@ -348,7 +348,7 @@ app.post('/_signUp', function(req, res, next) {
         }
         else {
             user.save(function(err) {
-                req.session.userId = req.body.email; //TODO set userId to something Unique, and consistent
+
                 req.login(user, function(err){
                     if (err) {
                         //return next(err);
@@ -356,6 +356,7 @@ app.post('/_signUp', function(req, res, next) {
                         res.status(500);
                     }
                     else {
+                        req.session.userId = req.body.email; //TODO set userId to something Unique, and consistent
                         console.log('login success!');
                     }
                 });
@@ -523,31 +524,183 @@ app.post('/reset/:token', function (req, res) {
     });
 });
 
-var masters = {
-    //account setting;
-    full_name: "",
-    email: "",
-    phone: "",
-    address: {
-        street: "",
-        city: "",
-        state: "",
-        zip: ""
+//TODO---------------------------------------------------------------------------------
+var masters = [{
+    //loader
+    isDriver: false,
+    isLoggedIn: false,
+    userId: "",
+    pageCount: 0,
+    previousPage: "",
+    currentPage: "",
+    currentPageObject: {
+        getData: null,
+        loadData: null,
+        data: null
     },
+
+    "_homepage" : {
+        data: {
+            store_name: "", // TODO dont know where to get this from
+
+        },
+        version: 0
+    },
+
+
+    //account setting;
+    "_accSetting" : {
+        data: {
+            full_name: "",
+            email: "",
+            phone: "",
+            address: {
+                street: "",
+                city: "",
+                state: "",
+                zip: ""
+            }
+        },
+        version: 0
+    },
+      
+    //shopping
+    "_shopping": {
+        data: {
+            list: []
+        },
+        version: 0
+    },
+
     //checkout
-    notes: "",
-    range1: "",
-    range2: "",
+    "_checkout": {
+        data: {
+            list_id: "",
+            special_options: "",
+            available_time_start: "",
+            available_time_end: ""
+        },
+        version: 0
+    }
+    //list of pageName: {
+    //          data: null;
+      //        version: 0;
+      //}
+}];
+//TODO -------------------------------------------------------------------------
 
-    //pageName: {data: "";
-    //version: "";
-      //          }
 
 
-};
 
 
-// ---------------- ACCOUNT SETTING -----------------
+
+
+//TODO ---------------------------------DATA-LOADER-------------------------
+
+
+app.post('/sendData', function(req, res, next) {
+    var pageName = req.body.name;
+    var userId = req.session.userId;
+    if (req.body.version >= masters[userId][pageName].version) {
+        masters[userId][pageName].data = req.body.data;
+        masters[userId][pageName].version = req.body.version + 1;
+    }
+    res.send(req.body.version + 1);
+
+});
+
+app.post('/loadData', function(req, res, next){
+    var version = req.body.version;
+    var userId = req.session.userId;
+    var pageName = req.body.name;
+    var object = {};
+    object.data = masters[userId][pageName].data;
+    object.version = masters[userId][pageName].version;
+    if(version <= masters[userId][pageName].version){
+        res.send(object);
+    }
+
+    res.send(null);
+
+});
+
+
+app.post('/changePage', function(req,res){
+    var pageCount = req.body.pageCount;
+    var newPage   = req.body.newPage;
+    var userId = req.session.userId;
+    var data = req.body.oldData;
+    if(pageCount > masters[userId].pageCount){
+        masters[userId].pageCount = pageCount;
+        masters[userId].previousPage = masters[userId].currentPage;
+        masters[userId].currentPage = newPage;
+        masters[userId].currentPageObject.data = data;
+        res.send(masters[userId][newPage].data);
+    }
+    else
+        res.send(null);
+
+});
+
+//----------------------------------getTicket--------------------------------------------------------------------------
+app.post('/getTicket', function(req,res){
+
+
+});
+
+
+//----------------------------------getTicket----------------------------------------------------------------
+
+
+
+//----------------------------------getUpdate--------------------------------------------------------------------------
+//run every second
+
+app.post('/getUpdates', function (req, res, next) {
+    var object = {};
+    var userId = req.session.userId;
+    if (userId) {
+        object.isDriver = masters[userId].isDriver;
+        object.pageCount = masters[userId].pageCount;
+        object.previousPage = masters[userId].previousPage;
+        object.currentPage = masters[userId].currentPage;
+        //object.currentPageObject = masters[userId].currentPageObject;
+        object.version = masters[userId].version;
+        object.data = masters[userId].currentPageObject.data;
+        res.send(object);
+    }
+    res.send(null);
+});
+
+//----------------------------------getUpdate--------------------------------------------------------------------------
+
+
+
+app.post('/init', function(req,res, next){
+    var userId = req.body.userId;
+    var object = {};
+    if(userId){
+        //TODO what to do over here
+
+    }
+});
+
+
+
+//TODO ---------------------------------DATA-LOADER-------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+// ------------------------------------------------ ACCOUNT SETTING ------------------------------------------------
 
 app.post('/_accSetting', function(req, res) {
    // if (!req.session.passport || !res.session.passport.user) {
@@ -558,57 +711,57 @@ app.post('/_accSetting', function(req, res) {
         res.send({message: 'no user logged in'});
     }
     else {
-        // update database with new info
-        masters[userId].full_name = req.body.user.full_name;
-        masters[userId].email = req.body.user.email;
-        masters[userId].phone = req.body.user.phone;
-        masters[userId].street = req.body.user.street;
-        masters[userId].city = req.body.user.city;
-        masters[userId].state = req.body.user.state;
-        masters[userId].zip = req.body.user.zip;
-
-        //TODO store into database from masters session: user master[userId].something
-
         // update session
+        masters[userId]["accSetting"].data.full_name = req.body.user.full_name;
+        masters[userId]["accSetting"].data.email = req.body.user.email;
+        masters[userId]["accSetting"].data.phone = req.body.user.phone;
+        masters[userId]["accSetting"].data.address.street = req.body.user.street;
+        masters[userId]["accSetting"].data.address.city = req.body.user.city;
+        masters[userId]["accSetting"].data.address.state = req.body.user.state;
+        masters[userId]["accSetting"].data.address.zip = req.body.user.zip;
+
+        //TODO store into database from masters session, use: master[userId].something
     }
 });
-// -------------------------------------------------------------
+//TODO ------------------------------------------------------------------------------------------------------------------
 
 
 
 
 
 
-// --------------- SHOPPING/SAVE GROCERY LIST ---------------
+// ---------------------------------------------------- SHOPPING/SAVE GROCERY LIST ----------------------------------
 
 // Saves user's grocery list to session
 app.post('/_shopping', function(req, res) {
 
     //TODO keep this, this will parse data string to JSON object, list is an array
-    var list = JSON.parse(req.body.data).list;
+    // var list = JSON.parse(req.body.data).list;
 
     var userId = req.session.userId;
 
-    req.session.list = list;
-
-    if (masters[userId].list == null) {
-        console.log('line 517, Creating a new ViewCOntroller for this user');
-                //working = new ViewController(key, list);
-        masters[userId].list = list;
-
-        }
-            else {
-
-                }
+    // req.session.list = list;
+    //
+    // if (masters[userId].list == null) {
+    //     console.log('line 517, Creating a new ViewCOntroller for this user');
+    //             //working = new ViewController(key, list);
+    //     masters[userId]["_shopping"].data.list = list;
+    //
+    //     }
+    // else {
+    //
+    // }
+    
+    
     var object = {};
     object.address = {};
-    object.full_name = masters[userId].full_name;
-    object.email = masters[userId].email;
-    object.phone =masters[userId].phone;
-    object.address.street =masters[userId].address.street;
-    object.address.city = masters[userId].address.city;
-    object.address.zip = masters[userId].address.zip;
-    object.address.state = masters[userId].address.state;
+    object.full_name = masters[userId]["accSetting"].data.full_name;
+    object.email = masters[userId]["accSetting"].data.email;
+    object.phone =masters[userId]["accSetting"].data.phone;
+    object.address.street =masters[userId]["accSetting"].data.address.street;
+    object.address.city = masters[userId]["accSetting"].data.address.city;
+    object.address.zip = masters[userId]["_accSetting"].data.address.zip;
+    object.address.state = masters[userId]["accSetting"].data.address.state;
     res.send(object);
 
 
@@ -620,38 +773,38 @@ app.post('/_shopping', function(req, res) {
 
 
 });
-// -------------------------------------------------------------
+//TODO -------------------------------------------------------------------------
 
 
 
 
 
-// ------------------ TICKETS/GROCERY QUEUE --------------------
+// ---------------------------------------------------- TICKETS/GROCERY QUEUE ---------------------------------------
 app.post('/_tickets', function(req, res) {
 
 });
+//TODO -------------------------------------------------------------------------
 
 
-
-//-------------checkout-----------------
+//------------------------------------------------------------checkout---------------------------------------------
 //may be update database in checkout,???
 app.post('/_checkout', function(req,res, next){
     var userId = req.session.userId;
     if(req.body.notesTime) {
-        masters[userId].list_id = req.body.notesTime.id;
-        masters[userId].special_options = req.body.notesTime.notes;
-        masters[userId].available_time_start = req.body.notesTime.range1;
-        masters[userId].available_time_end = req.body.notesTime.range2;
+        masters[userId]["_checkout"].data.list_id = req.body.notesTime.id;
+        masters[userId]["_checkout"].data.special_options = req.body.notesTime.notes;
+        masters[userId]["_checkout"].data.available_time_start = req.body.notesTime.range1;
+        masters[userId]["_checkout"].data.available_time_end = req.body.notesTime.range2;
 
         // Model for grocery list
         var glist = {
-            _id: list_id,
-            store_name: masters[userId].store_name, // ?????? Need to communicate with geo/trivi for store name session
-            shopping_list: masters[userId].list,
+            _id: masters[userId]["_checkout"].data.list_id,
+            store_name: masters[userId]["_homePage"].data.store_name, // ?????? Need to communicate with geo/trivi for store name session
+            shopping_list: masters[userId]["_shopping"].data.list,
             timestamp: date.toLocaleDateString() + ' ' + date.toLocaleTimeString(),
-            special_options: masters[userId].special_options,
-            available_time_start: masters[userId].available_time_start,
-            available_time_end: masters[userId].available_time_end
+            special_options: masters[userId]["_accSetting"].data.special_options,
+            available_time_start: masters[userId]["_accSetting"].data.available_time_start,
+            available_time_end: masters[userId]["_accSetting"].data.available_time_end
         };
 
         // Check that empty list was not sent
@@ -714,10 +867,48 @@ app.post('/_checkout', function(req,res, next){
     res.send("Fail");
 
 });
+//TODO -------------------------------------------------------------------------
 
 app.post('_homePage', function(req,res,next){
 
 });
+
+
+//-----------------------------------------------------DRIVER LIST -----------------------------------------
+app.post('/_driverList', function(req, res, next){
+    var object = {};
+    var userId = req.session.userId;
+
+    if(userId) {
+        object.notes = masters[userId]["_checkout"].data.special_options;
+        object.items = masters[userId]["_"].data.items;   //TODO where is items located?
+        object.name = masters[userId].name;
+        object.contact = masters[userId].phone;
+        res.send(object);
+
+        //TODO maybe get from database or from session
+    }
+    res.send('Fail, not login');
+
+});
+
+
+
+//--------------------------DRIVER LIST 2---------------------
+app.post('/_DriverList2', function(req, res, next){});
+
+
+
+
+
+//----------------------------HISTORY----------------------
+app.post('/_history', function(req, res, next){});
+
+
+
+//--------------------------
+
+
 var server = app.listen(3000, function () {
 
     var host = server.address().address;
