@@ -1,58 +1,61 @@
-/**
- * Created by tylercuddy on 5/17/16.
- */
-/**
- * Created by tylercuddy on 5/17/16.
- */
-
-
-
 (function () {
-    // item count
-    var count = 0;
-    
-    var simulated_user = {
-        id: 1234567,
-        name: "Donkey",
-        items: ["aa", "bb", "cc", "dd"],
-        contact: 1234567890
-    };
+    loader._driverList = {
+        version: 0,
+        getData: null,//what's happen?
+        loadData:  function (data) {
+            //populate driver list
+            var array = data.items;
+            for (var i = 0; i < array.length; i++) {
 
-    displayLoadedData(simulated_user);
+                // item count
+                var count = 0;
+                //create the contact info(where should I got this, is there a flied relates to contact?
+                document.getElementById("listName").innerHTML = data.name + "'s Shopping List";
+                document.getElementById("phone").innerHTML = "Phone: " + data.contact;
+                // Create the list item:
+                var newItem = document.createElement('li');
+                newItem.innerHTML = array[i];
+                newItem.className = 'driverItem';
+                $('#_driverList2_list').prepend(newItem);
+                count++;
+                if (count == 1) {
+                    $("#_driver_numItems").text("1 item left");
+                }
+                else {
+                    $("#_driver_numItems").text(count + " items left");
+                }
 
-    function displayLoadedData(data) {
-        document.getElementById("listName").innerHTML = data.name + "'s Shopping List";
-        document.getElementById("phone").innerHTML = "Phone: " + data.contact;
-    }
-
-    $("#_driver_footerInfo, #footerBars").show();
-
-    makeList(simulated_user.items);
-
-    function makeList(array) {
-        //populate driver list
-        for (var i = 0; i < array.length; i++) {
-            // Create the list item:
-            var newItem = document.createElement('li');
-            newItem.innerHTML = array[i];
-            newItem.className = 'driverItem';
-            $('#_driverList2_list').prepend(newItem);
-            count++;
-            if (count == 1) {
-                $("#_driver_numItems").text("1 item left");
-            }
-            else {
-                $("#_driver_numItems").text(count + " items left");
-            }
-
-            if (count != 0) {
-                $("#_driver_footerInfo, .footerBars").show();
-            }
-            else {
-                $("#_driver_footerInfo,.footerBars").hide();
+                if (count != 0) {
+                    $("#_driver_footerInfo, .footerBars").show();
+                }
+                else {
+                    $("#_driver_footerInfo,.footerBars").hide();
+                }
             }
         }
-    }
+    };
+
+
+    
+    // var simulated_user = {
+    //     id: 1234567,
+    //     name: "Donkey",
+    //     items: ["aa", "bb", "cc", "dd"],
+    //     contact: 1234567890
+    // };
+
+    // displayLoadedData(simulated_user);
+    //
+    // function displayLoadedData(data) {
+    //     document.getElementById("listName").innerHTML = data.name + "'s Shopping List";
+    //     document.getElementById("phone").innerHTML = "Phone: " + data.contact;
+    // }
+
+    // $("#_driver_footerInfo, #footerBars").show();
+
+    // makeList(simulated_user.items);
+
+
 
     $(document).on('click', '.driverItem',function () {
 
