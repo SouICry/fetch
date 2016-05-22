@@ -38,7 +38,7 @@ app.post('/loadPage', function (req, res) {
 var masters = {};
 var pages = {};
 app.post('/sendData', function(req, res, next) {
-    var pageName = req.body.page;
+    var pageName = req.body.name;
     var userId = req.session.userId;
     if (req.body.version >= masters[userId][pageName].version) {
         masters[userId][pageName].data = req.body.data;
@@ -79,11 +79,18 @@ app.post('/sendData', function(req, res, next) {
 });
 
 app.post('/loadData', function(req, res, next){
-    var version = req.body.data;
+    var version = req.body.version;
     var userId = req.session.userId;
-    if(version >= master[userId][pageName].version)
-        
-    if(master[])
+    var pageName = req.body.name;
+    var object = {};
+    object.data = masters[userId][pageName].data;
+    object.version = masters[userId][pageName].version;
+    if(version <= masters[userId][pageName].version){
+        res.send(object);
+    }
+
+    res.send(null);
+
     // if (req.sessions.pages == null){
     //     res.send(null);
     // }
@@ -104,6 +111,32 @@ app.post('/loadData', function(req, res, next){
 
 
 });
+
+app.post('/getUpdates', function(req, res, next){
+    
+});
+app.post('/changePage', function(req,res){
+    var pageCount = req.body.pageCount;
+    var newPage   = req.body.newPage;
+    var userId = req.session.userId;
+    var data = req.body.oldData;
+    if(pageCount > masters[userId].pageCount){
+        masters[userId].pageCount = pageCount;
+        masters[userId].previousPage = masters[userId].currentPage;
+        masters[userId].currentPage = newPage;
+        masters[userId].currentPageObject.data = data;
+        res.send(masters[userId][newPage].data);   
+    }
+    else
+        res.send(null);
+        
+});
+
+app.post('/getTicker', function(req,res){
+    //if(true)
+});
+
+
 var server = app.listen(3000, function () {
 
     var host = server.address().address;
