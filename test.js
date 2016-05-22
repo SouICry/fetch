@@ -24,7 +24,8 @@ req.session.pages.data //array of data of each page, key is page name
 
 app.post('/loadPage', function (req, res) {
     try {
-        fs.readFile(__dirname + "/" + req.body.name + ".html", 'utf8', function (err, data) {
+        fs.readFile(__dirname + "/" + req.body.name +
+            ".html", 'utf8', function (err, data) {
             if (err) {
                 console.log(err);
             }
@@ -132,10 +133,23 @@ app.post('/changePage', function(req,res){
         
 });
 
-app.post('/getTicker', function(req,res){
-    //if(true)
+app.post('/getTicket', function(req,res){
+    
+    
 });
 
+app.post('/getUpdates', function(req,res, next){
+    var object = {};
+    var userId = req.session.userId;
+    object.isDriver = masters[userId].isDriver;
+    object.pageCount = masters[userId].pageCount;
+    object.previousPage = masters[userId].previousPage;
+    object.currentPage = masters[userId].currentPage;
+    //object.currentPageObject = masters[userId].currentPageObject;
+    object.version = masters[userId].version;
+    object.data = masters[userId].currentPageObject.data;
+    res.send(object);
+});
 
 var server = app.listen(3000, function () {
 
