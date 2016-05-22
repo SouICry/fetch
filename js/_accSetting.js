@@ -19,6 +19,7 @@
             return _account;
         },
         loadData: function (data) { // MUST RESET PAGE AS WELL    //must be null if not needed
+            alert('accsetting: ' + data);
             if (data != "none") {
                 $('#accsetting_full_name').val(data.full_name);
                 $('#accsetting_email').val(data.email);

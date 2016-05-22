@@ -15,7 +15,7 @@
             else{
                 document.getElementById("index_user-name").innerHTML = "error";
             }
-        },
+        }
     };
     var allSections = ['abovePages', 'createTicket', /*'acceptTicket',*/ 'confirmTicket', 'driverFlow'];
 
