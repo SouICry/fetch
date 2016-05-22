@@ -490,7 +490,7 @@
                 whichid = section[i];
                 loadPage(whichid, '#' + sectionName, i, j);
                 var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
-                $("#Butt").append("<div " + clickVal + " >" + sectionName + "</div>");
+                $("#Butt").append("<div " + clickVal + " >" + whichid + "</div>");
             }
         }
     });
