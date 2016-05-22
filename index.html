@@ -114,7 +114,7 @@
     var allGlyphs = ["glyphicon glyphicon-cog", "", "", "glyphicon glyphicon-wrench", "glyphicon glyphicon-home",
         "", "glyphicon glyphicon-check", "glyphicon glyphicon-log-in", "glyphicon glyphicon-signal",
         "glyphicon glyphicon-repeat",
-        "glyphicon glyphicon-plus-sign", "", "", ""];
+        "glyphicon glyphicon-plus-sign", "", "", "",""];
 
     var pageNames = ["Setting", "Contact", "History", "Password Recovery", "Home", "Shopping", "Checkout", "Login",
         "Rating", "Password Reset", "Sign Up", "Tickets", "Driver List", 'Congrats', "Your Deliveries"];
@@ -308,7 +308,7 @@
             if (loader.currentPageObject.loadData != null) {
                 $.post("/loadData" + loader.currentPage, {
                     name: loader.currentPage,
-                    version: loader.currentPageObject.version,
+                    version: loader.currentPageObject.version
                 }, function (resp) {
                     if (resp != "none") {
                         loader.currentPageObject.data = resp.data;
@@ -326,9 +326,17 @@
                     page: loader.currentPage
                 }
             }, function (resp) {
-                if (resp.i)
-
-                //Change page if page is newer
+                //Driver change, trigger driver change
+                if (resp.isDriver != loader.isDriver) {
+                    if (resp.isDriver) {
+                        loader.switchToDriver();
+                    }
+                    else {
+                        loader.switchToShopper();
+                    }
+                }
+                else {
+                    //Change page if page is newer
                     if (resp.pageCount > loader.pageCount) {
                         loader.previousPage = resp.previousPage;
                         loader.currentPage = resp.currentPage;
@@ -337,6 +345,7 @@
                         if (loader.currentPageObject.loadData != null) {
                             loader.currentPageObject.loadData(resp.data);
                         }
+                        loader.goToPage(loader.currentPage);
                     }
                     //Update page if on same page and new version
                     else if (resp.pageCount == loader.pageCount) {
@@ -349,10 +358,9 @@
                     else {
                         //do nothing since this local copy is newer
                     }
-
+                }
             });
         },
-
         login: function (data) {
             alert(data);
             document.getElementById("index_user-name").innerHTML = data.full_name;
@@ -362,6 +370,9 @@
             //TODO: delete cookie and refresh page
         },
         switchToDriver: function () {
+            //Call and go to new page
+            //UI changes, etc
+
 
         },
         switchToShopper: function () {
@@ -413,30 +424,30 @@
         });
     }
 
-//    $(document).ready(function () {
-//        pageInit();
-//        var i;
-//        var whichid;
-//        var glyph;
-//        var name;
-//        for (var j = 0; j < allSections.length; j++) {
-//            var sectionName = allSections[j];
-//            var section = allPages[sectionName];
-//            for (i = 0; i < section.length; i++) {
-//                whichid = section[i];
-//                for (var k = 0; k < all.length; k++) {
-//                    if (whichid == all[k]) {
-//                        glyph = allGlyphs[k];
-//                        name = pageNames[k];
-//                        break;
-//                    }
-//                }
-//                loadPage(whichid, '#' + sectionName, i, j);
-//                var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
-//                $("#Butt").append("<div " + clickVal + " > <span class= '" + glyph + "'></span> " + name + "   </div>");
-//            }
-//        }
-//    });
+    //    $(document).ready(function () {
+    //        pageInit();
+    //        var i;
+    //        var whichid;
+    //        var glyph;
+    //        var name;
+    //        for (var j = 0; j < allSections.length; j++) {
+    //            var sectionName = allSections[j];
+    //            var section = allPages[sectionName];
+    //            for (i = 0; i < section.length; i++) {
+    //                whichid = section[i];
+    //                for (var k = 0; k < all.length; k++) {
+    //                    if (whichid == all[k]) {
+    //                        glyph = allGlyphs[k];
+    //                        name = pageNames[k];
+    //                        break;
+    //                    }
+    //                }
+    //                loadPage(whichid, '#' + sectionName, i, j);
+    //                var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
+    //                $("#Butt").append("<div " + clickVal + " > <span class= '" + glyph + "'></span> " + name + "   </div>");
+    //            }
+    //        }
+    //    });
 
 
     jQuery(document).ready(function ($) {
