@@ -77,14 +77,20 @@
     }
 
     function goToPreviousPage() {
-        goToPage(loader.previousPage);
+        goToPage(loader.previousPage, true);
     }
 
 
-    function goToPage(id) {
-
-        loader.goToPage(id);
-        //loader.setCurrentPage(id);
+    function goToPage(id, noPrevious) {
+        if (id.length) {
+            if (arguments.length > 1) {
+                //loader.setCurrentPage(id, true);
+            }
+            else {
+                //loader.setCurrentPage(id, false);
+            }
+            loader.goToPage(id);/*Temporary*/
+        }
     }
 
     window.onhashchange = function () {
@@ -204,11 +210,17 @@
             data: null
         },
         goToPage(id){
-            var item = $('#' + id);
-            $("#page-content").css('transform',
-                    'translate(-' + $(item).data("pos") * 100 + '%, -' + $(item).data("vpos") * 100 + '%)')
+            //Only move if given a string with an actual value
+            if (id.length) {
+                var item = $('#' + id);
+                if (item) {
+                    $("#page-content").css('transform',
+                            'translate(-' + $(item).data("pos") * 100 + '%, -' + $(item).data("vpos") * 100 + '%)')
+                }
+            }
+
         },
-        setCurrentPage: function (page) {
+        setCurrentPage: function (page, noPrevious) {
             loader.pageCount++;
             var oldPage = loader.currentPage;
             loader.currentPage = page;
@@ -228,7 +240,12 @@
 
             }, function (newPageData) {
                 loader.goToPage(page);
-                loader.previousPage = oldPage;
+                if (noPrevious){
+                    loader.previousPage = "";
+                }
+                else {
+                    loader.previousPage = oldPage;
+                }
                 loader.currentPageObject = loader[page];
                 if (loader.currentPageObject.loadData != null) {
                     loader.currentPageObject.loadData(newPageData);
@@ -240,9 +257,7 @@
         getTicket: function (ticketId) {
             if (state != "accepted" || loader.isDriver) {
                 $.post("/getTicket", {
-
-                    id: ticketId,
-
+                    id: ticketId
                 }, function (state) {
                     if (loader.isDriver) {
                         switch (state) {
@@ -272,10 +287,6 @@
                 });
             }
         },
-        currentPageChanged: function () {
-            //Submit data
-            //Throttle.
-        },
         sendData: function () { //Gets data from page and sends to server for update. Server will send back version num
             if (loader.currentPageObject.getData != null) {
                 loader.currentPageObject.data = loader.currentPageObject.getData();
@@ -304,6 +315,7 @@
                 });
             }
         },
+        currentPageChanged: _.throttle(this.sendData, 500, {trailing: false}),
         //set to run every second elsewhere
         getUpdates: function () {
             $.post("/getUpdates", {
@@ -312,6 +324,12 @@
                     page: loader.currentPage
                 }
             }, function (resp) {
+                //Logout if now is logged out
+                if (resp.isLoggedIn != loader.isLoggedIn){
+                    if (!resp.isLoggedIn){
+                        loader.logout();
+                    }
+                }
 
                 //Driver change, trigger driver change
                 if (resp.isDriver != loader.isDriver) {
@@ -348,20 +366,37 @@
                 }
             });
         },
-        login: function (data) {
+        login: function (data) { //Called after successful login, passing the returned data
+            document.cookie = "user=" + data.userId  +";expires="  + new Date().setUTCFullYear(2345).toUTCString();
+
+            //TODO
+            //notdone
             alert(data);
             document.getElementById("index_user-name").innerHTML = data.full_name;
+
+
             goToPreviousPage();
         },
         logout: function () {
-            //TODO: delete cookie and refresh page
+            document.cookie = "user=" + data.userId  +";expires="  + new Date(0).toUTCString();
+
+            $.post("/logout", {}, function(){});
+
+            window.location.reload();
         },
         switchToDriver: function () {
-            //Call and go to new page
-            //UI changes, etc
+            loader.isDriver = true;
+
+            //UI changes for menu bar
+
+            goToPage("_yourDeliveries", true);
         },
         switchToShopper: function () {
+            loader.isDriver = false;
 
+            //UI changes for menu bar
+
+            goToPage("_history", true);
         }
     };
 
@@ -377,8 +412,15 @@
 
     function pageInit() {
 
-        //TODO: check for coookie to see if logged in
-        var id;
+        if (document.cookie.length > 5){
+            var user = document.cookie;
+            loader.userId = user.split(";")[0].substring(5);
+        }
+        else {
+            loader.userId = "";
+        }
+        //TODO: if is driver in cookie, take to driver page instead
+
 
         $.ajax({
             type: "POST",
@@ -404,7 +446,7 @@
                     loader.goToPage(resp.currentPage);
                 }
 
-                window.setInterval(loader.getUpdates, 1000);
+                window.setInterval(loader.getUpdates, 500);
             }
         });
     }
@@ -413,23 +455,14 @@
         pageInit();
         var i;
         var whichid;
-        var glyph;
-        var name;
         for (var j = 0; j < allSections.length; j++) {
             var sectionName = allSections[j];
             var section = allPages[sectionName];
             for (i = 0; i < section.length; i++) {
                 whichid = section[i];
-                for (var k = 0; k < all.length; k++) {
-                    if (whichid == all[k]) {
-                        glyph = allGlyphs[k];
-                        name = pageNames[k];
-                        break;
-                    }
-                }
                 loadPage(whichid, '#' + sectionName, i, j);
                 var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
-                $("#Butt").append("<div " + clickVal + " > <span class= '" + glyph + "'></span> " + name + "   </div>");
+                $("#Butt").append("<div " + clickVal + " >" + sectionName + "</div>");
             }
         }
     });

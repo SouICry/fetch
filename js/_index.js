@@ -32,7 +32,6 @@
 
 
     $(document).ready(function () {
-        pageInit();
         var i;
         var whichid;
         var glyph;
@@ -49,7 +48,6 @@
                         break;
                     }
                 }
-                loadPage(whichid, '#' + sectionName, i, j);
                 var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
                 $("#Butt").append("<div " + clickVal + " > <span class= '" + glyph + "'></span> " + name + "   </div>");
             }
