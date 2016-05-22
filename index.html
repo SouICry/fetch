@@ -114,7 +114,7 @@
     var allGlyphs = ["glyphicon glyphicon-cog", "", "", "glyphicon glyphicon-wrench", "glyphicon glyphicon-home",
         "", "glyphicon glyphicon-check", "glyphicon glyphicon-log-in", "glyphicon glyphicon-signal",
         "glyphicon glyphicon-repeat",
-        "glyphicon glyphicon-plus-sign", "", "", ""];
+        "glyphicon glyphicon-plus-sign", "", "", "",""];
 
     var pageNames = ["Setting", "Contact", "History", "Password Recovery", "Home", "Shopping", "Checkout", "Login",
         "Rating", "Password Reset", "Sign Up", "Tickets", "Driver List", 'Congrats', "Your Deliveries"];
@@ -143,22 +143,53 @@
      */
 
 
-    //Backend loads/stores ticket into page objects:
-    function loadTicket() {
+    var master;
 
+
+    //
+    //    //Backend loads/stores ticket into page objects:
+    //
+    //    function getTicket(id){
+    //        //get from database
+    //        loadTicket(theTicket)
+    //    }
+    //
+    //    function addToQueue(ticket){
+    //
+    //    }
+    //
+    //
+    //    function sendEmail(userId){
+    //
+    //    }
+
+
+    function loadTicket(ticket) {
+
+        var o = master['userid'];
+        o._driverList = ticket.checkoff;
+        o._completeTicket = {
+            address: ticket.user.address,
+            contact: ticket.user.contact,
+            time: ticket.time
+        }
     }
+
     function saveTicket() {
 
     }
+
+
     var ticketPrototype = {
         ticket: {
             id: "",
-            state: "",
+            state: "", //pending, accepted, shopped, delivered, cancelled
             store: "",
             user: {
                 id: "",
                 contact: "",
-                rating: ""
+                rating: "",
+                address: ""
             },
             driver: {
                 id: "",
@@ -200,12 +231,12 @@
             }
 
             $.post("/changePage", {
-                data: {
-                    pageCount: loader.pageCount,
-                    newPage: page,
-                    oldPage: oldPage,
-                    oldData: loader.currentPageObject.data
-                }
+
+                pageCount: loader.pageCount,
+                newPage: page,
+                oldPage: oldPage,
+                oldData: loader.currentPageObject.data
+
             }, function (newPageData) {
                 loader.goToPage(page);
                 loader.previousPage = oldPage;
@@ -223,10 +254,10 @@
             }
             if (state != "accepted" || loader.isDriver) {
                 $.post("/getTicket", {
-                    data: {
-                        id: ticketId,
-                        store: store
-                    }
+
+                    id: ticketId,
+                    store: store
+
                 }, function () {
                     if (loader.isDriver) {
                         switch (state) {
@@ -263,10 +294,9 @@
             if (loader.currentPageObject.getData != null) {
                 loader.currentPageObject.data = loader.currentPageObject.getData();
                 $.post("/sendData", {
-                    data: {
-                        page: loader.currentPage,
-                        data: loader.currentPageObject.data
-                    }
+                    name: loader.currentPage,
+                    data: loader.currentPageObject.data,
+                    version: loader.currentPageObject.version
                 }, function (resp) {
                     if (loader.currentPageObject.version < resp) {
                         loader.currentPageObject.version = resp;
@@ -277,9 +307,10 @@
         loadData: function () { //Gets data from server to load page with
             if (loader.currentPageObject.loadData != null) {
                 $.post("/loadData" + loader.currentPage, {
-                    data: loader.currentPageObject.version
+                    name: loader.currentPage,
+                    version: loader.currentPageObject.version,
                 }, function (resp) {
-                    if (data != null) {
+                    if (resp != "none") {
                         loader.currentPageObject.data = resp.data;
                         loader.currentPageObject.version = resp.version;
                         loader.currentPageObject.loadData();
@@ -296,7 +327,6 @@
                 }
             }, function (resp) {
                 if (resp.i)
-
 
                 //Change page if page is newer
                     if (resp.pageCount > loader.pageCount) {
