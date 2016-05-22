@@ -20,7 +20,10 @@
                     return name[nameString];
                 }
 
-
+                if (tickets.length == 0){
+                    $("#tickets_content").append('<li id="ticket_not" class = "ticket"' +
+                        '>No tickets available</li>');
+                }
 
                 for (var i = 0; i < tickets.length; i++) {
                     $("#tickets_content").append('<li data-ticketId="' + tickets[i].id + '" class = "' + tickets[i].name + ' ticket" ' +
@@ -29,16 +32,11 @@
                 }
 
                 $('#tickets_content li').click(function () {
-                    if ($(this).not("#ticket_not")) {
-                        alert("hi");
+                    if ($(this).attr("id") != 'ticket_not') {
+                        alert( 'hi' );
                         loader.getTicket($(this).data("ticketId"));
                     }
                 });
-
-            }
-            else {
-                $("#tickets_content").append('<li id="ticket_not" class = ticket ' +
-                    ' >No tickets available</li>');
 
             }
         }
@@ -98,6 +96,6 @@
                 }
             });
         });
-    
+
 })();
 
