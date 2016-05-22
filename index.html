@@ -323,8 +323,10 @@
             });
         },
 
-        login: function () {
-            //TODO:
+        login: function (data) {
+            alert(data);
+            document.getElementById("index_user-name").innerHTML = data.full_name;
+            goToPreviousPage();
         },
         logout: function () {
             //TODO: delete cookie and refresh page
