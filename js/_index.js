@@ -14,7 +14,10 @@
     var pageNames = ["Setting", "Contact", "History", "Password Recovery", "Home", "Shopping", "Checkout", "Login",
         "Rating", "Password Reset", "Sign Up", "Tickets", "Driver List", 'Congrats', "Your Deliveries"];
 
-
+    function whenLogedIn(){
+        
+       $("#Butt").append("")
+    }
     $(document).ready(function () {
         var i;
         var whichid;
