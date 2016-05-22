@@ -50,6 +50,11 @@
     });
 
 
+    document.getElementById("shopping_list_form").onsubmit = function(event) {
+        event.preventDefault();
+        return false;
+    };
+
     $('#shopping_list_form').submit(addItem);
     function addItem() {
         if ($('#shoppingCheckListItem').val() !== '') {
