@@ -43,7 +43,7 @@
 <div id="menu-drawer" class="cd-panel from-right" style="z-index: 3000">
     <div class="cd-panel-container">
         <header id="panel-Header" class="">
-            <h1>hellp</h1>
+            <h1 id="index_user-name">hellp</h1>
             <div id="close-menu" class="cd-panel-close">Close</div>
         </header>
         <div class="cd-panel-content">
@@ -125,7 +125,7 @@
         /*acceptTicket: ['_acceptTicket', '_paid'],*/
         /*acceptTicket: ['_cancelTicket','_cancelled'],*/
         confirmTicket: [/*'_confirmTicket',*/ "_rating", /*'_ticketClosed',*/"_passwordReset", "_signUp"],
-        driverFlow: ['_tickets', '_driverList', /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats']
+        driverFlow: ['_tickets', '_driverList2', /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats']
     };
 
     loadPage("_driverTickets", '#driverTickets');
@@ -143,22 +143,53 @@
      */
 
 
-    //Backend loads/stores ticket into page objects:
-    function loadTicket() {
+    var master;
 
+
+    //
+    //    //Backend loads/stores ticket into page objects:
+    //
+    //    function getTicket(id){
+    //        //get from database
+    //        loadTicket(theTicket)
+    //    }
+    //
+    //    function addToQueue(ticket){
+    //
+    //    }
+    //
+    //
+    //    function sendEmail(userId){
+    //
+    //    }
+
+
+    function loadTicket(ticket) {
+
+        var o = master['userid'];
+        o._driverList = ticket.checkoff;
+        o._completeTicket = {
+            address: ticket.user.address,
+            contact: ticket.user.contact,
+            time: ticket.time
+        }
     }
+
     function saveTicket() {
 
     }
+
+
     var ticketPrototype = {
         ticket: {
             id: "",
-            state: "",
+            state: "", //pending, accepted, shopped, delivered, cancelled
             store: "",
             user: {
                 id: "",
                 contact: "",
-                rating: ""
+                rating: "",
+                address: ""
             },
             driver: {
                 id: "",
@@ -200,12 +231,12 @@
             }
 
             $.post("/changePage", {
-                data: {
-                    pageCount: loader.pageCount,
-                    newPage: page,
-                    oldPage: oldPage,
-                    oldData: loader.currentPageObject.data
-                }
+
+                pageCount: loader.pageCount,
+                newPage: page,
+                oldPage: oldPage,
+                oldData: loader.currentPageObject.data
+
             }, function (newPageData) {
                 loader.goToPage(page);
                 loader.previousPage = oldPage;
@@ -223,10 +254,10 @@
             }
             if (state != "accepted" || loader.isDriver) {
                 $.post("/getTicket", {
-                    data: {
-                        id: ticketId,
-                        store: store
-                    }
+
+                    id: ticketId,
+                    store: store
+
                 }, function () {
                     if (loader.isDriver) {
                         switch (state) {
@@ -263,10 +294,9 @@
             if (loader.currentPageObject.getData != null) {
                 loader.currentPageObject.data = loader.currentPageObject.getData();
                 $.post("/sendData", {
-                    data: {
-                        page: loader.currentPage,
-                        data: loader.currentPageObject.data
-                    }
+                    name: loader.currentPage,
+                    data: loader.currentPageObject.data,
+                    version: loader.currentPageObject.version
                 }, function (resp) {
                     if (loader.currentPageObject.version < resp) {
                         loader.currentPageObject.version = resp;
@@ -277,9 +307,10 @@
         loadData: function () { //Gets data from server to load page with
             if (loader.currentPageObject.loadData != null) {
                 $.post("/loadData" + loader.currentPage, {
-                    data: loader.currentPageObject.version
+                    name: loader.currentPage,
+                    version: loader.currentPageObject.version,
                 }, function (resp) {
-                    if (data != null) {
+                    if (resp != "none") {
                         loader.currentPageObject.data = resp.data;
                         loader.currentPageObject.version = resp.version;
                         loader.currentPageObject.loadData();
@@ -296,7 +327,6 @@
                 }
             }, function (resp) {
                 if (resp.i)
-
 
                 //Change page if page is newer
                     if (resp.pageCount > loader.pageCount) {
@@ -323,8 +353,10 @@
             });
         },
 
-        login: function () {
-            //TODO:
+        login: function (data) {
+            alert(data);
+            document.getElementById("index_user-name").innerHTML = data.full_name;
+            goToPreviousPage();
         },
         logout: function () {
             //TODO: delete cookie and refresh page
@@ -381,30 +413,30 @@
         });
     }
 
-    $(document).ready(function () {
-        pageInit();
-        var i;
-        var whichid;
-        var glyph;
-        var name;
-        for (var j = 0; j < allSections.length; j++) {
-            var sectionName = allSections[j];
-            var section = allPages[sectionName];
-            for (i = 0; i < section.length; i++) {
-                whichid = section[i];
-                for (var k = 0; k < all.length; k++) {
-                    if (whichid == all[k]) {
-                        glyph = allGlyphs[k];
-                        name = pageNames[k];
-                        break;
-                    }
-                }
-                loadPage(whichid, '#' + sectionName, i, j);
-                var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
-                $("#Butt").append("<div " + clickVal + " > <span class= '" + glyph + "'></span> " + name + "   </div>");
-            }
-        }
-    });
+//    $(document).ready(function () {
+//        pageInit();
+//        var i;
+//        var whichid;
+//        var glyph;
+//        var name;
+//        for (var j = 0; j < allSections.length; j++) {
+//            var sectionName = allSections[j];
+//            var section = allPages[sectionName];
+//            for (i = 0; i < section.length; i++) {
+//                whichid = section[i];
+//                for (var k = 0; k < all.length; k++) {
+//                    if (whichid == all[k]) {
+//                        glyph = allGlyphs[k];
+//                        name = pageNames[k];
+//                        break;
+//                    }
+//                }
+//                loadPage(whichid, '#' + sectionName, i, j);
+//                var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
+//                $("#Butt").append("<div " + clickVal + " > <span class= '" + glyph + "'></span> " + name + "   </div>");
+//            }
+//        }
+//    });
 
 
     jQuery(document).ready(function ($) {
@@ -418,7 +450,7 @@
         });
     });
 </script>
-
+<script type="text/javascript" src="/js/_index.js"></script>
 
 </body>
 </html>
