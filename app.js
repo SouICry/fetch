@@ -47,6 +47,10 @@ app.post('/loadPage', function (req, res) {
     }
 });
 
+
+
+// ------------------------ USER SCHEMA/MODEL -------------------------
+
 // Set up schema for users
 var userSchema = new mongoose.Schema(
     {
@@ -80,7 +84,6 @@ var userSchema = new mongoose.Schema(
     }
 );
 
-
 // Hash password prior to saving user to db
 userSchema.pre('save', function (next) {
     var user = this;
@@ -106,6 +109,72 @@ userSchema.methods.comparePassword = function (password) {
     return bcrypt.compareSync(password, this.password);
 };
 
+// User model
+var User = mongoose.model('User', userSchema, 'users');
+
+// Connect to db
+mongoose.connect(mongodb_url);
+// ----------------------------------------------------------
+
+
+
+
+
+var ViewController = function (userID, valueF){
+    this._userID = userID;
+    this._valueF = valueF;
+    this.time = 0;
+
+};
+
+ViewController.prototype = {
+    updateValue: function (value, time) {
+        if (time > this.time) {
+            this._valueF = value;
+            this.time = time;
+        }
+    },
+    getValue: function(currentData, time){
+        return (time > this.time) ? this._valueF : currentData;
+    }
+};
+
+app.get('/_shopping', function (req, res){
+    console.log('LIne 456, list in session is', req.session.list);
+    if(req.session.passport && req.session.passport.user) {
+        var key = req.session.passport.user;
+    }
+    else
+        key = 'undefined';
+    if(req.session.paasport) {
+        if (req.session.passport.user != null) {
+            if ((hashTable.get(key)) != null) {
+                var working = hashTable.get(key);
+                var currentTime = new Date().getTime();
+                //data is list of shopping items
+                res.send(working.getValue(req.body.list, currentTime));
+            }
+        }
+    }
+    else if(typeof(req.session.list) != 'undefined'){
+        res.send(req.session.list);
+    }
+    else
+        res.send();
+
+    /*var VCObject = hashTable.get(email);
+     res.send(VCObject.getValue(currentTime, req.query['list']));*/
+});
+
+
+
+
+
+
+
+
+// ------------------- SIGNUP/LOGIN/LOGOUT -----------------------
+
 // Used to check if valid email format (@ucsd.edu)
 var validEmail = function(email) {
     var email_regex = /.*@ucsd.edu/;
@@ -129,13 +198,6 @@ var validPhoneNumber = function(phone_number) {
     }
     return phone_number;
 };
-
-
-// User model
-var User = mongoose.model('User', userSchema, 'users');
-
-// Connect to db
-mongoose.connect(mongodb_url);
 
 
 // To check for login
@@ -207,17 +269,17 @@ passport.use('signup', new LocalStrategy(
                         password: password,
                         phone_number: req.body.phone_number,
                         address: {
-                            street: 'milf st.',
-                            city: 'milf city',
-                            state: 'CA',
-                            zip: '696969'
+                            street: '',
+                            city: '',
+                            state: '',
+                            zip: ''
                         },
                         payment_info: {
-                            card_holder_name: '69',
-                            card_number: '69',
-                            exp_month: '6',
-                            exp_year: '69',
-                            cvv: '699'
+                            card_holder_name: '',
+                            card_number: '',
+                            exp_month: '',
+                            exp_year: '',
+                            cvv: ''
                         },
                         total_rating: 0.0,
                         num_times_rated: 0,
@@ -256,26 +318,6 @@ passport.deserializeUser(function (id, done) {
         done(err, user);
     });
 });
-
-// Routes
-
-// app.get('/forgot', function (req, res) {
-//     res.render('forgot', {
-//         user: req.user
-//     });
-// });
-//
-// app.get('/reset/:token', function (req, res) {
-//     User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now()}}, function (err, user) {
-//         if (!user) {
-//             req.flash('error', 'Password reset token is invalid or has expired.');
-//             return res.redirect('/forgot');
-//         }
-//         res.render('reset', {
-//             user: req.user
-//         });
-//     });
-// });
 
 app.post('/_logout', function(req, res, next) {
     // If 'logout' button pressed, log user out. Passportjs will
@@ -336,6 +378,12 @@ app.post('/_login', function(req, res, next) {
         }
     })(req, res, next);
 });
+// -------------------------------------------------------------
+
+
+
+// ----------- PASSWORD RECOVERY/RESET --------------------
+
 
 // TODO: need to fix pwrecovery. does not work atm
 app.post('/_passwordRecovery', function (req, res, next) {
@@ -346,7 +394,6 @@ app.post('/_passwordRecovery', function (req, res, next) {
         req.flash('error', 'Invalid email format your_ucsd_email@ucsd.edu');
         res.status(500);
         return;
-        //return res.redirect('/forgot');
     }
 
     async.waterfall([
@@ -362,7 +409,6 @@ app.post('/_passwordRecovery', function (req, res, next) {
                     req.flash('error', 'No account with that email address exists.');
                     res.status(500);
                     return;
-                    //return res.redirect('/forgot');
                 }
 
                 user.resetPasswordToken = token;
@@ -462,8 +508,179 @@ app.post('/reset/:token', function (req, res) {
     ], function (err) {
         res.status(500);
         return;
-        //res.redirect('/');
     });
+});
+
+
+
+// ---------------- ACCOUNT SETTING -----------------
+
+app.post('/_accSetting', function(req, res) {
+    if (!req.session.passport || !res.session.passport.user) {
+        res.status(500);
+        res.send({message: 'no user logged in'});
+    }
+    else {
+        // update database with new info
+
+        // update session
+    }
+});
+// -------------------------------------------------------------
+
+
+
+
+
+
+// --------------- SHOPPING/SAVE GROCERY LIST ---------------
+
+// Saves user's grocery list to session
+app.post('/_shopping', function(req, res) {
+    //req.body.data
+    //console.log(req.session);
+    //console.log("Passport: " + req.session.passport);
+    req.session.passport = {user: 'A1'};
+    //console.log(req.session);
+    //console.log(req.body.data);
+    //console.log(req.body.checkListItem);
+    //TODO keep this, this will parse data string to JSON object, list is an array
+    var list = JSON.parse(req.body.data).list;
+    //var list = req.body.checkListItem;
+    // var list = {'list' : 'Bacon is love, bacon is life'};
+    var key;
+
+    console.log('Line 494, list of item is ', list);
+
+    // Check if passport attribute exists in session
+    if(req.session.passport){
+        // Check if user is logged in
+        if(req.session.passport.user)
+            key = req.session.passport.user;
+    }
+    else
+        key = 'undefined';
+
+    console.log( "Line 501, key in hashtable is ",key);
+
+    //console.log('key in post /#shopping', key);
+    var currentTime = new Date().getTime();
+
+    //Check if user is logged in
+    if(req.session.passport){
+        if (req.session.passport.user == null) {
+            req.session.list = list;
+            console.log('list of item in shopping ', req.session.list);
+        }
+        //Check if user has ViewController
+        else {
+            if ((hashTable.get(key)) == null) {
+                console.log('line 517, Creating a new ViewCOntroller for this user');
+                var working = new ViewController(key, list);
+                hashTable.set(key, working);
+
+            }
+            else {
+                var working = hashTable.get(key);
+                console.log('line 524, User is already login on another device, update view controller:', working);
+                working.updateValue(list, currentTime);
+                hashTable.update(key, working);
+            }
+
+            console.log('Line 527, working ViewCOntroller is ', working);
+        }
+    }
+    else{
+        //Note the JSON.parse...
+        var list = JSON.parse(req.body.data).list;
+        req.session.list = list;
+
+        console.log("Line 535, list of item in session is " + req.session.list );
+    }
+
+
+
+
+    var date = new Date();
+
+    // store all items into session
+
+    req.session
+
+    // Model for grocery list
+    var glist = {
+        _id: list_id,
+        store_name: req.session.store_name, // ?????? Need to communicate with geo/trivi for store name session
+        shopping_list: req.session.list,
+        timestamp: date.toLocaleDateString() + ' ' + date.toLocaleTimeString(),
+        special_options: req.session.special_options,
+        available_time_start: req.session.available_time_start,
+        available_time_end: req.session.available_time_end
+    };
+
+    // Check that empty list was not sent
+    if (gist.length === 0) {
+        res.status(500);
+        res.send({message: 'Submitted empty list'});
+        return;
+    }
+
+    // Check that user is logged in
+    if (!req.session.passport || !req.session.passport.user) {
+        console.log('user is not logged in');
+        res.status(500);
+        res.send({message: 'user is not logged in'});
+    }
+    else {
+        var updateGroceryListAndQueue = function(db, callback) {
+            var grocery_list = null;
+
+            // Update user to hold grocery list submitted
+            db.collection('users').update({_id: req.session.passport.user}, {$push: {grocery_list: glist}},
+                function(err, doc) {
+                    if (err) {
+                        console.log('error updating user grocery list');
+                        res.status(500);
+                        res.send(err);
+                    }
+                    grocery_list = doc;
+                }
+            );
+
+            // If grocery list successfully added to user's grocery list, add list to queue
+            if (!grocery_list) {
+                db.collection('grocery_queue').insert(grocery_list, function (err, doc) {
+                    if (err) {
+                        console.log('error adding list to queue: ' + err);
+                        res.status(500);
+                        res.send(err);
+                    }
+                });
+            }
+        };
+
+        MongoClient.connect(mongodb_url, function(err, db) {
+            if (err) {
+                console.log('Error: ' + err);
+                res.send(err);
+            }
+            else {
+                updateGroceryListAndQueue(db, function() {
+                    db.close();
+                });
+            }
+        });
+    }
+});
+// -------------------------------------------------------------
+
+
+
+
+
+// ------------------ TICKETS/GROCERY QUEUE --------------------
+app.post('/_tickets', function(req, res) {
+
 });
 
 
@@ -475,3 +692,4 @@ var server = app.listen(3000, function () {
     console.log("Example app listening at http://%s:%s", host, port)
 
 });
+// -------------------------------------------------------------

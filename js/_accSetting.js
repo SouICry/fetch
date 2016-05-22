@@ -7,15 +7,15 @@
             _account.full_name = $('#accsetting_full_name').val();
             _account.email = $('#accsetting_email').val();
             _account.phone = $('#accsetting_phone').val();
-            _account.street = $('#street').val();
-            _account.city = $('#city').val();
-            _account.state = $('#state').val();
-            _account.zip = $('#zip').val();
-            _account.cardName = $('#cardName').val();
-            _account.cardNumber = $('#card').val();
-            _account.cardMonth = $('#month').val();
-            _account.cardYear = $('#year').val();
-            _account.cardCVV = $('#cvv').val();
+            _account.address.street = $('#street').val();
+            _account.address.city = $('#city').val();
+            _account.address.state = $('#state').val();
+            _account.address.zip = $('#zip').val();
+            _account.payment_info.card_holder_name = $('#cardName').val();
+            _account.payment_info.card_number = $('#card').val();
+            _account.payment_info.exp_month = $('#month').val();
+            _account.payment_info.exp_year = $('#year').val();
+            _account.payment_info.cvv = $('#cvv').val();
             return _account;
         },
         loadData: function (data) { // MUST RESET PAGE AS WELL    //must be null if not needed
