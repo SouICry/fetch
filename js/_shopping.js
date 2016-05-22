@@ -7,6 +7,11 @@
         },
         loadData: function (data) { // MUST RESET PAGE AS WELL    //must be null if not needed
             var arr = [];
+
+            $("#list").html("");
+            shopping_count = 0;
+            list_shopping.splice(0,list_shopping.length)
+
             for (var i = 0; i < data.length; i++) {
                 shoppping_toAdd = data[i];
                 var newItem = document.createElement('li');
@@ -22,10 +27,10 @@
                     $("#numItems").text(shopping_count + " data");
                 }
                 if (shopping_count != 0) {
-                    $("#footerInfo, #footerBars").show();
+                    $("#submit_list, #footerInfo, #footerBars").show();
                 }
                 else {
-                    $("#footerInfo,#footerBars").hide();
+                    $("#submit_list, #footerInfo,#footerBars").hide();
                 }
             }
         }
@@ -63,16 +68,16 @@
             }
 
             if (shopping_count != 0) {
-                $("#footerInfo, #footerBars").show();
+                $("#submit_list, #footerInfo, #footerBars").show();
             }
             else {
-                $("#footerInfo,#footerBars").hide();
+                $("#submit_list, #footerInfo, #footerBars").hide();
             }
 
             loader.currentPageChanged();
         }
         $('#shoppingCheckListItem').val('');
-        // $('#input').focus();
+        //$('#input').focus();
 
         list_shopping.push(shoppping_toAdd);
 
@@ -85,22 +90,22 @@
     $(document).on('click', '.item', function () {
         $(this).remove();
 
-        count--;
-        if (count == 1) {
+        shopping_count--;
+        if (shopping_count == 1) {
             $("#numItems").text("1 item");
         }
-        else if (count == 0) {
+        else if (shopping_count == 0) {
             $("#numItems").text("");
         }
         else {
-            $("#numItems").text(count + " items");
+            $("#numItems").text(shopping_count + " items");
         }
 
         if (count != 0) {
-            $("#footerInfo, #footerBars").show();
+            $("#submit_list, #footerInfo, #footerBars").show();
         }
         else {
-            $("#footerInfo, #footerBars").hide();
+            $("#submit_list, #footerInfo, #footerBars").hide();
         }
 
         var index = list_shopping.indexOf($(this).text());
