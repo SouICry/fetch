@@ -113,9 +113,7 @@ app.post('/loadData', function(req, res, next){
 
 });
 
-app.post('/getUpdates', function(req, res, next){
-    
-});
+
 app.post('/changePage', function(req,res){
     var pageCount = req.body.pageCount;
     var newPage   = req.body.newPage;
@@ -138,17 +136,31 @@ app.post('/getTicket', function(req,res){
     
 });
 
-app.post('/getUpdates', function(req,res, next){
+//run every second
+setInterval(function() {
+    app.post('/getUpdates', function (req, res, next) {
+        var object = {};
+        var userId = req.session.userId;
+        if (userId) {
+            object.isDriver = masters[userId].isDriver;
+            object.pageCount = masters[userId].pageCount;
+            object.previousPage = masters[userId].previousPage;
+            object.currentPage = masters[userId].currentPage;
+            //object.currentPageObject = masters[userId].currentPageObject;
+            object.version = masters[userId].version;
+            object.data = masters[userId].currentPageObject.data;
+            res.send(object);
+        }
+        res.send(null);
+    });
+}, 1000);
+
+app.post('/init', function(req,res, next){
+    var userId = req.body.userId;
     var object = {};
-    var userId = req.session.userId;
-    object.isDriver = masters[userId].isDriver;
-    object.pageCount = masters[userId].pageCount;
-    object.previousPage = masters[userId].previousPage;
-    object.currentPage = masters[userId].currentPage;
-    //object.currentPageObject = masters[userId].currentPageObject;
-    object.version = masters[userId].version;
-    object.data = masters[userId].currentPageObject.data;
-    res.send(object);
+    if(userId){
+        
+    }
 });
 
 var server = app.listen(3000, function () {
