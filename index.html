@@ -89,7 +89,8 @@
             else {
                 //loader.setCurrentPage(id, false);
             }
-            loader.goToPage(id);/*Temporary*/
+            loader.goToPage(id);
+            /*Temporary*/
         }
     }
 
@@ -120,7 +121,7 @@
         /*acceptTicket: ['_acceptTicket', '_paid'],*/
         /*acceptTicket: ['_cancelTicket','_cancelled'],*/
         confirmTicket: [/*'_confirmTicket',*/ "_rating", /*'_ticketClosed',*/"_passwordReset", "_signUp"],
-        driverFlow: ['_tickets', '_driverList2', "" /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats']
+        driverFlow: ['_tickets', '_driverList2', /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats']
     };
 
     loadPage("_driverTickets", '#driverTickets');
@@ -240,7 +241,7 @@
 
             }, function (newPageData) {
                 loader.goToPage(page);
-                if (noPrevious){
+                if (noPrevious) {
                     loader.previousPage = "";
                 }
                 else {
@@ -325,9 +326,10 @@
                 }
             }, function (resp) {
                 //Logout if now is logged out
-                if (resp.isLoggedIn != loader.isLoggedIn){
-                    if (!resp.isLoggedIn){
+                if (resp.isLoggedIn != loader.isLoggedIn) {
+                    if (!resp.isLoggedIn) {
                         loader.logout();
+                        return;
                     }
                 }
 
@@ -335,39 +337,41 @@
                 if (resp.isDriver != loader.isDriver) {
                     if (resp.isDriver) {
                         loader.switchToDriver();
+                        return;
                     }
                     else {
                         loader.switchToShopper();
+                        return;
                     }
                 }
-                else {
-                    //Change page if page is newer
-                    if (resp.pageCount > loader.pageCount) {
-                        loader.previousPage = resp.previousPage;
-                        loader.currentPage = resp.currentPage;
-                        loader.currentPageObject = loader[resp.currentPage];
-                        loader.currentPageObject.version = resp.version;
+
+                //Change page if page is newer
+                if (resp.pageCount > loader.pageCount) {
+                    loader.previousPage = resp.previousPage;
+                    loader.currentPage = resp.currentPage;
+                    loader.currentPageObject = loader[resp.currentPage];
+                    loader.currentPageObject.version = resp.version;
+                    if (loader.currentPageObject.loadData != null) {
+                        loader.currentPageObject.loadData(resp.data);
+                    }
+                    loader.goToPage(loader.currentPage);
+                }
+                //Update page if on same page and new version
+                else if (resp.pageCount == loader.pageCount) {
+                    if (resp.version > loader.currentPageObject.version) {
                         if (loader.currentPageObject.loadData != null) {
                             loader.currentPageObject.loadData(resp.data);
                         }
-                        loader.goToPage(loader.currentPage);
-                    }
-                    //Update page if on same page and new version
-                    else if (resp.pageCount == loader.pageCount) {
-                        if (resp.version > loader.currentPageObject.version) {
-                            if (loader.currentPageObject.loadData != null) {
-                                loader.currentPageObject.loadData(resp.data);
-                            }
-                        }
-                    }
-                    else {
-                        //do nothing since this local copy is newer
                     }
                 }
+                else {
+                    //do nothing since this local copy is newer
+                }
+
             });
         },
         login: function (data) { //Called after successful login, passing the returned data
-            document.cookie = "user=" + data.userId  +";expires="  + new Date().setUTCFullYear(2345).toUTCString();
+            document.cookie = "user=" + data.userId + ";expires=" + new Date().setUTCFullYear(2345).toUTCString();
 
             //TODO
             //notdone
@@ -378,14 +382,21 @@
             goToPreviousPage();
         },
         logout: function () {
-            document.cookie = "user=" + data.userId  +";expires="  + new Date(0).toUTCString();
+            document.cookie = "user=" + data.userId + ";expires=" + new Date(0).toUTCString();
 
-            $.post("/logout", {}, function(){});
+            $.post("/logout", {}, function () {
+            });
 
             window.location.reload();
         },
         switchToDriver: function () {
             loader.isDriver = true;
+
+            $.post("/switchRole", {
+                isDriver : true
+            });
+
+
 
             //UI changes for menu bar
 
@@ -393,6 +404,10 @@
         },
         switchToShopper: function () {
             loader.isDriver = false;
+
+            $.post("/switchRole", {
+                isDriver: false
+            });
 
             //UI changes for menu bar
 
@@ -412,7 +427,7 @@
 
     function pageInit() {
 
-        if (document.cookie.length > 5){
+        if (document.cookie.length > 5) {
             var user = document.cookie;
             loader.userId = user.split(";")[0].substring(5);
         }
@@ -426,11 +441,14 @@
             type: "POST",
             url: "/init",
             data: {
-                userId: loader.userId //"" or valid user id string
+                userId: loader.userId, //"" or valid user id string
+                isDriver: loader.isDriver
             },
             success: function (resp) {
                 //If has existing session, load it!
-                if (resp != "none") {
+
+
+                if (resp.isLoggedIn) {
                     loader.isDriver = resp.isDriver;
                     loader.userId = resp.userId;
                     loader.pageCount = resp.pageCount;
@@ -443,8 +461,16 @@
                         loader.currentPageObject.loadData(resp.data);
                     }
 
+
                     loader.goToPage(resp.currentPage);
                 }
+                else {
+                    loader.userId = resp.userId;
+                    //TODO: if is driver, go to driver page and not shopper
+                }
+
+
+
 
                 window.setInterval(loader.getUpdates, 500);
             }
