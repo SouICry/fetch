@@ -137,6 +137,135 @@ var User = mongoose.model('User', userSchema, 'users');
 // Connect to db
 mongoose.connect(mongodb_url);
 
+var ViewController = function (userID, valueF){
+    this._userID = userID;
+    this._valueF = valueF;
+    this.time = 0;
+
+};
+
+ViewController.prototype = {
+    updateValue: function (value, time) {
+        if (time > this.time) {
+            this._valueF = value;
+            this.time = time;
+        }
+    },
+    getValue: function(currentData, time){
+        return (time > this.time) ? this._valueF : currentData;
+    }
+};
+
+app.get('/_shopping', function (req, res){
+    console.log('LIne 456, list in session is', req.session.list);
+    if(req.session.passport && req.session.passport.user) {
+        var key = req.session.passport.user;
+    }
+    else
+        key = 'undefined';
+    if(req.session.paasport) {
+        if (req.session.passport.user != null) {
+            if ((hashTable.get(key)) != null) {
+                var working = hashTable.get(key);
+                var currentTime = new Date().getTime();
+                //data is list of shopping items
+                res.send(working.getValue(req.body.list, currentTime));
+            }
+        }
+    }
+    else if(typeof(req.session.list) != 'undefined'){
+        res.send(req.session.list);
+    }
+    else
+        res.send();
+
+    /*var VCObject = hashTable.get(email);
+     res.send(VCObject.getValue(currentTime, req.query['list']));*/
+});
+
+//.body.type, .body.data
+app.post("/_shopping", function (req,res){
+    //req.body.data
+    //console.log(req.session);
+    //console.log("Passport: " + req.session.passport);
+    req.session.passport = {user: 'A1'};
+    //console.log(req.session);
+    //console.log(req.body.data);
+    //console.log(req.body.checkListItem);
+    //TODO keep this, this will parse data string to JSON object, list is an array
+    var list = JSON.parse(req.body.data).list;
+    //var list = req.body.checkListItem;
+    // var list = {'list' : 'Bacon is love, bacon is life'};
+
+    console.log('LIne 494, list of item is ', list);
+
+    if(req.session.passport){
+        if(req.session.passport.user)
+            var key = req.session.passport.user;
+    }
+    else
+        key = 'undefined';
+
+    console.log( "Line 501, key in hashtable is ",key);
+
+    //console.log('key in post /#shopping', key);
+    var currentTime = new Date().getTime();
+
+    //Check if user is logged in
+    if(req.session.passport){
+        if (req.session.passport.user == null) {
+            req.session.list = list;
+            console.log('list of item in shopping ', req.session.list);
+        }
+        //Check if user has ViewController
+        else {
+            if ((hashTable.get(key)) == null) {
+                console.log('line 517, Creating a new ViewCOntroller for this user');
+                var working = new ViewController(key, list);
+                hashTable.set(key, working);
+
+            }
+            else {
+                var working = hashTable.get(key);
+                console.log('line 524, User is already login on another device, update view controller:', working);
+                working.updateValue(list, currentTime);
+                hashTable.update(key, working);
+            }
+
+            console.log('Line 527, working ViewCOntroller is ', working);
+        }
+    }
+    else{
+        //Note the JSON.parse...
+        var list = JSON.parse(req.body.data).list;
+        req.session.list = list;
+
+        console.log("Line 535, list of item in session is " + req.session.list );
+    }
+
+    /*TODO STORE DATA INTO DATABASE, OR UPDATE
+     if(req.session.passport){
+     if(req.session.passport.user){
+     var updateGroceryList = function(db, callback) {
+     db.collection('users').update({_id: req.session.passport.user},
+     {$push: {grocery_list: list}}
+     );
+     };
+     MongoClient.connect(mongodb_url, function(err, db) {
+     if (err) {
+     console.log('Error: ' + err);
+     res.send(err);
+     }
+     else {
+     updateGroceryList(db, function() {
+     db.close();
+     });
+     }
+     });
+     }
+     }
+     */
+});
 
 // To check for login
 passport.use('login', new LocalStrategy(
