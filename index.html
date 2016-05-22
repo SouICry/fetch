@@ -295,7 +295,8 @@
                 loader.currentPageObject.data = loader.currentPageObject.getData();
                 $.post("/sendData", {
                     name: loader.currentPage,
-                    data: loader.currentPageObject.data
+                    data: loader.currentPageObject.data,
+                    version: loader.currentPageObject.version
                 }, function (resp) {
                     if (loader.currentPageObject.version < resp) {
                         loader.currentPageObject.version = resp;
