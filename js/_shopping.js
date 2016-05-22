@@ -81,7 +81,6 @@
 
         list_shopping.push(shoppping_toAdd);
 
-        return false;
     }
 
 
