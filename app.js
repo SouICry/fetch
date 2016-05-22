@@ -54,26 +54,35 @@ app.post('/loadPage', function (req, res) {
 // Set up schema for users
 var userSchema = new mongoose.Schema(
     {
+        _id: {type: String, required: true, unique: true},
         full_name: {type: String, required: true, unique: false},
         email: {type: String, required: true, unique: true},
         password: {type: String, required: true},
         phone_number: {type: String, required: true},
-        address: {
+        address: {type: String, required: true, unique: false}
+        // ^^^^^ TEMPORARY IMPLEMENTATION BY FRONTEND
+        /*
+            THIS SHOULD BE IMPLEMENTED BY FRONT END
+        {
             street: '',
             city: '',
             state: '',
             zip: ''
-        },
+        }*/,
+        // Not currently used
         payment_info: {
-            card_holder_name: '',
-            card_number: '',
-            exp_month: '',
-            exp_year: '',
-            cvv: ''
+            card_holder_name: {type: String, required: false, unique: false},
+            card_number: {type: String, required: false, unique: false},
+            exp_month: {type: String, required: false, unique: false},
+            exp_year: {type: String, required: false, unique: false},
+            cvv: {type: String, required: false, unique: false}
         },
+        avg_rating : {type: Number, required: false, unique: false},
         total_rating: {type: Number, required: false, unique: false},
         num_times_rated: {type: Number, required: false, unique: false},
         time_created: {type: String, required: false, unique: false},
+        
+        // Grcoery list holds tickets(?) (no longer grocery_list objs). May change.
         grocery_list: {type: [], required: false, unique: false},
         delivery_list: {type: [], required: false, unique: false},
         user_history: {type: [], required: false, unique: false},
@@ -118,7 +127,7 @@ mongoose.connect(mongodb_url);
 
 
 
-
+var master = {};
 
 var ViewController = function (userID, valueF){
     this._userID = userID;
@@ -264,16 +273,17 @@ passport.use('signup', new LocalStrategy(
                     var date = new Date();
 
                     var newUser = new User({
+                        _id: email.substring(0, email.indexOf('@')),
                         full_name: req.body.full_name,
                         email: email,
                         password: password,
                         phone_number: req.body.phone_number,
-                        address: {
+                        address: req.body.address/*{
                             street: '',
                             city: '',
                             state: '',
                             zip: ''
-                        },
+                        }*/,
                         payment_info: {
                             card_holder_name: '',
                             card_number: '',
@@ -281,6 +291,7 @@ passport.use('signup', new LocalStrategy(
                             exp_year: '',
                             cvv: ''
                         },
+                        avg_rating: 0,
                         total_rating: 0.0,
                         num_times_rated: 0,
                         time_created: date.toLocaleDateString() + ' ' + date.toLocaleTimeString(),
@@ -372,7 +383,7 @@ app.post('/_login', function(req, res, next) {
                     res.send(err);
                 }
             });
-
+            console.log('successful login');
             // If everything was successful, send user back to frontend
             res.send(user);
         }

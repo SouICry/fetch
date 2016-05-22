@@ -39,9 +39,7 @@
                     //data is the object sent back on success (could also just be string)
 
                     // TODO: redirect to previous page
-                    //goToPage('_homePage');
-                    loader.login();
-                    //alert("Congrats!");
+                    loader.login(data);
                     //alert('data after login: ' + data.full_name);
                 },
                 error: function (data) {
