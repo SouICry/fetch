@@ -33,11 +33,11 @@
 </div>
 
 <div id="page-content" style="overflow-x: visible">
-    <div id="abovePages" class=""></div>
-    <div id="createTicket" class=""></div>
-    <!--<div id="acceptTicket" class=""></div>-->
-    <div id="confirmTicket" class=""></div>
-    <div id="driverFlow" class=""></div>
+    <!--<div id="abovePages" class=""></div>-->
+    <!--<div id="createTicket" class=""></div>-->
+    <!--&lt;!&ndash;<div id="acceptTicket" class=""></div>&ndash;&gt;-->
+    <!--<div id="confirmTicket" class=""></div>-->
+    <!--<div id="driverFlow" class=""></div>-->
 </div>
 
 <div id="menu-drawer" class="cd-panel from-right" style="z-index: 3000">
@@ -56,31 +56,6 @@
 
 
 <script>
-
-
-    function next() {
-        var item = $('#' + loader.currentPage);
-        var parent = $(item).data('parent');
-        var pos = $(item).data('pos');
-        if (pos < allPages[parent].length - 1) {
-            goToPage(allPages[parent][pos + 1]);
-        }
-    }
-
-    function previous() {
-        var item = $('#' + loader.currentPage);
-        var parent = $(item).data('parent');
-        var pos = $(item).data('pos');
-        if (pos > 0) {
-            goToPage(allPages[parent][pos - 1]);
-        }
-    }
-
-    function goToPreviousPage() {
-        goToPage(loader.previousPage, true);
-    }
-
-
     function goToPage(id, noPrevious) {
         if (id.length) {
             if (arguments.length > 1) {
@@ -93,10 +68,10 @@
             /*Temporary*/
         }
     }
+    function goToPreviousPage() {
+        goToPage(loader.previousPage, true);
+    }
 
-    window.onhashchange = function () {
-        goToPage(window.location.hash.substring(1));
-    };
 
     function loadPage(pageName, element, index, vindex) {
         $.ajax({
@@ -113,13 +88,12 @@
     }
 
 
-    var allSections = ['abovePages', 'createTicket', /*'acceptTicket',*/ 'confirmTicket', 'driverFlow'];
+    var allSections = ['abovePages', 'createTicket',  'confirmTicket', 'driverFlow'];
 
     var allPages = {
         abovePages: ["_accSetting", "_contact", "_history", "_passwordRecovery" ,"_passwordReset", "_signUp", "_login"],
-        createTicket: ["_homePage", "_shopping", "_checkout"/*, "_submitted"*/],
-        /*acceptTicket: ['_acceptTicket', '_paid'],*/
-        /*acceptTicket: ['_cancelTicket','_cancelled'],*/
+        createTicket: ["_yourDeliveries", "_homePage", "_shopping", "_checkout"/*, "_submitted"*/],
+        /*acceptTicket: ['_cancelTicket','_cancelled'],*/ //Not going this anymore
         confirmTicket: [/*'_confirmTicket',*/ "_rating" /*,'_ticketClosed'*/],
         driverFlow: ['_tickets', '_driverList2', /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats']
     };
@@ -133,48 +107,7 @@
      Each page MUST specify function to send/received data, or null
 
      Each page will call goToPage onclick to go to the correct page
-
-
-
      */
-
-
-    var master;
-
-
-    //
-    //    //Backend loads/stores ticket into page objects:
-    //
-    //    function getTicket(id){
-    //        //get from database
-    //        loadTicket(theTicket)
-    //    }
-    //
-    //    function addToQueue(ticket){
-    //
-    //    }
-    //
-    //
-    //    function sendEmail(userId){
-    //
-    //    }
-
-
-    function loadTicket(ticket) {
-
-        var o = master['userid'];
-        o._driverList = ticket.checkoff;
-        o._completeTicket = {
-            address: ticket.user.address,
-            contact: ticket.user.contact,
-            time: ticket.time
-        }
-    }
-
-    function saveTicket() {
-
-    }
-
 
     var ticketPrototype = {
         ticket: {
