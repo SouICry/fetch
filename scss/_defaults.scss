@@ -69,7 +69,6 @@ h3 {
 
 // this is for the box's around the shopping and driver list
 .box {
-
   padding:0;
   margin: auto;
   text-align: center;
@@ -110,7 +109,7 @@ h3 {
   }
 
 
-  #numItems, #driver_numItems {
+  #shopping_numItems, #driver_numItems {
     float: left;
     width: 33%;
     //display: inline;
