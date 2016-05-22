@@ -14,7 +14,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(__dirname));
+/*
+req.session.pages.data //array of data of each page, key is page name
+           .pages.version //array of version number, key is page name     
+           .passport.user   //unique userID
+           .list            //list of item in shopping
 
+ */
 
 app.post('/loadPage', function (req, res) {
     try {
@@ -29,8 +35,75 @@ app.post('/loadPage', function (req, res) {
         res.send("");
     }
 });
+var masters = {};
+var pages = {};
+app.post('/sendData', function(req, res, next) {
+    var pageName = req.body.page;
+    var userId = req.session.userId;
+    if (req.body.version >= masters[userId][pageName].version) {
+        masters[userId][pageName].data = req.body.data;
+        masters[userId][pageName].version = req.body.version + 1;
+    }
+    res.send(req.body.version + 1);
+
+    
+    
+    
+    
+    //
+    // if (req.sessions.pages == null){
+    //     var pageData = [];
+    //     var versions = Array.apply(null, Array(20)).map(Number.prototype.valueOf,0);;
+    // }
+    // else {
+    //     var oldObject = req.sessions.pages;
+    //     var pageName = req.body.page;
+    //
+    //     var pageData = oldObject.data;
+    //     var versions = oldObject.version;
+    // }
+    // pageData[pageName] = req.body.data;
+    // versions[pageName] += 1;
+    //
+    // req.sessions.pages.data = pageData;
+    // req.sessions.pages.version = versions;
+    //
+    //  if(req.session.passport){
+    //     if(req.session.passport.user){
+    //         var userID = req.session.passport.user;
+    //         masters[userID] = req.session.pages;
+    //        
+    //     }
+    // }
+//    res.send(versions[pageName]);
+});
+
+app.post('/loadData', function(req, res, next){
+    var version = req.body.data;
+    var userId = req.session.userId;
+    if(version >= master[userId][pageName].version)
+        
+    if(master[])
+    // if (req.sessions.pages == null){
+    //     res.send(null);
+    // }
+    // else {
+    //     var oldObject = req.sessions.pages;
+    //     var pageName = req.body.page;
+    //
+    //     var pageData = oldObject.data;
+    //     var versions = oldObject.version;
+    // }
+    // if (versions[pageData] >= req.body.data){
+    //     var nObject = {};
+    //     nObject.data = pageData;
+    //     nObject.version = versions;
+    //     res.send(nObject);
+    // }
+    // res.send(null);
 
 
+});
 var server = app.listen(3000, function () {
 
     var host = server.address().address;
