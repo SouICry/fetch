@@ -77,20 +77,14 @@
     }
 
     function goToPreviousPage() {
-        goToPage(loader.previousPage, true);
+        goToPage(loader.previousPage);
     }
 
 
-    function goToPage(id, noPrevious) {
-        if (id.length) {
-            if (arguments.length > 1) {
-                //loader.setCurrentPage(id, true);
-            }
-            else {
-                //loader.setCurrentPage(id, false);
-            }
-            loader.goToPage(id);/*Temporary*/
-        }
+    function goToPage(id) {
+
+        loader.goToPage(id);
+        //loader.setCurrentPage(id);
     }
 
     window.onhashchange = function () {
@@ -114,13 +108,24 @@
 
     var allSections = ['abovePages', 'createTicket', /*'acceptTicket',*/ 'confirmTicket', 'driverFlow'];
 
+    var all = ["_accSetting", "_contact", "_history", "_passwordRecovery", "_homePage", "_shopping", "_checkout", "_login",
+        "_rating", "_passwordReset", "_signUp", "_tickets", "_driverList2", '_congrats', "_yourDeliveries"];
+
+    var allGlyphs = ["glyphicon glyphicon-cog", "", "", "glyphicon glyphicon-wrench", "glyphicon glyphicon-home",
+        "", "glyphicon glyphicon-check", "glyphicon glyphicon-log-in", "glyphicon glyphicon-signal",
+        "glyphicon glyphicon-repeat",
+        "glyphicon glyphicon-plus-sign", "", "", "",""];
+
+    var pageNames = ["Setting", "Contact", "History", "Password Recovery", "Home", "Shopping", "Checkout", "Login",
+        "Rating", "Password Reset", "Sign Up", "Tickets", "Driver List", 'Congrats', "Your Deliveries"];
+
     var allPages = {
         abovePages: ["_accSetting", "_contact", "_history", "_passwordRecovery" /*,"_passwordReset" ",_signUp", "_login"*/],
         createTicket: ["_homePage", "_shopping", "_checkout", "_login"/*, "_submitted"*/],
         /*acceptTicket: ['_acceptTicket', '_paid'],*/
         /*acceptTicket: ['_cancelTicket','_cancelled'],*/
         confirmTicket: [/*'_confirmTicket',*/ "_rating", /*'_ticketClosed',*/"_passwordReset", "_signUp"],
-        driverFlow: ['_tickets', '_driverList2', "", /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats']
+        driverFlow: ['_tickets', '_driverList2', /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats']
     };
 
     loadPage("_driverTickets", '#driverTickets');
@@ -210,17 +215,11 @@
             data: null
         },
         goToPage(id){
-            //Only move if given a string with an actual value
-            if (id.length) {
-                var item = $('#' + id);
-                if (item) {
-                    $("#page-content").css('transform',
-                            'translate(-' + $(item).data("pos") * 100 + '%, -' + $(item).data("vpos") * 100 + '%)')
-                }
-            }
-
+            var item = $('#' + id);
+            $("#page-content").css('transform',
+                    'translate(-' + $(item).data("pos") * 100 + '%, -' + $(item).data("vpos") * 100 + '%)')
         },
-        setCurrentPage: function (page, noPrevious) {
+        setCurrentPage: function (page) {
             loader.pageCount++;
             var oldPage = loader.currentPage;
             loader.currentPage = page;
@@ -240,12 +239,7 @@
 
             }, function (newPageData) {
                 loader.goToPage(page);
-                if (noPrevious){
-                    loader.previousPage = "";
-                }
-                else {
-                    loader.previousPage = oldPage;
-                }
+                loader.previousPage = oldPage;
                 loader.currentPageObject = loader[page];
                 if (loader.currentPageObject.loadData != null) {
                     loader.currentPageObject.loadData(newPageData);
@@ -254,11 +248,17 @@
         },
 
         //Saves current active ticket (if any), then fetches new one and loads page data corresponding to ticket status in back end store
-        getTicket: function (ticketId) {
+        getTicket: function (ticketId, state, store) {
+            if (arguments.length < 3) {
+                store = null;
+            }
             if (state != "accepted" || loader.isDriver) {
                 $.post("/getTicket", {
-                    id: ticketId
-                }, function (state) {
+
+                    id: ticketId,
+                    store: store
+
+                }, function () {
                     if (loader.isDriver) {
                         switch (state) {
                             case "accepted" :
@@ -267,8 +267,7 @@
                             case "shopped":
                                 goToPage("_completeTicket");
                                 break;
-                            case "delivered" :
-                                goTopage()
+                            case "" :
                         }
                     }
                     else {
@@ -286,6 +285,10 @@
                     }
                 });
             }
+        },
+        currentPageChanged: function () {
+            //Submit data
+            //Throttle.
         },
         sendData: function () { //Gets data from page and sends to server for update. Server will send back version num
             if (loader.currentPageObject.getData != null) {
@@ -315,7 +318,6 @@
                 });
             }
         },
-        currentPageChanged: _.throttle(this.sendData, 500, {trailing: false}),
         //set to run every second elsewhere
         getUpdates: function () {
             $.post("/getUpdates", {
@@ -324,13 +326,6 @@
                     page: loader.currentPage
                 }
             }, function (resp) {
-                //Logout if now is logged out
-                if (resp.isLoggedIn != loader.isLoggedIn){
-                    if (!resp.isLoggedIn){
-                        loader.logout();
-                    }
-                }
-
                 //Driver change, trigger driver change
                 if (resp.isDriver != loader.isDriver) {
                     if (resp.isDriver) {
@@ -366,37 +361,22 @@
                 }
             });
         },
-        login: function (data) { //Called after successful login, passing the returned data
-            document.cookie = "user=" + data.userId  +";expires="  + new Date().setUTCFullYear(2345).toUTCString();
-
-            //TODO
-            //notdone
+        login: function (data) {
             alert(data);
             document.getElementById("index_user-name").innerHTML = data.full_name;
-
-
             goToPreviousPage();
         },
         logout: function () {
-            document.cookie = "user=" + data.userId  +";expires="  + new Date(0).toUTCString();
-
-            $.post("/logout", {}, function(){});
-
-            window.location.reload();
+            //TODO: delete cookie and refresh page
         },
         switchToDriver: function () {
-            loader.isDriver = true;
+            //Call and go to new page
+            //UI changes, etc
 
-            //UI changes for menu bar
 
-            goToPage("_yourDeliveries", true);
         },
         switchToShopper: function () {
-            loader.isDriver = false;
 
-            //UI changes for menu bar
-
-            goToPage("_history", true);
         }
     };
 
@@ -412,15 +392,8 @@
 
     function pageInit() {
 
-        if (document.cookie.length > 5){
-            var user = document.cookie;
-            loader.userId = user.split(";")[0].substring(5);
-        }
-        else {
-            loader.userId = "";
-        }
-        //TODO: if is driver in cookie, take to driver page instead
-
+        //TODO: check for coookie to see if logged in
+        var id;
 
         $.ajax({
             type: "POST",
@@ -446,26 +419,35 @@
                     loader.goToPage(resp.currentPage);
                 }
 
-                window.setInterval(loader.getUpdates, 500);
+                window.setInterval(loader.getUpdates, 1000);
             }
         });
     }
 
-    $(document).ready(function () {
-        pageInit();
-        var i;
-        var whichid;
-        for (var j = 0; j < allSections.length; j++) {
-            var sectionName = allSections[j];
-            var section = allPages[sectionName];
-            for (i = 0; i < section.length; i++) {
-                whichid = section[i];
-                loadPage(whichid, '#' + sectionName, i, j);
-                var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
-                $("#Butt").append("<div " + clickVal + " >" + sectionName + "</div>");
-            }
-        }
-    });
+    //    $(document).ready(function () {
+    //        pageInit();
+    //        var i;
+    //        var whichid;
+    //        var glyph;
+    //        var name;
+    //        for (var j = 0; j < allSections.length; j++) {
+    //            var sectionName = allSections[j];
+    //            var section = allPages[sectionName];
+    //            for (i = 0; i < section.length; i++) {
+    //                whichid = section[i];
+    //                for (var k = 0; k < all.length; k++) {
+    //                    if (whichid == all[k]) {
+    //                        glyph = allGlyphs[k];
+    //                        name = pageNames[k];
+    //                        break;
+    //                    }
+    //                }
+    //                loadPage(whichid, '#' + sectionName, i, j);
+    //                var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
+    //                $("#Butt").append("<div " + clickVal + " > <span class= '" + glyph + "'></span> " + name + "   </div>");
+    //            }
+    //        }
+    //    });
 
 
     jQuery(document).ready(function ($) {
