@@ -33,6 +33,7 @@ app.use(passport.session());
 app.use(express.static(__dirname));
 
 
+
 app.post('/loadPage', function (req, res) {
     try {
         fs.readFile(__dirname + "/" + req.body.name + ".html", 'utf8', function (err, data) {
@@ -126,9 +127,6 @@ mongoose.connect(mongodb_url);
 // ----------------------------------------------------------
 
 
-
-var master = {};
-
 var ViewController = function (userID, valueF){
     this._userID = userID;
     this._valueF = valueF;
@@ -148,32 +146,32 @@ ViewController.prototype = {
     }
 };
 
-app.get('/_shopping', function (req, res){
-    console.log('LIne 456, list in session is', req.session.list);
-    if(req.session.passport && req.session.passport.user) {
-        var key = req.session.passport.user;
-    }
-    else
-        key = 'undefined';
-    if(req.session.paasport) {
-        if (req.session.passport.user != null) {
-            if ((hashTable.get(key)) != null) {
-                var working = hashTable.get(key);
-                var currentTime = new Date().getTime();
-                //data is list of shopping items
-                res.send(working.getValue(req.body.list, currentTime));
-            }
-        }
-    }
-    else if(typeof(req.session.list) != 'undefined'){
-        res.send(req.session.list);
-    }
-    else
-        res.send();
-
-    /*var VCObject = hashTable.get(email);
-     res.send(VCObject.getValue(currentTime, req.query['list']));*/
-});
+// app.get('/_shopping', function (req, res){
+//     console.log('LIne 456, list in session is', req.session.list);
+//     if(req.session.passport && req.session.passport.user) {
+//         var key = req.session.passport.user;
+//     }
+//     else
+//         key = 'undefined';
+//     if(req.session.paasport) {
+//         if (req.session.passport.user != null) {
+//             if ((hashTable.get(key)) != null) {
+//                 var working = hashTable.get(key);
+//                 var currentTime = new Date().getTime();
+//                 //data is list of shopping items
+//                 res.send(working.getValue(req.body.list, currentTime));
+//             }
+//         }
+//     }
+//     else if(typeof(req.session.list) != 'undefined'){
+//         res.send(req.session.list);
+//     }
+//     else
+//         res.send();
+//
+//     /*var VCObject = hashTable.get(email);
+//      res.send(VCObject.getValue(currentTime, req.query['list']));*/
+// });
 
 
 
@@ -350,6 +348,7 @@ app.post('/_signUp', function(req, res, next) {
         }
         else {
             user.save(function(err) {
+
                 req.login(user, function(err){
                     if (err) {
                         //return next(err);
@@ -357,6 +356,7 @@ app.post('/_signUp', function(req, res, next) {
                         res.status(500);
                     }
                     else {
+                        req.session.userId = req.body.email; //TODO set userId to something Unique, and consistent
                         console.log('login success!');
                     }
                 });
@@ -376,6 +376,7 @@ app.post('/_login', function(req, res, next) {
             res.send(info.message);
         }
         else {
+
             req.login(user, function(err) {
                 if (err) {
                     console.log('failed login: ', err);
@@ -383,6 +384,7 @@ app.post('/_login', function(req, res, next) {
                     res.send(err);
                 }
             });
+            req.session.userId = req.body.email; //TODO set userId once login
             console.log('successful login');
             // If everything was successful, send user back to frontend
             res.send(user);
@@ -522,177 +524,389 @@ app.post('/reset/:token', function (req, res) {
     });
 });
 
+//TODO---------------------------------------------------------------------------------
+var masters = [{
+    //loader
+    isDriver: false,
+    isLoggedIn: false,
+    userId: "",
+    pageCount: 0,
+    previousPage: "",
+    currentPage: "",
+    currentPageObject: {
+        getData: null,
+        loadData: null,
+        data: null
+    },
+
+    "_homepage" : {
+        data: {
+            store_name: "", // TODO dont know where to get this from
+
+        },
+        version: 0
+    },
 
 
-// ---------------- ACCOUNT SETTING -----------------
+    //account setting;
+    "_accSetting" : {
+        data: {
+            full_name: "",
+            email: "",
+            phone: "",
+            address: {
+                street: "",
+                city: "",
+                state: "",
+                zip: ""
+            }
+        },
+        version: 0
+    },
+      
+    //shopping
+    "_shopping": {
+        data: {
+            list: []
+        },
+        version: 0
+    },
+
+    //checkout
+    "_checkout": {
+        data: {
+            list_id: "",
+            special_options: "",
+            available_time_start: "",
+            available_time_end: ""
+        },
+        version: 0
+    }
+    //list of pageName: {
+    //          data: null;
+      //        version: 0;
+      //}
+}];
+//TODO -------------------------------------------------------------------------
+
+
+
+
+
+
+
+//TODO ---------------------------------DATA-LOADER-------------------------
+
+
+app.post('/sendData', function(req, res, next) {
+    var pageName = req.body.name;
+    var userId = req.session.userId;
+    if (req.body.version >= masters[userId][pageName].version) {
+        masters[userId][pageName].data = req.body.data;
+        masters[userId][pageName].version = req.body.version + 1;
+    }
+    res.send(req.body.version + 1);
+
+});
+
+app.post('/loadData', function(req, res, next){
+    var version = req.body.version;
+    var userId = req.session.userId;
+    var pageName = req.body.name;
+    var object = {};
+    object.data = masters[userId][pageName].data;
+    object.version = masters[userId][pageName].version;
+    if(version <= masters[userId][pageName].version){
+        res.send(object);
+    }
+
+    res.send(null);
+
+});
+
+
+app.post('/changePage', function(req,res){
+    var pageCount = req.body.pageCount;
+    var newPage   = req.body.newPage;
+    var userId = req.session.userId;
+    var data = req.body.oldData;
+    if(pageCount > masters[userId].pageCount){
+        masters[userId].pageCount = pageCount;
+        masters[userId].previousPage = masters[userId].currentPage;
+        masters[userId].currentPage = newPage;
+        masters[userId].currentPageObject.data = data;
+        res.send(masters[userId][newPage].data);
+    }
+    else
+        res.send(null);
+
+});
+
+//----------------------------------getTicket--------------------------------------------------------------------------
+app.post('/getTicket', function(req,res){
+
+
+});
+
+
+//----------------------------------getTicket----------------------------------------------------------------
+
+
+
+//----------------------------------getUpdate--------------------------------------------------------------------------
+//run every second
+
+app.post('/getUpdates', function (req, res, next) {
+    var object = {};
+    var userId = req.session.userId;
+    if (userId) {
+        object.isDriver = masters[userId].isDriver;
+        object.pageCount = masters[userId].pageCount;
+        object.previousPage = masters[userId].previousPage;
+        object.currentPage = masters[userId].currentPage;
+        //object.currentPageObject = masters[userId].currentPageObject;
+        object.version = masters[userId].version;
+        object.data = masters[userId].currentPageObject.data;
+        res.send(object);
+    }
+    res.send(null);
+});
+
+//----------------------------------getUpdate--------------------------------------------------------------------------
+
+
+
+app.post('/init', function(req,res, next){
+    var userId = req.body.userId;
+    var object = {};
+    if(userId){
+        //TODO what to do over here
+
+    }
+});
+
+
+
+//TODO ---------------------------------DATA-LOADER-------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+// ------------------------------------------------ ACCOUNT SETTING ------------------------------------------------
 
 app.post('/_accSetting', function(req, res) {
-    if (!req.session.passport || !res.session.passport.user) {
+   // if (!req.session.passport || !res.session.passport.user) {
+    var userId = req.session.userId;
+    var object = {};
+    if(!req.session.userId){
         res.status(500);
         res.send({message: 'no user logged in'});
     }
     else {
-        // update database with new info
-
         // update session
+        masters[userId]["accSetting"].data.full_name = req.body.user.full_name;
+        masters[userId]["accSetting"].data.email = req.body.user.email;
+        masters[userId]["accSetting"].data.phone = req.body.user.phone;
+        masters[userId]["accSetting"].data.address.street = req.body.user.street;
+        masters[userId]["accSetting"].data.address.city = req.body.user.city;
+        masters[userId]["accSetting"].data.address.state = req.body.user.state;
+        masters[userId]["accSetting"].data.address.zip = req.body.user.zip;
+
+        //TODO store into database from masters session, use: master[userId].something
     }
 });
-// -------------------------------------------------------------
+//TODO ------------------------------------------------------------------------------------------------------------------
 
 
 
 
 
 
-// --------------- SHOPPING/SAVE GROCERY LIST ---------------
+// ---------------------------------------------------- SHOPPING/SAVE GROCERY LIST ----------------------------------
 
 // Saves user's grocery list to session
 app.post('/_shopping', function(req, res) {
-    //req.body.data
-    //console.log(req.session);
-    //console.log("Passport: " + req.session.passport);
-    req.session.passport = {user: 'A1'};
-    //console.log(req.session);
-    //console.log(req.body.data);
-    //console.log(req.body.checkListItem);
+
     //TODO keep this, this will parse data string to JSON object, list is an array
-    var list = JSON.parse(req.body.data).list;
-    //var list = req.body.checkListItem;
-    // var list = {'list' : 'Bacon is love, bacon is life'};
-    var key;
+    // var list = JSON.parse(req.body.data).list;
 
-    console.log('Line 494, list of item is ', list);
+    var userId = req.session.userId;
 
-    // Check if passport attribute exists in session
-    if(req.session.passport){
-        // Check if user is logged in
-        if(req.session.passport.user)
-            key = req.session.passport.user;
-    }
-    else
-        key = 'undefined';
-
-    console.log( "Line 501, key in hashtable is ",key);
-
-    //console.log('key in post /#shopping', key);
-    var currentTime = new Date().getTime();
-
-    //Check if user is logged in
-    if(req.session.passport){
-        if (req.session.passport.user == null) {
-            req.session.list = list;
-            console.log('list of item in shopping ', req.session.list);
-        }
-        //Check if user has ViewController
-        else {
-            if ((hashTable.get(key)) == null) {
-                console.log('line 517, Creating a new ViewCOntroller for this user');
-                var working = new ViewController(key, list);
-                hashTable.set(key, working);
-
-            }
-            else {
-                var working = hashTable.get(key);
-                console.log('line 524, User is already login on another device, update view controller:', working);
-                working.updateValue(list, currentTime);
-                hashTable.update(key, working);
-            }
-
-            console.log('Line 527, working ViewCOntroller is ', working);
-        }
-    }
-    else{
-        //Note the JSON.parse...
-        var list = JSON.parse(req.body.data).list;
-        req.session.list = list;
-
-        console.log("Line 535, list of item in session is " + req.session.list );
-    }
+    // req.session.list = list;
+    //
+    // if (masters[userId].list == null) {
+    //     console.log('line 517, Creating a new ViewCOntroller for this user');
+    //             //working = new ViewController(key, list);
+    //     masters[userId]["_shopping"].data.list = list;
+    //
+    //     }
+    // else {
+    //
+    // }
+    
+    
+    var object = {};
+    object.address = {};
+    object.full_name = masters[userId]["accSetting"].data.full_name;
+    object.email = masters[userId]["accSetting"].data.email;
+    object.phone =masters[userId]["accSetting"].data.phone;
+    object.address.street =masters[userId]["accSetting"].data.address.street;
+    object.address.city = masters[userId]["accSetting"].data.address.city;
+    object.address.zip = masters[userId]["_accSetting"].data.address.zip;
+    object.address.state = masters[userId]["accSetting"].data.address.state;
+    res.send(object);
 
 
 
-
-    var date = new Date();
+   // var date = new Date();
 
     // store all items into session
 
-    req.session
 
-    // Model for grocery list
-    var glist = {
-        _id: list_id,
-        store_name: req.session.store_name, // ?????? Need to communicate with geo/trivi for store name session
-        shopping_list: req.session.list,
-        timestamp: date.toLocaleDateString() + ' ' + date.toLocaleTimeString(),
-        special_options: req.session.special_options,
-        available_time_start: req.session.available_time_start,
-        available_time_end: req.session.available_time_end
-    };
 
-    // Check that empty list was not sent
-    if (gist.length === 0) {
-        res.status(500);
-        res.send({message: 'Submitted empty list'});
-        return;
-    }
-
-    // Check that user is logged in
-    if (!req.session.passport || !req.session.passport.user) {
-        console.log('user is not logged in');
-        res.status(500);
-        res.send({message: 'user is not logged in'});
-    }
-    else {
-        var updateGroceryListAndQueue = function(db, callback) {
-            var grocery_list = null;
-
-            // Update user to hold grocery list submitted
-            db.collection('users').update({_id: req.session.passport.user}, {$push: {grocery_list: glist}},
-                function(err, doc) {
-                    if (err) {
-                        console.log('error updating user grocery list');
-                        res.status(500);
-                        res.send(err);
-                    }
-                    grocery_list = doc;
-                }
-            );
-
-            // If grocery list successfully added to user's grocery list, add list to queue
-            if (!grocery_list) {
-                db.collection('grocery_queue').insert(grocery_list, function (err, doc) {
-                    if (err) {
-                        console.log('error adding list to queue: ' + err);
-                        res.status(500);
-                        res.send(err);
-                    }
-                });
-            }
-        };
-
-        MongoClient.connect(mongodb_url, function(err, db) {
-            if (err) {
-                console.log('Error: ' + err);
-                res.send(err);
-            }
-            else {
-                updateGroceryListAndQueue(db, function() {
-                    db.close();
-                });
-            }
-        });
-    }
 });
-// -------------------------------------------------------------
+//TODO -------------------------------------------------------------------------
 
 
 
 
 
-// ------------------ TICKETS/GROCERY QUEUE --------------------
+// ---------------------------------------------------- TICKETS/GROCERY QUEUE ---------------------------------------
 app.post('/_tickets', function(req, res) {
 
 });
+//TODO -------------------------------------------------------------------------
+
+
+//------------------------------------------------------------checkout---------------------------------------------
+//may be update database in checkout,???
+app.post('/_checkout', function(req,res, next){
+    var userId = req.session.userId;
+    if(req.body.notesTime) {
+        masters[userId]["_checkout"].data.list_id = req.body.notesTime.id;
+        masters[userId]["_checkout"].data.special_options = req.body.notesTime.notes;
+        masters[userId]["_checkout"].data.available_time_start = req.body.notesTime.range1;
+        masters[userId]["_checkout"].data.available_time_end = req.body.notesTime.range2;
+
+        // Model for grocery list
+        var glist = {
+            _id: masters[userId]["_checkout"].data.list_id,
+            store_name: masters[userId]["_homePage"].data.store_name, // ?????? Need to communicate with geo/trivi for store name session
+            shopping_list: masters[userId]["_shopping"].data.list,
+            timestamp: date.toLocaleDateString() + ' ' + date.toLocaleTimeString(),
+            special_options: masters[userId]["_accSetting"].data.special_options,
+            available_time_start: masters[userId]["_accSetting"].data.available_time_start,
+            available_time_end: masters[userId]["_accSetting"].data.available_time_end
+        };
+
+        // Check that empty list was not sent
+        if (glist.length === 0) {
+            res.status(500);
+            res.send({message: 'Submitted empty list'});
+            return;
+        }
+
+        // Check that user is logged in
+        if (!req.session.passport || !req.session.passport.user) {
+            console.log('user is not logged in');
+            res.status(500);
+            res.send({message: 'user is not logged in'});
+        }
+        else {
+            var updateGroceryListAndQueue = function(db, callback) {
+                var grocery_list = null;
+
+                // Update user to hold grocery list submitted
+                db.collection('users').update({_id: req.session.passport.user}, {$push: {grocery_list: glist}},
+                    function(err, doc) {
+                        if (err) {
+                            console.log('error updating user grocery list');
+                            res.status(500);
+                            res.send(err);
+                        }
+                        grocery_list = doc;
+                    }
+                );
+
+                // If grocery list successfully added to user's grocery list, add list to queue
+                if (!grocery_list) {
+                    db.collection('grocery_queue').insert(grocery_list, function (err, doc) {
+                        if (err) {
+                            console.log('error adding list to queue: ' + err);
+                            res.status(500);
+                            res.send(err);
+                        }
+                    });
+                }
+            };
+
+            MongoClient.connect(mongodb_url, function(err, db) {
+                if (err) {
+                    console.log('Error: ' + err);
+                    res.send(err);
+                }
+                else {
+                    updateGroceryListAndQueue(db, function() {
+                        db.close();
+                    });
+                }
+            });
+        }
+
+        res.send("Successful");
+
+    }
+    res.send("Fail");
+
+});
+//TODO -------------------------------------------------------------------------
+
+app.post('_homePage', function(req,res,next){
+
+});
+
+
+//-----------------------------------------------------DRIVER LIST -----------------------------------------
+app.post('/_driverList', function(req, res, next){
+    var object = {};
+    var userId = req.session.userId;
+
+    if(userId) {
+        object.notes = masters[userId]["_checkout"].data.special_options;
+        object.items = masters[userId]["_"].data.items;   //TODO where is items located?
+        object.name = masters[userId].name;
+        object.contact = masters[userId].phone;
+        res.send(object);
+
+        //TODO maybe get from database or from session
+    }
+    res.send('Fail, not login');
+
+});
+
+
+
+//--------------------------DRIVER LIST 2---------------------
+app.post('/_DriverList2', function(req, res, next){});
+
+
+
+
+
+//----------------------------HISTORY----------------------
+app.post('/_history', function(req, res, next){});
+
+
+
+//--------------------------
 
 
 var server = app.listen(3000, function () {

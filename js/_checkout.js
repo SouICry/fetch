@@ -21,14 +21,18 @@
                 $("#time1").val("");
                 $("#time2").val("");
             }
-        },
+        }
     };
+
+
         var _checkout = {
             notes: "",
             range1: "",
             range2: ""
         };
 
+    loader._checkout.loadData(_checkout);
+    
         $('#submitcheckout').click(function () {
 
             var valid = false;

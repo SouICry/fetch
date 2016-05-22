@@ -125,7 +125,7 @@
         //Actual
         $.ajax({
             type: "POST",
-            url: "/_shopping",
+            url: "/_shopping", //TODO is this should be accountSetting post, 
             data: info_to_send,
             success: function (data) {
                 //data is the object sent back on success (could also just be string)

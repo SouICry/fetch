@@ -2,23 +2,7 @@
  * Created by zeusn_000 on 5/21/2016.
  */
 (function () {
-    loader._index = {
-        data: "", //Optional
-        version: 0, //Must be 0
-        getData: function () { //must be null if not needed
-            return;
-        },
-        loadData: function (data) {
-            if (data != "none") {
-                document.getElementById("index_user-name").innerHTML = data.full_name;
-            }
-            else {
-                document.getElementById("index_user-name").innerHTML = "error";
-            }
-        }
-    };
     
-
     var all = ["_accSetting", "_contact", "_history", "_passwordRecovery", "_homePage", "_shopping", "_checkout", "_login",
         "_rating", "_passwordReset", "_signUp", "_tickets", "_driverList2", '_congrats', "_yourDeliveries"];
 
@@ -32,7 +16,6 @@
 
 
     $(document).ready(function () {
-        pageInit();
         var i;
         var whichid;
         var glyph;
@@ -49,7 +32,6 @@
                         break;
                     }
                 }
-                loadPage(whichid, '#' + sectionName, i, j);
                 var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
                 $("#Butt").append("<div " + clickVal + " > <span class= '" + glyph + "'></span> " + name + "   </div>");
             }
