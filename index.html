@@ -71,11 +71,6 @@
     }
 
 
-
-
-
-
-
     /*
      TODO:
      Each page MUST specify function to send/received data, or null
@@ -286,15 +281,9 @@
             loader.userId = data.userId;
 
 
-
-            //If already logged in,
-            if (data.isLoggedIn){
-                loader.pageCount = data.pageCount;
-                loader.currentPage = data.currentPage;
-                loader.previousPage = data.previousPage;
-                loader.isDriver = data.isDriver();
-
-                goToPage(data.currentPage)
+            //If already logged in, Simply reload page to use init to get the data
+            if (data.isLoggedIn) {
+                window.location.reload();
             }
             //Otherwise keep as is and go back
             else {
