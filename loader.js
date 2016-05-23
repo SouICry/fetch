@@ -87,8 +87,9 @@ function createTicket(userID) {
 
 
 
-function loadTickets(userID) {
-    return loadUser(userID).tickets;
+function loadTickets(userID, callback, req, res) {
+    var arr = loadUser(userID).tickets;
+    callback(req, res, arr);
 }
 
 
@@ -120,7 +121,7 @@ function saveTicket(ticket) {
 
 
 // Loads a user from the database and stores to master session
-function loadUser(userID) {
+function loadUser(userID, callback, req, res) {
     var user = null;
 
     // Null check userID
@@ -133,17 +134,19 @@ function loadUser(userID) {
     MongoClient.connect(mongodb_url, function(err, db) {
         if (err) {
             console.log('Error: loadUser. ' + err);
-            return err;
         }
         else {
             user = db.collection('users').findOne({_id: userID}, function(err) {
-                if (err) return err;
+                if (err) console.log('err');
             });
 
             // No user with id = userID in database
             if (!user) {
                 console.log('Error: loadUser. ' + 'No user with id: ' + userID);
-                return null;
+
+                // error
+                callback(req, res, null);
+                return;
             }
 
             // Updates master session userID and the user's data in accSetting
@@ -159,15 +162,16 @@ function loadUser(userID) {
                     zip: user.address.zip
                 }
             };
+
+            // successful
+            callback(req, res, user);
             console.log('Successfully loaded user to master session!');
         }
     });
-
-    return user;
 }
 
 // Returns an array of all tickets in the grocery_queue collection
-function getQueueFromDB() {
+function loadQueue(callback, req, res) {
     MongoClient.connect(mongodb_url, function(err, db) {
         if (err) {
             console.log('Error: ' + err);
@@ -175,13 +179,13 @@ function getQueueFromDB() {
         }
         else {
             db.collection('grocery_queue').find().toArray(function(err, docs) {
-                if (err) return err;
-                return docs;
+                if (err) {
+                    console.log('error getQueueFromDB could not find grocery lists');
+                }
+                callback(req, res, docs);
             });
         }
     });
-
-    return null;
 }
 
 // Adds a ticket to the grocery_queue collection
@@ -189,21 +193,16 @@ function addToQueue(ticket) {
     MongoClient.connect(mongodb_url, function(err, db) {
         if (err) {
             console.log('Error: ' + err);
-            return null;
         }
         else {
             db.collection('grocery_queue').insert(ticket, function(err, doc) {
                 if (err) {
                     console.log('Error inserting to db');
-                    return null;
                 }
                 console.log('Inserted: ' + doc + ' to queue');
-                return doc;
             });
         }
     });
-
-    return null;
 }
 
 
@@ -234,23 +233,22 @@ function removeFromQueue(ticketId) {
 }
 
 // Returns array of all users in the users collection/database
-function getAllUsers() {
+function getAllUsers(callback, req, res) {
     MongoClient.connect(mongodb_url, function(err, db) {
         if (err) {
             console.log('Error: ' + err);
-            return null;
+            callback(req, res, null);
         }
         else {
             users = db.collection('users').find().toArray(function(err, docs) {
-                if (err)
-                    return null;
+                if (err){
+                    callback(req, res, null);
+                }
                 else
-                    return docs;
+                    callback(req, res, docs);
             });
         }
     });
-
-    return null;
 }
 
 // Used to initialize master session for userID to null
@@ -262,8 +260,10 @@ function initMasteruserID() {
         }
         else {
             users = db.collection('users').find().toArray(function(err, docs) {
-                if (err)
+                if (err) {
+                    console.log('error in initMasteruserID');
                     return false;
+                }
             });
 
             for (var i = 0; i < docs.length; i++)
