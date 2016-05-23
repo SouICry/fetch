@@ -606,7 +606,8 @@ app.post('/sendData', function (req, res, next) {
         masters[userId][pageName].data = req.body.data;
         masters[userId][pageName].version = req.body.version + 1;
     }
-    res.send(req.body.version + 1);
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(req.body.version + 1));
 
 });
 
@@ -618,10 +619,12 @@ app.post('/loadData', function (req, res, next) {
     object.data = masters[userId][pageName].data;
     object.version = masters[userId][pageName].version;
     if (version <= masters[userId][pageName].version) {
-        res.send(object);
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(object));
     }
 
-    res.send(null);
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(""));
 
 });
 
@@ -652,6 +655,7 @@ app.post('/changePage', function (req, res) {
         console.log("id: " + userId);
         console.log(data);
         if (pageCount > masters[userId].pageCount) {
+            
             var currentPage = masters[userId].currentPage;
             console.log(currentPage);
             masters[userId][currentPage].data = data;
@@ -669,20 +673,39 @@ app.post('/changePage', function (req, res) {
 
 //----------------------------------getTicket--------------------------------------------------------------------------
 app.post('/getTicket', function (req, res) {
+
     var ticketId = req.body.id;
     var store = req.body.store;
     var userId = req.session.userId;
-    //  masters[userId].ticket =
+    var user;
 
-    var ticket = loadTickets(userId);
-    masters[userId].currentTicket = ticket;
-    res.send(ticket.state);
+    MongoClient.connect(mongodb_url, function(err, db) {
+        if (err) {
+            console.log('Error: get ticket. ' + err);
+            res.send(err);
+        }
+        else {
+            user = db.collection('grocery_queue').findOne({_id: ticketId}, function(err) {
+                if (err){
+                    res.send(err);
+                }
+            });
+
+        }
+    });
+    if(user) {
+        masters[userId]["_driverList"].data = user;
+
+    }
+
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(user.state));
 });
 
 // app.post('/_getQueue', function(req, res){
 //     var request = req.body.getQueue;
 //     var userId = req.session.userId;
-//     var ticketQueue;
+//     var ticketQ
 //     if(request) {
 //         masters[userId].isQueue = true;
 //         master[userId]._isUserTicket = false;
