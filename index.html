@@ -71,18 +71,7 @@
     }
 
 
-    function loadPage(pageName, row, column) {
-        $.ajax({
-            type: "POST",
-            url: "/loadPage",
-            data: {name: pageName},
-            async: false,
-            success: function (data) {
-                $('#section-' + row).append("<div id='" + pageName +
-                        "' data-x='" + column + "' data-y='" + row + "'>" + data + "</div>");
-            }
-        });
-    }
+
 
 
 
@@ -289,20 +278,28 @@
                 }
 
             });
-        }
-
-        ,
+        },
         login: function (data) { //Called after successful login, passing the returned data
             document.cookie = "user=" + data.userId + ";expires=" + new Date().setUTCFullYear(2345).toUTCString();
 
 
-            //TODO
-            //notdone
-            alert(data);
-            document.getElementById("index_user-name").innerHTML = data.full_name;
+            loader.userId = data.userId;
 
 
-            goToPreviousPage();
+
+            //If already logged in,
+            if (data.isLoggedIn){
+                loader.pageCount = data.pageCount;
+                loader.currentPage = data.currentPage;
+                loader.previousPage = data.previousPage;
+                loader.isDriver = data.isDriver();
+
+                goToPage(data.currentPage)
+            }
+            //Otherwise keep as is and go back
+            else {
+                goToPreviousPage();
+            }
         }
         ,
         logout: function () {
@@ -361,20 +358,15 @@
         else {
             loader.userId = "";
         }
-        //TODO: if is driver in cookie, take to driver page instead
 
 
         $.ajax({
             type: "POST",
             url: "/init",
             data: {
-                userId: loader.userId, //"" or valid user id string
-                isDriver: loader.isDriver //TODO
+                userId: loader.userId //"" or valid user id string
             },
             success: function (resp) {
-                //If has existing session, load it!
-
-
                 if (resp.isLoggedIn) {
                     loader.isDriver = resp.isDriver;
                     loader.userId = resp.userId;
@@ -393,11 +385,21 @@
                 }
                 else {
                     loader.userId = resp.userId;
-                    //TODO: if is driver, go to driver page and not shopper
                 }
-
-
                 window.setInterval(loader.getUpdates, 500);
+            }
+        });
+    }
+
+    function loadPage(pageName, row, column) {
+        $.ajax({
+            type: "POST",
+            url: "/loadPage",
+            data: {name: pageName},
+            async: false,
+            success: function (data) {
+                $('#section-' + row).append("<div id='" + pageName +
+                        "' data-x='" + column + "' data-y='" + row + "'>" + data + "</div>");
             }
         });
     }
