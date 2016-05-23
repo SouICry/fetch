@@ -5,7 +5,7 @@
         getData: function () { //must be null if not needed
             return list_shopping;
         },
-        loadData: function (data) { // MUST RESET PAGE AS WELL    //must be null if not needed
+        loadData: function (data) { 
             var arr = [];
 
             $("#submit_list").html("");

@@ -49,7 +49,9 @@
         </div>
     </div>
 </div>
+<script src="js/pages.js">
 
+</script>
 
 <script>
     function goToPage(id, noPrevious) {
@@ -82,12 +84,7 @@
         });
     }
 
-    var allPages = [
-        ["_accSetting", "_contact", "_history", "_passwordRecovery", "_passwordReset", "_signUp", "_login"],
-        ["_yourDeliveries", "_homePage", "_shopping", "_checkout"/*, "_submitted"*/],
-        [/*'_confirmTicket',*/ "_rating" /*,'_ticketClosed'*/],
-        ['_tickets', '_driverList2', /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats']
-    ];
+
 
 
     /*
@@ -208,16 +205,6 @@
             });
 
         },
-        getTicketQueue : function(){
-            //TODO
-        },
-        getUserTicket :function(){
-
-        },
-        getDriverTicket : function(){
-
-        },
-
 
         sendData: function () { //Gets data from page and sends to server for update. Server will send back version num
             if (loader.currentPageObject.getData != null) {
@@ -249,7 +236,7 @@
             }
         }
         ,
-        currentPageChanged: _.throttle(this.sendData, 500, {trailing: false}),
+        currentPageChanged: null,
         //set to run every second elsewhere
         getUpdates: function () {
             $.post("/getUpdates", {
@@ -352,6 +339,8 @@
             goToPage("_history", true);
         }
     };
+
+    loader.currentPageChanged = _.throttle(loader.sendData, 500, {trailing: false});
 
 
     /*
