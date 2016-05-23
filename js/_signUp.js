@@ -38,7 +38,7 @@
             data: info_to_send,
             success: function (data) {
                 //data is the object sent back on success (could also just be string)
-                alert('success!');
+                console.log(data);
             },
             error: function (data) {
                 alert('error');
