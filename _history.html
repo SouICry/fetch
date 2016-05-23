@@ -1,118 +1,68 @@
-
-<div class="container text-center">
+<div id="_history">
     <div class="row">
         <div class="col-xs-12">
-            <h1>History</h1>
-            <ul class="nav nav-tabs .nav-justified">
-                <li class="active"><a data-toggle="tab" href="#shopper">Shopper</a></li>
-                <li><a data-toggle="tab" href="#driver">Driver</a></li>
-            </ul>
+            <h2 class="text-center">Your Deliveries</h2>
+            <div class="container text-center">
 
-            <div class="tab-content">
-                <div id="shopper" class="tab-pane fade in active">
-                    <div class="panel-group" id="accordion">
-                        <!--<div class="panel panel-default">-->
-                            <!--<div class="panel-heading">-->
-                                <!--<h4 class="panel-title">-->
-                                    <!--<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">-->
-                                        <!--Order #626</a>-->
-                                <!--</h4>-->
-                            <!--</div>-->
-                            <!--<div id="collapse1" class="panel-collapse collapse in">-->
-                                <!--<ul id="driver-items1"></ul>-->
-                                <!--<button type="button" class="btn btn-primary btn-sm">Edit Order</button>-->
-                                <!--<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Cancel Order</button>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="panel panel-default">-->
-                            <!--<div class="panel-heading">-->
-                                <!--<h4 class="panel-title">-->
-                                    <!--<a data-toggle="collapse" data-parent="#accordion" href="#collapse2">-->
-                                        <!--Order #604</a>-->
-                                <!--</h4>-->
-                            <!--</div>-->
-                            <!--<div id="collapse2" class="panel-collapse collapse">-->
-                                <!--<ul id="driver-items2"></ul>-->
-                                <!--<button type="button" class="btn btn-primary btn-sm">Edit Order</button>-->
-                                <!--<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Cancel Order</button>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="panel panel-default">-->
-                            <!--<div class="panel-heading">-->
-                                <!--<h4 class="panel-title">-->
-                                    <!--<a data-toggle="collapse" data-parent="#accordion" href="#collapse3">-->
-                                        <!--Order #452</a>-->
-                                <!--</h4>-->
-                            <!--</div>-->
-                            <!--<div id="collapse3" class="panel-collapse collapse">-->
-                                <!--<ul id="driver-items3"></ul>-->
-                                <!--<button type="button" class="btn btn-primary btn-sm">Edit Order</button>-->
-                                <!--<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Cancel Order</button>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    </div>
-                </div>
-                <div id="driver" class="tab-pane fade">
-                    <div class="panel-group" id="accordionDriver">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordionDriver" href="#collapse1">
-                                        Order #726</a>
-                                </h4>
-                            </div>
-                            <div id="collapseD1" class="panel-collapse collapse in">
-                                <ul id="driver-itemsD1"></ul>
-                                <button type="button" class="btn btn-primary btn-sm">Edit Order</button>
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Cancel Order</button>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordionDriver" href="#collapse2">
-                                        Order #704</a>
-                                </h4>
-                            </div>
-                            <div id="collapseD2" class="panel-collapse collapse">
-                                <ul id="driver-itemsD2"></ul>
-                                <button type="button" class="btn btn-primary btn-sm">Edit Order</button>
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Cancel Order</button>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordionDriver" href="#collapse3">
-                                        Order #752</a>
-                                </h4>
-                            </div>
-                            <div id="collapseD3" class="panel-collapse collapse">
-                                <ul id="driver-itemsD3"></ul>
-                                <button type="button" class="btn btn-primary btn-sm">Edit Order</button>
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Cancel Order</button>
+                <div class="row" style="margin-bottom: 3%">
+                    <div class="container box">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h3>Pending Tickets</h3>
+                                <ul id="yourDeliveries_pending_tickets" class=text-center"></ul>
                             </div>
                         </div>
                     </div>
+                    <div class="footerBars">
+                        <div class="footer2"></div>
+                        <div class="footer3"></div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal -->
-<div class="modal fade" id="myModal" role="dialog" style="margin-top: 25%">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Cancel Order</h4>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to cancel?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Confirm</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                <div class="row" style="margin-bottom: 3%">
+                    <div class="container box">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h3>Accepted Tickets</h3>
+                                <ul id="yourDeliveries_accepted_tickets" class=text-center"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footerBars">
+                        <div class="footer2"></div>
+                        <div class="footer3"></div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-bottom: 3%">
+                    <div class="container box">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h3>Shopped Tickets</h3>
+                                <ul id="yourDeliveries_shopped_tickets" class=text-center"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footerBars">
+                        <div class="footer2"></div>
+                        <div class="footer3"></div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-bottom: 3%">
+                    <div class="container box">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h3>Delivered Tickets</h3>
+                                <ul id="yourDeliveries_delivered_tickets" class=text-center"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footerBars">
+                        <div class="footer2"></div>
+                        <div class="footer3"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

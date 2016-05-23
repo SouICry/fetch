@@ -7,8 +7,7 @@
         loadData: null,
     };
     $(document).ready(function () {
-
-
+        
         $('#homePage img').fadeTo(0, '.4');
         $('.name').css('color', 'black');
         $('figure').mouseenter(function () {
