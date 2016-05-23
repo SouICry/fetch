@@ -90,6 +90,8 @@ function createTicket(userID) {
 function loadTickets(userID, callback, req, res) {
     var arr = loadUser(userID).tickets;
     callback(req, res, arr);
+
+    // TODO: update masters session
 }
 
 
@@ -182,6 +184,8 @@ function loadQueue(callback, req, res) {
                 if (err) {
                     console.log('error getQueueFromDB could not find grocery lists');
                 }
+                // TODO: update masters session
+
                 callback(req, res, docs);
             });
         }
