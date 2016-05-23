@@ -17,7 +17,7 @@ app.use(express.static(__dirname));
 /*
 req.session.pages.data //array of data of each page, key is page name
            .pages.version //array of version number, key is page name     
-           .passport.user   //unique userID
+           .passport.user   //unique userId
            .list            //list of item in shopping
 
  */
@@ -66,8 +66,8 @@ app.post('/sendData', function(req, res, next) {
     //
     //  if(req.session.passport){
     //     if(req.session.passport.user){
-    //         var userID = req.session.passport.user;
-    //         masters[userID] = req.session.pages;
+    //         var userId = req.session.passport.user;
+    //         masters[userId] = req.session.pages;
     //
     //     }
     // }
@@ -86,12 +86,12 @@ app.post('/init', function(req, res){
     }
     else{
         var d = new Date();
-        var tempUserId = d.getMilliseconds();
+        var tempuserId = d.getMilliseconds();
         var object = {};
         object.isDriver = driverFlag;
-        object.userId = tempUserId;
+        object.userId = tempuserId;
         //object.pageCount = ;
-        //masters[tempUserId]. = object;
+        //masters[tempuserId]. = object;
         res.send(object);
     }
 });

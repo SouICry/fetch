@@ -34,8 +34,8 @@ app.use(express.static(__dirname));
 
 
 
-function createTicket(userID) {
-    var user = loadUser(userID);
+function createTicket(userId) {
+    var user = loadUser(userId);
 
     if (!user) {
         console.log("User does not exist");
@@ -43,7 +43,7 @@ function createTicket(userID) {
     }
     
     var ticket = {
-        id: userID + 'ticket' + (user.grocery_list.length + 1).toString(),
+        id: userId + 'ticket' + (user.grocery_list.length + 1).toString(),
         state:'pending',
 
         // For the driver to know the shopper's info
@@ -63,14 +63,14 @@ function createTicket(userID) {
             phone_number: ''
         },
         grocery_list: {
-            store_name: masters[userID]["_shopping"].data.store_name,
-            shopping_list: masters[userID]["_shopping"].data.list,
-            timestamp: masters[userID]["_shopping"].data.timestamp
+            store_name: masters[userId]["_shopping"].data.store_name,
+            shopping_list: masters[userId]["_shopping"].data.list,
+            timestamp: masters[userId]["_shopping"].data.timestamp
         },
         special_options: {
-            special_instruction: masters[userID]["_checkout"].data.special_options,
-            available_time_start: masters[userID]["_checkout"].data.available_time_start,
-            available_time_end: masters[userID]["_checkout"].data.available_time_end
+            special_instruction: masters[userId]["_checkout"].data.special_options,
+            available_time_start: masters[userId]["_checkout"].data.available_time_start,
+            available_time_end: masters[userId]["_checkout"].data.available_time_end
         },
         driver_list: {
             checkoff_list: [],
@@ -87,8 +87,8 @@ function createTicket(userID) {
 
 
 
-function loadTickets(userID, callback, req, res) {
-    var arr = loadUser(userID).tickets;
+function loadTickets(userId, callback, req, res) {
+    var arr = loadUser(userId).tickets;
     callback(req, res, arr);
 
     // TODO: update masters session
@@ -109,7 +109,7 @@ function saveTicket(ticket) {
             return null;
         }
         else {
-            user = db.collection('users').update({_id: master.userID}, {$push: {tickets: ticket}},
+            user = db.collection('users').update({_id: master.userId}, {$push: {tickets: ticket}},
                 function(err) {
                     if (err) return null;
             });
@@ -123,12 +123,12 @@ function saveTicket(ticket) {
 
 
 // Loads a user from the database and stores to master session
-function loadUser(userID, callback, req, res) {
+function loadUser(userId, callback, req, res) {
     var user = null;
 
-    // Null check userID
-    if (!userID) {
-        console.log('null userID passed into loadUser');
+    // Null check userId
+    if (!userId) {
+        console.log('null userId passed into loadUser');
         return null;
     }
 
@@ -138,22 +138,22 @@ function loadUser(userID, callback, req, res) {
             console.log('Error: loadUser. ' + err);
         }
         else {
-            user = db.collection('users').findOne({_id: userID}, function(err) {
+            user = db.collection('users').findOne({_id: userId}, function(err) {
                 if (err) console.log('err');
             });
 
-            // No user with id = userID in database
+            // No user with id = userId in database
             if (!user) {
-                console.log('Error: loadUser. ' + 'No user with id: ' + userID);
+                console.log('Error: loadUser. ' + 'No user with id: ' + userId);
 
                 // error
                 callback(req, res, null);
                 return;
             }
 
-            // Updates master session userID and the user's data in accSetting
-            masters[userID].userID = user._id;
-            masters[userID]["_accSetting"].data = {
+            // Updates master session userId and the user's data in accSetting
+            masters[userId].userId = user._id;
+            masters[userId]["_accSetting"].data = {
                 full_name: user.full_name,
                 email: user.email,
                 phone: user.phone_number,
@@ -255,8 +255,8 @@ function getAllUsers(callback, req, res) {
     });
 }
 
-// Used to initialize master session for userID to null
-function initMasteruserID() {
+// Used to initialize master session for userId to null
+function initMasteruserId() {
     MongoClient.connect(mongodb_url, function(err, db) {
         if (err) {
             console.log('Error: ' + err);
@@ -265,7 +265,7 @@ function initMasteruserID() {
         else {
             users = db.collection('users').find().toArray(function(err, docs) {
                 if (err) {
-                    console.log('error in initMasteruserID');
+                    console.log('error in initMasteruserId');
                     return false;
                 }
             });
