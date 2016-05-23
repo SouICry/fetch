@@ -591,73 +591,8 @@ var defaultO = {
     //        version: 0;
     //}
 };
-var masters = [{
-    //loader
-    isDriver: false,
-    isLoggedIn: false,
-    userID: "",
-    pageCount: 0,
-    previousPage: "",
-    currentPage: "",
-    currentPageObject: {
-        getData: null,
-        loadData: null,
-        data: null
-    },
+var masters;
 
-    userTickets: null,
-    driverTickets: null,
-    ticketQueue: null,
-
-
-    "_homepage": {
-        data: {
-            store_name: "" // TODO dont know where to get this from
-
-        },
-        version: 0
-    },
-
-
-    //account setting;
-    "_accSetting": {
-        data: {
-            full_name: "",
-            email: "",
-            phone: "",
-            address: {
-                street: "",
-                city: "",
-                state: "",
-                zip: ""
-            }
-        },
-        version: 0
-    },
-
-    //shopping
-    "_shopping": {
-        data: {
-            list: []
-        },
-        version: 0
-    },
-
-    //checkout
-    "_checkout": {
-        data: {
-            list_id: "",
-            special_options: "",
-            available_time_start: "",
-            available_time_end: ""
-        },
-        version: 0
-    }
-    //list of pageName: {
-    //          data: null;
-    //        version: 0;
-    //}
-}];
 //TODO -------------------------------------------------------------------------
 
 
@@ -798,11 +733,53 @@ app.post('/init', function (req, res) {
         }
     }
     else {
+
+        var id = new Date().getMilliseconds();
+        var masterInit = {
+            //loader
+            isDriver: false,
+            isLoggedIn: false,
+            userID: "",
+            pageCount: 0,
+            previousPage: "",
+            currentPage: "",
+            currentPageObject: {
+                getData: null,
+                loadData: null,
+                data: null
+            },
+
+            userTickets: null,
+            driverTickets: null,
+            ticketQueue: null
+        };
+        //Initialize each page
+        var allPages = [
+            "_accSetting", "_contact", "_history", "_passwordRecovery", "_passwordReset", "_signUp", "_login",
+            "_yourDeliveries", "_homePage", "_shopping", "_checkout"/*, "_submitted"*/,
+            /*'_confirmTicket',*/ "_rating" /*,'_ticketClosed'*/,
+            '_tickets', '_driverList2', "_congrats_driver_finish_shopping", /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats'
+        ];
+
+        for (var i = 0; i < allPages.length; i++){
+            masterInit[allPages[i]] = {
+                data: null,
+                version: 0
+            }
+        }
+
+        masters[id] = masterInit;
+
+
+
+
         //new user
+
+        
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify({
             isLoggedIn: false,
-            userId: new Date().getMilliseconds()
+            userId: id
         }));
 
     }
