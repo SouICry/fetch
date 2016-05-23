@@ -312,6 +312,7 @@
         else {
             loader.userId = "";
         }
+        alert();
         $.ajax({
             type: "POST",
             url: "/init",
@@ -319,6 +320,7 @@
                 userId: loader.userId //"" or valid user id string
             },
             success: function (resp) {
+                console.log(resp);
                 if (resp.isLoggedIn) {
                     loader.isDriver = resp.isDriver;
                     loader.userId = resp.userId;
@@ -335,7 +337,7 @@
                 else {
                     loader.userId = resp.userId;
                 }
-                window.setInterval(loader.getUpdates, 500);
+                //window.setInterval(loader.getUpdates, 500);
             }
         });
     }

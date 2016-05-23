@@ -68,7 +68,7 @@ app.post('/sendData', function(req, res, next) {
     //     if(req.session.passport.user){
     //         var userID = req.session.passport.user;
     //         masters[userID] = req.session.pages;
-    //        
+    //
     //     }
     // }
 //    res.send(versions[pageName]);
@@ -141,17 +141,17 @@ app.post('/changePage', function(req,res){
         masters[userId].previousPage = masters[userId].currentPage;
         masters[userId].currentPage = newPage;
         masters[userId].currentPageObject.data = data;
-        res.send(masters[userId][newPage].data);   
+        res.send(masters[userId][newPage].data);
     }
     else
         res.send(null);
-        
+
 });
 
 
 app.post('/getTicket', function(req,res){
-    
-    
+
+
 });
 
 //run every second
