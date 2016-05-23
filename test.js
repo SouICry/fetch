@@ -36,8 +36,9 @@ app.post('/loadPage', function (req, res) {
         res.send("");
     }
 });
-var masters = [[{}]];
+var masters = {};
 var pages = {};
+app.post();
 app.post('/sendData', function(req, res, next) {
     var pageName = req.body.name;
     var userId = req.session.userId;
@@ -46,7 +47,6 @@ app.post('/sendData', function(req, res, next) {
         masters[userId][pageName].version = req.body.version + 1;
     }
     res.send(req.body.version + 1);
-    //
     // if (req.sessions.pages == null){
     //     var pageData = [];
     //     var versions = Array.apply(null, Array(20)).map(Number.prototype.valueOf,0);;
@@ -72,6 +72,28 @@ app.post('/sendData', function(req, res, next) {
     //     }
     // }
 //    res.send(versions[pageName]);
+});
+app.post('/init', function(req, res){
+    var userId = req.body.userId;
+    var driverFlag = req.body.isDriver;
+    //TODO: Query Database for user's existence here
+    var userOnDB = false;
+
+    //If user is on DB...
+    if(userOnDB && userId != ""){
+        //TODO: Retrieve from DB
+        res.send(userOnDB);
+    }
+    else{
+        var d = new Date();
+        var tempUserId = d.getMilliseconds();
+        var object = {};
+        object.isDriver = driverFlag;
+        object.userId = tempUserId;
+        //object.pageCount = ;
+        //masters[tempUserId]. = object;
+        res.send(object);
+    }
 });
 
 app.post('/loadData', function(req, res, next){
@@ -126,6 +148,7 @@ app.post('/changePage', function(req,res){
         
 });
 
+
 app.post('/getTicket', function(req,res){
     
     
@@ -150,14 +173,6 @@ setInterval(function() {
     });
 }, 1000);
 
-app.post('/init', function(req,res, next){
-    var userId = req.body.userId;
-    var object = {};
-    if(userId){
-        //TODO what to do over here
-        
-    }
-});
 
 var server = app.listen(3000, function () {
 

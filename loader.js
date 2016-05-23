@@ -84,14 +84,14 @@ function createTicket(userID) {
 }
 
 
-// Gets the
-function loadUsersTickets(userID) {
-    return loadUser(userID).user_history;
+
+
+
+function loadTickets(userID) {
+    return loadUser(userID).tickets;
 }
 
-function loadDeliveredTickets(userID) {
-    return loadUser(userID).delivery_history;
-}
+
 
 function saveTicket(ticket) {
     if (!ticket) {
@@ -106,7 +106,7 @@ function saveTicket(ticket) {
             return null;
         }
         else {
-            user = db.collection('users').updateOne({_id: master.userID}, {$push: {tickets: ticket}},
+            user = db.collection('users').update({_id: master.userID}, {$push: {tickets: ticket}},
                 function(err) {
                     if (err) return null;
             });
@@ -115,6 +115,8 @@ function saveTicket(ticket) {
     });
     return null;
 }
+
+
 
 
 // Loads a user from the database and stores to master session
@@ -146,7 +148,7 @@ function loadUser(userID) {
 
             // Updates master session userID and the user's data in accSetting
             masters[userID].userID = user._id;
-            masters[userID].['_accSetting'].data = {
+            masters[userID]["_accSetting"].data = {
                 full_name: user.full_name,
                 email: user.email,
                 phone: user.phone_number,
@@ -158,11 +160,10 @@ function loadUser(userID) {
                 }
             };
             console.log('Successfully loaded user to master session!');
-            return user;
         }
     });
 
-    return null;
+    return user;
 }
 
 function getQueueFromDB() {
@@ -181,6 +182,7 @@ function getQueueFromDB() {
 
     return null;
 }
+
 
 
 function addToQueue(ticket) {
@@ -206,7 +208,7 @@ function addToQueue(ticket) {
 
 
 
-function removeFromQueue(ticketId, cb) {
+function removeFromQueue(ticketId) {
     if (!ticketId) {
         console.log('null ticketID passed into removeFromQueue');
         return false;
@@ -228,6 +230,6 @@ function removeFromQueue(ticketId, cb) {
             });
         }
     });
-
+    
     return false;
 }
