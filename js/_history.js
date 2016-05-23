@@ -1,3 +1,6 @@
+// /**
+//  * Created by juneruijiang on 5/17/16.
+//  */
 (function () {
     //Actual:
     //loadFromServer();
@@ -75,28 +78,28 @@
         var ticket;
         for (var i = 0; i < pending_tickets.length; i++) {
             ticket = pending_tickets[i];
-            $("#yourDeliveries_pending_tickets").append('<li  data-id="' + ticket.id + '" class = "yourDeliveries1 ' + ticket.name + ' ticket" ' + ' ><div  >'
+            $("#yourOrders_pending_tickets").append('<li  data-id="' + ticket.id + '" class = "yourDeliveries1 ' + ticket.name + ' ticket" ' + ' ><div  >'
                 + toName(ticket.name) + ' <br> Estimate Deliver Time: ' + ticket.time +
                 '</div></li>');
         }
 
         for (var i = 0; i < accepted_tickets.length; i++) {
             ticket = accepted_tickets[i];
-            $("#yourDeliveries_accepted_tickets").append('<li  data-id="' + ticket.id + '" class = "yourDeliveries1 ' + ticket.name + ' ticket" ' + ' ><div  >'
+            $("#yourOrders_accepted_tickets").append('<li  data-id="' + ticket.id + '" class = "yourDeliveries1 ' + ticket.name + ' ticket" ' + ' ><div  >'
                 + toName(ticket.name) + ' <br> Estimate Deliver Time: ' + ticket.time +
                 '</div></li>');
         }
 
         for (var i = 0; i < shopped_tickets.length; i++) {
             ticket = shopped_tickets[i];
-            $("#yourDeliveries_shopped_tickets").append('<li  data-id="' + ticket.id + '" class = "yourDeliveries1 ' + ticket.name + ' ticket" ' + ' ><div  >'
+            $("#yourOrders_shopped_tickets").append('<li  data-id="' + ticket.id + '" class = "yourDeliveries1 ' + ticket.name + ' ticket" ' + ' ><div  >'
                 + toName(ticket.name) + ' <br> Estimate Deliver Time: ' + ticket.time +
                 '</div></li>');
         }
 
         for (var i = 0; i < delivered_tickets.length; i++) {
             ticket = delivered_tickets[i];
-            $("#yourDeliveries_delivered_tickets").append('<li  data-id="' + ticket.id + '" class = "yourDeliveries1 ' + ticket.name + ' ticket" ' + ' ><div  >'
+            $("#yourOrders_delivered_tickets").append('<li  data-id="' + ticket.id + '" class = "yourDeliveries1 ' + ticket.name + ' ticket" ' + ' ><div  >'
                 + toName(ticket.name) + ' <br> Estimate Deliver Time: ' + ticket.time +
                 '</div></li>');
         }
