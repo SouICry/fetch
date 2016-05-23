@@ -1,22 +1,99 @@
-<button onclick="notifyMe()">test</button>
+<!DOCTYPE html>
+<!-- saved from url=(0039)https://davidwalsh.name/demo/camera.php -->
+<html lang="en" dir="ltr" class=" fonts-loaded">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>Camera and Video Control with HTML5 Example</title>
+
+    <!--[if IE]>
+    <script src=//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.js></script><![endif]-->
+    <style>
+        .demo-frame header, .demo-frame h1, .demo-frame .demo-conversion {
+            display: none;
+        }
+
+        .demo-wrapper {
+            min-height: 500px;
+        }
+
+        .bsap {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    </style>
+    <style>
+        video {
+            border: 1px solid #ccc;
+            display: block;
+            margin: 0 0 20px 0;
+        }
+
+        #canvas {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            display: block;
+        }
+    </style>
+</head>
+<body class=" demo-page">
+
+
+<video id="prof-video" width="640" height="480" autoplay></video>
+<button id="prof-snap" class="sexyButton">Snap Photo</button>
+<canvas id="prof-canvas" width="640" height="480"></canvas>
 
 <script>
-    function notifyMe(text) {
-    if (!("Notification" in window) || window.innerWidth < 800) {
-        //No notification
-    }
-    else if (Notification.permission === "granted") {
-        var notification = new Notification(text);
-    }
-    else if (Notification.permission !== 'denied') {
-        Notification.requestPermission(function (permission) {
-            if (permission === "granted") {
-                var notification = new Notification(text);
-            }
-        });
-    }
 
-    var audio = new Audio('notify.mp3');
-    audio.play();
-}
+
+    // Put event listeners into place
+    (function () {
+        window.addEventListener("DOMContentLoaded", function () {
+
+            function enableVideo(){
+                // Put video listeners into place
+                if (navigator.getUserMedia) { // Standard
+                    navigator.getUserMedia(videoObj, function (stream) {
+                        video.src = stream;
+                        video.play();
+                    }, errBack);
+                } else if (navigator.webkitGetUserMedia) { // WebKit-prefixed
+                    navigator.webkitGetUserMedia(videoObj, function (stream) {
+                        video.src = window.webkitURL.createObjectURL(stream);
+                        video.play();
+                    }, errBack);
+                } else if (navigator.mozGetUserMedia) { // WebKit-prefixed
+                    navigator.mozGetUserMedia(videoObj, function (stream) {
+                        video.src = window.URL.createObjectURL(stream);
+                        video.play();
+                    }, errBack);
+                }
+            }
+
+            // Grab elements, create settings, etc.
+
+            var canvas = document.getElementById("prof-canvas"),
+                    context = canvas.getContext("2d"),
+                    video = document.getElementById("prof-video"),
+                    videoObj = {"video": true},
+                    errBack = function (error) {
+                        console.log("Video capture error: ", error.code);
+                    };
+
+            enableVideo();
+
+
+            // Trigger photo take
+            document.getElementById("prof-snap").addEventListener("click", function () {
+                context.drawImage(video, 0, 0, 640, 480);
+            });
+        }, false)
+    })();
+
+
 </script>
+
+</body>
+</html>
