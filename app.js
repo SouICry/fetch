@@ -354,11 +354,13 @@ app.post('/_signUp', function(req, res, next) {
                 }
                 req.login(user, function(err){
                     if (err) {
+                        //return next(err);
                         console.log('login failed: ', err)
                         res.status(500);
                     }
                     else {
                         req.session.userID =  ''//TODO set userID to something Unique, and consistent;
+                        req.session.userId = req.body.email; //TODO set userId to something Unique, and consistent
                         console.log('login success!');
                     }
                 });
@@ -396,6 +398,7 @@ app.post('/_login', function(req, res, next) {
                 req.session.userID = passportUserId;
             }
 
+            req.session.userId = req.body.email; //TODO set userId once login
             console.log('successful login');
             // If everything was successful, send user back to frontend
             res.send(user);
