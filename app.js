@@ -26,11 +26,10 @@ app.use(flash());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
-app.use(session({ resave: true, saveUninitialized: true, secret: 'williamiscool' }));
+app.use(session({resave: true, saveUninitialized: true, secret: 'williamiscool'}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname));
-
 
 
 app.post('/loadPage', function (req, res) {
@@ -48,7 +47,6 @@ app.post('/loadPage', function (req, res) {
 });
 
 
-
 // ------------------------ USER SCHEMA/MODEL -------------------------
 
 // Set up schema for users
@@ -62,7 +60,7 @@ var userSchema = new mongoose.Schema(
         address: //{type: String, required: true, unique: false}
         // ^^^^^ TEMPORARY IMPLEMENTATION BY FRONTEND
 
-            //THIS SHOULD BE IMPLEMENTED BY FRONT END
+        //THIS SHOULD BE IMPLEMENTED BY FRONT END
         {
             street: '',
             city: '',
@@ -77,11 +75,11 @@ var userSchema = new mongoose.Schema(
             exp_year: {type: String, required: false, unique: false},
             cvv: {type: String, required: false, unique: false}
         },
-        avg_rating : {type: Number, required: false, unique: false},
+        avg_rating: {type: Number, required: false, unique: false},
         total_rating: {type: Number, required: false, unique: false},
         num_times_rated: {type: Number, required: false, unique: false},
         time_created: {type: String, required: false, unique: false},
-        
+
         // Grcoery list holds tickets(?) (no longer grocery_list objs). May change.
         grocery_list: {type: [], required: false, unique: false},
         delivery_list: {type: [], required: false, unique: false},
@@ -126,7 +124,7 @@ mongoose.connect(mongodb_url);
 // -------------------------------------------------------------------
 
 
-var ViewController = function (userID, valueF){
+var ViewController = function (userID, valueF) {
     this._userID = userID;
     this._valueF = valueF;
     this.time = 0;
@@ -140,7 +138,7 @@ ViewController.prototype = {
             this.time = time;
         }
     },
-    getValue: function(currentData, time){
+    getValue: function (currentData, time) {
         return (time > this.time) ? this._valueF : currentData;
     }
 };
@@ -173,16 +171,10 @@ ViewController.prototype = {
 // });
 
 
-
-
-
-
-
-
 // ------------------- SIGNUP/LOGIN/LOGOUT -----------------------
 
 // Used to check if valid email format (@ucsd.edu)
-var validEmail = function(email) {
+var validEmail = function (email) {
     var email_regex = /.*@ucsd.edu/;
 
     if (!email_regex.test(email)) {
@@ -193,9 +185,9 @@ var validEmail = function(email) {
 };
 
 // Used to check if valid phone number format
-var validPhoneNumber = function(phone_number) {
+var validPhoneNumber = function (phone_number) {
     // Strip non-digit chars from phone #
-    phone_number = phone_number.replace(/\D/g,'');
+    phone_number = phone_number.replace(/\D/g, '');
     console.log('stripped phone#: ' + phone_number);
 
     if (phone_number.length != 10) {
@@ -214,7 +206,7 @@ passport.use('login', new LocalStrategy(
         passReqToCallback: true // allows us to pass back the entire request to the callback
     },
     function (req, email, password, done) {
-        process.nextTick( function() {
+        process.nextTick(function () {
             User.findOne({email: email.toLowerCase()}, function (err, user) {
                 if (err)
                     return done(err);
@@ -255,8 +247,8 @@ passport.use('signup', new LocalStrategy(
 
         console.log('signup email: ' + email);
 
-        process.nextTick(function() {
-            User.findOne({'email': email}, function(err, user) {
+        process.nextTick(function () {
+            User.findOne({'email': email}, function (err, user) {
 
                 if (err) {
                     console.log('Error: ', err);
@@ -276,11 +268,11 @@ passport.use('signup', new LocalStrategy(
                         password: password,
                         phone_number: req.body.phone_number,
                         address: req.body.address/*{
-                            street: '',
-                            city: '',
-                            state: '',
-                            zip: ''
-                        }*/,
+                         street: '',
+                         city: '',
+                         state: '',
+                         zip: ''
+                         }*/,
                         payment_info: {
                             card_holder_name: '',
                             card_number: '',
@@ -300,7 +292,7 @@ passport.use('signup', new LocalStrategy(
                     });
 
                     // Adding new user to database
-                    newUser.save(function(err) {
+                    newUser.save(function (err) {
                         if (err) {
                             console.log('could not save user err: ' + err);
                             return done(null, false);
@@ -327,7 +319,7 @@ passport.deserializeUser(function (id, done) {
     });
 });
 
-app.post('/_logout', function(req, res, next) {
+app.post('/_logout', function (req, res, next) {
     // If 'logout' button pressed, log user out. Passportjs will
     // call deserialize to remove user from session.
     req.logout();
@@ -337,8 +329,8 @@ app.post('/_logout', function(req, res, next) {
     res.send(req.session);
 });
 
-app.post('/_signUp', function(req, res, next) {
-    passport.authenticate('signup', function(err, user, info) {
+app.post('/_signUp', function (req, res, next) {
+    passport.authenticate('signup', function (err, user, info) {
         console.log(info.message);
 
         if (!user) {
@@ -346,19 +338,19 @@ app.post('/_signUp', function(req, res, next) {
             res.send(info.message);
         }
         else {
-            user.save(function(err) {
+            user.save(function (err) {
                 if (err) {
                     console.log('Could not save user to DB after signup');
                     res.status(500);
                 }
-                req.login(user, function(err){
+                req.login(user, function (err) {
                     if (err) {
                         //return next(err);
                         console.log('login failed: ', err);
                         res.status(500);
                     }
                     else {
-                        req.session.userID =  '';//TODO set userID to something Unique, and consistent;
+                        req.session.userID = '';//TODO set userID to something Unique, and consistent;
                         req.session.userID = req.body.email; //TODO set userId to something Unique, and consistent
                         console.log('login success!');
                     }
@@ -371,15 +363,15 @@ app.post('/_signUp', function(req, res, next) {
 
 // For user login. Authenticates user and serializes user to session
 // if successful login
-app.post('/_login', function(req, res, next) {
-    passport.authenticate('login', function(err, user, info) {
+app.post('/_login', function (req, res, next) {
+    passport.authenticate('login', function (err, user, info) {
         // Check if user was successfully authenticated, send error otherwise
         if (!user) {
             res.status(500);
             res.send(info.message);
         }
         else {
-            req.login(user, function(err) {
+            req.login(user, function (err) {
                 if (err) {
                     console.log('failed login: ', err);
                     res.status(500);
@@ -390,7 +382,7 @@ app.post('/_login', function(req, res, next) {
             //req.session.userID = req.body.email; //TODO set userID once login
             var passportUserID = req.session.passport.user;
             var tempUserID = req.session.userID;
-            if(!masters[passportUserID]) {
+            if (!masters[passportUserID]) {
                 masters[passportUserID] = masters[tempUserID];
                 masters[passportUserID].userID = passportUserID;
                 masters[tempUserID] = null;
@@ -405,7 +397,6 @@ app.post('/_login', function(req, res, next) {
     })(req, res, next);
 });
 // -------------------------------------------------------------
-
 
 
 // ----------- PASSWORD RECOVERY/RESET --------------------
@@ -552,7 +543,7 @@ var defaultO = {
         data: null
     },
 
-    "_homepage" : {
+    "_homepage": {
         data: {
             store_name: "" // TODO dont know where to get this from
 
@@ -562,7 +553,7 @@ var defaultO = {
 
 
     //account setting;
-    "_accSetting" : {
+    "_accSetting": {
         data: {
             full_name: "",
             email: "",
@@ -613,13 +604,13 @@ var masters = [{
         loadData: null,
         data: null
     },
-    currentTicket: null,
-    isQueue: false,
-    isUserTicket: false,
-    isDriverTicket: false,
-    ticketQueue: [],
 
-    "_homepage" : {
+    userTickets: null,
+    driverTickets: null,
+    ticketQueue: null,
+
+
+    "_homepage": {
         data: {
             store_name: "" // TODO dont know where to get this from
 
@@ -629,7 +620,7 @@ var masters = [{
 
 
     //account setting;
-    "_accSetting" : {
+    "_accSetting": {
         data: {
             full_name: "",
             email: "",
@@ -643,7 +634,7 @@ var masters = [{
         },
         version: 0
     },
-      
+
     //shopping
     "_shopping": {
         data: {
@@ -664,21 +655,16 @@ var masters = [{
     }
     //list of pageName: {
     //          data: null;
-      //        version: 0;
-      //}
+    //        version: 0;
+    //}
 }];
 //TODO -------------------------------------------------------------------------
-
-
-
-
-
 
 
 //TODO ---------------------------------DATA-LOADER-------------------------
 
 
-app.post('/sendData', function(req, res, next) {
+app.post('/sendData', function (req, res, next) {
     var pageName = req.body.name;
     var userID = req.session.userID;
     if (req.body.version >= masters[userID][pageName].version) {
@@ -689,14 +675,14 @@ app.post('/sendData', function(req, res, next) {
 
 });
 
-app.post('/loadData', function(req, res, next){
+app.post('/loadData', function (req, res, next) {
     var version = req.body.version;
     var userID = req.session.userID;
     var pageName = req.body.name;
     var object = {};
     object.data = masters[userID][pageName].data;
     object.version = masters[userID][pageName].version;
-    if(version <= masters[userID][pageName].version){
+    if (version <= masters[userID][pageName].version) {
         res.send(object);
     }
 
@@ -705,50 +691,49 @@ app.post('/loadData', function(req, res, next){
 });
 
 
-app.post('/changePage', function(req,res){
+app.post('/changePage', function (req, res) {
 
-    var newPage   = req.body.newPage;
+    var newPage = req.body.newPage;
     var userID = req.session.userID;
-    var queue;
- 
-    if(newPage == "_history") {
-        
-        queue = loadTickets(userID);
+    var queue = {};
+
+    if (newPage == "_history") {
+        loadUserTickets(userID, callback, req, res);
     }
-    else if (newPage == "_yourDelivery"){
-        queue = loadUserTickets(userID);
+    else if (newPage == "_yourDelivery") {
+        loadDriverTickets(userID, callback, req, res);
     }
-    else if(newPage == "_tickets"){
-       
-        queue = loadDeliveredTickets(userID);
+    else if (newPage == "_tickets") {
+        loadQueue(userID, callback, req, res);
     }
     else {
-        res.send("Query from database fail");
+        callback(req, res);
     }
-    if(queue){
+
+    function callback(req, res) {
+
         var pageCount = req.body.pageCount;
         var data = req.body.oldData;
         if (pageCount > masters[userID].pageCount) {
+            var currentPage = masters[userID].currentPage;
+            masters[userID][currentPage].data = data;
             masters[userID].pageCount = pageCount;
-            masters[userID].previousPage = masters[userID].currentPage;
+            masters[userID].previousPage = currentPage;
             masters[userID].currentPage = newPage;
-            masters[userID].currentPageObject.data = data;
-            masters[userID][newPage].data = queue;
-            res.send(masters[userID][newPage].data);
         }
-        else
-            res.send(null);
+
+        res.send(masters[userID][newPage].data);
     }
-    
+
 });
 
 //----------------------------------getTicket--------------------------------------------------------------------------
-app.post('/getTicket', function(req,res){
+app.post('/getTicket', function (req, res) {
     var ticketId = req.body.id;
     var store = req.body.store;
     var userID = req.session.userID;
-  //  masters[userID].ticket =
-    
+    //  masters[userID].ticket =
+
     var ticket = loadTickets(userID);
     masters[userID].currentTicket = ticket;
     res.send(ticket.state);
@@ -779,31 +764,33 @@ app.post('/getTicket', function(req,res){
 //----------------------------------getTicket----------------------------------------------------------------
 
 
-
 //----------------------------------getUpdate--------------------------------------------------------------------------
 //run every second
 app.post('/getUpdates', function (req, res, next) {
     var object = {};
     var userID = req.session.userID;
     if (userID) {
-        object.isDriver = masters[userID].isDriver;
-        object.pageCount = masters[userID].pageCount;
-        object.previousPage = masters[userID].previousPage;
-        object.currentPage = masters[userID].currentPage;
-        //object.currentPageObject = masters[userID].currentPageObject;
-        object.version = masters[userID].version;
-        object.data = masters[userID].currentPageObject.data;
-        res.send(object);
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({
+            isDriver: masters[userID].isDriver,
+            pageCount: masters[userID].pageCount,
+            previousPage: masters[userID].previousPage,
+            currentPage: masters[userID].currentPage,
+            //currentPageObject : masters[userID].currentPageObject;
+            version: masters[userID].version,
+            data: masters[userID].currentPageObject.data
+        }));
     }
-    res.send(null);
+
+
 });
 
 
-app.post('/init', function(req, res){
+app.post('/init', function (req, res) {
     var userId = req.body.userId;
-    if (masters.hasOwnProperty(userId)){
+    if (masters.hasOwnProperty(userId)) {
         //Exists user
-        if (masters[userId] != null){
+        if (masters[userId] != null) {
             //is logged in, return master existing data
         }
         else {
@@ -815,7 +802,7 @@ app.post('/init', function(req, res){
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify({
             isLoggedIn: false,
-            userId : new Date().getMilliseconds()
+            userId: new Date().getMilliseconds()
         }));
 
     }
@@ -824,23 +811,13 @@ app.post('/init', function(req, res){
 //TODO ---------------------------------DATA-LOADER-------------------------
 
 
-
-
-
-
-
-
-
-
-
-
 // ------------------------------------------------ ACCOUNT SETTING ------------------------------------------------
 
-app.post('/_accSetting', function(req, res) {
-   // if (!req.session.passport || !res.session.passport.user) {
+app.post('/_accSetting', function (req, res) {
+    // if (!req.session.passport || !res.session.passport.user) {
     var userID = req.session.userID;
     var object = {};
-    if(!req.session.userID){
+    if (!req.session.userID) {
         res.status(500);
         res.send({message: 'no user logged in'});
     }
@@ -853,16 +830,16 @@ app.post('/_accSetting', function(req, res) {
         masters[userID]["_accSetting"].data.address.city = req.body.user.city;
         masters[userID]["_accSetting"].data.address.state = req.body.user.state;
         masters[userID]["_accSetting"].data.address.zip = req.body.user.zip;
-        
+
         // Update user document from users collection with the new info
-        MongoClient.connect(mongodb_url, function(err, db) {
+        MongoClient.connect(mongodb_url, function (err, db) {
             if (err) {
                 console.log('Error: ' + err);
                 res.send(err);
             }
             else {
                 user = db.collection('users').updateOne({_id: master.userID}, {$push: {tickets: ticket}},
-                    function(err) {
+                    function (err) {
                         if (err) return err;
                     });
             }
@@ -870,10 +847,6 @@ app.post('/_accSetting', function(req, res) {
     }
 });
 //TODO ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 
 // ---------------------------------------------------- SHOPPING/SAVE GROCERY LIST ----------------------------------
@@ -962,11 +935,8 @@ app.post('/_accSetting', function(req, res) {
 //TODO -------------------------------------------------------------------------
 
 
-
-
-
 // ---------------------------------------------------- TICKETS/GROCERY QUEUE ---------------------------------------
-app.post('/_tickets', function(req, res) {
+app.post('/_tickets', function (req, res) {
 
 });
 //TODO -------------------------------------------------------------------------
@@ -974,7 +944,7 @@ app.post('/_tickets', function(req, res) {
 
 //------------------------------------------------------------checkout---------------------------------------------
 //may be update database in checkout,???
-app.post('/_checkout', function(req,res, next){
+app.post('/_checkout', function (req, res, next) {
     var userID = req.session.userID;
     // if(req.body.notesTime) {
     //     masters[userID]["_checkout"].data.list_id = req.body.notesTime.id;
@@ -983,68 +953,68 @@ app.post('/_checkout', function(req,res, next){
     //     masters[userID]["_checkout"].data.available_time_end = req.body.notesTime.range2;
 
 
-        // Model for grocery list
-        var glist = {
-            _id: masters[userID]["_checkout"].data.list_id,
-            store_name: masters[userID]["_homePage"].data.store_name, // ?????? Need to communicate with geo/trivi for store name session
-            shopping_list: masters[userID]["_shopping"].data.list,
-            timestamp: date.toLocaleDateString() + ' ' + date.toLocaleTimeString(),
-            special_options: masters[userID]["_accSetting"].data.special_options,
-            available_time_start: masters[userID]["_accSetting"].data.available_time_start,
-            available_time_end: masters[userID]["_accSetting"].data.available_time_end
+    // Model for grocery list
+    var glist = {
+        _id: masters[userID]["_checkout"].data.list_id,
+        store_name: masters[userID]["_homePage"].data.store_name, // ?????? Need to communicate with geo/trivi for store name session
+        shopping_list: masters[userID]["_shopping"].data.list,
+        timestamp: date.toLocaleDateString() + ' ' + date.toLocaleTimeString(),
+        special_options: masters[userID]["_accSetting"].data.special_options,
+        available_time_start: masters[userID]["_accSetting"].data.available_time_start,
+        available_time_end: masters[userID]["_accSetting"].data.available_time_end
+    };
+
+    // Check that empty list was not sent
+    if (glist.length === 0) {
+        res.status(500);
+        res.send({message: 'Submitted empty list'});
+        return;
+    }
+
+    // Check that user is logged in
+    if (!req.session.passport || !req.session.passport.user) {
+        console.log('user is not logged in');
+        res.status(500);
+        res.send({message: 'user is not logged in'});
+    }
+    else {
+        var updateGroceryListAndQueue = function (db) {
+            var grocery_list = null;
+
+            // Update user to hold grocery list submitted
+            grocery_list = db.collection('users').updateOne({_id: req.session.passport.user}, {$push: {grocery_list: glist}},
+                function (err, doc) {
+                    if (err) {
+                        console.log('error updating user grocery list');
+                        res.status(500);
+                        res.send(err);
+                    }
+                }
+            );
+
+            // If grocery list successfully added to user's grocery list, add list to queue
+            if (!grocery_list) {
+                db.collection('grocery_queue').insert(grocery_list, function (err, doc) {
+                    if (err) {
+                        console.log('error adding list to queue: ' + err);
+                        res.status(500);
+                        res.send(err);
+                    }
+                });
+            }
         };
 
-        // Check that empty list was not sent
-        if (glist.length === 0) {
-            res.status(500);
-            res.send({message: 'Submitted empty list'});
-            return;
-        }
-
-        // Check that user is logged in
-        if (!req.session.passport || !req.session.passport.user) {
-            console.log('user is not logged in');
-            res.status(500);
-            res.send({message: 'user is not logged in'});
-        }
-        else {
-            var updateGroceryListAndQueue = function(db) {
-                var grocery_list = null;
-
-                // Update user to hold grocery list submitted
-                grocery_list = db.collection('users').updateOne({_id: req.session.passport.user}, {$push: {grocery_list: glist}},
-                    function(err, doc) {
-                        if (err) {
-                            console.log('error updating user grocery list');
-                            res.status(500);
-                            res.send(err);
-                        }
-                    }
-                );
-
-                // If grocery list successfully added to user's grocery list, add list to queue
-                if (!grocery_list) {
-                    db.collection('grocery_queue').insert(grocery_list, function (err, doc) {
-                        if (err) {
-                            console.log('error adding list to queue: ' + err);
-                            res.status(500);
-                            res.send(err);
-                        }
-                    });
-                }
-            };
-
-            MongoClient.connect(mongodb_url, function(err, db) {
-                if (err) {
-                    console.log('Error: ' + err);
-                    res.send(err);
-                }
-                else {
-                    updateGroceryListAndQueue(db);
-                }
-            });
-        }
-        res.send("Successful");
+        MongoClient.connect(mongodb_url, function (err, db) {
+            if (err) {
+                console.log('Error: ' + err);
+                res.send(err);
+            }
+            else {
+                updateGroceryListAndQueue(db);
+            }
+        });
+    }
+    res.send("Successful");
 
     // }
     res.send("Fail");
@@ -1052,17 +1022,17 @@ app.post('/_checkout', function(req,res, next){
 });
 //TODO -------------------------------------------------------------------------
 
-app.post('_homePage', function(req,res,next){
+app.post('_homePage', function (req, res, next) {
 
 });
 
 
 //-----------------------------------------------------DRIVER LIST -----------------------------------------
-app.post('/_driverList', function(req, res, next){
+app.post('/_driverList', function (req, res, next) {
     var object = {};
     var userID = req.session.userID;
 
-    if(userID) {
+    if (userID) {
         object.notes = masters[userID]["_checkout"].data.special_options;
         object.items = masters[userID]["_"].data.items;   //TODO where is items located?
         object.name = masters[userID].name;
@@ -1076,21 +1046,16 @@ app.post('/_driverList', function(req, res, next){
 });
 
 
-
 //--------------------------DRIVER LIST 2---------------------
-app.post('/_DriverList2', function(req, res, next){
+app.post('/_DriverList2', function (req, res, next) {
 
 });
-
-
-
 
 
 //----------------------------HISTORY----------------------
-app.post('/_history', function(req, res, next){
+app.post('/_history', function (req, res, next) {
 
 });
-
 
 
 //--------------------------
