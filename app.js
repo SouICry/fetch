@@ -358,7 +358,7 @@ app.post('/_signUp', function(req, res, next) {
                         res.status(500);
                     }
                     else {
-                        req.session.userId =  ''//TODO set userId to something Unique, and consistent;
+                        req.session.userID =  ''//TODO set userID to something Unique, and consistent;
                         console.log('login success!');
                     }
                 });
@@ -378,7 +378,6 @@ app.post('/_login', function(req, res, next) {
             res.send(info.message);
         }
         else {
-
             req.login(user, function(err) {
                 if (err) {
                     console.log('failed login: ', err);
@@ -386,14 +385,15 @@ app.post('/_login', function(req, res, next) {
                     res.send(err);
                 }
             });
-            //req.session.userId = req.body.email; //TODO set userId once login
+
+            //req.session.userID = req.body.email; //TODO set userID once login
             var passportUserId = req.session.passport.user;
-            var tempUserId = req.session.userId;
+            var tempUserId = req.session.userID;
             if(!masters[passportUserId]) {
                 masters[passportUserId] = masters[tempUserId];
-                masters[passportUserId].userId = passportUserId;
+                masters[passportUserId].userID = passportUserId;
                 masters[tempUserId] = null;
-                req.session.userId = passportUserId;
+                req.session.userID = passportUserId;
             }
 
             console.log('successful login');
@@ -535,14 +535,14 @@ app.post('/reset/:token', function (req, res) {
     });
 });
 
-//userId =req.session.userId
-//masters[userId]["_homepage"].data
+//userID =req.session.userID
+//masters[userID]["_homepage"].data
 //TODO---------------------------------------------------------------------------------
 var masters = [{
     //loader
     isDriver: false,
     isLoggedIn: false,
-    userId: "",
+    userID: "",
     pageCount: 0,
     previousPage: "",
     currentPage: "",
@@ -618,10 +618,10 @@ var masters = [{
 
 app.post('/sendData', function(req, res, next) {
     var pageName = req.body.name;
-    var userId = req.session.userId;
-    if (req.body.version >= masters[userId][pageName].version) {
-        masters[userId][pageName].data = req.body.data;
-        masters[userId][pageName].version = req.body.version + 1;
+    var userID = req.session.userID;
+    if (req.body.version >= masters[userID][pageName].version) {
+        masters[userID][pageName].data = req.body.data;
+        masters[userID][pageName].version = req.body.version + 1;
     }
     res.send(req.body.version + 1);
 
@@ -629,12 +629,12 @@ app.post('/sendData', function(req, res, next) {
 
 app.post('/loadData', function(req, res, next){
     var version = req.body.version;
-    var userId = req.session.userId;
+    var userID = req.session.userID;
     var pageName = req.body.name;
     var object = {};
-    object.data = masters[userId][pageName].data;
-    object.version = masters[userId][pageName].version;
-    if(version <= masters[userId][pageName].version){
+    object.data = masters[userID][pageName].data;
+    object.version = masters[userID][pageName].version;
+    if(version <= masters[userID][pageName].version){
         res.send(object);
     }
 
@@ -646,19 +646,19 @@ app.post('/loadData', function(req, res, next){
 app.post('/changePage', function(req,res){
 
     var newPage   = req.body.newPage;
-    var userId = req.session.userId;
+    var userID = req.session.userID;
     var queue;
  
     if(newPage == "_history") {
         
-        queue = loadTickets(userId);
+        queue = loadTickets(userID);
     }
     else if (newPage == "_yourDelivery"){
-        queue = loadUserTickets(userId);
+        queue = loadUserTickets(userID);
     }
     else if(newPage == "_tickets"){
        
-        queue = loadDeliveredTickets(userId);
+        queue = loadDeliveredTickets(userID);
     }
     else {
         res.send("Query from database fail");
@@ -667,13 +667,13 @@ app.post('/changePage', function(req,res){
     if(queue){
         var pageCount = req.body.pageCount;
         var data = req.body.oldData;
-        if (pageCount > masters[userId].pageCount) {
-            masters[userId].pageCount = pageCount;
-            masters[userId].previousPage = masters[userId].currentPage;
-            masters[userId].currentPage = newPage;
-            masters[userId].currentPageObject.data = data;
-            masters[userId][newPage].data = queue;
-            res.send(masters[userId][newPage].data);
+        if (pageCount > masters[userID].pageCount) {
+            masters[userID].pageCount = pageCount;
+            masters[userID].previousPage = masters[userID].currentPage;
+            masters[userID].currentPage = newPage;
+            masters[userID].currentPageObject.data = data;
+            masters[userID][newPage].data = queue;
+            res.send(masters[userID][newPage].data);
         }
         else
             res.send(null);
@@ -685,24 +685,24 @@ app.post('/changePage', function(req,res){
 app.post('/getTicket', function(req,res){
     var ticketId = req.body.id;
     var store = req.body.store;
-    var userId = req.session.userId;
-  //  masters[userId].ticket = 
+    var userID = req.session.userID;
+  //  masters[userID].ticket =
     
-    var ticket = loadTickets(userId);
-    masters[userId].currentTicket = ticket;
+    var ticket = loadTickets(userID);
+    masters[userID].currentTicket = ticket;
     res.send(ticket.state);
 });
 
 // app.post('/_getQueue', function(req, res){
 //     var request = req.body.getQueue;
-//     var userId = req.session.userId;
+//     var userID = req.session.userID;
 //     var ticketQueue;
 //     if(request) {
-//         masters[userId].isQueue = true;
-//         master[userId]._isUserTicket = false;
-//         masters[userId].isDriverTicket = false;
+//         masters[userID].isQueue = true;
+//         master[userID]._isUserTicket = false;
+//         masters[userID].isDriverTicket = false;
 //         ticketQueue = getQueueFromDB();
-//         masters[userId].ticketqueue = ticketQueue;
+//         masters[userID].ticketqueue = ticketQueue;
 //         res.send("success");
 //     }
 //
@@ -724,15 +724,15 @@ app.post('/getTicket', function(req,res){
 
 app.post('/getUpdates', function (req, res, next) {
     var object = {};
-    var userId = req.session.userId;
-    if (userId) {
-        object.isDriver = masters[userId].isDriver;
-        object.pageCount = masters[userId].pageCount;
-        object.previousPage = masters[userId].previousPage;
-        object.currentPage = masters[userId].currentPage;
-        //object.currentPageObject = masters[userId].currentPageObject;
-        object.version = masters[userId].version;
-        object.data = masters[userId].currentPageObject.data;
+    var userID = req.session.userID;
+    if (userID) {
+        object.isDriver = masters[userID].isDriver;
+        object.pageCount = masters[userID].pageCount;
+        object.previousPage = masters[userID].previousPage;
+        object.currentPage = masters[userID].currentPage;
+        //object.currentPageObject = masters[userID].currentPageObject;
+        object.version = masters[userID].version;
+        object.data = masters[userID].currentPageObject.data;
         res.send(object);
     }
     res.send(null);
@@ -765,21 +765,21 @@ app.post('/getUpdates', function (req, res, next) {
 
 app.post('/_accSetting', function(req, res) {
    // if (!req.session.passport || !res.session.passport.user) {
-    var userId = req.session.userId;
+    var userID = req.session.userID;
     var object = {};
-    if(!req.session.userId){
+    if(!req.session.userID){
         res.status(500);
         res.send({message: 'no user logged in'});
     }
     else {
         // update session
-        masters[userId]["accSetting"].data.full_name = req.body.user.full_name;
-        masters[userId]["accSetting"].data.email = req.body.user.email;
-        masters[userId]["accSetting"].data.phone = req.body.user.phone;
-        masters[userId]["accSetting"].data.address.street = req.body.user.street;
-        masters[userId]["accSetting"].data.address.city = req.body.user.city;
-        masters[userId]["accSetting"].data.address.state = req.body.user.state;
-        masters[userId]["accSetting"].data.address.zip = req.body.user.zip;
+        masters[userID]["accSetting"].data.full_name = req.body.user.full_name;
+        masters[userID]["accSetting"].data.email = req.body.user.email;
+        masters[userID]["accSetting"].data.phone = req.body.user.phone;
+        masters[userID]["accSetting"].data.address.street = req.body.user.street;
+        masters[userID]["accSetting"].data.address.city = req.body.user.city;
+        masters[userID]["accSetting"].data.address.state = req.body.user.state;
+        masters[userID]["accSetting"].data.address.zip = req.body.user.zip;
 
         // Update user document from users collection with the new info
         MongoClient.connect(mongodb_url, function(err, db) {
@@ -811,14 +811,14 @@ app.post('/_accSetting', function(req, res) {
 //     //TODO keep this, this will parse data string to JSON object, list is an array
 //     // var list = JSON.parse(req.body.data).list;
 //
-//     var userId = req.session.userId;
+//     var userID = req.session.userID;
 //
 //     // req.session.list = list;
 //     //
-//     // if (masters[userId].list == null) {
+//     // if (masters[userID].list == null) {
 //     //     console.log('line 517, Creating a new ViewCOntroller for this user');
 //     //             //working = new ViewController(key, list);
-//     //     masters[userId]["_shopping"].data.list = list;
+//     //     masters[userID]["_shopping"].data.list = list;
 //     //
 //     //     }
 //     // else {
@@ -828,13 +828,13 @@ app.post('/_accSetting', function(req, res) {
 //
 //     var object = {};
 //     object.address = {};
-//     object.full_name = masters[userId]["accSetting"].data.full_name;
-//     object.email = masters[userId]["accSetting"].data.email;
-//     object.phone =masters[userId]["accSetting"].data.phone;
-//     object.address.street =masters[userId]["accSetting"].data.address.street;
-//     object.address.city = masters[userId]["accSetting"].data.address.city;
-//     object.address.zip = masters[userId]["_accSetting"].data.address.zip;
-//     object.address.state = masters[userId]["accSetting"].data.address.state;
+//     object.full_name = masters[userID]["accSetting"].data.full_name;
+//     object.email = masters[userID]["accSetting"].data.email;
+//     object.phone =masters[userID]["accSetting"].data.phone;
+//     object.address.street =masters[userID]["accSetting"].data.address.street;
+//     object.address.city = masters[userID]["accSetting"].data.address.city;
+//     object.address.zip = masters[userID]["_accSetting"].data.address.zip;
+//     object.address.state = masters[userID]["accSetting"].data.address.state;
 //     res.send(object);
 //
 //
@@ -862,23 +862,23 @@ app.post('/_tickets', function(req, res) {
 //------------------------------------------------------------checkout---------------------------------------------
 //may be update database in checkout,???
 app.post('/_checkout', function(req,res, next){
-    var userId = req.session.userId;
+    var userID = req.session.userID;
     // if(req.body.notesTime) {
-    //     masters[userId]["_checkout"].data.list_id = req.body.notesTime.id;
-    //     masters[userId]["_checkout"].data.special_options = req.body.notesTime.notes;
-    //     masters[userId]["_checkout"].data.available_time_start = req.body.notesTime.range1;
-    //     masters[userId]["_checkout"].data.available_time_end = req.body.notesTime.range2;
+    //     masters[userID]["_checkout"].data.list_id = req.body.notesTime.id;
+    //     masters[userID]["_checkout"].data.special_options = req.body.notesTime.notes;
+    //     masters[userID]["_checkout"].data.available_time_start = req.body.notesTime.range1;
+    //     masters[userID]["_checkout"].data.available_time_end = req.body.notesTime.range2;
 
 
         // Model for grocery list
         var glist = {
-            _id: masters[userId]["_checkout"].data.list_id,
-            store_name: masters[userId]["_homePage"].data.store_name, // ?????? Need to communicate with geo/trivi for store name session
-            shopping_list: masters[userId]["_shopping"].data.list,
+            _id: masters[userID]["_checkout"].data.list_id,
+            store_name: masters[userID]["_homePage"].data.store_name, // ?????? Need to communicate with geo/trivi for store name session
+            shopping_list: masters[userID]["_shopping"].data.list,
             timestamp: date.toLocaleDateString() + ' ' + date.toLocaleTimeString(),
-            special_options: masters[userId]["_accSetting"].data.special_options,
-            available_time_start: masters[userId]["_accSetting"].data.available_time_start,
-            available_time_end: masters[userId]["_accSetting"].data.available_time_end
+            special_options: masters[userID]["_accSetting"].data.special_options,
+            available_time_start: masters[userID]["_accSetting"].data.available_time_start,
+            available_time_end: masters[userID]["_accSetting"].data.available_time_end
         };
 
         // Check that empty list was not sent
@@ -947,13 +947,13 @@ app.post('_homePage', function(req,res,next){
 //-----------------------------------------------------DRIVER LIST -----------------------------------------
 app.post('/_driverList', function(req, res, next){
     var object = {};
-    var userId = req.session.userId;
+    var userID = req.session.userID;
 
-    if(userId) {
-        object.notes = masters[userId]["_checkout"].data.special_options;
-        object.items = masters[userId]["_"].data.items;   //TODO where is items located?
-        object.name = masters[userId].name;
-        object.contact = masters[userId].phone;
+    if(userID) {
+        object.notes = masters[userID]["_checkout"].data.special_options;
+        object.items = masters[userID]["_"].data.items;   //TODO where is items located?
+        object.name = masters[userID].name;
+        object.contact = masters[userID].phone;
         res.send(object);
 
         //TODO maybe get from database or from session
