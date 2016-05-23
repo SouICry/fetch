@@ -1,7 +1,7 @@
 
 $fetchOrange: #f36100;
 
-* {
+:not(.box, .footerBars) {
   overflow: hidden;
 }
 
@@ -101,6 +101,8 @@ h3 {
     font-weight: bold;
     width: 100%;
     line-height: 2;
+    text-indent: 7%;
+    text-align: left;
   }
 
   .selected{
@@ -115,7 +117,7 @@ h3 {
     //display: inline;
   }
 
-  #list {
+  .list {
     list-style: none;
     background: #fff;
     position: relative;
@@ -133,12 +135,8 @@ h3 {
     padding: 8px;
     background: #fff;
     line-height: 2;
-
-
   }
 
-  #_driver_footerInfo{
-  }
 
   #submit_list, #_driver_submit_list{
     text-align: center;
