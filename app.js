@@ -60,16 +60,16 @@ var userSchema = new mongoose.Schema(
         email: {type: String, required: true, unique: true},
         password: {type: String, required: true},
         phone_number: {type: String, required: true},
-        address: {type: String, required: true, unique: false}
+        address: //{type: String, required: true, unique: false}
         // ^^^^^ TEMPORARY IMPLEMENTATION BY FRONTEND
-        /*
-            THIS SHOULD BE IMPLEMENTED BY FRONT END
+
+            //THIS SHOULD BE IMPLEMENTED BY FRONT END
         {
             street: '',
             city: '',
             state: '',
             zip: ''
-        }*/,
+        },
         // Not currently used
         payment_info: {
             card_holder_name: {type: String, required: false, unique: false},
@@ -124,7 +124,7 @@ var User = mongoose.model('User', userSchema, 'users');
 
 // Connect to db
 mongoose.connect(mongodb_url);
-// ----------------------------------------------------------
+// -------------------------------------------------------------------
 
 
 var ViewController = function (userID, valueF){
@@ -348,15 +348,17 @@ app.post('/_signUp', function(req, res, next) {
         }
         else {
             user.save(function(err) {
-
+                if (err) {
+                    console.log('Could not save user to DB after signup');
+                    res.status(500);
+                }
                 req.login(user, function(err){
                     if (err) {
-                        //return next(err);
                         console.log('login failed: ', err)
                         res.status(500);
                     }
                     else {
-                        req.session.userId = req.body.email; //TODO set userId to something Unique, and consistent
+                        req.session.userId =  ''//TODO set userId to something Unique, and consistent;
                         console.log('login success!');
                     }
                 });
@@ -720,7 +722,19 @@ app.post('/_accSetting', function(req, res) {
         masters[userId]["accSetting"].data.address.state = req.body.user.state;
         masters[userId]["accSetting"].data.address.zip = req.body.user.zip;
 
-        //TODO store into database from masters session, use: master[userId].something
+        // Update user document from users collection with the new info
+        MongoClient.connect(mongodb_url, function(err, db) {
+            if (err) {
+                console.log('Error: ' + err);
+                res.send(err);
+            }
+            else {
+                user = db.collection('users').updateOne({_id: master.userID}, {$push: {tickets: ticket}},
+                    function(err) {
+                        if (err) return err;
+                    });
+            }
+        });
     }
 });
 //TODO ------------------------------------------------------------------------------------------------------------------
@@ -821,18 +835,17 @@ app.post('/_checkout', function(req,res, next){
             res.send({message: 'user is not logged in'});
         }
         else {
-            var updateGroceryListAndQueue = function(db, callback) {
+            var updateGroceryListAndQueue = function(db) {
                 var grocery_list = null;
 
                 // Update user to hold grocery list submitted
-                db.collection('users').update({_id: req.session.passport.user}, {$push: {grocery_list: glist}},
+                grocery_list = db.collection('users').updateOne({_id: req.session.passport.user}, {$push: {grocery_list: glist}},
                     function(err, doc) {
                         if (err) {
                             console.log('error updating user grocery list');
                             res.status(500);
                             res.send(err);
                         }
-                        grocery_list = doc;
                     }
                 );
 
@@ -854,13 +867,10 @@ app.post('/_checkout', function(req,res, next){
                     res.send(err);
                 }
                 else {
-                    updateGroceryListAndQueue(db, function() {
-                        db.close();
-                    });
+                    updateGroceryListAndQueue(db);
                 }
             });
         }
-
         res.send("Successful");
 
     }
@@ -895,14 +905,18 @@ app.post('/_driverList', function(req, res, next){
 
 
 //--------------------------DRIVER LIST 2---------------------
-app.post('/_DriverList2', function(req, res, next){});
+app.post('/_DriverList2', function(req, res, next){
+
+});
 
 
 
 
 
 //----------------------------HISTORY----------------------
-app.post('/_history', function(req, res, next){});
+app.post('/_history', function(req, res, next){
+
+});
 
 
 
