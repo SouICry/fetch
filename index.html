@@ -11,7 +11,7 @@
     <!--<link rel="stylesheet"-->
     <!--href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/4.0.1/bootstrap-material-design.min.css">css-->
     <link rel="stylesheet" href="/css/style.css">
-
+    <script src="js/underscore.js"></script>
     <script src="js/loader.js"></script>
 </head>
 <body style="overflow: hidden; position: relative;">
@@ -33,11 +33,7 @@
 </div>
 
 <div id="page-content" style="overflow-x: visible">
-    <div id="abovePages" class=""></div>
-    <div id="createTicket" class=""></div>
-    <!--<div id="acceptTicket" class=""></div>-->
-    <div id="confirmTicket" class=""></div>
-    <div id="driverFlow" class=""></div>
+
 </div>
 
 <div id="menu-drawer" class="cd-panel from-right" style="z-index: 3000">
@@ -50,115 +46,43 @@
             <div id="Butt">
 
             </div>
-        </div> <!-- cd-panel-content -->
-    </div> <!-- cd-panel-container -->
-</div> <!-- cd-panel -->
-
+        </div>
+    </div>
+</div>
+<script src="js/pages.js">
+</script>
 
 <script>
-
-
-    function next() {
-        var item = $('#' + loader.currentPage);
-        var parent = $(item).data('parent');
-        var pos = $(item).data('pos');
-        if (pos < allPages[parent].length - 1) {
-            goToPage(allPages[parent][pos + 1]);
-        }
-    }
-
-    function previous() {
-        var item = $('#' + loader.currentPage);
-        var parent = $(item).data('parent');
-        var pos = $(item).data('pos');
-        if (pos > 0) {
-            goToPage(allPages[parent][pos - 1]);
-        }
-    }
-
-    function goToPreviousPage() {
-        goToPage(loader.previousPage);
-    }
-
-
-    function goToPage(id) {
-
-        loader.goToPage(id);
-        //loader.setCurrentPage(id);
-    }
-
-    window.onhashchange = function () {
-        goToPage(window.location.hash.substring(1));
-    };
-
-    function loadPage(pageName, element, index, vindex) {
-        $.ajax({
-            type: "POST",
-            url: "/loadPage",
-            data: {name: pageName},
-            async: false,
-            success: function (data) {
-                $(element).append("<div id='" + pageName + "' data-ownId='" + pageName + "' " +
-                        "data-pos='" + index + "' data-vpos='" + vindex + "' " +
-                        "data-parent='" + element.substring(1) + "'>" + data + "</div>");
+    function goToPage(id, noPrevious) {
+        if (id.length) {
+            if (arguments.length > 1) {
+                //loader.setCurrentPage(id, true);
             }
-        });
+            else {
+                //loader.setCurrentPage(id, false);
+            }
+            loader.goToPage(id);
+            /*Temporary*/
+        }
     }
-
-
-    var allSections = ['abovePages', 'createTicket', /*'acceptTicket',*/ 'confirmTicket', 'driverFlow'];
-
-    var all = ["_accSetting", "_contact", "_history", "_passwordRecovery", "_homePage", "_shopping", "_checkout", "_login",
-        "_rating", "_passwordReset", "_signUp", "_tickets", "_driverList2", '_congrats', "_yourDeliveries"];
-
-    var allGlyphs = ["glyphicon glyphicon-cog", "", "", "glyphicon glyphicon-wrench", "glyphicon glyphicon-home",
-        "", "glyphicon glyphicon-check", "glyphicon glyphicon-log-in", "glyphicon glyphicon-signal",
-        "glyphicon glyphicon-repeat",
-        "glyphicon glyphicon-plus-sign", "", "", ""];
-
-    var pageNames = ["Setting", "Contact", "History", "Password Recovery", "Home", "Shopping", "Checkout", "Login",
-        "Rating", "Password Reset", "Sign Up", "Tickets", "Driver List", 'Congrats', "Your Deliveries"];
-
-    var allPages = {
-        abovePages: ["_accSetting", "_contact", "_history", "_passwordRecovery" /*,"_passwordReset" ",_signUp", "_login"*/],
-        createTicket: ["_homePage", "_shopping", "_checkout", "_login"/*, "_submitted"*/],
-        /*acceptTicket: ['_acceptTicket', '_paid'],*/
-        /*acceptTicket: ['_cancelTicket','_cancelled'],*/
-        confirmTicket: [/*'_confirmTicket',*/ "_rating", /*'_ticketClosed',*/"_passwordReset", "_signUp"],
-        driverFlow: ['_tickets', '_driverList2', /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats']
-    };
-
-    loadPage("_driverTickets", '#driverTickets');
-    loadPage("_userTickets", '#userTickets');
-
-
+    function goToPreviousPage() {
+        goToPage(loader.previousPage, true);
+    }
     /*
      TODO:
      Each page MUST specify function to send/received data, or null
-
      Each page will call goToPage onclick to go to the correct page
-
-
-
      */
-
-
-    //Backend loads/stores ticket into page objects:
-    function loadTicket() {
-
-    }
-    function saveTicket() {
-
-    }
     var ticketPrototype = {
         ticket: {
             id: "",
-            state: "",
+            state: "", //pending, accepted, shopped, delivered, cancelled
             store: "",
             user: {
                 id: "",
                 contact: "",
-                rating: ""
+                rating: "",
+                address: ""
             },
             driver: {
                 id: "",
@@ -169,8 +93,6 @@
             checkoff: []
         }
     };
-
-
     var loader = {
         isDriver: false,
         isLoggedIn: false,
@@ -184,11 +106,16 @@
             data: null
         },
         goToPage(id){
-            var item = $('#' + id);
-            $("#page-content").css('transform',
-                    'translate(-' + $(item).data("pos") * 100 + '%, -' + $(item).data("vpos") * 100 + '%)')
+            //Only move if given a string with an actual value
+            if (id.length) {
+                var item = $('#' + id);
+                if (item) {
+                    $("#page-content").css('transform',
+                            'translate(-' + $(item).data("x") * 100 + '%, -' + $(item).data("y") * 100 + '%)')
+                }
+            }
         },
-        setCurrentPage: function (page) {
+        setCurrentPage: function (page, noPrevious) {
             loader.pageCount++;
             var oldPage = loader.currentPage;
             loader.currentPage = page;
@@ -198,95 +125,88 @@
             else {
                 loader.currentPageObject.data = null;
             }
-
             $.post("/changePage", {
-                data: {
-                    pageCount: loader.pageCount,
-                    newPage: page,
-                    oldPage: oldPage,
-                    oldData: loader.currentPageObject.data
-                }
+                pageCount: loader.pageCount,
+                newPage: page,
+                oldPage: oldPage,
+                oldData: loader.currentPageObject.data
             }, function (newPageData) {
                 loader.goToPage(page);
-                loader.previousPage = oldPage;
+                if (noPrevious) {
+                    loader.previousPage = "";
+                }
+                else {
+                    loader.previousPage = oldPage;
+                }
                 loader.currentPageObject = loader[page];
                 if (loader.currentPageObject.loadData != null) {
                     loader.currentPageObject.loadData(newPageData);
                 }
             });
         },
-
         //Saves current active ticket (if any), then fetches new one and loads page data corresponding to ticket status in back end store
-        getTicket: function (ticketId, state, store) {
-            if (arguments.length < 3) {
-                store = null;
-            }
-            if (state != "accepted" || loader.isDriver) {
-                $.post("/getTicket", {
-                    data: {
-                        id: ticketId,
-                        store: store
+        getTicket: function (ticketId) {
+            $.post("/getTicket", {
+                id: ticketId
+            }, function (state) {
+                if (loader.isDriver) {
+                    switch (state) {
+                        case "accepted" :
+                            goToPage("_driverList");
+                            break;
+                        case "shopped":
+                            goToPage("_completeTicket");
+                            break;
+                        case "delivered" :
+                            goToPage("_delivered");
                     }
-                }, function () {
-                    if (loader.isDriver) {
-                        switch (state) {
-                            case "accepted" :
-                                goToPage("_driverList");
-                                break;
-                            case "shopped":
-                                goToPage("_completeTicket");
-                                break;
-                            case "" :
-                        }
+                }
+                else {
+                    switch (state) {
+                        case "draft" :
+                            goToPage("_shopping");
+                            break;
+                        case "pending":
+                            goToPage("_cancelTicket");
+                            break;
+                        case "shopped":
+                            goToPage("_acceptTicket");
+                            break;
                     }
-                    else {
-                        switch (state) {
-                            case "draft" :
-                                goToPage("_shopping");
-                                break;
-                            case "pending":
-                                goToPage("_cancelTicket");
-                                break;
-                            case "shopped":
-                                goToPage("_acceptTicket");
-                                break;
-                        }
-                    }
-                });
-            }
-        },
-        currentPageChanged: function () {
-            //Submit data
-            //Throttle.
+                }
+            });
         },
         sendData: function () { //Gets data from page and sends to server for update. Server will send back version num
             if (loader.currentPageObject.getData != null) {
                 loader.currentPageObject.data = loader.currentPageObject.getData();
                 $.post("/sendData", {
-                    data: {
-                        page: loader.currentPage,
-                        data: loader.currentPageObject.data
-                    }
+                    name: loader.currentPage,
+                    data: loader.currentPageObject.data,
+                    version: loader.currentPageObject.version
                 }, function (resp) {
                     if (loader.currentPageObject.version < resp) {
                         loader.currentPageObject.version = resp;
                     }
                 });
             }
-        },
+        }
+        ,
         loadData: function () { //Gets data from server to load page with
             if (loader.currentPageObject.loadData != null) {
                 $.post("/loadData" + loader.currentPage, {
-                    data: loader.currentPageObject.version
+                    name: loader.currentPage,
+                    version: loader.currentPageObject.version
                 }, function (resp) {
-                    if (data != null) {
+                    if (resp != "none") {
                         loader.currentPageObject.data = resp.data;
                         loader.currentPageObject.version = resp.version;
                         loader.currentPageObject.loadData();
                     }
                 });
             }
-        },
+        }
+        ,
+        currentPageChanged: null,
         //set to run every second elsewhere
         getUpdates: function () {
             $.post("/getUpdates", {
@@ -295,49 +215,87 @@
                     page: loader.currentPage
                 }
             }, function (resp) {
-                if (resp.i)
-
-
+                //Logout if now is logged out
+                if (resp.isLoggedIn != loader.isLoggedIn) {
+                    if (!resp.isLoggedIn) {
+                        loader.logout();
+                        return;
+                    }
+                }
+                //Driver change, trigger driver change
+                if (resp.isDriver != loader.isDriver) {
+                    if (resp.isDriver) {
+                        loader.switchToDriver();
+                        return;
+                    }
+                    else {
+                        loader.switchToShopper();
+                        return;
+                    }
+                }
                 //Change page if page is newer
-                    if (resp.pageCount > loader.pageCount) {
-                        loader.previousPage = resp.previousPage;
-                        loader.currentPage = resp.currentPage;
-                        loader.currentPageObject = loader[resp.currentPage];
-                        loader.currentPageObject.version = resp.version;
+                if (resp.pageCount > loader.pageCount) {
+                    loader.previousPage = resp.previousPage;
+                    loader.currentPage = resp.currentPage;
+                    loader.currentPageObject = loader[resp.currentPage];
+                    loader.currentPageObject.version = resp.version;
+                    if (loader.currentPageObject.loadData != null) {
+                        loader.currentPageObject.loadData(resp.data);
+                    }
+                    loader.goToPage(loader.currentPage);
+                }
+                //Update page if on same page and new version
+                else if (resp.pageCount == loader.pageCount) {
+                    if (resp.version > loader.currentPageObject.version) {
                         if (loader.currentPageObject.loadData != null) {
                             loader.currentPageObject.loadData(resp.data);
                         }
                     }
-                    //Update page if on same page and new version
-                    else if (resp.pageCount == loader.pageCount) {
-                        if (resp.version > loader.currentPageObject.version) {
-                            if (loader.currentPageObject.loadData != null) {
-                                loader.currentPageObject.loadData(resp.data);
-                            }
-                        }
-                    }
-                    else {
-                        //do nothing since this local copy is newer
-                    }
-
+                }
+                else {
+                    //do nothing since this local copy is newer
+                }
             });
         },
-
-        login: function () {
-            //TODO:
-        },
+        login: function (data) { //Called after successful login, passing the returned data
+            document.cookie = "user=" + data.userId + ";expires=" + new Date().setUTCFullYear(2345).toUTCString();
+            loader.userId = data.userId;
+            //If already logged in, Simply reload page to use init to get the data
+            if (data.isLoggedIn) {
+                window.location.reload();
+            }
+            //Otherwise keep as is and go back
+            else {
+                goToPreviousPage();
+            }
+        }
+        ,
         logout: function () {
-            //TODO: delete cookie and refresh page
-        },
+            document.cookie = "user=" + data.userId + ";expires=" + new Date(0).toUTCString();
+            $.post("/logout", {}, function () {
+            });
+            window.location.reload();
+        }
+        ,
         switchToDriver: function () {
-
-        },
+            loader.isDriver = true;
+            $.post("/switchRole", {
+                isDriver: true
+            });
+            //UI changes for menu bar
+            goToPage("_yourDeliveries", true);
+        }
+        ,
         switchToShopper: function () {
-
+            loader.isDriver = false;
+            $.post("/switchRole", {
+                isDriver: false
+            });
+            //UI changes for menu bar
+            goToPage("_history", true);
         }
     };
-
-
+    loader.currentPageChanged = _.throttle(loader.sendData, 500, {trailing: false});
     /*
      Each page that needs like sync (edit ticket pages and stateless pages) has:
      data:
@@ -346,12 +304,14 @@
      loadData: loads data package
      Otherwise it is a missing property; the other pages load data through their own ajax(?)
      */
-
     function pageInit() {
-
-        //TODO: check for coookie to see if logged in
-        var id;
-
+        if (document.cookie.length > 5) {
+            var user = document.cookie;
+            loader.userId = user.split(";")[0].substring(5);
+        }
+        else {
+            loader.userId = "";
+        }
         $.ajax({
             type: "POST",
             url: "/init",
@@ -359,54 +319,50 @@
                 userId: loader.userId //"" or valid user id string
             },
             success: function (resp) {
-                //If has existing session, load it!
-                if (resp != "none") {
+                if (resp.isLoggedIn) {
                     loader.isDriver = resp.isDriver;
                     loader.userId = resp.userId;
                     loader.pageCount = resp.pageCount;
                     loader.previousPage = resp.previousPage;
                     loader.currentPage = resp.currentPage;
                     loader.currentPageObject = loader[resp.currentPage];
-
                     loader.currentPageObject.version = resp.version;
                     if (loader.currentPageObject.loadData != null) {
                         loader.currentPageObject.loadData(resp.data);
                     }
-
                     loader.goToPage(resp.currentPage);
                 }
-
-                window.setInterval(loader.getUpdates, 1000);
+                else {
+                    loader.userId = resp.userId;
+                }
+                window.setInterval(loader.getUpdates, 500);
             }
         });
     }
-
-//    $(document).ready(function () {
-//        pageInit();
-//        var i;
-//        var whichid;
-//        var glyph;
-//        var name;
-//        for (var j = 0; j < allSections.length; j++) {
-//            var sectionName = allSections[j];
-//            var section = allPages[sectionName];
-//            for (i = 0; i < section.length; i++) {
-//                whichid = section[i];
-//                for (var k = 0; k < all.length; k++) {
-//                    if (whichid == all[k]) {
-//                        glyph = allGlyphs[k];
-//                        name = pageNames[k];
-//                        break;
-//                    }
-//                }
-//                loadPage(whichid, '#' + sectionName, i, j);
-//                var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
-//                $("#Butt").append("<div " + clickVal + " > <span class= '" + glyph + "'></span> " + name + "   </div>");
-//            }
-//        }
-//    });
-
-
+    function loadPage(pageName, row, column) {
+        $.ajax({
+            type: "POST",
+            url: "/loadPage",
+            data: {name: pageName},
+            async: false,
+            success: function (data) {
+                $('#section-' + row).append("<div id='" + pageName +
+                        "' data-x='" + column + "' data-y='" + row + "'>" + data + "</div>");
+            }
+        });
+    }
+    $(document).ready(function () {
+        pageInit();
+        for (var j = 0; j < allPages.length; j++) {
+            $('#page-content').append('<div id="section-' + j + '"></div>');
+            for (var i = 0; i < allPages[j].length; i++) {
+                var whichid = allPages[j][i];
+                loadPage(whichid, j, i);
+                var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
+                $("#Butt").append("<div " + clickVal + " >" + whichid + "</div>");
+            }
+        }
+    });
     jQuery(document).ready(function ($) {
         $('#open-menu-drawer').on('click', function (event) {
             $('#menu-drawer').addClass('is-visible');
@@ -422,4 +378,3 @@
 
 </body>
 </html>
-
