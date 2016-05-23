@@ -646,11 +646,13 @@ app.post('/changePage', function (req, res) {
     }
 
     function callback(req, res) {
-
+        var userId = req.session.userId;
         var pageCount = req.body.pageCount;
         var data = req.body.oldData;
+        console.log(userId);
         if (pageCount > masters[userId].pageCount) {
             var currentPage = masters[userId].currentPage;
+            console.log(currentPage);
             masters[userId][currentPage].data = data;
             masters[userId].pageCount = pageCount;
             masters[userId].previousPage = currentPage;
@@ -737,14 +739,16 @@ app.post('/init', function (req, res) {
 
         var id = new Date().getMilliseconds();
         req.session.userId = id;
+        console.log(id);
+        console.log(req.session.userId);
         var masterInit = {
             //loader
             isDriver: false,
             isLoggedIn: false,
-            userId: "",
+            userId: id,
             pageCount: 0,
-            previousPage: "",
-            currentPage: "",
+            previousPage: "_homePage",
+            currentPage: "_homePage",
             currentPageObject: {
                 getData: null,
                 loadData: null,

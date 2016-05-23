@@ -133,6 +133,8 @@
                 oldPage: oldPage,
                 oldData: loader.currentPageObject.data
             }, function (newPageData) {
+                alert(newPageData);
+                console.log(newPageData);
                 loader.goToPage(page);
                 if (noPrevious) {
                     loader.previousPage = "";
