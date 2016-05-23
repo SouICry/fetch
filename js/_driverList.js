@@ -28,6 +28,7 @@ function _driverList_load() {
             },
             error: function (data) {
                 //data is the object send back on fail (could also just be string)
+                alert("Fail!")
             }
         });
     }
@@ -89,6 +90,7 @@ function _driverList_load() {
     }
 }
 
-_driverList_load();/**
+_driverList_load();
+/**
  * Created by juneruijiang on 5/17/16.
  */
