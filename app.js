@@ -360,7 +360,7 @@ app.post('/_signUp', function(req, res, next) {
                     }
                     else {
                         req.session.userID =  ''//TODO set userID to something Unique, and consistent;
-                        req.session.userId = req.body.email; //TODO set userId to something Unique, and consistent
+                        req.session.userID = req.body.email; //TODO set userId to something Unique, and consistent
                         console.log('login success!');
                     }
                 });
@@ -389,16 +389,16 @@ app.post('/_login', function(req, res, next) {
             });
 
             //req.session.userID = req.body.email; //TODO set userID once login
-            var passportUserId = req.session.passport.user;
-            var tempUserId = req.session.userID;
-            if(!masters[passportUserId]) {
-                masters[passportUserId] = masters[tempUserId];
-                masters[passportUserId].userID = passportUserId;
-                masters[tempUserId] = null;
-                req.session.userID = passportUserId;
+            var passportUserID = req.session.passport.user;
+            var tempUserID = req.session.userID;
+            if(!masters[passportUserID]) {
+                masters[passportUserID] = masters[tempUserID];
+                masters[passportUserID].userID = passportUserID;
+                masters[tempUserID] = null;
+                req.session.userID = passportUserID;
             }
 
-            req.session.userId = req.body.email; //TODO set userId once login
+            req.session.userID = req.body.email; //TODO set userId once login
             console.log('successful login');
             // If everything was successful, send user back to frontend
             res.send(user);
@@ -544,7 +544,7 @@ app.post('/reset/:token', function (req, res) {
 var defaultO = {
     isDriver: false,
     isLoggedIn: false,
-    userId: "",
+    userID: "",
     pageCount: 0,
     previousPage: "",
     currentPage: "",
@@ -804,7 +804,7 @@ app.post('/getUpdates', function (req, res, next) {
 
 
 app.post('/init', function(req, res){
-    var userId = req.body.userId;
+    var userID = req.body.userID;
     var driverFlag = req.body.isDriver;
     //TODO: Query Database for user's existence here
     var userOnDB = false;
@@ -813,20 +813,20 @@ app.post('/init', function(req, res){
 
 
     //If user is on DB and non-empty...
-    if(userOnDB && userId != ""){
+    if(userOnDB && userID != ""){
         //TODO: Retrieve from DB
-        res.send(userId);
+        res.send(userID);
     }
     else{
         var d = new Date();
-        var tempUserId = d.getMilliseconds();
+        var tempUserID = d.getMilliseconds();
         var object = defaultO;
         object.isDriver = driverFlag;
-        object.userId = tempUserId;
+        object.userID = tempUserID;
 
 
-        masters[tempUserId] = object;
-        console.log(masters[tempUserId]["_accSetting"]);
+        masters[tempUserID] = object;
+        console.log(masters[tempUserID]["_accSetting"]);
         res.send(object);
     }
 });
@@ -856,13 +856,13 @@ app.post('/_accSetting', function(req, res) {
     }
     else {
         // update session
-        masters[userId]["_accSetting"].data.full_name = req.body.user.full_name;
-        masters[userId]["_accSetting"].data.email = req.body.user.email;
-        masters[userId]["_accSetting"].data.phone = req.body.user.phone;
-        masters[userId]["_accSetting"].data.address.street = req.body.user.street;
-        masters[userId]["_accSetting"].data.address.city = req.body.user.city;
-        masters[userId]["_accSetting"].data.address.state = req.body.user.state;
-        masters[userId]["_accSetting"].data.address.zip = req.body.user.zip;
+        masters[userID]["_accSetting"].data.full_name = req.body.user.full_name;
+        masters[userID]["_accSetting"].data.email = req.body.user.email;
+        masters[userID]["_accSetting"].data.phone = req.body.user.phone;
+        masters[userID]["_accSetting"].data.address.street = req.body.user.street;
+        masters[userID]["_accSetting"].data.address.city = req.body.user.city;
+        masters[userID]["_accSetting"].data.address.state = req.body.user.state;
+        masters[userID]["_accSetting"].data.address.zip = req.body.user.zip;
         
         // Update user document from users collection with the new info
         MongoClient.connect(mongodb_url, function(err, db) {
