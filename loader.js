@@ -84,14 +84,14 @@ function createTicket(userID) {
 }
 
 
-
-
-
-function loadTickets(userID) {
-    return loadUser(userID).tickets;
+// Gets the
+function loadUsersTickets(userID) {
+    return loadUser(userID).user_history;
 }
 
-
+function loadDeliveredTickets(userID) {
+    return loadUser(userID).delivery_history;
+}
 
 function saveTicket(ticket) {
     if (!ticket) {
@@ -106,7 +106,7 @@ function saveTicket(ticket) {
             return null;
         }
         else {
-            user = db.collection('users').update({_id: master.userID}, {$push: {tickets: ticket}},
+            user = db.collection('users').updateOne({_id: master.userID}, {$push: {tickets: ticket}},
                 function(err) {
                     if (err) return null;
             });
@@ -115,8 +115,6 @@ function saveTicket(ticket) {
     });
     return null;
 }
-
-
 
 
 // Loads a user from the database and stores to master session
@@ -160,10 +158,11 @@ function loadUser(userID) {
                 }
             };
             console.log('Successfully loaded user to master session!');
+            return user;
         }
     });
 
-    return user;
+    return null;
 }
 
 function getQueueFromDB() {
@@ -182,7 +181,6 @@ function getQueueFromDB() {
 
     return null;
 }
-
 
 
 function addToQueue(ticket) {
@@ -208,7 +206,7 @@ function addToQueue(ticket) {
 
 
 
-function removeFromQueue(ticketId) {
+function removeFromQueue(ticketId, cb) {
     if (!ticketId) {
         console.log('null ticketID passed into removeFromQueue');
         return false;
@@ -230,6 +228,6 @@ function removeFromQueue(ticketId) {
             });
         }
     });
-    
+
     return false;
 }
