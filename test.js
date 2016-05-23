@@ -36,7 +36,7 @@ app.post('/loadPage', function (req, res) {
         res.send("");
     }
 });
-var masters = {};
+var masters = [[{}]];
 var pages = {};
 app.post('/sendData', function(req, res, next) {
     var pageName = req.body.name;
@@ -46,11 +46,6 @@ app.post('/sendData', function(req, res, next) {
         masters[userId][pageName].version = req.body.version + 1;
     }
     res.send(req.body.version + 1);
-
-    
-    
-    
-    
     //
     // if (req.sessions.pages == null){
     //     var pageData = [];
@@ -159,6 +154,7 @@ app.post('/init', function(req,res, next){
     var userId = req.body.userId;
     var object = {};
     if(userId){
+        //TODO what to do over here
         
     }
 });
