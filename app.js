@@ -606,7 +606,8 @@ app.post('/sendData', function (req, res, next) {
         masters[userId][pageName].data = req.body.data;
         masters[userId][pageName].version = req.body.version + 1;
     }
-    res.send(req.body.version + 1);
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(req.body.version + 1));
 
 });
 
@@ -618,10 +619,12 @@ app.post('/loadData', function (req, res, next) {
     object.data = masters[userId][pageName].data;
     object.version = masters[userId][pageName].version;
     if (version <= masters[userId][pageName].version) {
-        res.send(object);
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(object));
     }
 
-    res.send(null);
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(""));
 
 });
 
@@ -631,7 +634,7 @@ app.post('/changePage', function (req, res) {
     var newPage = req.body.newPage;
     var userId = req.session.userId;
     var queue = {};
-
+    console.log("1");
     if (newPage == "_history") {
         loadUserTickets(userId, callback, req, res);
     }
@@ -642,15 +645,20 @@ app.post('/changePage', function (req, res) {
         loadQueue(userId, callback, req, res);
     }
     else {
+        console.log("a");
         callback(req, res);
     }
 
-    function callback(req, res) {
-        var userId = req.session.userId;
-        var pageCount = req.body.pageCount;
-        var data = req.body.oldData;
-        console.log(userId);
+    function callback(req1, res1) {
+        console.log("b");
+        var userId = req1.session.userId;
+        var pageCount = req1.body.pageCount;
+        var data = req1.body.oldData;
+        console.log("id: " + userId);
+        console.log(data);
+        console.log("c");
         if (pageCount > masters[userId].pageCount) {
+            
             var currentPage = masters[userId].currentPage;
             console.log(currentPage);
             masters[userId][currentPage].data = data;
@@ -658,28 +666,51 @@ app.post('/changePage', function (req, res) {
             masters[userId].previousPage = currentPage;
             masters[userId].currentPage = newPage;
         }
+        console.log("d");
 
-        res.send(masters[userId][newPage].data);
+
+        res1.setHeader('Content-Type', 'application/json');
+        res1.send(JSON.stringify(masters[userId][newPage].data));
+        console.log("e");
     }
 
 });
 
 //----------------------------------getTicket--------------------------------------------------------------------------
 app.post('/getTicket', function (req, res) {
+
     var ticketId = req.body.id;
     var store = req.body.store;
     var userId = req.session.userId;
-    //  masters[userId].ticket =
+    var user;
 
-    var ticket = loadTickets(userId);
-    masters[userId].currentTicket = ticket;
-    res.send(ticket.state);
+    MongoClient.connect(mongodb_url, function(err, db) {
+        if (err) {
+            console.log('Error: get ticket. ' + err);
+            res.send(err);
+        }
+        else {
+            user = db.collection('grocery_queue').findOne({_id: ticketId}, function(err) {
+                if (err){
+                    res.send(err);
+                }
+            });
+
+        }
+    });
+    if(user) {
+        masters[userId]["_driverList"].data = user;
+
+    }
+
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(user.state));
 });
 
 // app.post('/_getQueue', function(req, res){
 //     var request = req.body.getQueue;
 //     var userId = req.session.userId;
-//     var ticketQueue;
+//     var ticketQ
 //     if(request) {
 //         masters[userId].isQueue = true;
 //         master[userId]._isUserTicket = false;
