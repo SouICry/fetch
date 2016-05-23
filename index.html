@@ -44,7 +44,9 @@
         </header>
         <div class="cd-panel-content">
             <div id="Butt">
-
+                <div class="toggle-button">
+                    <button></button>
+                </div>
             </div>
         </div>
     </div>
@@ -56,12 +58,12 @@
     function goToPage(id, noPrevious) {
         if (id.length) {
             if (arguments.length > 1) {
-                //loader.setCurrentPage(id, true);
+                loader.setCurrentPage(id, true);
             }
             else {
-                //loader.setCurrentPage(id, false);
+                loader.setCurrentPage(id, false);
             }
-            loader.goToPage(id);
+            //loader.goToPage(id);
             /*Temporary*/
         }
     }
@@ -98,8 +100,8 @@
         isLoggedIn: false,
         userId: "",
         pageCount: 0,
-        previousPage: "",
-        currentPage: "",
+        previousPage: "_homePage",
+        currentPage: "_homePage",
         currentPageObject: {
             getData: null,
             loadData: null,
@@ -312,6 +314,7 @@
         else {
             loader.userId = "";
         }
+        alert();
         $.ajax({
             type: "POST",
             url: "/init",
@@ -319,6 +322,7 @@
                 userId: loader.userId //"" or valid user id string
             },
             success: function (resp) {
+                console.log(resp);
                 if (resp.isLoggedIn) {
                     loader.isDriver = resp.isDriver;
                     loader.userId = resp.userId;
@@ -335,7 +339,7 @@
                 else {
                     loader.userId = resp.userId;
                 }
-                window.setInterval(loader.getUpdates, 500);
+                //window.setInterval(loader.getUpdates, 500);
             }
         });
     }
