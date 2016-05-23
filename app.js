@@ -863,14 +863,7 @@ app.post('/_accSetting', function(req, res) {
         masters[userId]["_accSetting"].data.address.city = req.body.user.city;
         masters[userId]["_accSetting"].data.address.state = req.body.user.state;
         masters[userId]["_accSetting"].data.address.zip = req.body.user.zip;
-        masters[userID]["accSetting"].data.full_name = req.body.user.full_name;
-        masters[userID]["accSetting"].data.email = req.body.user.email;
-        masters[userID]["accSetting"].data.phone = req.body.user.phone;
-        masters[userID]["accSetting"].data.address.street = req.body.user.street;
-        masters[userID]["accSetting"].data.address.city = req.body.user.city;
-        masters[userID]["accSetting"].data.address.state = req.body.user.state;
-        masters[userID]["accSetting"].data.address.zip = req.body.user.zip;
-
+        
         // Update user document from users collection with the new info
         MongoClient.connect(mongodb_url, function(err, db) {
             if (err) {
