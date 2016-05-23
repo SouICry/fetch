@@ -58,12 +58,12 @@
     function goToPage(id, noPrevious) {
         if (id.length) {
             if (arguments.length > 1) {
-                loader.setCurrentPage(id, true);
+                //loader.setCurrentPage(id, true);
             }
             else {
-                loader.setCurrentPage(id, false);
+                //loader.setCurrentPage(id, false);
             }
-            //loader.goToPage(id);
+            loader.goToPage(id);
             /*Temporary*/
         }
     }
