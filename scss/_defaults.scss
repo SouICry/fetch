@@ -5,6 +5,8 @@ $fetchOrange: #f36100;
   overflow: hidden;
 }
 
+
+
 body, html {
   background-color: #ffffff;
   overflow: visible;
@@ -72,14 +74,24 @@ h3 {
   padding:0;
   margin: auto;
   text-align: center;
-  width: 80%;
+  @media screen and(max-width:500px){
+    width:95%;
+  }
+  @media screen and(min-width:500px){
+    width: 80%;
+  }
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
   0 25px 50px 0 rgba(0, 0, 0, 0.1);
 
 
   .input {
     position: relative;
-    font-size: 24px;
+    @media screen and (max-width: 500px){
+      font-size: 17px;
+    }
+    @media screen and (min-width:500px){
+      font-size: 24px;
+    }
     //font-family: inherit;
     //font-weight: inherit;
     outline: none;
@@ -95,6 +107,12 @@ h3 {
 
 
   .item ,.driverItem{
+    @media screen and(max-width:500px){
+      font-size: 1em;
+    }
+    @media screen and(min-width:500px){
+      font-size: 2em;
+    }
     position: relative;
     font-size: 24px;
     border-top: 1px solid #ededed;
@@ -138,14 +156,13 @@ h3 {
   }
 
 
-  #submit_list, #_driver_submit_list{
+  #submit_list, #_driver_submit_list {
     text-align: center;
     width: 33%;
     color: $fetchOrange;
     border:0;
     outline:none;
     text-decoration: none;
-    border:solid 1px;
   }
 
 }
@@ -156,7 +173,13 @@ h3 {
     0 25px 50px 0 rgba(0, 0, 0, 0.1);
     margin-left: auto;
     margin-right: auto;
-    width: 79%;
+    @media screen and(max-width:500px){
+      width: 93%;
+    }
+    @media screen and(min-width:500px){
+      font-size: 2em;
+      width: 79%;
+    }
     text-align: left;
     border: 1px solid #ededed;
     padding: 4px;
@@ -168,7 +191,12 @@ h3 {
     0 25px 50px 0 rgba(0, 0, 0, 0.1);
     margin-left: auto;
     margin-right: auto;
-    width: 78%;
+    @media screen and(max-width:500px){
+      width: 91%;
+    }
+    @media screen and(min-width:500px){
+      width: 78%;
+    }
     text-align: left;
     border: 1px solid #ededed;
     padding: 3px;

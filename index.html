@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="/css/normalize.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <!--<link rel="stylesheet" href="/css/normalize.css">-->
     <!--<link rel="stylesheet"-->
     <!--href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/4.0.1/bootstrap-material-design.min.css">css-->
     <link rel="stylesheet" href="/css/style.css">
@@ -50,7 +50,6 @@
     </div>
 </div>
 <script src="js/pages.js">
-
 </script>
 
 <script>
@@ -69,31 +68,11 @@
     function goToPreviousPage() {
         goToPage(loader.previousPage, true);
     }
-
-
-    function loadPage(pageName, row, column) {
-        $.ajax({
-            type: "POST",
-            url: "/loadPage",
-            data: {name: pageName},
-            async: false,
-            success: function (data) {
-                $('#section-' + row).append("<div id='" + pageName +
-                        "' data-x='" + column + "' data-y='" + row + "'>" + data + "</div>");
-            }
-        });
-    }
-
-
-
-
     /*
      TODO:
      Each page MUST specify function to send/received data, or null
-
      Each page will call goToPage onclick to go to the correct page
      */
-
     var ticketPrototype = {
         ticket: {
             id: "",
@@ -114,8 +93,6 @@
             checkoff: []
         }
     };
-
-
     var loader = {
         isDriver: false,
         isLoggedIn: false,
@@ -137,7 +114,6 @@
                             'translate(-' + $(item).data("x") * 100 + '%, -' + $(item).data("y") * 100 + '%)')
                 }
             }
-
         },
         setCurrentPage: function (page, noPrevious) {
             loader.pageCount++;
@@ -149,14 +125,11 @@
             else {
                 loader.currentPageObject.data = null;
             }
-
             $.post("/changePage", {
-
                 pageCount: loader.pageCount,
                 newPage: page,
                 oldPage: oldPage,
                 oldData: loader.currentPageObject.data
-
             }, function (newPageData) {
                 loader.goToPage(page);
                 if (noPrevious) {
@@ -171,7 +144,6 @@
                 }
             });
         },
-
         //Saves current active ticket (if any), then fetches new one and loads page data corresponding to ticket status in back end store
         getTicket: function (ticketId) {
             $.post("/getTicket", {
@@ -203,9 +175,7 @@
                     }
                 }
             });
-
         },
-
         sendData: function () { //Gets data from page and sends to server for update. Server will send back version num
             if (loader.currentPageObject.getData != null) {
                 loader.currentPageObject.data = loader.currentPageObject.getData();
@@ -252,7 +222,6 @@
                         return;
                     }
                 }
-
                 //Driver change, trigger driver change
                 if (resp.isDriver != loader.isDriver) {
                     if (resp.isDriver) {
@@ -264,7 +233,6 @@
                         return;
                     }
                 }
-
                 //Change page if page is newer
                 if (resp.pageCount > loader.pageCount) {
                     loader.previousPage = resp.previousPage;
@@ -287,62 +255,47 @@
                 else {
                     //do nothing since this local copy is newer
                 }
-
             });
-        }
-
-        ,
+        },
         login: function (data) { //Called after successful login, passing the returned data
             document.cookie = "user=" + data.userId + ";expires=" + new Date().setUTCFullYear(2345).toUTCString();
-
-
-            //TODO
-            //notdone
-            alert(data);
-            document.getElementById("index_user-name").innerHTML = data.full_name;
-
-
-            goToPreviousPage();
+            loader.userId = data.userId;
+            //If already logged in, Simply reload page to use init to get the data
+            if (data.isLoggedIn) {
+                window.location.reload();
+            }
+            //Otherwise keep as is and go back
+            else {
+                goToPreviousPage();
+            }
         }
         ,
         logout: function () {
             document.cookie = "user=" + data.userId + ";expires=" + new Date(0).toUTCString();
-
             $.post("/logout", {}, function () {
             });
-
             window.location.reload();
         }
         ,
         switchToDriver: function () {
             loader.isDriver = true;
-
             $.post("/switchRole", {
                 isDriver: true
             });
-
-
             //UI changes for menu bar
-
             goToPage("_yourDeliveries", true);
         }
         ,
         switchToShopper: function () {
             loader.isDriver = false;
-
             $.post("/switchRole", {
                 isDriver: false
             });
-
             //UI changes for menu bar
-
             goToPage("_history", true);
         }
     };
-
     loader.currentPageChanged = _.throttle(loader.sendData, 500, {trailing: false});
-
-
     /*
      Each page that needs like sync (edit ticket pages and stateless pages) has:
      data:
@@ -351,9 +304,7 @@
      loadData: loads data package
      Otherwise it is a missing property; the other pages load data through their own ajax(?)
      */
-
     function pageInit() {
-
         if (document.cookie.length > 5) {
             var user = document.cookie;
             loader.userId = user.split(";")[0].substring(5);
@@ -361,20 +312,15 @@
         else {
             loader.userId = "";
         }
-        //TODO: if is driver in cookie, take to driver page instead
-
-
+        alert();
         $.ajax({
             type: "POST",
             url: "/init",
             data: {
-                userId: loader.userId, //"" or valid user id string
-                isDriver: loader.isDriver //TODO
+                userId: loader.userId //"" or valid user id string
             },
             success: function (resp) {
-                //If has existing session, load it!
-
-
+                console.log(resp);
                 if (resp.isLoggedIn) {
                     loader.isDriver = resp.isDriver;
                     loader.userId = resp.userId;
@@ -382,26 +328,31 @@
                     loader.previousPage = resp.previousPage;
                     loader.currentPage = resp.currentPage;
                     loader.currentPageObject = loader[resp.currentPage];
-
                     loader.currentPageObject.version = resp.version;
                     if (loader.currentPageObject.loadData != null) {
                         loader.currentPageObject.loadData(resp.data);
                     }
-
-
                     loader.goToPage(resp.currentPage);
                 }
                 else {
                     loader.userId = resp.userId;
-                    //TODO: if is driver, go to driver page and not shopper
                 }
-
-
-                window.setInterval(loader.getUpdates, 500);
+                //window.setInterval(loader.getUpdates, 500);
             }
         });
     }
-
+    function loadPage(pageName, row, column) {
+        $.ajax({
+            type: "POST",
+            url: "/loadPage",
+            data: {name: pageName},
+            async: false,
+            success: function (data) {
+                $('#section-' + row).append("<div id='" + pageName +
+                        "' data-x='" + column + "' data-y='" + row + "'>" + data + "</div>");
+            }
+        });
+    }
     $(document).ready(function () {
         pageInit();
         for (var j = 0; j < allPages.length; j++) {
@@ -414,8 +365,6 @@
             }
         }
     });
-
-
     jQuery(document).ready(function ($) {
         $('#open-menu-drawer').on('click', function (event) {
             $('#menu-drawer').addClass('is-visible');
@@ -431,4 +380,3 @@
 
 </body>
 </html>
-
