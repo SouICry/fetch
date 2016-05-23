@@ -166,6 +166,7 @@ function loadUser(userID) {
     return user;
 }
 
+// Returns an array of all tickets in the grocery_queue collection
 function getQueueFromDB() {
     MongoClient.connect(mongodb_url, function(err, db) {
         if (err) {
@@ -183,8 +184,7 @@ function getQueueFromDB() {
     return null;
 }
 
-
-
+// Adds a ticket to the grocery_queue collection
 function addToQueue(ticket) {
     MongoClient.connect(mongodb_url, function(err, db) {
         if (err) {
@@ -207,7 +207,7 @@ function addToQueue(ticket) {
 }
 
 
-
+// Removes a ticket from the grocery_queue collection
 function removeFromQueue(ticketId) {
     if (!ticketId) {
         console.log('null ticketID passed into removeFromQueue');
@@ -230,6 +230,48 @@ function removeFromQueue(ticketId) {
             });
         }
     });
-    
+    return false;
+}
+
+// Returns array of all users in the users collection/database
+function getAllUsers() {
+    MongoClient.connect(mongodb_url, function(err, db) {
+        if (err) {
+            console.log('Error: ' + err);
+            return null;
+        }
+        else {
+            users = db.collection('users').find().toArray(function(err, docs) {
+                if (err)
+                    return null;
+                else
+                    return docs;
+            });
+        }
+    });
+
+    return null;
+}
+
+// Used to initialize master session for userID to null
+function initMasteruserID() {
+    MongoClient.connect(mongodb_url, function(err, db) {
+        if (err) {
+            console.log('Error: ' + err);
+            return false;
+        }
+        else {
+            users = db.collection('users').find().toArray(function(err, docs) {
+                if (err)
+                    return false;
+            });
+
+            for (var i = 0; i < docs.length; i++)
+                masters[docs[i]._id] = null;
+
+            return true
+        }
+    });
+
     return false;
 }
