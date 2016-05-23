@@ -32,16 +32,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname));
 
-var master = {
-
-};
-
 
 
 function createTicket(userID) {
     var user = loadUser(userID);
 
-    if (user === null) {
+    if (!user) {
         console.log("User does not exist");
         return;
     }
@@ -51,48 +47,50 @@ function createTicket(userID) {
         state:'pending',
 
         // For the driver to know the shopper's info
-        user: {
+        shopper: {
             id: user._id,
-            contact: {
-                phone_number: user.phone_number,
-                address: {
-                    street: user.address.street,
-                    city: user.address.city,
-                    state: user.address.state,
-                    zip: user.address.zip
-                }
+            phone_number: user.phone_number,
+            address: {
+                street: user.address.street,
+                city: user.address.city,
+                state: user.address.state,
+                zip: user.address.zip
             },
             rating: user.avg_rating
         },
         driver: {
-            id: "",
-            contact: {
-                phone_number: ""
-            }
+            id: '',
+            phone_number: ''
         },
         grocery_list: {
             store_name: master.shopping_list.store_name,
             shopping_list: master.shopping_list.list,
             timestamp: master.shopping_list.timestamp
         },
-        options: {
+        special_options: {
             special_instruction: master.checkout.special_instruction,
-            ava_time_1: master.checkout.time1,
-            ava_time_2: master.checkout.time2
+            available_time_start: master.checkout.time1,
+            available_time_end: master.checkout.time2
         },
         driver_list: {
             checkoff_list: [],
             time_accepted: ''
         }
     };
+
+    addToQueue(ticket);
     saveTicket(ticket);
     return ticket;
 }
 
-function loadTickets(userId) {
-    var user = loadUser(userId);
-    var tickets = user.tickets;
-    return tickets;
+
+// Gets the
+function loadUsersTickets(userID) {
+    return loadUser(userID).user_history;
+}
+
+function loadDeliveredTickets(userID) {
+    return loadUser(userID).delivery_history;
 }
 
 function saveTicket(ticket) {
@@ -105,64 +103,131 @@ function saveTicket(ticket) {
         if (err) {
             console.log('Error: ' + err + '\nCould not save ticket');
             res.send(err);
+            return null;
         }
         else {
-            user = db.collection('users').update({_id: master.userID}, {$push: {tickets: ticket}},
+            user = db.collection('users').updateOne({_id: master.userID}, {$push: {tickets: ticket}},
                 function(err) {
-                    if (err) return err;
+                    if (err) return null;
             });
+            return user;
         }
     });
+    return null;
 }
 
 
-function loadUser(userId) {
+// Loads a user from the database and stores to master session
+function loadUser(userID) {
     var user = null;
 
+    // Null check userID
     if (!userID) {
         console.log('null userID passed into loadUser');
         return null;
     }
 
+    // Connect to database and find user with ID passed in
     MongoClient.connect(mongodb_url, function(err, db) {
         if (err) {
-            console.log('Error: ' + err);
-            res.send(err);
+            console.log('Error: loadUser. ' + err);
             return err;
         }
         else {
             user = db.collection('users').findOne({_id: userID}, function(err) {
                 if (err) return err;
             });
+
+            // No user with id = userID in database
+            if (!user) {
+                console.log('Error: loadUser. ' + 'No user with id: ' + userID);
+                return null;
+            }
+
+            // Updates master session userID and the user's data in accSetting
+            masters[userID].userID = user._id;
+            masters[userID].['_accSetting'].data = {
+                full_name: user.full_name,
+                email: user.email,
+                phone: user.phone_number,
+                address: {
+                    street: user.address.street,
+                    city: user.address.city,
+                    state: user.address.state,
+                    zip: user.address.zip
+                }
+            };
+            console.log('Successfully loaded user to master session!');
+            return user;
         }
     });
 
-    return user;
+    return null;
 }
 
-function getQueue() {
-    var queue = null;
-
+function getQueueFromDB() {
     MongoClient.connect(mongodb_url, function(err, db) {
         if (err) {
             console.log('Error: ' + err);
-            res.send(err);
             return err;
         }
         else {
-            user = db.collection('users').findOne({_id: userID}, function(err) {
+            db.collection('grocery_queue').find().toArray(function(err, docs) {
                 if (err) return err;
+                return docs;
             });
         }
     });
 
-    return queue;
-};
-
-function addToQueue(ticketId) {
-    
-};
-
-function removeFromQueue(ticketId) {};
+    return null;
+}
 
 
+function addToQueue(ticket) {
+    MongoClient.connect(mongodb_url, function(err, db) {
+        if (err) {
+            console.log('Error: ' + err);
+            return null;
+        }
+        else {
+            db.collection('grocery_queue').insert(ticket, function(err, doc) {
+                if (err) {
+                    console.log('Error inserting to db');
+                    return null;
+                }
+                console.log('Inserted: ' + doc + ' to queue');
+                return doc;
+            });
+        }
+    });
+
+    return null;
+}
+
+
+
+function removeFromQueue(ticketId, cb) {
+    if (!ticketId) {
+        console.log('null ticketID passed into removeFromQueue');
+        return false;
+    }
+
+    MongoClient.connect(mongodb_url, function(err, db) {
+        if (err) {
+            console.log('Error: ' + err);
+            return false;
+        }
+        else {
+            db.collection('grocery_queue').findAndRemove(ticket, function(err, doc) {
+                if (err) {
+                    console.log('Error removing ticket from queue');
+                    return false;
+                }
+                console.log('Successfully removed ticket from queue!');
+                return true;
+            });
+        }
+    });
+
+    return false;
+}

@@ -5,7 +5,7 @@
         getData: function () { //must be null if not needed
             return list_shopping;
         },
-        loadData: function (data) { // MUST RESET PAGE AS WELL    //must be null if not needed
+        loadData: function (data) { 
             var arr = [];
 
             $("#submit_list").html("");
@@ -52,6 +52,8 @@
 
     $('#shopping_list_form').submit(addItem);
     function addItem() {
+        event.preventDefault();
+
         if ($('#shoppingCheckListItem').val() !== '') {
             shoppping_toAdd = $('#shoppingCheckListItem').val();
             var newItem = document.createElement('li');
@@ -77,12 +79,9 @@
             loader.currentPageChanged();
         }
         $('#shoppingCheckListItem').val('');
-        //$('#shopping_input').focus();
 
         list_shopping.push(shoppping_toAdd);
-
     }
-
 
 
     // remove item
