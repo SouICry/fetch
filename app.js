@@ -12,7 +12,6 @@ var LocalStrategy = require('passport-local').Strategy;
 var session = require('express-session');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var passport = require('passport');
 var nodemailer = require('nodemailer');
 var async = require('async');
 var crypto = require('crypto');
@@ -355,11 +354,11 @@ app.post('/_signUp', function(req, res, next) {
                 req.login(user, function(err){
                     if (err) {
                         //return next(err);
-                        console.log('login failed: ', err)
+                        console.log('login failed: ', err);
                         res.status(500);
                     }
                     else {
-                        req.session.userID =  ''//TODO set userID to something Unique, and consistent;
+                        req.session.userID =  '';//TODO set userID to something Unique, and consistent;
                         req.session.userID = req.body.email; //TODO set userId to something Unique, and consistent
                         console.log('login success!');
                     }
@@ -534,7 +533,6 @@ app.post('/reset/:token', function (req, res) {
         }
     ], function (err) {
         res.status(500);
-        return;
     });
 });
 
@@ -556,7 +554,7 @@ var defaultO = {
 
     "_homepage" : {
         data: {
-            store_name: "", // TODO dont know where to get this from
+            store_name: "" // TODO dont know where to get this from
 
         },
         version: 0
@@ -727,7 +725,6 @@ app.post('/changePage', function(req,res){
     else {
         res.send("Query from database fail");
     }
-
     if(queue){
         var pageCount = req.body.pageCount;
         var data = req.body.oldData;
@@ -785,7 +782,6 @@ app.post('/getTicket', function(req,res){
 
 //----------------------------------getUpdate--------------------------------------------------------------------------
 //run every second
-
 app.post('/getUpdates', function (req, res, next) {
     var object = {};
     var userID = req.session.userID;
@@ -806,27 +802,26 @@ app.post('/getUpdates', function (req, res, next) {
 app.post('/init', function(req, res){
     var userID = req.body.userID;
     var driverFlag = req.body.isDriver;
+    var object = masters[userID];
     //TODO: Query Database for user's existence here
     var userOnDB = false;
-
-//----------------------------------getTicket--------------------------------------------------------------------------
-
-
+    if(masters[userID].userID != ""){
+        userOnDB = true;
+    }
+    
     //If user is on DB and non-empty...
     if(userOnDB && userID != ""){
-        //TODO: Retrieve from DB
-        res.send(userID);
+        
+        res.send(object);
     }
     else{
         var d = new Date();
         var tempUserID = d.getMilliseconds();
-        var object = defaultO;
+        object = defaultO;
         object.isDriver = driverFlag;
         object.userID = tempUserID;
-
-
         masters[tempUserID] = object;
-        console.log(masters[tempUserID]["_accSetting"]);
+        //console.log(masters[tempUserID]["_accSetting"]);
         res.send(object);
     }
 });
