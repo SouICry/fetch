@@ -591,7 +591,7 @@ var defaultO = {
     //        version: 0;
     //}
 };
-var masters;
+var masters = {};
 
 //TODO -------------------------------------------------------------------------
 
@@ -723,6 +723,7 @@ app.post('/getUpdates', function (req, res, next) {
 
 app.post('/init', function (req, res) {
     var userId = req.body.userId;
+
     if (masters.hasOwnProperty(userId)) {
         //Exists user
         if (masters[userId] != null) {
@@ -735,6 +736,7 @@ app.post('/init', function (req, res) {
     else {
 
         var id = new Date().getMilliseconds();
+        req.session.userID = id;
         var masterInit = {
             //loader
             isDriver: false,
