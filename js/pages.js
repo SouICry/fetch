@@ -1,6 +1,16 @@
+var frontPage = [
+    ["_signUpOrLogin" /*, _takeProfilePic*/] 
+    //On desktop, shift to right side and fill empty space with about info or image
+];
+
 var allPages = [
-    ["_homePage", "_shopping", "_checkout"/*, "_submitted"*/],
-    ["_yourDeliveries", "_accSetting", "_contact", "_history", "_passwordRecovery", "_passwordReset", "_signUp", "_login"],
-    [/*'_confirmTicket',*/ "_rating" /*,'_ticketClosed'*/],
-    ['_tickets', '_driverList', "_congrats_driver_finish_shopping", /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats']
+    ["_accSetting", "_contact", "_passwordRecovery", "_passwordReset"],
+    
+    ["_homePage", "_shopping", "_checkout"/*, "_pendingPayment" "_submitted"*/],
+    ["_history"/*, "_shoppingStatus"*/]
+    [/*'_confirmTicket',*/ "_rateDriver" /*,'_congratsTicketClosed'*/],
+    
+    ['_tickets' /*, '_viewTicket'*/],
+    ["_yourDeliveries", '_driverList', /*_receiptPictureEnterPrice,*/"_congrats_driver_finish_shopping"],
+    [/*'_confirmCompletion', '_rateUser',*/ '_congrats']
 ];

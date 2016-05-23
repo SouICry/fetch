@@ -51,8 +51,7 @@
         </div>
     </div>
 </div>
-<script src="js/pages.js">
-</script>
+<script src="js/pages.js"></script>
 
 <script>
     function goToPage(id, noPrevious) {
@@ -355,7 +354,7 @@
             goToPage("_history", true);
         }
     };
-    loader.currentPageChanged = _.throttle(loader.sendData, 500, {trailing: false});
+    loader.currentPageChanged = _.throttle(loader.sendData, 500);
     /*
      Each page that needs like sync (edit ticket pages and stateless pages) has:
      data:
