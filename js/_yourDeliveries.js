@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-
+//
 // function _tickets_load() {
 //     //Actual:
 //     //loadFromServer();
@@ -74,7 +73,7 @@
 // /**
 //  * Created by juneruijiang on 5/17/16.
 //  */
-=======
+// =======
 function _tickets_load() {
     //Actual:
     //loadFromServer();
@@ -183,4 +182,4 @@ function _tickets_load() {
 }
 
 _tickets_load();
->>>>>>> 5bedbe45b38a2b3ac5e475729d528e300a1cef3c
+// >>>>>>> 5bedbe45b38a2b3ac5e475729d528e300a1cef3c
