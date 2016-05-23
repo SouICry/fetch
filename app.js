@@ -804,30 +804,23 @@ app.post('/getUpdates', function (req, res, next) {
 
 
 app.post('/init', function(req, res){
-    var userID = req.body.userID;
-    var driverFlag = req.body.isDriver;
-    //TODO: Query Database for user's existence here
-    var userOnDB = false;
-
-//----------------------------------getTicket--------------------------------------------------------------------------
-
-
-    //If user is on DB and non-empty...
-    if(userOnDB && userID != ""){
-        //TODO: Retrieve from DB
-        res.send(userID);
+    var userId = req.body.userId;
+    if (masters.hasOwnProperty(userId)){
+        //Exists user
+        if (masters[userId] != null){
+            //is logged in, return master existing data
+        }
+        else {
+            //initialize master with user data and empty objects
+        }
     }
-    else{
-        var d = new Date();
-        var tempUserID = d.getMilliseconds();
-        var object = defaultO;
-        object.isDriver = driverFlag;
-        object.userID = tempUserID;
-
-
-        masters[tempUserID] = object;
-        console.log(masters[tempUserID]["_accSetting"]);
-        res.send(object);
+    else {
+        //new user
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({
+            isLoggedIn: false,
+            userId : new Date().getMilliseconds()
+        }));
     }
 });
 
