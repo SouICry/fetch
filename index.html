@@ -58,12 +58,12 @@
     function goToPage(id, noPrevious) {
         if (id.length) {
             if (arguments.length > 1) {
-                //loader.setCurrentPage(id, true);
+                loader.setCurrentPage(id, true);
             }
             else {
-                //loader.setCurrentPage(id, false);
+                loader.setCurrentPage(id, false);
             }
-            loader.goToPage(id);
+            //loader.goToPage(id);
             /*Temporary*/
         }
     }
@@ -125,26 +125,34 @@
                 loader.currentPageObject.data = loader.currentPageObject.getData();
             }
             else {
+
                 loader.currentPageObject.data = null;
             }
-            $.post("/changePage", {
-                pageCount: loader.pageCount,
-                newPage: page,
-                oldPage: oldPage,
-                oldData: loader.currentPageObject.data
-            }, function (newPageData) {
-                alert(newPageData);
-                console.log(newPageData);
-                loader.goToPage(page);
-                if (noPrevious) {
-                    loader.previousPage = "";
-                }
-                else {
-                    loader.previousPage = oldPage;
-                }
-                loader.currentPageObject = loader[page];
-                if (loader.currentPageObject.loadData != null) {
-                    loader.currentPageObject.loadData(newPageData);
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                url: "/changePage",
+                data: JSON.stringify({
+                    pageCount: loader.pageCount,
+                    newPage: page,
+                    oldPage: oldPage,
+                    oldData: loader.currentPageObject.data
+                }),
+                success: function (newPageData) {
+                    alert(newPageData);
+                    console.log(newPageData);
+                    loader.goToPage(page);
+                    if (noPrevious) {
+                        loader.previousPage = "";
+                    }
+                    else {
+                        loader.previousPage = oldPage;
+                    }
+                    loader.currentPageObject = loader[page];
+                    if (loader.currentPageObject.loadData != null) {
+                        loader.currentPageObject.loadData(newPageData);
+                    }
                 }
             });
         },
@@ -316,7 +324,6 @@
         else {
             loader.userId = "";
         }
-        alert();
         $.ajax({
             type: "POST",
             url: "/init",
