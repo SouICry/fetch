@@ -63,14 +63,14 @@ function createTicket(userID) {
             phone_number: ''
         },
         grocery_list: {
-            store_name: master.shopping_list.store_name,
-            shopping_list: master.shopping_list.list,
-            timestamp: master.shopping_list.timestamp
+            store_name: masters[userID]["_shopping"].data.store_name,
+            shopping_list: masters[userID]["_shopping"].data.list,
+            timestamp: masters[userID]["_shopping"].data.timestamp
         },
         special_options: {
-            special_instruction: master.checkout.special_instruction,
-            available_time_start: master.checkout.time1,
-            available_time_end: master.checkout.time2
+            special_instruction: masters[userID]["_checkout"].data.special_options,
+            available_time_start: masters[userID]["_checkout"].data.available_time_start,
+            available_time_end: masters[userID]["_checkout"].data.available_time_end
         },
         driver_list: {
             checkoff_list: [],
@@ -209,7 +209,7 @@ function addToQueue(ticket) {
 // Removes a ticket from the grocery_queue collection
 function removeFromQueue(ticketId) {
     if (!ticketId) {
-        console.log('null ticketID passed into removeFromQueue');
+        console.log('null ticketId passed into removeFromQueue');
         return false;
     }
 
