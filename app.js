@@ -799,6 +799,8 @@ app.post('/init', function (req, res) {
     }
     else {
         //new user
+
+        
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify({
             isLoggedIn: false,
