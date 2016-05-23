@@ -86,11 +86,11 @@ function createTicket(userID) {
 
 // Gets the
 function loadUsersTickets(userID) {
-    return loadUser(userID).grocery_lists;
+    return loadUser(userID).user_history;
 }
 
 function loadDeliveredTickets(userID) {
-    return loadUser(userID).delivery_lists;
+    return loadUser(userID).delivery_history;
 }
 
 function saveTicket(ticket) {
