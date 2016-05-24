@@ -1,5 +1,5 @@
 var test_data = {
-    full_name: "Donkey",
+    full_name: "Donkey Punch",
     items: ["aa", "bb", "cc", "dd"],
     contact: 1234567890
 };
@@ -28,13 +28,16 @@ var test_data = {
             fullName = data.full_name;
             array = data.items;
             var separatedNames = data.full_name.split(" ");
+
+            //create the contact info(where should I got this, is there a flied relates to contact?
+            document.getElementById("listName").innerHTML = separatedNames[0] + "'s Shopping List";
+            document.getElementById("phone").innerHTML = "Phone: " + data.contact;
+
             for (var i = 0; i < array.length; i++) {
 
                 // item count
                 count = array.length;
-                //create the contact info(where should I got this, is there a flied relates to contact?
-                document.getElementById("listName").innerHTML = separatedNames[0] + "'s Shopping List";
-                document.getElementById("phone").innerHTML = "Phone: " + data.contact;
+
                 // Create the list item:
                 var newItem = document.createElement('li');
                 newItem.innerHTML = array[i];
@@ -60,23 +63,7 @@ var test_data = {
     var count = 0;
     var fullName = "";
     var array = [];
-
-
     
-
-
-    // displayLoadedData(simulated_user);
-    //
-    // function displayLoadedData(data) {
-    //     document.getElementById("listName").innerHTML = data.name + "'s Shopping List";
-    //     document.getElementById("phone").innerHTML = "Phone: " + data.contact;
-    // }
-
-    // $("#_driver_footerInfo, #footerBars").show();
-
-    // makeList(simulated_user.items);
-
-
 
     $(document).on('click', '.driverItem',function () {
 

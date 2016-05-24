@@ -7,7 +7,7 @@ var allPages = [
     
     ["_homePage", "_shopping", "_checkout"/*, "_pendingPayment", "_submitted"*/],
     ["_history"/*, "_shoppingStatus"*/],
-    [/*'_confirmTicket',*/ "_rateDriver" /*,'_congratsTicketClosed'*/],
+    ["_confirmTicket", "_rateDriver" ,'_congrats_ticket_closed'],
     
     ['_tickets' /*, '_viewTicket'*/],
     ["_yourDeliveries", '_driverList', /*_receiptPictureEnterPrice,*/"_congrats_driver_finish_shopping"],
