@@ -1,10 +1,9 @@
 (function () {
     loader._shoppingStatus = {
-        // data: "none",
-        data: [{full_name: "Pamela Anderson", id: 91731}],
+        data: {full_name: "Pamela Anderson", id: 91731, avatar: "http://lorempixel.com/100/100/people/9/"},
         version: 0, //Must be 0 
         getData: function () {
-            return ;
+            return data.id;
         },
         loadData: function (data) {
             if (data == "none" || data.length == 0) {
@@ -12,14 +11,18 @@
             }
 
             else {
-                alert(data[1].full_name);
-                $("#shoppingStatus_driver_name").text(data[1].full_name);
-                //
-                // $(".card-background").prepend('<img class="card-bkimg" src="http://lorempixel.com/100/100/people/9/">');
-                // $(".useravatar").prepend('<img src="http://lorempixel.com/100/100/people/9/">');
+                $(".shoppingStatus_driver_name").text(data.full_name);
+
+                $(".card-background").prepend('<img class="card-bkimg" src="' + data.avatar + '">');
+
+                $(".useravatar").prepend('<img src="' + data.avatar +'">');
             }
         }
     };
+
+    $('#shoppingStatus_list_btn').click(function () {
+        goToPage("_shopping");
+    });
 
 })();
 
