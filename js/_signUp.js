@@ -21,7 +21,7 @@
 
     function assholes2() {
         var info_to_send = {};
-        info_to_send.email = $('#signup_user_email').val()
+        info_to_send.email = $('#signup_user_email').val();
         info_to_send.full_name = $('#signup_user_name').val();
         info_to_send.password = $('#signup_user_pass').val();
         info_to_send.phone_number = $('#signup_phone').val();
@@ -38,7 +38,7 @@
             data: info_to_send,
             success: function (data) {
                 //data is the object sent back on success (could also just be string)
-                alert('success!');
+                loader.login(data);
             },
             error: function (data) {
                 alert('error');

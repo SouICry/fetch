@@ -1,12 +1,27 @@
 (function () {
     loader._tickets = {
-        data: "",
+        data: [
+        {name: "wholeFoods", time: "12:00 pm", id: "123"}, {name: "ralphs", time: "5:00 pm", id: "344"},
+        {name: "tjs", time: "6:00 pm", id: "653"}, {name: "ralphs", time: "7:00 pm", id: "098"},
+        {name: "vons", time: "7:00 pm", id: "897"}],
         version: 0,
         getData: function () {
             return selected;
         },
         loadData: function (data) {
-            if (data != "none") {
+            $("#tickets_content").empty();
+
+            $("#tickets_content").append('<li id="ticket_not" class = "ticket"' +
+                '>No tickets available</li>');
+
+            $("#ticket_not").hide();
+
+            if (data == "none" || data.length == 0) {
+                $("#ticket_not").show();
+                var ticket_no_data = true;
+            }
+
+            else {
                 var tickets = [];
                 tickets = data.tickets;
 
@@ -20,25 +35,60 @@
                     return name[nameString];
                 }
 
-                if (tickets.length == 0){
-                    $("#tickets_content").append('<li id="ticket_not" class = "ticket"' +
-                        '>No tickets available</li>');
-                }
-
-                for (var i = 0; i < tickets.length; i++) {
-                    $("#tickets_content").append('<li data-ticketId="' + tickets[i].id + '" class = "' + tickets[i].name + ' ticket" ' +
-                        ' ><div id =' + tickets[i].name + ' >' + toName(tickets[i].name) +
-                        ' <br> Estimate Deliver Time: ' + tickets[i].time + '</div></li>');
+                for (var i = 0; i < data.length; i++) {
+                    $("#tickets_content").append('<li data-ticketId="' + data[i].id +
+                        '" class = "' + data[i].name + ' ticket" ' +
+                        ' ><div id =' + data[i].name + ' >' + toName(data[i].name) +
+                        ' <br> Estimate Deliver Time: ' + data[i].time + '</div></li>');
                 }
 
                 $('#tickets_content li').click(function () {
                     if ($(this).attr("id") != 'ticket_not') {
-                        alert( 'hi' );
                         loader.getTicket($(this).data("ticketId"));
                     }
                 });
-
             }
+
+            $(".store").each(function () {
+
+                $(this).click(function () {
+                    for (var x in selected) {
+                        selected[x] = false;
+                    }
+
+                    $(this).toggleClass("selected");
+
+                    $('.store.selected').each(function () {
+                        selected[$(this).data("name")] = true;
+                    });
+
+                    var noTickets = true;
+                    for (var x in selected) {
+                        var a = "." + x;
+                        if (selected[x] == true) {
+                            if ($(a).hasClass("hidden")) {
+                                $(a).removeClass("hidden");
+                            }
+                            $(a).addClass("show");
+                            noTickets = false;
+                        }
+                        else {
+                            if ($(a).hasClass("show")) {
+                                $(a).removeClass("show");
+                            }
+                            $(a).addClass("hidden");
+                        }
+                    }
+
+                    if (noTickets == true || ticket_no_data) {
+                        $("#ticket_not").show();
+                    }
+                    else {
+                        $("#ticket_not").hide();
+                    }
+
+                });
+            });
         }
     };
 
@@ -48,54 +98,5 @@
         tjs: true,
         vons: true
     };
-
-
-    //Simulation:
-    var simulated_user = {
-        tickets: [{name: "wholeFoods", time: "12:00 pm", id: "123"}, {name: "ralphs", time: "5:00 pm", id: "344"},
-            {name: "tjs", time: "6:00 pm", id: "653"}, {name: "ralphs", time: "7:00 pm", id: "098"},
-            {name: "vons", time: "7:00 pm", id: "897"}]
-    };
-    var simulated_user2 = {
-        tickets: []
-    };
-
-    loader._tickets.loadData(simulated_user);
-
-
-        $(".store").each(function () {
-
-            $(this).click(function () {
-                for (var x in selected) {
-                    selected[x] = false;
-                }
-
-                $(this).toggleClass("selected");
-
-                $('.store.selected').each(function () {
-                    selected[$(this).data("name")] = true;
-                });
-
-
-                for (var x in selected) {
-                    var a = "." + x;
-                    //console.log(selected[x]);
-                    if (selected[x] == true) {
-                        if ($(a).hasClass("hidden")) {
-                            $(a).removeClass("hidden");
-                        }
-                        $(a).addClass("show");
-                    }
-                    else {
-                        //console.log("hide");
-                        if ($(a).hasClass("show")) {
-                            $(a).removeClass("show");
-                        }
-                        $(a).addClass("hidden");
-                    }
-                }
-            });
-        });
-
 })();
 

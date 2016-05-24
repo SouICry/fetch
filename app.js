@@ -171,7 +171,7 @@ ViewController.prototype = {
 // });
 
 
-// ------------------- SIGNUP/LOGIN/LOGOUT -----------------------
+// ------------------- SIGNUP//LOGOUT -----------------------
 
 // Used to check if valid email format (@ucsd.edu)
 var validEmail = function (email) {
@@ -322,11 +322,14 @@ passport.deserializeUser(function (id, done) {
 app.post('/_logout', function (req, res, next) {
     // If 'logout' button pressed, log user out. Passportjs will
     // call deserialize to remove user from session.
-    req.logout();
+    //req.logout();
+    var userId = req.session.userId;
+    delete masters[userId];
     req.session.destroy();
     console.log('logged out');
     console.log(req.session);
-    res.send(req.session);
+
+    res.send();
 });
 
 app.post('/_signUp', function (req, res, next) {
@@ -350,13 +353,36 @@ app.post('/_signUp', function (req, res, next) {
                         res.status(500);
                     }
                     else {
-                        req.session.userId = '';//TODO set userId to something Unique, and consistent;
-                        req.session.userId = req.body.email; //TODO set userId to something Unique, and consistent
+                        var userId = req.session.passport.user;
+                        req.session.userId = userId;
+                        if (!masters.hasOwnProperty(userId)){
+                            masters[userId] = {
+                                isDriver: false,
+                                isLoggedIn: true,
+                                userId: userId,
+                                currentPage: ""
+                            };
+                            masters[userId].userId = userId;
+                            res.setHeader('Content-Type', 'application/json');
+                            res.send(JSON.stringify({
+                                userId: userId,
+                                isLoggedIn: false
+                            }));
+                        }
+                        else {
+                            res.setHeader('Content-Type', 'application/json');
+                            res.send(JSON.stringify({
+                                userId: masters[userId].userId,
+                                currentPage: masters[userId].currentPage,
+                                isLoggedIn: true,
+                                ticketId: masters[userId].ticketId,
+                                isDriver: masters[userId].isDriver
+                            }));
+                        }
                         console.log('login success!');
                     }
                 });
             });
-            res.send(user);
         }
     })(req, res, next);
 });
@@ -380,19 +406,47 @@ app.post('/_login', function (req, res, next) {
             });
 
             //req.session.userId = req.body.email; //TODO set userId once login
-            var passportuserId = req.session.passport.user;
-            var tempuserId = req.session.userId;
-            if (!masters[passportuserId]) {
-                masters[passportuserId] = masters[tempuserId];
-                masters[passportuserId].userId = passportuserId;
-                masters[tempuserId] = null;
-                req.session.userId = passportuserId;
-            }
+            var userId = req.session.passport.user;
+          
+            req.session.userId = userId;
+         
 
-            req.session.userId = req.body.email; //TODO set userId once login
+
+            if (!masters.hasOwnProperty(userId)){
+                masters[userId] = {
+                    isDriver: false,
+                    isLoggedIn: true,
+                    userId: userId,
+                    currentPage: ""
+                };
+                masters[userId].userId = userId;
+                // res.setHeader('Content-Type', 'application/json');
+
+                console.log(userId);
+                console.log(JSON.stringify({
+
+                    isLoggedIn: false,
+                    userId: userId
+                }));
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify({
+                    isLoggedIn: false,
+                    userId: userId
+                }));
+            }
+            else {
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify({
+                    userId: userId,
+                    currentPage: masters[userId].currentPage,
+                    isLoggedIn: true,
+                    ticketId: masters[userId].ticketId,
+                    isDriver: masters[userId].isDriver
+                }));
+            }
             console.log('successful login');
-            // If everything was successful, send user back to frontend
-            res.send(user);
+            // // If everything was successful, send user back to frontend
+            // res.send(user);
         }
     })(req, res, next);
 });
@@ -534,66 +588,14 @@ var defaultO = {
     isDriver: false,
     isLoggedIn: false,
     userId: "",
-    pageCount: 0,
-    previousPage: "",
-    currentPage: "",
-    currentPageObject: {
-        getData: null,
-        loadData: null,
-        data: null
-    },
+    currentPage: ""
 
-    "_homepage": {
-        data: {
-            store_name: "" // TODO dont know where to get this from
-
-        },
-        version: 0
-    },
-
-
-    //account setting;
-    "_accSetting": {
-        data: {
-            full_name: "",
-            email: "",
-            phone: "",
-            address: {
-                street: "",
-                city: "",
-                state: "",
-                zip: ""
-            }
-        },
-        version: 0
-    },
-
-    //shopping
-    "_shopping": {
-        data: {
-            list: []
-        },
-        version: 0
-    },
-
-    //checkout
-    "_checkout": {
-        data: {
-            list_id: "",
-            special_options: "",
-            available_time_start: "",
-            available_time_end: ""
-        },
-        version: 0
-    }
-    //list of pageName: {
-    //          data: null;
-    //        version: 0;
-    //}
 };
 var masters = {};
 
 //TODO -------------------------------------------------------------------------
+
+//------------------shopping route----------------------
 
 
 //TODO ---------------------------------DATA-LOADER-------------------------
@@ -606,7 +608,8 @@ app.post('/sendData', function (req, res, next) {
         masters[userId][pageName].data = req.body.data;
         masters[userId][pageName].version = req.body.version + 1;
     }
-    res.send(req.body.version + 1);
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(req.body.version + 1));
 
 });
 
@@ -618,66 +621,62 @@ app.post('/loadData', function (req, res, next) {
     object.data = masters[userId][pageName].data;
     object.version = masters[userId][pageName].version;
     if (version <= masters[userId][pageName].version) {
-        res.send(object);
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(object));
     }
 
-    res.send(null);
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(""));
 
 });
 
 
 app.post('/changePage', function (req, res) {
-
-    var newPage = req.body.newPage;
-    var userId = req.session.userId;
-    var queue = {};
-
-    if (newPage == "_history") {
-        loadUserTickets(userId, callback, req, res);
-    }
-    else if (newPage == "_yourDelivery") {
-        loadDriverTickets(userId, callback, req, res);
-    }
-    else if (newPage == "_tickets") {
-        loadQueue(userId, callback, req, res);
-    }
+    if(!req.session.hasOwnProperty("userId"))
+        res.send();
     else {
-        callback(req, res);
+        var newPage = req.body.newPage;
+        //save it to master current page field
+        var userId = req.session.userId;
+        masters[userId].currentPage = newPage;
     }
-
-    function callback(req, res) {
-
-        var pageCount = req.body.pageCount;
-        var data = req.body.oldData;
-        if (pageCount > masters[userId].pageCount) {
-            var currentPage = masters[userId].currentPage;
-            masters[userId][currentPage].data = data;
-            masters[userId].pageCount = pageCount;
-            masters[userId].previousPage = currentPage;
-            masters[userId].currentPage = newPage;
-        }
-
-        res.send(masters[userId][newPage].data);
-    }
-
 });
 
 //----------------------------------getTicket--------------------------------------------------------------------------
 app.post('/getTicket', function (req, res) {
+
     var ticketId = req.body.id;
     var store = req.body.store;
     var userId = req.session.userId;
-    //  masters[userId].ticket =
+    var user;
 
-    var ticket = loadTickets(userId);
-    masters[userId].currentTicket = ticket;
-    res.send(ticket.state);
+    MongoClient.connect(mongodb_url, function(err, db) {
+        if (err) {
+            console.log('Error: get ticket. ' + err);
+            res.send(err);
+        }
+        else {
+            user = db.collection('grocery_queue').findOne({_id: ticketId}, function(err) {
+                if (err){
+                    res.send(err);
+                }
+            });
+
+        }
+    });
+    if(user) {
+        masters[userId]["_driverList"].data = user;
+
+    }
+
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(user.state));
 });
 
 // app.post('/_getQueue', function(req, res){
 //     var request = req.body.getQueue;
 //     var userId = req.session.userId;
-//     var ticketQueue;
+//     var ticketQ
 //     if(request) {
 //         masters[userId].isQueue = true;
 //         master[userId]._isUserTicket = false;
@@ -697,95 +696,135 @@ app.post('/getTicket', function (req, res) {
 
 
 //----------------------------------getTicket----------------------------------------------------------------
-
+app.post('/switch', function(req, res) {
+    var userId = req.session.userId;
+    masters[userId].isDriver = req.body.isDriver;
+    res.send();
+});
 
 //----------------------------------getUpdate--------------------------------------------------------------------------
 //run every second
 app.post('/getUpdates', function (req, res, next) {
-    var object = {};
+   // var object = {};
+    //send back JSON object to update current Page once the user is login on another device
     var userId = req.session.userId;
-    if (userId) {
+
+    if(masters.hasOwnProperty(userId) && masters[userId] != null){
+
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify({
-            isDriver: masters[userId].isDriver,
-            pageCount: masters[userId].pageCount,
-            previousPage: masters[userId].previousPage,
             currentPage: masters[userId].currentPage,
-            //currentPageObject : masters[userId].currentPageObject;
-            version: masters[userId].version,
-            data: masters[userId].currentPageObject.data
+            ticketId: masters[userId].ticketId,
+            isLoggedIn: masters[userId].isLoggedIn,
+            isDriver: masters[userId].isDriver
         }));
     }
-
-
+    else {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringnify({
+            isLoggedIn: masters[userId].isLoggedIn
+        }));
+    }
 });
 
 
 app.post('/init', function (req, res) {
     var userId = req.body.userId;
+    req.session.userId = userId;
+   // var userId = req.session.userId;
 
-    if (masters.hasOwnProperty(userId)) {
-        //Exists user
-        if (masters[userId] != null) {
-            //is logged in, return master existing data
-        }
-        else {
-            //initialize master with user data and empty objects
-        }
-    }
-    else {
 
-        var id = new Date().getMilliseconds();
-        req.session.userId = id;
-        var masterInit = {
-            //loader
+    if (!masters.hasOwnProperty(userId)) {
+        masters[userId] = {
             isDriver: false,
-            isLoggedIn: false,
-            userId: "",
-            pageCount: 0,
-            previousPage: "",
-            currentPage: "",
-            currentPageObject: {
-                getData: null,
-                loadData: null,
-                data: null
-            },
-
-            userTickets: null,
-            driverTickets: null,
-            ticketQueue: null
+            isLoggedIn: true,
+            userId: userId,
+            currentPage: "_homePage"
         };
-        //Initialize each page
-        var allPages = [
-            "_accSetting", "_contact", "_history", "_passwordRecovery", "_passwordReset", "_signUp", "_login",
-            "_yourDeliveries", "_homePage", "_shopping", "_checkout"/*, "_submitted"*/,
-            /*'_confirmTicket',*/ "_rating" /*,'_ticketClosed'*/,
-            '_tickets', '_driverList2', "_congrats_driver_finish_shopping", /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats'
-        ];
-
-        for (var i = 0; i < allPages.length; i++){
-            masterInit[allPages[i]] = {
-                data: null,
-                version: 0
-            }
-        }
-
-        masters[id] = masterInit;
-
-
-
-
-        //new user
-
-        
+        masters[userId].userId = userId;
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify({
-            isLoggedIn: false,
-            userId: id
+            userId: userId,
+            isLoggedIn: false
         }));
-
+    }
+    else {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({
+            userId: masters[userId].userId,
+            currentPage: masters[userId].currentPage,
+            isLoggedIn: true,
+            ticketId: masters[userId].ticketId,
+            isDriver: masters[userId].isDriver
+        }));
     }
 });
+    // var userId = req.body.userId;
+    //
+    // if (masters.hasOwnProperty(userId)) {
+    //     //Exists user
+    //     if (masters[userId] != null) {
+    //         //is logged in, return master existing data
+    //     }
+    //     else {
+    //         //initialize master with user data and empty objects
+    //     }
+    // }
+    // else {
+    //
+    //     var id = new Date().getMilliseconds();
+    //     req.session.userId = id;
+    //     console.log(id);
+    //     console.log(req.session.userId);
+    //     var masterInit = {
+    //         //loader
+    //         isDriver: false,
+    //         isLoggedIn: false,
+    //         userId: id,
+    //         pageCount: 0,
+    //         previousPage: "_homePage",
+    //         currentPage: "_homePage",
+    //         currentPageObject: {
+    //             getData: null,
+    //             loadData: null,
+    //             data: null
+    //         },
+    //
+    //         userTickets: null,
+    //         driverTickets: null,
+    //         ticketQueue: null
+    //     };
+    //     //Initialize each page
+    //     var allPages = [
+    //         "_accSetting", "_contact", "_history", "_passwordRecovery", "_passwordReset", "_signUp", "_login",
+    //         "_yourDeliveries", "_homePage", "_shopping", "_checkout"/*, "_submitted"*/,
+    //         /*'_confirmTicket',*/ "_rating" /*,'_ticketClosed'*/,
+    //         '_tickets', '_driverList2', "_congrats_driver_finish_shopping", /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats'
+    //     ];
+    //
+    //     for (var i = 0; i < allPages.length; i++){
+    //         masterInit[allPages[i]] = {
+    //             data: null,
+    //             version: 0
+    //         }
+    //     }
+    //
+    //     masters[id] = masterInit;
+    //
+    //
+    //
+    //
+    //     //new user
+    //
+    //
+    //     res.setHeader('Content-Type', 'application/json');
+    //     res.send(JSON.stringify({
+    //         isLoggedIn: false,
+    //         userId: id
+    //     }));
+    //
+    // }
+//});
 
 //TODO ---------------------------------DATA-LOADER-------------------------
 
@@ -799,6 +838,18 @@ app.post('/_accSetting', function (req, res) {
     if (!req.session.userId) {
         res.status(500);
         res.send({message: 'no user logged in'});
+    }
+        // might need to pull data from database first depending on how we are doing it
+    else if (req.body.type === "request_data") {
+        object.full_name = masters[userId]["_accSetting"].data.full_name;
+        object.email = masters[userId]["_accSetting"].data.email;
+        object.phone =  masters[userId]["_accSetting"].data.phone;
+        object.address.street = masters[userId]["_accSetting"].data.address.street;
+        object.address.city = masters[userId]["_accSetting"].data.address.city;
+        object.address.state= masters[userId]["_accSetting"].data.address.state;
+        object.address.zip = masters[userId]["_accSetting"].data.address.zip;
+        
+        res.send(object);
     }
     else {
         // update session
@@ -834,9 +885,8 @@ app.post('/_accSetting', function (req, res) {
 // app.post('/_shopping', function(req, res) {
 //
 //     //TODO keep this, this will parse data string to JSON object, list is an array
-//     // var list = JSON.parse(req.body.data).list;
-//
-//     var userId = req.session.userId;
+//     //   var list = JSON.parse(req.body.data).list;
+//     var userId = req.sessions.userId;
 //
 //     // req.session.list = list;
 //     //
@@ -850,20 +900,24 @@ app.post('/_accSetting', function (req, res) {
 //     //
 //     // }
 //
-//
-//     var object = {};
-//     object.address = {};
-//     object.full_name = masters[userId]["accSetting"].data.full_name;
-//     object.email = masters[userId]["accSetting"].data.email;
-//     object.phone =masters[userId]["accSetting"].data.phone;
-//     object.address.street =masters[userId]["accSetting"].data.address.street;
-//     object.address.city = masters[userId]["accSetting"].data.address.city;
-//     object.address.zip = masters[userId]["_accSetting"].data.address.zip;
-//     object.address.state = masters[userId]["accSetting"].data.address.state;
-//     res.send(object);
-//
-//
-//
+// //     if(userId) {
+// //         res.setHeader('Content-Type', 'application/json');
+// //         res.send(JSON.stringify({
+// //         full_name : masters[userId]["accSetting"].data.full_name,
+// //         email : masters[userId]["accSetting"].data.email,
+// //         phone : masters[userId]["accSetting"].data.phone,
+// //         address.street : masters[userId]["accSetting"].data.address.street,
+// //         address.city : masters[userId]["accSetting"].data.address.city,
+// //         address.zip : masters[userId]["_accSetting"].data.address.zip,
+// //         address.state : masters[userId]["accSetting"].data.address.state
+// //         )};
+// //     }
+// // //
+//     //want page name for shopping route
+//     var shopping = req.body.page;
+//     res.setHeader('Content-Type', 'application/json');
+//     res.send(JSON.stringify(masters[userId][shopping].data));
+// });
 //    // var date = new Date();
 //
 //     // store all items into session
@@ -892,7 +946,7 @@ app.post('/_accSetting', function (req, res) {
 //
 //
 //     var object = {};
-//     object.address = {};
+//     address = {};
 //     object.full_name = masters[userId]["_accSetting"].data.full_name;
 //     object.email = masters[userId]["_accSetting"].data.email;
 //     object.phone =masters[userId]["_accSetting"].data.phone;
@@ -1037,7 +1091,15 @@ app.post('/_history', function (req, res, next) {
 });
 
 
-//--------------------------
+//----------------------PAYMENT--------------------
+app.get('/complete-payment', function(req, res){
+    var userId = req.query.user;
+    //actually submit and redirect to fetchgrocery.com#_submitted
+});
+app.get('/cancel-payment', function(req, res){
+    var userId = req.query.user;
+    //actually submit and redirect to fetchgrocery.com#_cancelled
+});
 
 
 var server = app.listen(3000, function () {

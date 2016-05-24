@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 var test_data = {
     full_name: "Donkey Punch",
     items: ["aa", "bb", "cc", "dd"],
@@ -28,12 +27,12 @@ var test_data = {
             $("#_driver_numItems").text(" ");
             fullName = data.full_name;
             array = data.items;
+            var separatedNames = data.full_name.split(" ");
 
             //create the contact info(where should I got this, is there a flied relates to contact?
             document.getElementById("listName").innerHTML = separatedNames[0] + "'s Shopping List";
             document.getElementById("phone").innerHTML = "Phone: " + data.contact;
 
-            var separatedNames = data.full_name.split(" ");
             for (var i = 0; i < array.length; i++) {
 
                 // item count
@@ -58,63 +57,19 @@ var test_data = {
                 else {
                     $("#_driver_footerInfo,.footerBars").hide();
                 }
-=======
-function _driverList_load() {
-    //Actual:
-    //loadFromServer();
-
-    //Simulation:
-    var simulated_user = {
-        id: 1234567,
-        name: "Bob",
-        items: ["aa", "bb", "cc", "dd"],
-        contact: 1234567890,
-        note: "none"
-    };
-    displayLoadedData(simulated_user);
-
-    function loadFromServer() {
-        var request = {
-            "type": "get",
-            "data": null
-        };
-
-        $.ajax({
-            type: "POST",
-            url: "/_driverList",
-            data: request,
-            success: function (data) {
-                //data is the object sent back on success (could also just be string)
-                displayLoadedData(data);
-            },
-            error: function (data) {
-                //data is the object send back on fail (could also just be string)
->>>>>>> 7c906d05326b5403d4c643a4f096c65257f91ab5
             }
         }
     };
     var count = 0;
     var fullName = "";
     var array = [];
-
-
-    // displayLoadedData(simulated_user);
-    //
-    // function displayLoadedData(data) {
-    //     document.getElementById("listName").innerHTML = data.name + "'s Shopping List";
-    //     document.getElementById("phone").innerHTML = "Phone: " + data.contact;
-    // }
-
-    // $("#_driver_footerInfo, #footerBars").show();
-
-    // makeList(simulated_user.items);
-
-
+    
 
     $(document).on('click', '.driverItem',function () {
-        var arr = [];
+
         $(this).toggleClass("selected");
 
+        var arr = [];
         $('.driverItem.selected').each(function () {
             arr.push($(this).text());
         });
@@ -152,9 +107,3 @@ function _driverList_load() {
 
 })();
 
-<<<<<<< HEAD
-=======
-_driverList_load();/**
- * Created by juneruijiang on 5/17/16.
- */
->>>>>>> 7c906d05326b5403d4c643a4f096c65257f91ab5
