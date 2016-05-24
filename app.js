@@ -625,7 +625,6 @@ app.post('/loadData', function (req, res, next) {
 
 
 app.post('/changePage', function (req, res) {
-    
     if(!req.session.hasOwnProperty("userId"))
         res.send();
     else {
@@ -634,7 +633,6 @@ app.post('/changePage', function (req, res) {
         var userId = req.session.userId;
         masters[userId].currentPage = newPage;
     }
-    
 });
 
 //----------------------------------getTicket--------------------------------------------------------------------------
