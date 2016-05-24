@@ -67,23 +67,17 @@
     function goToPage(id, noPrevious) {
         if (id.length) {
             if (arguments.length > 1) {
-                //loader.setCurrentPage(id, true);
+                loader.setCurrentPage(id, true);
             }
             else {
-                //loader.setCurrentPage(id, false);
+                loader.setCurrentPage(id, false);
             }
-            loader.goToPage(id);
-            /*Temporary*/
         }
     }
     function goToPreviousPage() {
         goToPage(loader.previousPage, true);
     }
-    /*
-     TODO:
-     Each page MUST specify function to send/received data, or null
-     Each page will call goToPage onclick to go to the correct page
-     */
+
     var ticketPrototype = {
         ticket: {
             id: "",
@@ -138,7 +132,7 @@
                     })
                 });
 
-                goToPage(page);
+                loader.goToPage(page);
             }
         },
         //Saves current active ticket (if any), then fetches new one and loads page data corresponding to ticket status in back end store
@@ -192,6 +186,8 @@
                 dataType: "json",
                 url: "/getUpdates",
                 success: function (resp) {
+                    console.log("getUpdate");
+                    console.log(resp);
                     //TODO
                     resp.isLoggedIn; //Call logout so it posts as well, and only do that
                     resp.currentPage;
@@ -202,7 +198,7 @@
         },
         login: function (data) { //Called after successful login, passing the returned data
             loader.previousPage = loader.currentPage;
-            document.cookie = "user=" + data.userId + ";expires=" + new Date().setUTCFullYear(2345).toUTCString();
+            document.cookie = "user=" + data.userId + ";expires=" + new Date().setUTCFullYear(2045).toUTCString();
 
             if (!data.isLoggedIn) {
                 loader.userId = data.userId;
@@ -216,11 +212,13 @@
                 loader.isLoggedIn = true;
                 loader.isDriver = data.isDriver;
                 loader.ticketId = data.ticketId;
-                //load ticket queue if need, otherwise go to page TODO
                 switch (data.currentPage) {
 
                 }
             }
+
+
+            //window.setInterval(loader.getUpdates, 500);
         },
         logout: function () {
             document.cookie = "user=" + data.userId + ";expires=" + new Date(0).toUTCString();
@@ -273,36 +271,44 @@
      */
 
     function pageInit() {
-//        if (document.cookie.length > 5) {
-//            var user = document.cookie;
-//            loader.userId = user.split(";")[0].substring(5);
-//        }
-//        else {
-//            loader.userId = "";
-//        }
-//        $.ajax({
-//            type: "POST",
-//            url: "/init",
-//            data: {
-//                userId: loader.userId //"" or valid user id string
-//            },
-//            success: function (resp) {
-//                console.log(resp);
-//                if (resp.isLoggedIn) {
-//                    loader.isDriver = resp.isDriver;
-//                    loader.userId = resp.userId;
-//                    loader.currentPage = resp.currentPage;
-//                    loader.currentPageObject = loader[resp.currentPage];
-//                    loader.goToPage(resp.currentPage);
-//                }
-//                else {
-//                    //Temporary
-//                    loader.userId = resp.userId;
-//                }
-//
-//                //window.setInterval(loader.getUpdates, 500);
-//            }
-//        });
+        if (document.cookie.length > 5) {
+            var user = document.cookie;
+            loader.userId = user.split(";")[0].substring(5);
+
+            $.ajax({
+                type: "POST",
+                url: "/init",
+                data: {
+                    userId: loader.userId
+                },
+                success: function (resp) {
+                    if (!data.isLoggedIn) {
+                        loader.userId = data.userId;
+                        loader.isLoggedIn = true;
+                        loader.isDriver = false;
+                        loader.ticketId = "";
+                        loader.currentPage = "_homePage";
+                    }
+                    else {
+                        loader.userId = data.userId;
+                        loader.isLoggedIn = true;
+                        loader.isDriver = data.isDriver;
+                        loader.ticketId = data.ticketId;
+                        switch (data.currentPage) {
+                                //TODO
+                        }
+                    }
+                    //window.setInterval(loader.getUpdates, 500);
+                }
+            });
+        }
+        else {
+            loader.userId = "";
+            loader.isLoggedIn = false;
+            loader.isDriver = false;
+            loader.ticketId = "";
+            loader.currentPage = "_homePage";
+        }
     }
 
     function loadPage(pageName, row, column) {
