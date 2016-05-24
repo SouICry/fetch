@@ -603,7 +603,7 @@ app.post('/changePage', function (req, res) {
         console.log("id: " + userId);
         console.log(data);
         if (pageCount > masters[userId].pageCount) {
-            
+
             var currentPage = masters[userId].currentPage;
             console.log(currentPage);
             masters[userId][currentPage].data = data;
