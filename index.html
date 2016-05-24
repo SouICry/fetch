@@ -304,8 +304,14 @@
                         loader.isLoggedIn = true;
                         loader.isDriver = data.isDriver;
                         loader.ticketId = data.ticketId;
-                        switch (data.currentPage) {
-                                //TODO
+                        if (window.location.hash.length > 0){
+                            //submit or cancel ticket
+                            goToPage(window.location.hash);
+                        }
+                        else {
+                            switch (data.currentPage) {
+                                    //TODO
+                            }
                         }
                     }
                     //window.setInterval(loader.getUpdates, 500);
@@ -345,9 +351,12 @@
                 $("#Butt").append("<div " + clickVal + " >" + whichid + "</div>");
             }
         }
+
+        loadPage("payment", 0, 0);
     });
+
     jQuery(document).ready(function ($) {
-        $('#open-menu-drawer').on('click', function (event) {
+        $('#open-menu-drawer').on('click', function () {
             $('#menu-drawer').addClass('is-visible');
         });
         $('#menu-drawer').on('click', function (event) {

@@ -1091,7 +1091,15 @@ app.post('/_history', function (req, res, next) {
 });
 
 
-//--------------------------
+//----------------------PAYMENT--------------------
+app.get('/complete-payment', function(req, res){
+    var userId = req.query.user;
+    //actually submit and redirect to fetchgrocery.com#_submitted
+});
+app.get('/cancel-payment', function(req, res){
+    var userId = req.query.user;
+    //actually submit and redirect to fetchgrocery.com#_cancelled
+});
 
 
 var server = app.listen(3000, function () {

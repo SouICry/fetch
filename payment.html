@@ -1,206 +1,198 @@
-<form class="hidden" id="payment-form-1" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-    <input type="hidden" name="cmd" value="_xclick">
-    <input type="hidden" name="business" value="YSDLMAVKEK5R8">
-    <input type="hidden" name="lc" value="US">
-    <input type="hidden" name="item_name" value="Fetch Service Fee">
-    <input type="hidden" name="button_subtype" value="services">
-    <input type="hidden" name="no_note" value="1">
-    <input type="hidden" name="no_shipping" value="1">
-    <input type="hidden" name="rm" value="1">
-    <input class="complete-payment" type="hidden" name="return"
-           value="http://ec2-52-10-41-135.us-west-2.compute.amazonaws.com/complete-payment">
-    <input class="cancel-payment" type="hidden" name="cancel_return"
-           value="http://ec2-52-10-41-135.us-west-2.compute.amazonaws.com/cancel-payment">
-    <input type="hidden" name="currency_code" value="USD">
-    <input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynowCC_LG.gif:NonHosted">
-    <table>
-        <tr>
-            <td><input type="hidden" name="on0" value="Service Fee">Service Fee</td>
-        </tr>
-        <tr>
-            <td><select id="payment-select-1" name="os0">
-                <option value="$5 Bid">$5 Bid $5.00 USD</option>
-                <option value="$6 Bid">$6 Bid $6.00 USD</option>
-                <option value="$7 Bid">$7 Bid $7.00 USD</option>
-                <option value="$8 Bid">$8 Bid $8.00 USD</option>
-                <option value="$9 Bid">$9 Bid $9.00 USD</option>
-                <option value="$10 Bid">$10 Bid $10.00 USD</option>
-                <option value="$11 Bid">$11 Bid $11.00 USD</option>
-                <option value="$12 Bid">$12 Bid $12.00 USD</option>
-                <option value="$13 Bid">$13 Bid $13.00 USD</option>
-                <option value="$14 Bid">$14 Bid $14.00 USD</option>
-            </select></td>
-        </tr>
-    </table>
-    <input type="hidden" name="currency_code" value="USD">
-    <input type="hidden" name="option_select0" value="$5 Bid">
-    <input type="hidden" name="option_amount0" value="5.00">
-    <input type="hidden" name="option_select1" value="$6 Bid">
-    <input type="hidden" name="option_amount1" value="6.00">
-    <input type="hidden" name="option_select2" value="$7 Bid">
-    <input type="hidden" name="option_amount2" value="7.00">
-    <input type="hidden" name="option_select3" value="$8 Bid">
-    <input type="hidden" name="option_amount3" value="8.00">
-    <input type="hidden" name="option_select4" value="$9 Bid">
-    <input type="hidden" name="option_amount4" value="9.00">
-    <input type="hidden" name="option_select5" value="$10 Bid">
-    <input type="hidden" name="option_amount5" value="10.00">
-    <input type="hidden" name="option_select6" value="$11 Bid">
-    <input type="hidden" name="option_amount6" value="11.00">
-    <input type="hidden" name="option_select7" value="$12 Bid">
-    <input type="hidden" name="option_amount7" value="12.00">
-    <input type="hidden" name="option_select8" value="$13 Bid">
-    <input type="hidden" name="option_amount8" value="13.00">
-    <input type="hidden" name="option_select9" value="$14 Bid">
-    <input type="hidden" name="option_amount9" value="14.00">
-    <input type="hidden" name="option_index" value="0">
-</form>
+<div id="payment-background" class="hidden">
+    <form class="hidden" id="payment-form-1" action="https://www.paypal.com/cgi-bin/webscr" method="post"
+          target="_blank">
+        <input type="hidden" name="cmd" value="_xclick">
+        <input type="hidden" name="business" value="YSDLMAVKEK5R8">
+        <input type="hidden" name="lc" value="US">
+        <input type="hidden" name="item_name" value="Fetch Service Fee">
+        <input type="hidden" name="button_subtype" value="services">
+        <input type="hidden" name="no_note" value="1">
+        <input type="hidden" name="no_shipping" value="1">
+        <input type="hidden" name="rm" value="1">
+        <input class="complete-payment" type="hidden" name="return"
+               value="http://ec2-52-10-41-135.us-west-2.compute.amazonaws.com/complete-payment">
+        <input class="cancel-payment" type="hidden" name="cancel_return"
+               value="http://ec2-52-10-41-135.us-west-2.compute.amazonaws.com/cancel-payment">
+        <input type="hidden" name="currency_code" value="USD">
+        <input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynowCC_LG.gif:NonHosted">
+        <table>
+            <tr>
+                <td><input type="hidden" name="on0" value="Service Fee">Service Fee</td>
+            </tr>
+            <tr>
+                <td><select id="payment-select-1" name="os0">
+                    <option value="$5 Bid">$5 Bid $5.00 USD</option>
+                    <option value="$6 Bid">$6 Bid $6.00 USD</option>
+                    <option value="$7 Bid">$7 Bid $7.00 USD</option>
+                    <option value="$8 Bid">$8 Bid $8.00 USD</option>
+                    <option value="$9 Bid">$9 Bid $9.00 USD</option>
+                    <option value="$10 Bid">$10 Bid $10.00 USD</option>
+                    <option value="$11 Bid">$11 Bid $11.00 USD</option>
+                    <option value="$12 Bid">$12 Bid $12.00 USD</option>
+                    <option value="$13 Bid">$13 Bid $13.00 USD</option>
+                    <option value="$14 Bid">$14 Bid $14.00 USD</option>
+                </select></td>
+            </tr>
+        </table>
+        <input type="hidden" name="currency_code" value="USD">
+        <input type="hidden" name="option_select0" value="$5 Bid">
+        <input type="hidden" name="option_amount0" value="5.00">
+        <input type="hidden" name="option_select1" value="$6 Bid">
+        <input type="hidden" name="option_amount1" value="6.00">
+        <input type="hidden" name="option_select2" value="$7 Bid">
+        <input type="hidden" name="option_amount2" value="7.00">
+        <input type="hidden" name="option_select3" value="$8 Bid">
+        <input type="hidden" name="option_amount3" value="8.00">
+        <input type="hidden" name="option_select4" value="$9 Bid">
+        <input type="hidden" name="option_amount4" value="9.00">
+        <input type="hidden" name="option_select5" value="$10 Bid">
+        <input type="hidden" name="option_amount5" value="10.00">
+        <input type="hidden" name="option_select6" value="$11 Bid">
+        <input type="hidden" name="option_amount6" value="11.00">
+        <input type="hidden" name="option_select7" value="$12 Bid">
+        <input type="hidden" name="option_amount7" value="12.00">
+        <input type="hidden" name="option_select8" value="$13 Bid">
+        <input type="hidden" name="option_amount8" value="13.00">
+        <input type="hidden" name="option_select9" value="$14 Bid">
+        <input type="hidden" name="option_amount9" value="14.00">
+        <input type="hidden" name="option_index" value="0">
+    </form>
 
-<form class="hidden" id="payment-form-2" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-    <input type="hidden" name="cmd" value="_xclick">
-    <input type="hidden" name="business" value="YSDLMAVKEK5R8">
-    <input type="hidden" name="lc" value="US">
-    <input type="hidden" name="item_name" value="Fetch Service Fee">
-    <input type="hidden" name="button_subtype" value="services">
-    <input type="hidden" name="no_note" value="1">
-    <input type="hidden" name="no_shipping" value="1">
-    <input type="hidden" name="rm" value="1">
-    <input class="complete-payment" type="hidden" name="return"
-           value="http://ec2-52-10-41-135.us-west-2.compute.amazonaws.com/complete-payment">
-    <input class="cancel-payment" type="hidden" name="cancel_return"
-           value="http://ec2-52-10-41-135.us-west-2.compute.amazonaws.com/cancel-payment">
-    <input type="hidden" name="currency_code" value="USD">
-    <input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynowCC_LG.gif:NonHosted">
-    <table>
-        <tr>
-            <td><input type="hidden" name="on0" value="Service Fee">Service Fee</td>
-        </tr>
-        <tr>
-            <td><select id="payment-select-2" name="os0">
-                <option value="$15 Bid">$15 Bid $15.00 USD</option>
-                <option value="$16 Bid">$16 Bid $16.00 USD</option>
-                <option value="$17 Bid">$17 Bid $17.00 USD</option>
-                <option value="$18 Bid">$18 Bid $18.00 USD</option>
-                <option value="$19 Bid">$19 Bid $19.00 USD</option>
-                <option value="$20 Bid">$20 Bid $20.00 USD</option>
-                <option value="$21 Bid">$21 Bid $21.00 USD</option>
-                <option value="$22 Bid">$22 Bid $22.00 USD</option>
-                <option value="$23 Bid">$23 Bid $23.00 USD</option>
-                <option value="$24 Bid">$24 Bid $24.00 USD</option>
-            </select></td>
-        </tr>
-    </table>
-    <input type="hidden" name="currency_code" value="USD">
-    <input type="hidden" name="option_select0" value="$15 Bid">
-    <input type="hidden" name="option_amount0" value="15.00">
-    <input type="hidden" name="option_select1" value="$16 Bid">
-    <input type="hidden" name="option_amount1" value="16.00">
-    <input type="hidden" name="option_select2" value="$17 Bid">
-    <input type="hidden" name="option_amount2" value="17.00">
-    <input type="hidden" name="option_select3" value="$18 Bid">
-    <input type="hidden" name="option_amount3" value="18.00">
-    <input type="hidden" name="option_select4" value="$19 Bid">
-    <input type="hidden" name="option_amount4" value="19.00">
-    <input type="hidden" name="option_select5" value="$20 Bid">
-    <input type="hidden" name="option_amount5" value="20.00">
-    <input type="hidden" name="option_select6" value="$21 Bid">
-    <input type="hidden" name="option_amount6" value="21.00">
-    <input type="hidden" name="option_select7" value="$22 Bid">
-    <input type="hidden" name="option_amount7" value="22.00">
-    <input type="hidden" name="option_select8" value="$23 Bid">
-    <input type="hidden" name="option_amount8" value="23.00">
-    <input type="hidden" name="option_select9" value="$24 Bid">
-    <input type="hidden" name="option_amount9" value="24.00">
-    <input type="hidden" name="option_index" value="0">
-</form>
+    <form class="hidden" id="payment-form-2" action="https://www.paypal.com/cgi-bin/webscr" method="post"
+          target="_blank">
+        <input type="hidden" name="cmd" value="_xclick">
+        <input type="hidden" name="business" value="YSDLMAVKEK5R8">
+        <input type="hidden" name="lc" value="US">
+        <input type="hidden" name="item_name" value="Fetch Service Fee">
+        <input type="hidden" name="button_subtype" value="services">
+        <input type="hidden" name="no_note" value="1">
+        <input type="hidden" name="no_shipping" value="1">
+        <input type="hidden" name="rm" value="1">
+        <input class="complete-payment" type="hidden" name="return"
+               value="http://ec2-52-10-41-135.us-west-2.compute.amazonaws.com/complete-payment">
+        <input class="cancel-payment" type="hidden" name="cancel_return"
+               value="http://ec2-52-10-41-135.us-west-2.compute.amazonaws.com/cancel-payment">
+        <input type="hidden" name="currency_code" value="USD">
+        <input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynowCC_LG.gif:NonHosted">
+        <table>
+            <tr>
+                <td><input type="hidden" name="on0" value="Service Fee">Service Fee</td>
+            </tr>
+            <tr>
+                <td><select id="payment-select-2" name="os0">
+                    <option value="$15 Bid">$15 Bid $15.00 USD</option>
+                    <option value="$16 Bid">$16 Bid $16.00 USD</option>
+                    <option value="$17 Bid">$17 Bid $17.00 USD</option>
+                    <option value="$18 Bid">$18 Bid $18.00 USD</option>
+                    <option value="$19 Bid">$19 Bid $19.00 USD</option>
+                    <option value="$20 Bid">$20 Bid $20.00 USD</option>
+                    <option value="$21 Bid">$21 Bid $21.00 USD</option>
+                    <option value="$22 Bid">$22 Bid $22.00 USD</option>
+                    <option value="$23 Bid">$23 Bid $23.00 USD</option>
+                    <option value="$24 Bid">$24 Bid $24.00 USD</option>
+                </select></td>
+            </tr>
+        </table>
+        <input type="hidden" name="currency_code" value="USD">
+        <input type="hidden" name="option_select0" value="$15 Bid">
+        <input type="hidden" name="option_amount0" value="15.00">
+        <input type="hidden" name="option_select1" value="$16 Bid">
+        <input type="hidden" name="option_amount1" value="16.00">
+        <input type="hidden" name="option_select2" value="$17 Bid">
+        <input type="hidden" name="option_amount2" value="17.00">
+        <input type="hidden" name="option_select3" value="$18 Bid">
+        <input type="hidden" name="option_amount3" value="18.00">
+        <input type="hidden" name="option_select4" value="$19 Bid">
+        <input type="hidden" name="option_amount4" value="19.00">
+        <input type="hidden" name="option_select5" value="$20 Bid">
+        <input type="hidden" name="option_amount5" value="20.00">
+        <input type="hidden" name="option_select6" value="$21 Bid">
+        <input type="hidden" name="option_amount6" value="21.00">
+        <input type="hidden" name="option_select7" value="$22 Bid">
+        <input type="hidden" name="option_amount7" value="22.00">
+        <input type="hidden" name="option_select8" value="$23 Bid">
+        <input type="hidden" name="option_amount8" value="23.00">
+        <input type="hidden" name="option_select9" value="$24 Bid">
+        <input type="hidden" name="option_amount9" value="24.00">
+        <input type="hidden" name="option_index" value="0">
+    </form>
 
-<form class="hidden" id="payment-form-3" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-    <input type="hidden" name="cmd" value="_xclick">
-    <input type="hidden" name="business" value="YSDLMAVKEK5R8">
-    <input type="hidden" name="lc" value="US">
-    <input type="hidden" name="item_name" value="Fetch Service Fee">
-    <input type="hidden" name="button_subtype" value="services">
-    <input type="hidden" name="no_note" value="1">
-    <input type="hidden" name="no_shipping" value="1">
-    <input type="hidden" name="rm" value="1">
-    <input class="complete-payment" type="hidden" name="return"
-           value="http://ec2-52-10-41-135.us-west-2.compute.amazonaws.com/complete-payment">
-    <input class="cancel-payment" type="hidden" name="cancel_return"
-           value="http://ec2-52-10-41-135.us-west-2.compute.amazonaws.com/cancel-payment">
-    <input type="hidden" name="currency_code" value="USD">
-    <input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynowCC_LG.gif:NonHosted">
-    <table>
-        <tr>
-            <td><input type="hidden" name="on0" value="Service Fee">Service Fee</td>
-        </tr>
-        <tr>
-            <td><select id="payment-select-3" name="os0">
-                <option value="$25 Bid">$25 Bid $25.00 USD</option>
-                <option value="$26 Bid">$26 Bid $26.00 USD</option>
-                <option value="$27 Bid">$27 Bid $27.00 USD</option>
-                <option value="$28 Bid">$28 Bid $28.00 USD</option>
-                <option value="$29 Bid">$29 Bid $29.00 USD</option>
-                <option value="$30 Bid">$30 Bid $30.00 USD</option>
-            </select></td>
-        </tr>
-    </table>
-    <input type="hidden" name="currency_code" value="USD">
-    <input type="hidden" name="option_select0" value="$25 Bid">
-    <input type="hidden" name="option_amount0" value="25.00">
-    <input type="hidden" name="option_select1" value="$26 Bid">
-    <input type="hidden" name="option_amount1" value="26.00">
-    <input type="hidden" name="option_select2" value="$27 Bid">
-    <input type="hidden" name="option_amount2" value="27.00">
-    <input type="hidden" name="option_select3" value="$28 Bid">
-    <input type="hidden" name="option_amount3" value="28.00">
-    <input type="hidden" name="option_select4" value="$29 Bid">
-    <input type="hidden" name="option_amount4" value="29.00">
-    <input type="hidden" name="option_select5" value="$30 Bid">
-    <input type="hidden" name="option_amount5" value="30.00">
-    <input type="hidden" name="option_index" value="0">
-</form>
+    <form class="hidden" id="payment-form-3" action="https://www.paypal.com/cgi-bin/webscr" method="post"
+          target="_blank">
+        <input type="hidden" name="cmd" value="_xclick">
+        <input type="hidden" name="business" value="YSDLMAVKEK5R8">
+        <input type="hidden" name="lc" value="US">
+        <input type="hidden" name="item_name" value="Fetch Service Fee">
+        <input type="hidden" name="button_subtype" value="services">
+        <input type="hidden" name="no_note" value="1">
+        <input type="hidden" name="no_shipping" value="1">
+        <input type="hidden" name="rm" value="1">
+        <input class="complete-payment" type="hidden" name="return"
+               value="http://ec2-52-10-41-135.us-west-2.compute.amazonaws.com/complete-payment">
+        <input class="cancel-payment" type="hidden" name="cancel_return"
+               value="http://ec2-52-10-41-135.us-west-2.compute.amazonaws.com/cancel-payment">
+        <input type="hidden" name="currency_code" value="USD">
+        <input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynowCC_LG.gif:NonHosted">
+        <table>
+            <tr>
+                <td><input type="hidden" name="on0" value="Service Fee">Service Fee</td>
+            </tr>
+            <tr>
+                <td><select id="payment-select-3" name="os0">
+                    <option value="$25 Bid">$25 Bid $25.00 USD</option>
+                    <option value="$26 Bid">$26 Bid $26.00 USD</option>
+                    <option value="$27 Bid">$27 Bid $27.00 USD</option>
+                    <option value="$28 Bid">$28 Bid $28.00 USD</option>
+                    <option value="$29 Bid">$29 Bid $29.00 USD</option>
+                    <option value="$30 Bid">$30 Bid $30.00 USD</option>
+                </select></td>
+            </tr>
+        </table>
+        <input type="hidden" name="currency_code" value="USD">
+        <input type="hidden" name="option_select0" value="$25 Bid">
+        <input type="hidden" name="option_amount0" value="25.00">
+        <input type="hidden" name="option_select1" value="$26 Bid">
+        <input type="hidden" name="option_amount1" value="26.00">
+        <input type="hidden" name="option_select2" value="$27 Bid">
+        <input type="hidden" name="option_amount2" value="27.00">
+        <input type="hidden" name="option_select3" value="$28 Bid">
+        <input type="hidden" name="option_amount3" value="28.00">
+        <input type="hidden" name="option_select4" value="$29 Bid">
+        <input type="hidden" name="option_amount4" value="29.00">
+        <input type="hidden" name="option_select5" value="$30 Bid">
+        <input type="hidden" name="option_amount5" value="30.00">
+        <input type="hidden" name="option_index" value="0">
+    </form>
 
-<div id="confirm-prompt" class="hidden">
-
+    <input id="service-bid-slider" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20"
+           data-slider-step="1" data-slider-value="14"/>
 </div>
-
-<div id="confirm-content" class="hidden">
-
-</div>
-<input id="service-bid-slider" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20"
-       data-slider-step="1" data-slider-value="14"/>
-
 <script>
-    function onPaymentLoad() {
-        if (!loader.user.isLoggedIn) {
-            $('#confirm-prompt').removeClass('hidden');
-            $('#confirm-content').addClass('hidden');
-        }
-        else {
-            $('#confirm-prompt').addClass('hidden');
-            $('#confirm-content').removeClass('hidden');
-        }
+    loader.payment = {
+        triggerPayment: function () {
+            $('.complete-payment').val('https://fetchgrocery.com/complete-payment?user=' + loader.userId);
+            $('.cancel-payment').val('https://fetchgrocery.com/cancel-payment?user=' + loader.userId);
 
-        loader.onReturnBelow = onPaymentLoad;
-    }
+            var price = 5;
 
-    function triggerPayment() {
-        $('.complete-payment').val('http://ec2-52-10-41-135.us-west-2.compute.amazonaws.com/complete-payment?user=' + loader.user.id + '&ticket=' + loader.ticket.id);
-        $('.cancel-payment').val('http://ec2-52-10-41-135.us-west-2.compute.amazonaws.com/cancel-payment?user=' + loader.user.id + '&ticket=' + loader.ticket.id);
-
-        var price = 5;
-
-        if (price >= 5 && price <= 14) {
-            document.getElementById('payment-select-1').selectedIndex = price - 5;
-            $('#payment-form-1').submit();
-        }
-        else if (price >= 15 && price <= 24) {
-            document.getElementById('payment-select-2').selectedIndex = price - 15;
-            $('#payment-form-2').submit();
-        }
-        else if (price >= 25 && price <= 30) {
-            document.getElementById('payment-select-3').selectedIndex = price - 25;
-            $('#payment-form-3').submit();
+            if (price >= 5 && price <= 14) {
+                document.getElementById('payment-select-1').selectedIndex = price - 5;
+                $('#payment-form-1').submit();
+            }
+            else if (price >= 15 && price <= 24) {
+                document.getElementById('payment-select-2').selectedIndex = price - 15;
+                $('#payment-form-2').submit();
+            }
+            else if (price >= 25 && price <= 30) {
+                document.getElementById('payment-select-3').selectedIndex = price - 25;
+                $('#payment-form-3').submit();
+            }
+        },
+        simulateCompletePayment: function () {
+            window.location.href = 'http://localhost:3000/complete-payment?user=' + loader.userId;
+        },
+        simulateCancelPayment: function () {
+            window.location.href = 'http://localhost:3000/cancel-payment?user=' + loader.userId;
         }
     }
 </script>
