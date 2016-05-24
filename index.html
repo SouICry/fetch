@@ -128,24 +128,17 @@
         },
         setCurrentPage: function (page, noPrevious) {
             if (loader.currentPage != page) {
-                loader.pageCount++;
-                var oldPage = loader.currentPage;
-                loader.currentPage = page;
-                if (loader.currentPageObject.getData != null) {
-                    loader.currentPageObject.data = loader.currentPageObject.getData();
-                }
-                else {
-                    loader.currentPageObject.data = null;
-                }
                 $.ajax({
                     type: "POST",
                     contentType: "application/json",
                     dataType: "json",
                     url: "/changePage",
                     data: JSON.stringify({
-                        newPage: page,
+                        newPage: page
                     })
                 });
+
+                goToPage(page);
             }
         },
         //Saves current active ticket (if any), then fetches new one and loads page data corresponding to ticket status in back end store
@@ -199,23 +192,34 @@
                 dataType: "json",
                 url: "/getUpdates",
                 success: function (resp) {
+                    //TODO
+                    resp.isLoggedIn; //Call logout so it posts as well, and only do that
                     resp.currentPage;
                     resp.ticketId;
-                    resp.isLoggedIn;
                     resp.isDriver;
                 }
             });
         },
         login: function (data) { //Called after successful login, passing the returned data
+            loader.previousPage = loader.currentPage;
             document.cookie = "user=" + data.userId + ";expires=" + new Date().setUTCFullYear(2345).toUTCString();
-            loader.userId = data.userId;
-            //If already logged in, Simply reload page to use init to get the data
-            if (data.isLoggedIn) {
-                window.location.reload();
+
+            if (!data.isLoggedIn) {
+                loader.userId = data.userId;
+                loader.isLoggedIn = true;
+                loader.isDriver = false;
+                loader.ticketId = "";
+                goToPage(loader.previousPage);
             }
-            //Otherwise keep as is and go back
             else {
-                goToPreviousPage();
+                loader.userId = data.userId;
+                loader.isLoggedIn = true;
+                loader.isDriver = data.isDriver;
+                loader.ticketId = data.ticketId;
+                //load ticket queue if need, otherwise go to page TODO
+                switch (data.currentPage) {
+
+                }
             }
         },
         logout: function () {
@@ -224,8 +228,7 @@
                 type: "POST",
                 contentType: "application/json",
                 dataType: "json",
-                url: "/logout",
-                data: JSON.stringify({})
+                url: "/logout"
             });
             window.location.reload();
         },
@@ -238,13 +241,11 @@
                 url: "/switchRole",
                 data: JSON.stringify({
                     isDriver: true
-                }),
-
+                })
             });
             //UI changes for menu bar
             goToPage("_yourDeliveries", true);
-        }
-        ,
+        },
         switchToShopper: function () {
             loader.isDriver = false;
             $.ajax({
@@ -272,36 +273,36 @@
      */
 
     function pageInit() {
-        if (document.cookie.length > 5) {
-            var user = document.cookie;
-            loader.userId = user.split(";")[0].substring(5);
-        }
-        else {
-            loader.userId = "";
-        }
-        $.ajax({
-            type: "POST",
-            url: "/init",
-            data: {
-                userId: loader.userId //"" or valid user id string
-            },
-            success: function (resp) {
-                console.log(resp);
-                if (resp.isLoggedIn) {
-                    loader.isDriver = resp.isDriver;
-                    loader.userId = resp.userId;
-                    loader.currentPage = resp.currentPage;
-                    loader.currentPageObject = loader[resp.currentPage];
-                    loader.goToPage(resp.currentPage);
-                }
-                else {
-                    //Temporary
-                    loader.userId = resp.userId;
-                }
-
-                //window.setInterval(loader.getUpdates, 500);
-            }
-        });
+//        if (document.cookie.length > 5) {
+//            var user = document.cookie;
+//            loader.userId = user.split(";")[0].substring(5);
+//        }
+//        else {
+//            loader.userId = "";
+//        }
+//        $.ajax({
+//            type: "POST",
+//            url: "/init",
+//            data: {
+//                userId: loader.userId //"" or valid user id string
+//            },
+//            success: function (resp) {
+//                console.log(resp);
+//                if (resp.isLoggedIn) {
+//                    loader.isDriver = resp.isDriver;
+//                    loader.userId = resp.userId;
+//                    loader.currentPage = resp.currentPage;
+//                    loader.currentPageObject = loader[resp.currentPage];
+//                    loader.goToPage(resp.currentPage);
+//                }
+//                else {
+//                    //Temporary
+//                    loader.userId = resp.userId;
+//                }
+//
+//                //window.setInterval(loader.getUpdates, 500);
+//            }
+//        });
     }
 
     function loadPage(pageName, row, column) {
