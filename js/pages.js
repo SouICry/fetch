@@ -6,7 +6,7 @@ var frontPage = [
 var allPages = [
     ["_accSetting", "_contact", "_passwordRecovery", "_passwordReset"],
     
-    ["_homePage", "_shopping", "_checkout"/*, "_pendingPayment" "_submitted"*/],
+    ["_homePage", "_shopping", "_checkout"/*, "_pendingPayment", "_submitted"*/],
     ["_history"/*, "_shoppingStatus"*/],
     [/*'_confirmTicket',*/ "_rateDriver" /*,'_congratsTicketClosed'*/],
     

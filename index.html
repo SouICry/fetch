@@ -44,10 +44,10 @@
         </header>
         <div class="cd-panel-content">
             <div id="Butt">
-                <div class='panel-divs' id='index-Home' >
+                <div class='panel-divs' id='index-Home'>
 
                     <span id="toggling">Shopper</span>
-                    <span id="toggleButton" onclick="toggles();"class="toggle-button">
+                    <span id="toggleButton" onclick="toggles();" class="toggle-button">
                         <button></button>
                     </span>
                 </div>
@@ -143,109 +143,53 @@
                     dataType: "json",
                     url: "/changePage",
                     data: JSON.stringify({
-                        pageCount: loader.pageCount,
                         newPage: page,
-                        oldPage: oldPage,
-                        oldData: loader.currentPageObject.data
-                    }),
-                    success: function (newPageData) {
-                        console.log(newPageData);
-                        loader.goToPage(loader.currentPage);
-                        if (noPrevious) {
-                            loader.previousPage = loader.currentPage;
-                        }
-                        else {
-                            loader.previousPage = oldPage;
-                        }
-                        loader.currentPageObject = loader[loader.currentPage];
-                        if (loader.currentPageObject.loadData != null) {
-                            loader.currentPageObject.loadData(newPageData);
-                        }
-                    }
+                    })
                 });
             }
         },
         //Saves current active ticket (if any), then fetches new one and loads page data corresponding to ticket status in back end store
-        getTicket: function (ticketId) {
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                dataType: "json",
-                url: "/getTicket",
-                data: JSON.stringify({
-                    id: ticketId
-                }), success: function (state) {
-                    if (loader.isDriver) {
-                        switch (state) {
-                            case "accepted" :
-                                goToPage("_driverList");
-                                break;
-                            case "shopped":
-                                goToPage("_completeTicket");
-                                break;
-                            case "delivered" :
-                                goToPage("_delivered");
-                        }
-                    }
-                    else {
-                        switch (state) {
-                            case "draft" :
-                                goToPage("_shopping");
-                                break;
-                            case "pending":
-                                goToPage("_cancelTicket");
-                                break;
-                            case "shopped":
-                                goToPage("_acceptTicket");
-                                break;
-                        }
-                    }
-                }
-            });
-        },
-        sendData: function () { //Gets data from page and sends to server for update. Server will send back version num
-            if (loader.currentPageObject.getData != null) {
-                loader.currentPageObject.data = loader.currentPageObject.getData();
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json",
-                    dataType: "json",
-                    url: "/sendData",
-                    data: JSON.stringify({
-                        name: loader.currentPage,
-                        data: loader.currentPageObject.data,
-                        version: loader.currentPageObject.version
-                    }), success: function (resp) {
-                        if (loader.currentPageObject.version < resp) {
-                            loader.currentPageObject.version = resp;
-                        }
-                    }
-                });
-            }
-        }
-        ,
-        loadData: function () { //Gets data from server to load page with
-            if (loader.currentPageObject.loadData != null) {
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json",
-                    dataType: "json",
-                    url: "/loadData",
-                    data: JSON.stringify({
-                        name: loader.currentPage,
-                        version: loader.currentPageObject.version
-                    }),
-                    success: function (resp) {
-                        if (resp != "none") {
-                            loader.currentPageObject.data = resp.data;
-                            loader.currentPageObject.version = resp.version;
-                            loader.currentPageObject.loadData();
-                        }
-                    }
-                });
-            }
-        }
-        ,
+//        sendData: function () { //Gets data from page and sends to server for update. Server will send back version num
+//            if (loader.currentPageObject.getData != null) {
+//                loader.currentPageObject.data = loader.currentPageObject.getData();
+//                $.ajax({
+//                    type: "POST",
+//                    contentType: "application/json",
+//                    dataType: "json",
+//                    url: "/sendData",
+//                    data: JSON.stringify({
+//                        name: loader.currentPage,
+//                        data: loader.currentPageObject.data,
+//                        version: loader.currentPageObject.version
+//                    }), success: function (resp) {
+//                        if (loader.currentPageObject.version < resp) {
+//                            loader.currentPageObject.version = resp;
+//                        }
+//                    }
+//                });
+//            }
+//        },
+//        loadData: function () { //Gets data from server to load page with
+//            if (loader.currentPageObject.loadData != null) {
+//                $.ajax({
+//                    type: "POST",
+//                    contentType: "application/json",
+//                    dataType: "json",
+//                    url: "/loadData",
+//                    data: JSON.stringify({
+//                        name: loader.currentPage,
+//                        version: loader.currentPageObject.version
+//                    }),
+//                    success: function (resp) {
+//                        if (resp != "none") {
+//                            loader.currentPageObject.data = resp.data;
+//                            loader.currentPageObject.version = resp.version;
+//                            loader.currentPageObject.loadData();
+//                        }
+//                    }
+//                });
+//            }
+//        },
         currentPageChanged: null,
         //set to run every second elsewhere
         getUpdates: function () {
@@ -254,52 +198,11 @@
                 contentType: "application/json",
                 dataType: "json",
                 url: "/getUpdates",
-
-                data: JSON.stringify({
-                    pageCount: loader.pageCount,
-                    page: loader.currentPage
-                })
-                , success: function (resp) {
-                    //Logout if now is logged out
-                    if (resp.isLoggedIn != loader.isLoggedIn) {
-                        if (!resp.isLoggedIn) {
-                            loader.logout();
-                            return;
-                        }
-                    }
-                    //Driver change, trigger driver change
-                    if (resp.isDriver != loader.isDriver) {
-                        if (resp.isDriver) {
-                            loader.switchToDriver();
-                            return;
-                        }
-                        else {
-                            loader.switchToShopper();
-                            return;
-                        }
-                    }
-                    //Change page if page is newer
-                    if (resp.pageCount > loader.pageCount) {
-                        loader.previousPage = resp.previousPage;
-                        loader.currentPage = resp.currentPage;
-                        loader.currentPageObject = loader[resp.currentPage];
-                        loader.currentPageObject.version = resp.version;
-                        if (loader.currentPageObject.loadData != null) {
-                            loader.currentPageObject.loadData(resp.data);
-                        }
-                        loader.goToPage(loader.currentPage);
-                    }
-                    //Update page if on same page and new version
-                    else if (resp.pageCount == loader.pageCount) {
-                        if (resp.version > loader.currentPageObject.version) {
-                            if (loader.currentPageObject.loadData != null) {
-                                loader.currentPageObject.loadData(resp.data);
-                            }
-                        }
-                    }
-                    else {
-                        //do nothing since this local copy is newer
-                    }
+                success: function (resp) {
+                    resp.currentPage;
+                    resp.ticketId;
+                    resp.isLoggedIn;
+                    resp.isDriver;
                 }
             });
         },
@@ -322,13 +225,10 @@
                 contentType: "application/json",
                 dataType: "json",
                 url: "/logout",
-                data: JSON.stringify({}),
-                success: function () {
-                }
+                data: JSON.stringify({})
             });
             window.location.reload();
-        }
-        ,
+        },
         switchToDriver: function () {
             loader.isDriver = true;
             $.ajax({
@@ -339,9 +239,7 @@
                 data: JSON.stringify({
                     isDriver: true
                 }),
-                function(){
 
-                }
             });
             //UI changes for menu bar
             goToPage("_yourDeliveries", true);
@@ -356,15 +254,14 @@
                 url: "/switchRole",
                 data: JSON.stringify({
                     isDriver: false
-                }), function(){
-
-                }
+                })
             });
             //UI changes for menu bar
             goToPage("_history", true);
         }
     };
     loader.currentPageChanged = _.throttle(loader.sendData, 500);
+
     /*
      Each page that needs like sync (edit ticket pages and stateless pages) has:
      data:
@@ -373,6 +270,7 @@
      loadData: loads data package
      Otherwise it is a missing property; the other pages load data through their own ajax(?)
      */
+
     function pageInit() {
         if (document.cookie.length > 5) {
             var user = document.cookie;
@@ -392,23 +290,20 @@
                 if (resp.isLoggedIn) {
                     loader.isDriver = resp.isDriver;
                     loader.userId = resp.userId;
-                    loader.pageCount = resp.pageCount;
-                    loader.previousPage = resp.previousPage;
                     loader.currentPage = resp.currentPage;
                     loader.currentPageObject = loader[resp.currentPage];
-                    loader.currentPageObject.version = resp.version;
-                    if (loader.currentPageObject.loadData != null) {
-                        loader.currentPageObject.loadData(resp.data);
-                    }
                     loader.goToPage(resp.currentPage);
                 }
                 else {
+                    //Temporary
                     loader.userId = resp.userId;
                 }
+
                 //window.setInterval(loader.getUpdates, 500);
             }
         });
     }
+
     function loadPage(pageName, row, column) {
         $.ajax({
             type: "POST",
@@ -421,6 +316,7 @@
             }
         });
     }
+
     $(document).ready(function () {
         pageInit();
         for (var j = 0; j < allPages.length; j++) {
