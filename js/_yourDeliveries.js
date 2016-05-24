@@ -14,7 +14,7 @@
         {name: "vons", time: "10:00 pm", id: "864", state: "draft"}],
         version: 0,
         loadData: function (data) {
-            $("#yourDeliveries_accepted_tickets").empty();
+            $("#yourOrders_accepted_tickets").empty();
             $("#yourDeliveries_shopped_tickets").empty();
             $("#yourDeliveries_delivered_tickets").empty();
 
