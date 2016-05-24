@@ -131,7 +131,6 @@
                         newPage: page
                     })
                 });
-
                 loader.goToPage(page);
             }
         },
@@ -197,8 +196,13 @@
             });
         },
         login: function (data) { //Called after successful login, passing the returned data
+            console.log("login");
+            console.log(data);
+
             loader.previousPage = loader.currentPage;
-            document.cookie = "user=" + data.userId + ";expires=" + new Date().setUTCFullYear(2045).toUTCString();
+            var d = new Date();
+            d.setTime(d.getTime() + (1000*24*60*60*1000));
+            document.cookie = "user=" + data.userId + ";expires=" + d.toUTCString();
 
             if (!data.isLoggedIn) {
                 loader.userId = data.userId;
@@ -271,17 +275,20 @@
      */
 
     function pageInit() {
-        if (document.cookie.length > 5) {
+
+        if (false){//document.cookie.length > 5) {
             var user = document.cookie;
             loader.userId = user.split(";")[0].substring(5);
-
+            alert(loader.userId);
             $.ajax({
                 type: "POST",
                 url: "/init",
                 data: {
                     userId: loader.userId
                 },
-                success: function (resp) {
+                success: function (data) {
+                    console.log("init exists");
+                    console.log(data);
                     if (!data.isLoggedIn) {
                         loader.userId = data.userId;
                         loader.isLoggedIn = true;

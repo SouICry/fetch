@@ -353,7 +353,7 @@ app.post('/_signUp', function (req, res, next) {
                         res.status(500);
                     }
                     else {
-                        var userId = req.session.passport.userId;
+                        var userId = req.session.passport.user;
                         req.session.userId = userId;
                         if (!masters.hasOwnProperty(userId)){
                             masters[userId] = {
@@ -383,7 +383,6 @@ app.post('/_signUp', function (req, res, next) {
                     }
                 });
             });
-            res.send(user);
         }
     })(req, res, next);
 });
@@ -407,7 +406,7 @@ app.post('/_login', function (req, res, next) {
             });
 
             //req.session.userId = req.body.email; //TODO set userId once login
-            var userId = req.session.passport.userId;
+            var userId = req.session.passport.user;
           
             req.session.userId = userId;
          
@@ -421,16 +420,24 @@ app.post('/_login', function (req, res, next) {
                     currentPage: ""
                 };
                 masters[userId].userId = userId;
-                res.setHeader('Content-Type', 'application/json');
+                // res.setHeader('Content-Type', 'application/json');
+
+                console.log(userId);
+                console.log(JSON.stringify({
+
+                    isLoggedIn: false,
+                    userId: userId
+                }));
                 res.send(JSON.stringify({
-                    userId: userId,
-                    isLoggedIn: false
+
+                    isLoggedIn: false,
+                    userId: userId
                 }));
             }
             else {
                 res.setHeader('Content-Type', 'application/json');
                 res.send(JSON.stringify({
-                    userId: masters[userId].userId,
+                    userId: userId,
                     currentPage: masters[userId].currentPage,
                     isLoggedIn: true,
                     ticketId: masters[userId].ticketId,
