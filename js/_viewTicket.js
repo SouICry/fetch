@@ -1,24 +1,9 @@
-/**
- * Created by Jeanette on 5/24/16.
- */
-var test_data = {
-    full_name: "Donkey",
-    items: ["aa", "bb", "cc", "dd"],
-    contact: 1234567890,
-    id: 1234
-};
-
 (function () {
     loader._viewTicket = {
+        data:{full_name: "Jen", items:["green eggs", "ham"], id: 3054},
         version: 0,
         getData: function () {
-            var packData = {
-                contact: $("#phone").substring(8),
-                full_name: fullName,
-                items: array
-            };
-
-            return packData;
+            return data.id;
         },
         loadData: function (data) {
             //populate driver list
@@ -57,49 +42,6 @@ var test_data = {
             }
         }
     };
-    var count = 0;
-    var fullName = "";
-    var array = [];
-
-    // $(document).on('click', '.viewTicketItem',function () {
-    //
-    //     $(this).toggleClass("selected");
-    //
-    //     var arr = [];
-    //     $('.driverItem.selected').each(function () {
-    //         arr.push($(this).text());
-    //     });
-    //
-    //     if ((count - arr.length) === 1) {
-    //         $("#_viewTicket_numItems").text("1 item left");
-    //     }
-    //     else {
-    //         $("#_viewTicket_numItems").text((count - arr.length) + " items left");
-    //     }
-    // });
-
-    $("#_viewTicket_submit_list").click(function () {
-        var arr = [];
-        $('.viewTicketItem.selected').each(function () {
-            arr.push($(this).text());
-        });
-
-        // var flag;
-        // if (arr.length != count) {
-        //     if ((count - arr.length) === 1) {
-        //         flag = confirm("You still have " + (count - arr.length) + " item left in the" +
-        //             " shopping list, Are you sure to finish shopping now?");
-        //     }
-        //     else {
-        //         flag = confirm("You still have " + (count - arr.length) + " items left in the" +
-        //             " shopping list, Are you sure to finish shopping now?");
-        //     }
-        // }
-
-        // if (arr.length === count || flag === true) {
-        //     goToPage("_congrats_driver_finish_shopping");
-        // }
-    });
 
 })();
 
