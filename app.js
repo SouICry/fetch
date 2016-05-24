@@ -353,8 +353,32 @@ app.post('/_signUp', function (req, res, next) {
                         res.status(500);
                     }
                     else {
-                       // req.session.userId = '';//TODO set userId to something Unique, and consistent;
-                        //req.session.userId = req.body.email; //TODO set userId to something Unique, and consistent
+                        var userId = req.session.passport.userId;
+                        req.session.userId = userId;
+                        if (!masters.hasOwnProperty(userId)){
+                            masters[userId] = {
+                                isDriver: false,
+                                isLoggedIn: true,
+                                userId: userId,
+                                currentPage: ""
+                            };
+                            masters[userId].userId = userId;
+                            res.setHeader('Content-Type', 'application/json');
+                            res.send(JSON.stringify({
+                                userId: userId,
+                                isLoggedIn: false
+                            }));
+                        }
+                        else {
+                            res.setHeader('Content-Type', 'application/json');
+                            res.send(JSON.stringify({
+                                userId: masters[userId].userId,
+                                currentPage: masters[userId].currentPage,
+                                isLoggedIn: true,
+                                ticketId: masters[userId].ticketId,
+                                isDriver: masters[userId].isDriver
+                            }));
+                        }
                         console.log('login success!');
                     }
                 });
@@ -383,8 +407,36 @@ app.post('/_login', function (req, res, next) {
             });
 
             //req.session.userId = req.body.email; //TODO set userId once login
+            var userId = req.session.passport.userId;
+          
+            req.session.userId = userId;
+         
 
 
+            if (!masters.hasOwnProperty(userId)){
+                masters[userId] = {
+                    isDriver: false,
+                    isLoggedIn: true,
+                    userId: userId,
+                    currentPage: ""
+                };
+                masters[userId].userId = userId;
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify({
+                    userId: userId,
+                    isLoggedIn: false
+                }));
+            }
+            else {
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify({
+                    userId: masters[userId].userId,
+                    currentPage: masters[userId].currentPage,
+                    isLoggedIn: true,
+                    ticketId: masters[userId].ticketId,
+                    isDriver: masters[userId].isDriver
+                }));
+            }
             console.log('successful login');
             // // If everything was successful, send user back to frontend
             // res.send(user);
