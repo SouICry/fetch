@@ -121,7 +121,9 @@
             }
         },
         setCurrentPage: function (page, noPrevious) {
+            loader.previousPage = loader.currentPage;
             if (loader.currentPage != page) {
+                loader.currentPage = page;
                 $.ajax({
                     type: "POST",
                     contentType: "application/json",
@@ -199,25 +201,26 @@
             console.log("login");
             console.log(data);
 
-            loader.previousPage = loader.currentPage;
             var d = new Date();
             d.setTime(d.getTime() + (1000*24*60*60*1000));
             document.cookie = "user=" + data.userId + ";expires=" + d.toUTCString();
-
+            console.log(data.isLoggedIn);
             if (!data.isLoggedIn) {
                 loader.userId = data.userId;
                 loader.isLoggedIn = true;
                 loader.isDriver = false;
                 loader.ticketId = "";
+                //goToPage("_homePage");
                 goToPage(loader.previousPage);
             }
             else {
+                console.log("not")
                 loader.userId = data.userId;
                 loader.isLoggedIn = true;
                 loader.isDriver = data.isDriver;
                 loader.ticketId = data.ticketId;
                 switch (data.currentPage) {
-
+                    //TODO
                 }
             }
 

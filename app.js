@@ -428,8 +428,8 @@ app.post('/_login', function (req, res, next) {
                     isLoggedIn: false,
                     userId: userId
                 }));
+                res.setHeader('Content-Type', 'application/json');
                 res.send(JSON.stringify({
-
                     isLoggedIn: false,
                     userId: userId
                 }));
