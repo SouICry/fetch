@@ -839,6 +839,18 @@ app.post('/_accSetting', function (req, res) {
         res.status(500);
         res.send({message: 'no user logged in'});
     }
+        // might need to pull data from database first depending on how we are doing it
+    else if (req.body.type === "request_data") {
+        object.full_name = masters[userId]["_accSetting"].data.full_name;
+        object.email = masters[userId]["_accSetting"].data.email;
+        object.phone =  masters[userId]["_accSetting"].data.phone;
+        object.address.street = masters[userId]["_accSetting"].data.address.street;
+        object.address.city = masters[userId]["_accSetting"].data.address.city;
+        object.address.state= masters[userId]["_accSetting"].data.address.state;
+        object.address.zip = masters[userId]["_accSetting"].data.address.zip;
+        
+        res.send(object);
+    }
     else {
         // update session
         masters[userId]["_accSetting"].data.full_name = req.body.user.full_name;
