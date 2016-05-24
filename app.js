@@ -573,50 +573,16 @@ app.post('/loadData', function (req, res, next) {
 
 
 app.post('/changePage', function (req, res) {
-
-    var newPage = req.body.newPage;
-    //save it to master current page field
-    var userId = req.session.userId;
-    if(newPage == "")
-        res.send()
-    masters[userId].newPage = newPage;
-    // var userId = req.session.userId;
-    // var queue = {};
-    // if (newPage == "_history") {
-    //     loadUserTickets(userId, callback, req, res);
-    // }
-    // else if (newPage == "_yourDelivery") {
-    //     loadDriverTickets(userId, callback, req, res);
-    // }
-    // else if (newPage == "_tickets") {
-    //     loadQueue(userId, callback, req, res);
-    // }
-    // else {
-    //     callback(req, res);
-    // }
-
-    function callback(req1, res1) {
-        var userId = req1.session.userId;
-        var pageCount = req1.body.pageCount;
-        var data = req1.body.oldData;
-        var newPage = req1.body.newPage;
-        console.log("id: " + userId);
-        console.log(data);
-        if (pageCount > masters[userId].pageCount) {
-            
-            var currentPage = masters[userId].currentPage;
-            console.log(currentPage);
-            masters[userId][currentPage].data = data;
-            masters[userId].pageCount = pageCount;
-            masters[userId].previousPage = currentPage;
-            masters[userId].currentPage = newPage;
-        }
-
-
-        res1.setHeader('Content-Type', 'application/json');
-        res1.send(JSON.stringify(masters[userId][newPage].data));
+    
+    if(!req.session.hasOwnProperty("userId"))
+        res.send();
+    else {
+        var newPage = req.body.newPage;
+        //save it to master current page field
+        var userId = req.session.userId;
+        masters[userId].currentPage = newPage;
     }
-
+    
 });
 
 //----------------------------------getTicket--------------------------------------------------------------------------
