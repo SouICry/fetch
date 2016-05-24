@@ -383,33 +383,8 @@ app.post('/_login', function (req, res, next) {
             });
 
             //req.session.userId = req.body.email; //TODO set userId once login
-            req.session.userId = req.session.passport.user;
-            var userId = req.session.userId;
-            if(!masters.hasOwnProperty(userId)) {
-                masters[userId] = {
-                    isDriver: false,
-                    isLoggedIn: true,
-                    userId: userId,
-                    currentPage: ""
-                };
-                masters[userId].userId = userId;
-                res.setHeader('Content-Type', 'application/json');
-                res.send(JSON.stringify({
-                    userId: userId,
-                    isLoggedIn: false
-                }));
-            }
-            else{
-                res.setHeader('Content-Type', 'application/json');
-                res.send(JSON.stringify({
-                    userId: masters[userId].userId,
-                    currentPage: masters[userId].currentPage,
-                    isLoggedIn: true,
-                    ticketId: masters[userId].ticketId,
-                    isDriver: masters[userId].isDriver
-                }));
-            }
-                  
+
+
             console.log('successful login');
             // // If everything was successful, send user back to frontend
             // res.send(user);
@@ -732,71 +707,101 @@ app.post('/getUpdates', function (req, res, next) {
 
 app.post('/init', function (req, res) {
     var userId = req.body.userId;
+    req.session.userId = userId;
+   // var userId = req.session.userId;
 
-    if (masters.hasOwnProperty(userId)) {
-        //Exists user
-        if (masters[userId] != null) {
-            //is logged in, return master existing data
-        }
-        else {
-            //initialize master with user data and empty objects
-        }
-    }
-    else {
 
-        var id = new Date().getMilliseconds();
-        req.session.userId = id;
-        console.log(id);
-        console.log(req.session.userId);
-        var masterInit = {
-            //loader
+    if (!masters.hasOwnProperty(userId)) {
+        masters[userId] = {
             isDriver: false,
-            isLoggedIn: false,
-            userId: id,
-            pageCount: 0,
-            previousPage: "_homePage",
-            currentPage: "_homePage",
-            currentPageObject: {
-                getData: null,
-                loadData: null,
-                data: null
-            },
-
-            userTickets: null,
-            driverTickets: null,
-            ticketQueue: null
+            isLoggedIn: true,
+            userId: userId,
+            currentPage: "_homePage"
         };
-        //Initialize each page
-        var allPages = [
-            "_accSetting", "_contact", "_history", "_passwordRecovery", "_passwordReset", "_signUp", "_login",
-            "_yourDeliveries", "_homePage", "_shopping", "_checkout"/*, "_submitted"*/,
-            /*'_confirmTicket',*/ "_rating" /*,'_ticketClosed'*/,
-            '_tickets', '_driverList2', "_congrats_driver_finish_shopping", /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats'
-        ];
-
-        for (var i = 0; i < allPages.length; i++){
-            masterInit[allPages[i]] = {
-                data: null,
-                version: 0
-            }
-        }
-
-        masters[id] = masterInit;
-
-
-
-
-        //new user
-
-        
+        masters[userId].userId = userId;
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify({
-            isLoggedIn: false,
-            userId: id
+            userId: userId,
+            isLoggedIn: false
         }));
-
+    }
+    else {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({
+            userId: masters[userId].userId,
+            currentPage: masters[userId].currentPage,
+            isLoggedIn: true,
+            ticketId: masters[userId].ticketId,
+            isDriver: masters[userId].isDriver
+        }));
     }
 });
+    // var userId = req.body.userId;
+    //
+    // if (masters.hasOwnProperty(userId)) {
+    //     //Exists user
+    //     if (masters[userId] != null) {
+    //         //is logged in, return master existing data
+    //     }
+    //     else {
+    //         //initialize master with user data and empty objects
+    //     }
+    // }
+    // else {
+    //
+    //     var id = new Date().getMilliseconds();
+    //     req.session.userId = id;
+    //     console.log(id);
+    //     console.log(req.session.userId);
+    //     var masterInit = {
+    //         //loader
+    //         isDriver: false,
+    //         isLoggedIn: false,
+    //         userId: id,
+    //         pageCount: 0,
+    //         previousPage: "_homePage",
+    //         currentPage: "_homePage",
+    //         currentPageObject: {
+    //             getData: null,
+    //             loadData: null,
+    //             data: null
+    //         },
+    //
+    //         userTickets: null,
+    //         driverTickets: null,
+    //         ticketQueue: null
+    //     };
+    //     //Initialize each page
+    //     var allPages = [
+    //         "_accSetting", "_contact", "_history", "_passwordRecovery", "_passwordReset", "_signUp", "_login",
+    //         "_yourDeliveries", "_homePage", "_shopping", "_checkout"/*, "_submitted"*/,
+    //         /*'_confirmTicket',*/ "_rating" /*,'_ticketClosed'*/,
+    //         '_tickets', '_driverList2', "_congrats_driver_finish_shopping", /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats'
+    //     ];
+    //
+    //     for (var i = 0; i < allPages.length; i++){
+    //         masterInit[allPages[i]] = {
+    //             data: null,
+    //             version: 0
+    //         }
+    //     }
+    //
+    //     masters[id] = masterInit;
+    //
+    //
+    //
+    //
+    //     //new user
+    //
+    //
+    //     res.setHeader('Content-Type', 'application/json');
+    //     res.send(JSON.stringify({
+    //         isLoggedIn: false,
+    //         userId: id
+    //     }));
+    //
+    // }
+//});
 
 //TODO ---------------------------------DATA-LOADER-------------------------
 
