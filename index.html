@@ -44,7 +44,7 @@
         </header>
         <div class="cd-panel-content">
             <div id="Butt">
-                <div class='panel-divs' id=''>
+                <div class='' id=''>
 
                     <span id="toggling">Shopper</span>
                     <span id="toggleButton" onclick="toggles();" class="toggle-button">
@@ -361,7 +361,7 @@
             $('#menu-drawer').addClass('is-visible');
         });
         $('#menu-drawer').on('click', function (event) {
-            if ($(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close')) {
+            if ($(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close')|| $(event.target).is('.panel-divs')) {
                 $('#menu-drawer').removeClass('is-visible');
             }
         });
