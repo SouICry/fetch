@@ -640,12 +640,13 @@ app.post('/loadData', function (req, res, next) {
 
 app.post('/changePage', function (req, res) {
     if(!req.session.hasOwnProperty("userId"))
-        res.send();
+        res.send("");
     else {
         var newPage = req.body.newPage;
         //save it to master current page field
         var userId = req.session.userId;
         masters[userId].currentPage = newPage;
+        res.send("");
     }
 });
 
