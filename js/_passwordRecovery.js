@@ -11,27 +11,27 @@
         loadData: null,
     };
 
-    $("#submit_email ").prop("disabled", true);
+    $("#passRecovery_submit_email ").prop("disabled", true);
 
 
-    $("#eMail").keyup(function () {
+    $("#passRecovery_email").keyup(function () {
 
-        if ($('#eMail').val()) {
-            $("#submit_email ").prop("disabled", false);
+        if ($('#passRecovery_email').val()) {
+            $("#passRecovery_submit_email ").prop("disabled", false);
         }
-        if (!$('#eMail').val()) {
-            $("#submit_email ").prop("disabled", true);
+        if (!$('#passRecovery_email').val()) {
+            $("#passRecovery_submit_email ").prop("disabled", true);
         }
     });
 
     $('#submit_btn').click(function () {
-        sendToServer();
+        passRecovery_sendToServer();
     });
 
 
-    function sendToServer() {
+    function passRecovery_sendToServer() {
         var info_to_send = {};
-        info_to_send.email = $('#eMail').val();
+        info_to_send.email = $('#passRecovery_email').val();
         ;
         info_to_send.type = "send";
 
@@ -41,7 +41,7 @@
         //Actual
         $.ajax({
             type: "POST",
-            url: "/_rating",
+            url: "/_passwordRecovery",
             data: info_to_send,
             success: function (data) {
                 //data is the object sent back on success (could also just be string)

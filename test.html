@@ -1,4 +1,3 @@
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 
 
@@ -21,16 +20,15 @@
     enableCamera(document.getElementById("video1"), document.getElementById("canvas1"), document.getElementById("takeButton1"), document.getElementById("redoButton1"), 0);
 
 
-
     var imageLoader = document.getElementById('uploadImage1');
     imageLoader.addEventListener('change', handleImageUpload, false);
 
 
-    function handleImageUpload(){
+    function handleImageUpload() {
         var reader = new FileReader();
-        reader.onload = function(event){
+        reader.onload = function (event) {
             var img = new Image();
-            img.onload = function(){
+            img.onload = function () {
                 var widthScaleFactor = canvas.width / img.width;
                 var heightScaleFactor = canvas.height / img.height;
                 var scaleFactor = widthScaleFactor > heightScaleFactor ? widthScaleFactor : heightScaleFactor;
@@ -39,7 +37,7 @@
                 var widthOffset = (imgWidth - canvas.width) / 2;
                 var heightOffset = (imgHeight - canvas.height) / 2;
 
-                context.drawImage(img,-widthOffset,-heightOffset, imgWidth, imgHeight);
+                context.drawImage(img, -widthOffset, -heightOffset, imgWidth, imgHeight);
             };
             img.src = event.target.result;
         };
@@ -47,22 +45,21 @@
     }
 
 
-
     var canvas = document.getElementById("canvas1");
 
-    $(document).ready(function(){
-        $('#uploadButton1').click(function(){
+    $(document).ready(function () {
+        $('#uploadButton1').click(function () {
             $.ajax({
                 type: "POST",
                 url: "",
                 contentType: "application/json",
                 dataType: "json",
-                data: JSON.stringify({ image: canvas.toDataURL("image/png") }),
-                success: function(resp){
+                data: JSON.stringify({image: canvas.toDataURL("image/png")}),
+                success: function (resp) {
                     alert(resp);
                 }
 
-        })
+            })
         })
     })
 
