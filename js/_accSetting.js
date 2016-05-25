@@ -19,7 +19,7 @@
         }
     };
 
-    var _account = {};
+    var _account;
 
     $("#accSetting_submit_info").click(function () {
         _account = {
@@ -31,6 +31,9 @@
             state: $('#accsetting_state').val(),
             zip: $('#accsetting_zip').val()
         };
+        alert("click called");
+
+        goToPage("_shopping");
     });
 })();
 
