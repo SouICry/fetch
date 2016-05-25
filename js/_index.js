@@ -68,6 +68,16 @@ $(document).ready(function (){
     $("#Butt").append("<div id='index-CheckOut' onclick=goToPage('_checkout'); > <span class= 'glyphicon glyphicon-check'></span> Checkout </div>");
     $("#Butt").append("<div id='index-Contact' onclick=goToPage('_contact'); > <span class= 'glyphicon glyphicon-equalizer'></span> Contact </div>");
     $("#Butt").append("<div id='index-Shopping' onclick=goToPage('_shopping'); > <span class= ''></span> Shopping </div>");
+    $("#Butt").append("<div id='' onclick=goToPage('_congrats'); > <span class= 'glyphicon glyphicon-off'></span> Shopping </div>");
+    $("#Butt").append("<div id='' onclick=goToPage('_confirmTicket'); > <span class= 'glyphicon glyphicon-off'></span> Confirm Ticket </div>");
+    $("#Butt").append("<div id='' onclick=goToPage('_cancelled'); > <span class= 'glyphicon glyphicon-off'></span> Cancelled </div>");
+    $("#Butt").append("<div id='' onclick=goToPage('_confirmCompletion'); > <span class= 'glyphicon glyphicon-off'></span> Confirm Completion </div>");
+    $("#Butt").append("<div id='' onclick=goToPage('_homePage'); > <span class= 'glyphicon glyphicon-off'></span> Home Page </div>");
+    $("#Butt").append("<div id='' onclick=goToPage('_congratsTicketClosed'); > <span class= 'glyphicon glyphicon-off'></span> Congrats Ticket</div>");
+    $("#Butt").append("<div id='' onclick=goToPage('_congrats_driver_finish_shopping'); > <span class= 'glyphicon glyphicon-off'></span> Congrats Driver</div>");
+    $("#Butt").append("<div id='' onclick=goToPage('_congrats'); > <span class= 'glyphicon glyphicon-off'></span> Congrats </div>");
+    $("#Butt").append("<div id='' onclick=goToPage('_payment'); > <span class= 'glyphicon glyphicon-off'></span> Payment </div>");
+    $("#Butt").append("<div id='' onclick=goToPage('_viewTicket'); > <span class= 'glyphicon glyphicon-off'></span> View Ticket </div>");
 });
 
 function toggleShopper(){
