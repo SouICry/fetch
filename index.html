@@ -125,8 +125,8 @@
             }
         },
         setCurrentPage: function (page, noPrevious) {
-            loader.previousPage = loader.currentPage;
             if (loader.currentPage != page) {
+                loader.previousPage = loader.currentPage;
                 loader.currentPage = page;
                 $.ajax({
                     type: "POST",
