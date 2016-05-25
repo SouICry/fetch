@@ -20,11 +20,11 @@
     };
 
     var _account;
-    alert("hidden");
+    $("#accsetting_warning").hide();
 
     $('#accsetting_full_name, #accsetting_email, #accsetting_phone, #accsetting_street, ' +
         '#accsetting_city, #accsetting_state, #accsetting_zip').keypress(function () {
-        alert("key");
+        $("#accsetting_warning").hide();
     });
 
     $("#accsetting_submit_info").click(function () {
