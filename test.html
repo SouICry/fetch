@@ -1,0 +1,66 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+
+<select class="hidden" style="display: none" id="videoSource"></select>
+
+<script src="js/camera.js"></script>
+
+<video id="video1" width="800" height="600" muted autoplay></video>
+<canvas id="canvas1" width="800" height="600"></canvas>
+<a id="button" download="file.png">Download</a>
+<button id="takeButton1">Take photo</button>
+<button id="redoButton1">Retake Photo</button>
+
+<button id="uploadButton1">Upload to server</button>
+<input type="file" id="uploadImage1" name="imageLoader"/>
+<script>
+    var canvasWidth = 800;
+    var canvasHeight = 600;
+
+    enableCamera(document.getElementById("video1"), document.getElementById("canvas1"), document.getElementById("takeButton1"), document.getElementById("redoButton1"), 0);
+
+
+    var imageLoader = document.getElementById('uploadImage1');
+    imageLoader.addEventListener('change', handleImageUpload, false);
+
+
+    function handleImageUpload() {
+        var reader = new FileReader();
+        reader.onload = function (event) {
+            var img = new Image();
+            img.onload = function () {
+                var widthScaleFactor = canvas.width / img.width;
+                var heightScaleFactor = canvas.height / img.height;
+                var scaleFactor = widthScaleFactor > heightScaleFactor ? widthScaleFactor : heightScaleFactor;
+                var imgWidth = img.width * scaleFactor;
+                var imgHeight = img.height * scaleFactor;
+                var widthOffset = (imgWidth - canvas.width) / 2;
+                var heightOffset = (imgHeight - canvas.height) / 2;
+
+                context.drawImage(img, -widthOffset, -heightOffset, imgWidth, imgHeight);
+            };
+            img.src = event.target.result;
+        };
+        reader.readAsDataURL(e.target.files[0]);
+    }
+
+
+    var canvas = document.getElementById("canvas1");
+
+    $(document).ready(function () {
+        $('#uploadButton1').click(function () {
+            $.ajax({
+                type: "POST",
+                url: "",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({image: canvas.toDataURL("image/png")}),
+                success: function (resp) {
+                    alert(resp);
+                }
+
+            })
+        })
+    })
+
+</script>

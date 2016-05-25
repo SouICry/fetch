@@ -44,7 +44,7 @@
         </header>
         <div class="cd-panel-content">
             <div id="Butt">
-                <div class='panel-divs' id=''>
+                <div class='' id=''>
 
                     <span id="toggling">Shopper</span>
                     <span id="toggleButton" onclick="toggles();" class="toggle-button">
@@ -307,6 +307,7 @@
                         if (window.location.hash.length > 0){
                             //submit or cancel ticket
                             goToPage(window.location.hash);
+                            window.location.hash = "";
                         }
                         else {
                             switch (data.currentPage) {
@@ -348,7 +349,7 @@
                 var whichid = allPages[j][i];
                 loadPage(whichid, j, i);
                 var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
-                $("#Butt").append("<div " + clickVal + " >" + whichid + "</div>");
+              //  $("#Butt").append("<div " + clickVal + " >" + whichid + "</div>");
             }
         }
 
@@ -360,7 +361,7 @@
             $('#menu-drawer').addClass('is-visible');
         });
         $('#menu-drawer').on('click', function (event) {
-            if ($(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close')) {
+            if ($(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close')|| $(event.target).is('.panel-divs')) {
                 $('#menu-drawer').removeClass('is-visible');
             }
         });
