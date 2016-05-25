@@ -5,8 +5,8 @@
             var dataSendBack = {
                 user_full_name: data.full_name,
                 userId: data.userId,
-                rate: givenrate
-            }
+                rate: _rating
+            };
             return dataSendBack;
         },
         loadData: function (data) {
@@ -26,9 +26,10 @@
         }
     };
 
-    $("#rate-user").click(function(){
-       goToPage("_congratsTicketClosed");
+    $(".userRate_button").click(function(){
+        goToPage("_congratsTicketClosed");
     });
+    
 
     var _rating = 0;
     var r1 = $('#rating-1'), r2 = $('#rating-2'), r3 = $('#rating-3'), r4 = $('#rating-4'), r5 = $('#rating-5');

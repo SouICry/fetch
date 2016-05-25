@@ -5,8 +5,8 @@
             var dataSendBack = {
                 driver_full_name: data.full_name,
                 driverId: data.userId,
-                rate: givenrate
-            }
+                rate: _rating
+            };
             return dataSendBack;
         },
         loadData: function (data) {
@@ -26,9 +26,11 @@
         }
     };
 
-    $("#rate-driver").click(function(){
+
+    $(".driverRate_button").click(function(){
         goToPage("_congratsTicketClosed");
     });
+
 
     var _rating = 0;
     var r1 = $('#driver_rating-1'), r2 = $('#driver_rating-2'), r3 = $('#driver_rating-3'), r4 = $('#driver_rating-4'), r5 = $('#driver_rating-5');
