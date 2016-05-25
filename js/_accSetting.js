@@ -20,20 +20,31 @@
     };
 
     var _account;
+    alert("hidden");
 
-    $("#accSetting_submit_info").click(function () {
+    $('#accsetting_full_name, #accsetting_email, #accsetting_phone, #accsetting_street, ' +
+        '#accsetting_city, #accsetting_state, #accsetting_zip').keypress(function () {
+        alert("key");
+    });
+
+    $("#accsetting_submit_info").click(function () {
         _account = {
             full_name: $('#accsetting_full_name').val(),
             email: $('#accsetting_email').val(),
             phone: $('#accsetting_phone').val(),
-            street: $('#accsetting_street_').val(),
+            street: $('#accsetting_street').val(),
             city: $('#accsetting_city').val(),
             state: $('#accsetting_state').val(),
             zip: $('#accsetting_zip').val()
         };
-        alert("click called");
 
-        goToPage("_shopping");
+        if ($('#accsetting_full_name, #accsetting_email, #accsetting_phone, #accsetting_street, ' +
+                '#accsetting_city, #accsetting_state, #accsetting_zip').val() != '') {
+            goToPage("_homePage");
+        }
+        else {
+            $("#accsetting_warning").show();
+        }
     });
 })();
 
