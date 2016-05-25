@@ -714,10 +714,12 @@ app.post('/getTicket', function (req, res) {
 
 
 //----------------------------------getTicket----------------------------------------------------------------
-app.post('/switch', function(req, res) {
-    var userId = req.session.userId;
-    masters[userId].isDriver = req.body.isDriver;
-    res.send();
+app.post('/switchRole', function(req, res) {
+    if(masters.hasOwnProperty(userId) && masters[userId] != null) {
+        var userId = req.session.userId;
+        masters[userId].isDriver = req.body.isDriver;
+        res.send();
+    }
 });
 
 //----------------------------------getUpdate--------------------------------------------------------------------------
