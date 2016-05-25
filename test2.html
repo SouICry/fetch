@@ -48,8 +48,20 @@
 
 
 
+var data = {};
+    data.userId = "asd";
+    function setCookie(id){
+        var d = new Date();
+        d.setTime(d.getTime() + (1000*24*60*60*1000));
+        document.cookie = "user=" + data.userId + ";expires=" + d.toUTCString();
+    }
+    function getCookie(){
+        return document.cookie.substring(5);
+    }
 
-
+    function resetCookie(){
+        document.cookie = "user=" + data.userId + ";expires=" + new Date(0).toUTCString();
+    }
 
 
 </script>

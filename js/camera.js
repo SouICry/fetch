@@ -10,6 +10,7 @@
 
 'use strict';
 
+var videoSelect = document.getElementById('videoSource');
 
 navigator.getUserMedia = navigator.getUserMedia ||
     navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
@@ -42,7 +43,6 @@ function enableCamera(vid, canvas, takeButton, redoButton, source) {
         MediaStreamTrack.getSources(gotSources);
     }
 
-    var videoSelect = document.getElementById('videoSource');
     
     if (source >= videoSelect.length){
         source = videoSelect.length - 1;
