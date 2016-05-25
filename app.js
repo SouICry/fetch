@@ -306,6 +306,16 @@ passport.use('signup', new LocalStrategy(
     }
 ));
 
+//Save profile picture to server
+app.post('/savePhoto',function(req){
+    fs.writeFile("images/profiles/" + userId + ".png", req.body.image,"base64", function (err, data ) {
+        if (err) {
+            return console.log("Error");
+        }
+        console.log("Photo saved. Success!");});
+
+});
+
 // Serialize user for storing to session
 // Saved to req.session.passport.user
 passport.serializeUser(function (user, done) {
@@ -319,7 +329,7 @@ passport.deserializeUser(function (id, done) {
     });
 });
 
-app.post('/_logout', function (req, res, next) {
+app.post('/logout', function (req, res, next) {
     // If 'logout' button pressed, log user out. Passportjs will
     // call deserialize to remove user from session.
     //req.logout();
@@ -329,7 +339,7 @@ app.post('/_logout', function (req, res, next) {
     console.log('logged out');
     console.log(req.session);
 
-    res.send();
+    res.send("");
 });
 
 app.post('/_signUp', function (req, res, next) {
@@ -640,12 +650,13 @@ app.post('/loadData', function (req, res, next) {
 
 app.post('/changePage', function (req, res) {
     if(!req.session.hasOwnProperty("userId"))
-        res.send();
+        res.send("");
     else {
         var newPage = req.body.newPage;
         //save it to master current page field
         var userId = req.session.userId;
         masters[userId].currentPage = newPage;
+        res.send("");
     }
 });
 
@@ -703,10 +714,12 @@ app.post('/getTicket', function (req, res) {
 
 
 //----------------------------------getTicket----------------------------------------------------------------
-app.post('/switch', function(req, res) {
-    var userId = req.session.userId;
-    masters[userId].isDriver = req.body.isDriver;
-    res.send();
+app.post('/switchRole', function(req, res) {
+    if(masters.hasOwnProperty(userId) && masters[userId] != null) {
+        var userId = req.session.userId;
+        masters[userId].isDriver = req.body.isDriver;
+        res.send();
+    }
 });
 
 //----------------------------------getUpdate--------------------------------------------------------------------------
@@ -728,8 +741,8 @@ app.post('/getUpdates', function (req, res, next) {
     }
     else {
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringnify({
-            isLoggedIn: masters[userId].isLoggedIn
+        res.send(JSON.stringify({
+            isLoggedIn: true
         }));
     }
 });
@@ -848,26 +861,31 @@ app.post('/_accSetting', function (req, res) {
     }
         // might need to pull data from database first depending on how we are doing it
     else if (req.body.type === "request_data") {
-        object.full_name = masters[userId]["_accSetting"].data.full_name;
-        object.email = masters[userId]["_accSetting"].data.email;
-        object.phone =  masters[userId]["_accSetting"].data.phone;
-        object.address.street = masters[userId]["_accSetting"].data.address.street;
-        object.address.city = masters[userId]["_accSetting"].data.address.city;
-        object.address.state= masters[userId]["_accSetting"].data.address.state;
-        object.address.zip = masters[userId]["_accSetting"].data.address.zip;
-        
-        res.send(object);
+        MongoClient.connect(mongodb_url, function (err, db) {
+            if (err) {
+                console.log('Error: ' + err);
+                res.send(err);
+            }
+            else {
+                var user = db.collection('users').User.findOne({_id: master.userId},
+                    function (err) {
+                        if (err) return err;
+                    });
+                object.full_name = user.data.full_name;
+                object.email = user.email;
+                object.phone =  user.phone_number;
+                object.address.street = user.address.street;
+                object.address.city = user.address.city;
+                object.address.state= user.address.state;
+                object.address.zip = user.address.zip;
+
+                res.send(object);
+            }
+        });
+        //load the master user information
+
     }
     else {
-        // update session
-        masters[userId]["_accSetting"].data.full_name = req.body.user.full_name;
-        masters[userId]["_accSetting"].data.email = req.body.user.email;
-        masters[userId]["_accSetting"].data.phone = req.body.user.phone;
-        masters[userId]["_accSetting"].data.address.street = req.body.user.street;
-        masters[userId]["_accSetting"].data.address.city = req.body.user.city;
-        masters[userId]["_accSetting"].data.address.state = req.body.user.state;
-        masters[userId]["_accSetting"].data.address.zip = req.body.user.zip;
-
         // Update user document from users collection with the new info
         MongoClient.connect(mongodb_url, function (err, db) {
             if (err) {
@@ -875,7 +893,18 @@ app.post('/_accSetting', function (req, res) {
                 res.send(err);
             }
             else {
-                user = db.collection('users').updateOne({_id: master.userId}, {$push: {tickets: ticket}},
+                db.collection('users').update({_id: master.userId},
+                    {
+                        $set: {
+                            full_name: req.body.user.full_name,
+                            email: req.body.user.email,
+                            phone_number: req.body.user.phone,
+                            "address.street": req.body.user.street,
+                            "address.city": req.body.user.city,
+                            "address.state": req.body.user.state,
+                            "address.zip": req.body.user.zip
+                        }
+                    },
                     function (err) {
                         if (err) return err;
                     });
