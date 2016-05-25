@@ -1099,7 +1099,9 @@ app.post('/_driverList', function (req, res, next) {
 
         //TODO maybe get from database or from session
     }
-    res.send('Fail, not login');
+
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify({message: 'Fail, not login'});
 });
 
 
@@ -1117,24 +1119,28 @@ app.post('/_history', function (req, res, next) {
 
     if (!userId) {
         console.log('In _history: No user currently logged in');
+        res.status(500);
         res.send('');
     }
     else {
         MongoClient.connect(mongodb_url, function(err, db) {
             if (err) {
                 console.log('Error connecting to db in _history');
+                res.status(500);
                 res.send('');
             }
             else {
                 var user = db.collection('users').findOne({_id: userId}, function (err, doc) {
                     if (err) {
                         console.log('Error in _history findOne()');
+                        res.status(500);
                         res.send('');
                     }
                 });
 
                 if (!user) {
                     console.log('Could not find user with userId ' + userId + ' in _history');
+                    res.status(500);
                     res.send('');
                 }
                 else {
@@ -1144,25 +1150,21 @@ app.post('/_history', function (req, res, next) {
                     var user_data = [];
 
                     for (i = 0; i < shopping_hist.length; i++) {
-                        user_data.push(
-                            {
-                                name: shopping_hist[i].store_name,
-                                time: shopping_hist[i].time_created,
-                                id: shopping_hist[i]._id,
-                                state: 'delivered'
-                            }
-                        );
+                        user_data.push({
+                            id: shopping_hist[i]._id,
+                            name: shopping_hist[i].store_name,
+                            time: shopping_hist[i].time_created,
+                            state: 'delivered'              // TODO: need to update status on database
+                        });
                     }
 
                     for (; i < pending_shopping_list.length; i++) {
-                        user_data.push(
-                            {
-                                name: pending_shopping_list[i].store_name,
-                                time: pending_shopping_list[i].time_created,
-                                id: pending_shopping_list[i]._id,
-                                state: 'pending'
-                            }
-                        );
+                        user_data.push({
+                            id: pending_shopping_list[i]._id,
+                            name: pending_shopping_list[i].store_name,
+                            time: pending_shopping_list[i].time_created,
+                            state: 'pending'
+                        });
                     }
 
                     res.setHeader('Content-Type', 'application/json');
@@ -1173,29 +1175,36 @@ app.post('/_history', function (req, res, next) {
     }
 });
 
+
+
+// ---------------------------- YOUR DELIVERIES -------------------------------
 app.post('_yourDeliveries', function(req, res) {
     var userId = req.session.userId;
 
     if (!userId) {
         console.log('In _yourDeliveries: User is not logged in.');
+        res.status(500);
         res.send('');
     }
     else {
         MongoClient.connect(mongodb_url, function(err, db) {
             if (err) {
                 console.log('Error connecting to db in _history');
+                res.status(500);
                 res.send('');
             }
             else {
                 var user = db.collection('users').findOne({_id: userId}, function (err, doc) {
                     if (err) {
                         console.log('Error in _history findOne()');
+                        res.status(500);
                         res.send('');
                     }
                 });
 
                 if (!user) {
                     console.log('Could not find user with userId: ' + userId + ' in _yourDeliveries');
+                    res.status(500);
                     res.send('');
                 }
                 else {
@@ -1205,25 +1214,21 @@ app.post('_yourDeliveries', function(req, res) {
                     var user_data = [];
 
                     for (i = 0; i < delivery_history.length; i++) {
-                        user_data.push(
-                            {
-                                name: delivery_history[i].store_name,
-                                time: delivery_history[i].time_created,
-                                id: delivery_history[i]._id,
-                                state: 'delivered'
-                            }
-                        );
+                        user_data.push({
+                            id: delivery_history[i]._id,
+                            name: delivery_history[i].store_name,
+                            time: delivery_history[i].time_created,
+                            state: 'delivered'
+                        });
                     }
 
                     for (; i < pending_delivery_list.length; i++) {
-                        user_data.push(
-                            {
-                                name: pending_delivery_list[i].store_name,
-                                time: pending_delivery_list[i].time_created,
-                                id: pending_delivery_list[i]._id,
-                                state: 'pending'
-                            }
-                        );
+                        user_data.push({
+                            id: pending_delivery_list[i]._id,
+                            name: pending_delivery_list[i].store_name,
+                            time: pending_delivery_list[i].time_created,
+                            state: 'pending'
+                        });
                     }
                     
                     res.setHeader('Content-Type', 'application/json');
@@ -1234,21 +1239,83 @@ app.post('_yourDeliveries', function(req, res) {
     }
 });
 
+// ----------------------------------------------------------------------
 
-// TODO: to let driver check-off items off grocery list
 
+// ---------------------------- VIEW TICKET -------------------------------
+// TODO: to let driver check-off items off grocery list (low priority)
 // Update status of ticket
 app.post('/_viewTicket', function(req, res) {
+    var userId = req.session.userId;
 
+    if (!userId) {
+        console.log('In _viewTicket: userId is null');
+        res.status(500);
+        res.send('');
+    }
+    else {
+        MongoClient.connect(mongodb_url, function(err, db) {
+            if (err) {
+                console.log('Error: could not connect to db in _viewTicket');
+                res.status(500);
+                res.send('');
+            }
+            else {
+                //TODO: update status of ticket in db ('checkoff' items)
+            }
+        });
+    }
 });
 
-// Get queue
+// --------------------------------------------------------------------------
+
+
+// ---------------------------- TICKETS/QUEUE -------------------------------
+// Queue page
 app.post('/_tickets', function(req, res) {
+    var userId = req.session.userId;
 
+    if (!userId) {
+        console.log('In _tickets: userId is null');
+        res.status(500);
+        res.send('');
+    }
+    else {
+        MongoClient.connect(mongodb_url, function(err, db) {
+            if (err) {
+                console.log('Error in _tickets: ' + err);
+                res.status(500);
+                res.send('');
+            }
+            else {
+                var tickets = db.collection('grocery_queue').find().toArray(function(err, docs) {
+                    if (err){
+                        console.log('Error in _tickets: ' + err);
+                        res.status(500);
+                        res.send('');
+                    }
+                });
+
+                var data = [];
+                for (var i = 0; i < tickets.length; i++) {
+                    data.push({
+                        id: tickets[i]._id,
+                        name: tickets[i].store_name,
+                        time: tickets[i].time_created
+                    });
+                }
+
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify({data: data}));
+            }
+        });
+    }
 });
+// --------------------------------------------------------------------------
 
 
-//----------------------PAYMENT--------------------
+
+//------------------------------ PAYMENT ------------------------------------
 app.get('/complete-payment', function(req, res){
     var userId = req.query.user;
     //actually submit and redirect to fetchgrocery.com#_submitted
