@@ -306,6 +306,16 @@ passport.use('signup', new LocalStrategy(
     }
 ));
 
+//Save profile picture to server
+app.post('/savePhoto',function(req){
+    fs.writeFile("images/profiles/" + userId + ".png", req.body.image,"base64", function (err, data ) {
+        if (err) {
+            return console.log("Error");
+        }
+        console.log("Photo saved. Success!");});
+
+});
+
 // Serialize user for storing to session
 // Saved to req.session.passport.user
 passport.serializeUser(function (user, done) {
