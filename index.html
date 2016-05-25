@@ -124,6 +124,8 @@
         },
         setCurrentPage: function (page, noPrevious) {
             if (loader.currentPage != page) {
+
+
                 loader.previousPage = loader.currentPage;
                 loader.currentPage = page;
                 $.ajax({
@@ -134,10 +136,12 @@
                     data: JSON.stringify({
                         newPage: page
                     }),
-                    success: function(){
-                        alert(success);
-                    }
                 });
+                switch (page){
+                    case "_takeProfilePicture":
+                        loader._takeProfilePicture.loadData();
+                        break;
+                }
                 loader.goToPage(page);
             }
         },
@@ -309,7 +313,7 @@
             goToPage("_history", true);
         }
     };
-    loader.currentPageChanged = _.throttle(loader.sendData, 501);
+    //loader.currentPageChanged = _.throttle(loader.sendData, 501);
 
 
     $("document").ready(function () {

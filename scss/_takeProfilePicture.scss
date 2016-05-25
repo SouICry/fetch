@@ -9,15 +9,17 @@
   width: 100%;
   height: 100%;
 }
-
-#profile-pic .btn {
-  width: 100%;
-}
-
-#profile-pic .row {
+#profile-pic {
   height: 100%;
-}
 
+  .btn {
+    width: 100%;
+  }
+
+  .row {
+    height: 100%;
+  }
+}
 #profile-button-box-outer {
   height: auto;
 }

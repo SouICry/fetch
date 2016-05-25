@@ -1,4 +1,4 @@
-<div class="container text-center" id="profile-pic" style="height: 100%;">
+<div class="container text-center" id="profile-pic">
     <div class="row">
         <div class="col-md-4 col-lg-4" id="profile-button-box-outer">
             <div id="profile-button-box">
@@ -22,15 +22,26 @@
     </div>
 </div>
 <script>
-    var vid = document.getElementById("video1");
-    var canvas = document.getElementById("canvas1");
-    function beforeTake() {
-        canvas.height = vid.offsetHeight;
-        canvas.width = canvas.height;
-    }
-    enableCameraImage(vid, canvas,
-            document.getElementById("takeButton1"),
-            document.getElementById("redoButton1"),
-            document.getElementById('uploadImage1'),
-            0, beforeTake); //0 front cam, 1 back cam if available
+    (function() {
+        loader._takeProfilePicture = {
+            loadData: function(){
+                function beforeTake() {
+                    canvas.height = vid.offsetHeight;
+                    canvas.width = canvas.height;
+                }
+                enableCameraImage(vid, canvas,
+                        document.getElementById("takeButton1"),
+                        document.getElementById("redoButton1"),
+                        document.getElementById('uploadImage1'),
+                        0, beforeTake); //0 front cam, 1 back cam if available
+            }
+        };
+
+        var vid = document.getElementById("video1");
+        var canvas = document.getElementById("canvas1");
+
+
+
+
+    })();
 </script>
