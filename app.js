@@ -1107,7 +1107,7 @@ app.post('_homePage', function (req, res, next) {
 
 });
 
-
+// TODO: Update ticket in users and grocery_queue collection to update status of item (bought or not) - low priority
 //-----------------------------------------------------DRIVER LIST -----------------------------------------
 app.post('/_driverList', function (req, res, next) {
     var object = {};
@@ -1266,17 +1266,24 @@ app.post('_yourDeliveries', function(req, res) {
 
 
 // ---------------------------- VIEW TICKET -------------------------------
-// TODO: to let driver check-off items off grocery list (low priority)
 // Update status of ticket
 app.post('/_viewTicket', function(req, res) {
     var userId = req.session.userId;
+    var ticketId;
 
     if (!userId) {
         console.log('In _viewTicket: userId is null');
         res.status(500);
         res.send('');
     }
+    else if (!masters[userId].ticketId){
+        console.log('In _viewTicket: masters[userId].ticketId is null');
+        res.status(500);
+        res.send('');
+    }
     else {
+        ticketId = masters[userId].ticketId;
+
         MongoClient.connect(mongodb_url, function(err, db) {
             if (err) {
                 console.log('Error: could not connect to db in _viewTicket');
@@ -1284,7 +1291,46 @@ app.post('/_viewTicket', function(req, res) {
                 res.send('');
             }
             else {
-                //TODO: update status of ticket in db ('checkoff' items)
+                var user = db.collection('users').update(
+                    {
+                        _id: userId,
+                        'grocery_list._id': ticketId
+                    },
+                    {
+                        $set: {
+                            'grocery_list.$.state': 'accepted'
+                        }
+                    });
+
+                if (!user) {
+                    console.log('In _viewTicket: could not find user with corresponding ticketId: ' + ticketId);
+                    res.status(500);
+                    res.send('');
+                    return;
+                }
+                var ticket = db.collection('grocery_queue').remove({_id: ticketId});
+
+                if (!ticket) {
+                    console.log('In _viewTicket: could not remove ticket from queue: ' + ticketId);
+                    res.status(500);
+                    res.send('');
+                    return;
+                }
+
+                var list_of_items;
+                for (var i = 0; i < user.grocery_list.length; i++) {
+                    if (user.grocery_list[i]._id === ticketId) {
+                        list_of_items = user.grocery_list[i].shopping_list;
+                        break;
+                    }
+                }
+
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify({
+                    id: ticketId,
+                    full_name: user.full_name,
+                    items: list_of_items
+                }));
             }
         });
     }
