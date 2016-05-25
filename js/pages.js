@@ -1,6 +1,6 @@
 var allPages = [
 
-    ["_homePage", "_shopping", "_checkout", "_pendingPayment"/*, "_submitted"*/, "_cancelled"],
+    ["_homePage", "_shopping", "_checkout", "_pendingPayment", "_submitted", "_cancelled"],
     ["_history", "_shoppingStatus"/*, "_cancelTicket"*/],
     ['_confirmTicket', "_rateDriver",'_congratsTicketClosed'],
 
