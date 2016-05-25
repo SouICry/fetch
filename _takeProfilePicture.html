@@ -3,14 +3,14 @@
         <div class="col-md-4 col-lg-4" id="profile-button-box-outer">
             <div id="profile-button-box">
                 <h2>Profile Picture</h2>
-                <button class="btn btn-default" id="takeButton1">Take Photo</button>
-                <button class="btn btn-primary" id="redoButton1">Retake Photo</button>
+                <div class="btn btn-default" id="takeButton1">Take Photo</div>
+                <div class="btn btn-primary" id="redoButton1">Retake Photo</div>
                 <h4>or</h4>
                 <label class="btn btn-default">
                     Upload From File<input class="hidden" type="file" id="uploadImage1" name="imageLoader"/>
                 </label>
 
-                <button class="btn btn-primary" id="uploadButton1">Submit</button>
+                <div class="btn btn-primary" id="uploadButton1">Submit</div>
             </div>
         </div>
         <div class="col-md-8 col-lg-8" id="profile-outer">
@@ -40,7 +40,10 @@
         var vid = document.getElementById("video1");
         var canvas = document.getElementById("canvas1");
 
-
+        $('#uploadButton1').click(function(){
+            disableCamera(vid);
+            goToPage("_signUp");
+        });
 
 
     })();
