@@ -1,37 +1,37 @@
 (function () {
-    loader._rateUser = {
-        data: {user_full_name: "Jane Doe", userId: 133, rate: 5},
+    loader._rateDriver = {
+        data: {driver_full_name: "Jane Doe", driverId: 133, rate: 5},
         getData: function(){
             var dataSendBack = {
-                user_full_name: data.full_name,
-                userId: data.userId,
+                driver_full_name: data.full_name,
+                driverId: data.userId,
                 rate: givenrate
             }
             return dataSendBack;
         },
         loadData: function (data) {
 
-            $("#user-name_rateUser").empty();
-            $('#user-image').data('src', "/placeholder/person.png");
+            $("#driver-name_rateDriver").empty();
+            $('#driver-image').data('src', "/placeholder/person.png");
 
-            var separatedNames = data.user_full_name;
-            document.getElementById("user-name_rateUser").innerHTML = separatedNames;
+            var separatedNames = data.driver_full_name;
+            document.getElementById("driver-name_rateUser").innerHTML = separatedNames;
 
 
-            var imageSrc = "Images/users/" + data.userId + ".png";
+            var imageSrc = "Images/users/" + data.driverId + ".png";
 
             if (imageSrc !== null) {
-                $('#user-image').data('src', imageSrc);
+                $('#driver-image').data('src', imageSrc);
             }
         }
     };
 
-    $("#rate-user").click(function(){
-       goToPage("_congratsTicketClosed");
+    $("#rate-driver").click(function(){
+        goToPage("_congratsTicketClosed");
     });
 
     var _rating = 0;
-    var r1 = $('#rating-1'), r2 = $('#rating-2'), r3 = $('#rating-3'), r4 = $('#rating-4'), r5 = $('#rating-5');
+    var r1 = $('#driver_rating-1'), r2 = $('#driver_rating-2'), r3 = $('#driver_rating-3'), r4 = $('#driver_rating-4'), r5 = $('#driver_rating-5');
     r1.hover(function () {
         r1.addClass("selected");
         r2.removeClass("selected");
@@ -77,4 +77,7 @@
 })();
 /**
  * Created by juneruijiang on 5/24/16.
+ */
+/**
+ * Created by juneruijiang on 5/25/16.
  */
