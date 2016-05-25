@@ -112,7 +112,6 @@
             data: null
         },
         setActive: function () {
-            console.log("setActive");
             loader.activeCyclesLeft = 20;
         },
         goToPage(id){
@@ -269,12 +268,12 @@
 
             }
 
-            window.setInterval(loader.getUpdates, 250);
+            window.setInterval(loader.getUpdates, 501);
 
 
         },
         logout: function () {
-            document.cookie = "user=" + data.userId + ";expires=" + new Date(0).toUTCString();
+            document.cookie = "user=" + loader.userId + ";expires=" + new Date(0).toUTCString();
             $.ajax({
                 type: "POST",
                 contentType: "application/json",
@@ -312,7 +311,7 @@
             goToPage("_history", true);
         }
     };
-    loader.currentPageChanged = _.throttle(loader.sendData, 250);
+    loader.currentPageChanged = _.throttle(loader.sendData, 501);
 
 
     $("document").ready(function () {
@@ -387,7 +386,7 @@
                             }
                         }
                     }
-                    window.setInterval(loader.getUpdates, 250);
+                    window.setInterval(loader.getUpdates, 501);
                 }
             });
         }

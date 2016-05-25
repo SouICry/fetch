@@ -329,7 +329,7 @@ passport.deserializeUser(function (id, done) {
     });
 });
 
-app.post('/_logout', function (req, res, next) {
+app.post('/logout', function (req, res, next) {
     // If 'logout' button pressed, log user out. Passportjs will
     // call deserialize to remove user from session.
     //req.logout();
@@ -339,7 +339,7 @@ app.post('/_logout', function (req, res, next) {
     console.log('logged out');
     console.log(req.session);
 
-    res.send();
+    res.send("");
 });
 
 app.post('/_signUp', function (req, res, next) {
@@ -739,8 +739,8 @@ app.post('/getUpdates', function (req, res, next) {
     }
     else {
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringnify({
-            isLoggedIn: masters[userId].isLoggedIn
+        res.send(JSON.stringify({
+            isLoggedIn: true
         }));
     }
 });
