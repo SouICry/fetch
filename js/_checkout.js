@@ -5,45 +5,45 @@
         version: 0, //Must be 0
         getData: function () { //must be null if not needed
 
-            _checkout.notes = $('input[name="specialnotes"]:checked', '#notes').val();
-            _checkout.range1 = $("#time1").val();
-            _checkout.range2 = $("#time2").val();
+            _checkout.checkout_notes = $('input[name="specialnotes"]:checked', '#checkout_notes').val();
+            _checkout.checkout_range1 = $("#checkout_time1").val();
+            _checkout.checkout_range2 = $("#checkout_time2").val();
             return _checkout;
         },
         loadData: function(data){
             if(data != "none") {
-                 $('input[name="specialnotes"]:checked', '#notes').val(data.notes);
-                 $("#time1").val(data.range1);
-                 $("#time2").val(data.range2);
+                 $('input[name="specialnotes"]:checked', '#checkout_notes').val(data.checkout_notes);
+                 $("#checkout_time1").val(data.checkout_range1);
+                 $("#checkout_time2").val(data.checkout_range2);
             }
             else{
-                $('input[name="specialnotes"]:checked', '#notes').val("");
-                $("#time1").val("");
-                $("#time2").val("");
+                $('input[name="specialnotes"]:checked', '#checkout_notes').val("");
+                $("#checkout_time1").val("");
+                $("#checkout_time2").val("");
             }
         }
     };
 
 
         var _checkout = {
-            notes: "",
-            range1: "",
-            range2: ""
+            checkout_notes: "",
+            checkout_range1: "",
+            checkout_range2: ""
         };
 
     loader._checkout.loadData(_checkout);
     
-        $('#submitcheckout').click(function () {
+        $('#checkout_submitcheckout').click(function () {
 
             var valid = false;
 
-            _checkout.notes = $('input[name="specialnotes"]:checked', '#notes').val();
-            _checkout.range1 = $("#time1").val();
-            _checkout.range2 = $("#time2").val();
+            _checkout.checkout_notes = $('input[name="specialnotes"]:checked', '#checkout_notes').val();
+            _checkout.checkout_range1 = $("#checkout_time1").val();
+            _checkout.checkout_range2 = $("#checkout_time2").val();
 
-            index1 = $("#time1").prop('selectedIndex');
+            index1 = $("#checkout_time1").prop('selectedIndex');
 
-            if ($("#time1").prop('selectedIndex') < $("#time2").prop('selectedIndex')) {
+            if ($("#checkout_time1").prop('selectedIndex') < $("#checkout_time2").prop('selectedIndex')) {
                 valid = true;
             }
 
@@ -56,6 +56,8 @@
             }
 
             loader.next();
+
+            pageGoTo("_");
         });
 
         function sendToServer() {
