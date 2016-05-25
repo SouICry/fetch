@@ -7,6 +7,5 @@ var allPages = [
 
     ['_tickets' , '_viewTicket'],
     ["_yourDeliveries", '_driverList', /*_receiptPictureEnterPrice,*/"_congrats_driver_finish_shopping"],
-
     ['_confirmCompletion', /*'_rateUser',*/ '_congrats']
 ];
