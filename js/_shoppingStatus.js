@@ -6,6 +6,8 @@
             return data.id;
         },
         loadData: function (data) {
+            shoppingStatus_id = data.id;
+
             if (data == "none" || data.length == 0) {
                 data = [];
             }
@@ -20,7 +22,10 @@
         }
     };
 
+    var shoppingStatus_id = 0;
+
     $('#shoppingStatus_list_btn').click(function () {
+        alert(shoppingStatus_id);
         goToPage("_shopping");
     });
 
