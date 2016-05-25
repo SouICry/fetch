@@ -76,9 +76,9 @@
     var status;
     $("#driver_confirm_button").click(function(){
         status = "completed";
-        goToPage("_congratsTicketClosed");
+        goToPage("_rateUser");
     });
-
+    
 })();/**
  * Created by juneruijiang on 5/23/16.
  */

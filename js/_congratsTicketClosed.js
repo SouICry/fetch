@@ -1,4 +1,4 @@
-$("button").click(function(){
+$("#_congratsclosed").click(function(){
     goToPage("_history");
 })
 /**

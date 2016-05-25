@@ -6,8 +6,6 @@ var test_data = {
 
 (function () {
 
-
-
     loader._driverList = {
         version: 0,
         getData: function () {
@@ -25,12 +23,13 @@ var test_data = {
             $("#phone").text(" ");
             $("ul").empty();
             $("#_driver_numItems").text(" ");
+
             fullName = data.full_name;
             array = data.items;
             var separatedNames = data.full_name.split(" ");
 
             //create the contact info(where should I got this, is there a flied relates to contact?
-            document.getElementById("listName").innerHTML = separatedNames[0] + "'s Shopping List";
+            document.getElementById("listName_driverList").innerHTML = separatedNames[0] + "'s Shopping List";
             document.getElementById("phone").innerHTML = "Phone: " + data.contact;
 
             for (var i = 0; i < array.length; i++) {
