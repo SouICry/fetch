@@ -1,0 +1,36 @@
+<div class="container text-center" id="profile-pic" style="height: 100%;">
+    <div class="row">
+        <div class="col-md-4 col-lg-4" id="profile-button-box-outer">
+            <div id="profile-button-box">
+                <h2>Profile Picture</h2>
+                <button class="btn btn-default" id="takeButton1">Take Photo</button>
+                <button class="btn btn-primary" id="redoButton1">Retake Photo</button>
+                <h4>or</h4>
+                <label class="btn btn-default">
+                    Upload From File<input class="hidden" type="file" id="uploadImage1" name="imageLoader"/>
+                </label>
+
+                <button class="btn btn-primary" id="uploadButton1">Submit</button>
+            </div>
+        </div>
+        <div class="col-md-8 col-lg-8" id="profile-outer">
+            <div id="profile-image-square">
+                <video id="video1" muted autoplay></video>
+                <canvas id="canvas1"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var vid = document.getElementById("video1");
+    var canvas = document.getElementById("canvas1");
+    function beforeTake() {
+        canvas.height = vid.offsetHeight;
+        canvas.width = canvas.height;
+    }
+    enableCameraImage(vid, canvas,
+            document.getElementById("takeButton1"),
+            document.getElementById("redoButton1"),
+            document.getElementById('uploadImage1'),
+            0, beforeTake); //0 front cam, 1 back cam if available
+</script>
