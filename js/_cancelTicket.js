@@ -16,7 +16,7 @@
     };
 
     $('#submit_cancelTicket').click(function () {
-        goToPage("_homePage");
+        goToPage("_history");
     });
 
 })();

@@ -57,7 +57,10 @@
 
             loader.next();
 
-            pageGoTo("_");
+            // go to paypal to set up payment
+            // on successful payment, goes to _submitted
+            // unsuccessful goes to _cancelled
+            pageGoTo("");
         });
 
         function sendToServer() {

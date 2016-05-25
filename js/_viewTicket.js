@@ -43,5 +43,9 @@
         }
     };
 
+    $('#_viewTicket_submit_list').click(function () {
+        goToPage("_yourDeliveries");
+    });
+
 })();
 

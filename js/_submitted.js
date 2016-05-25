@@ -16,7 +16,7 @@
     };
 
     $('#submit_submitted').click(function () {
-        goToPage("_homePage");
+        goToPage("_congrats");
     });
 
 })();
