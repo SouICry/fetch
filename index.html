@@ -7,9 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <!--<link rel="stylesheet" href="/css/normalize.css">-->
-    <!--<link rel="stylesheet"-->
-    <!--href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/4.0.1/bootstrap-material-design.min.css">css-->
+
     <link rel="stylesheet" href="/css/style.css">
     <script src="js/underscore.js"></script>
     <script src="js/loader.js"></script>
@@ -62,7 +60,7 @@
 <!-- -->
 
 <script src="js/pages.js"></script>
-
+<div id="prerender"></div>
 <script>
     function goToPage(id, noPrevious) {
         if (id.length) {
@@ -99,6 +97,7 @@
         }
     };
     var loader = {
+        activeCyclesLeft: 20,
         isDriver: false,
         isLoggedIn: false,
         userId: "",
@@ -109,6 +108,9 @@
             getData: null,
             loadData: null,
             data: null
+        },
+        setActive: function () {
+            loader.activeCyclesLeft = 20;
         },
         goToPage(id){
             //Only move if given a string with an actual value
@@ -121,8 +123,10 @@
             }
         },
         setCurrentPage: function (page, noPrevious) {
-            loader.previousPage = loader.currentPage;
             if (loader.currentPage != page) {
+
+
+                loader.previousPage = loader.currentPage;
                 loader.currentPage = page;
                 $.ajax({
                     type: "POST",
@@ -131,8 +135,13 @@
                     url: "/changePage",
                     data: JSON.stringify({
                         newPage: page
-                    })
+                    }),
                 });
+                switch (page){
+                    case "_takeProfilePicture":
+                        loader._takeProfilePicture.loadData();
+                        break;
+                }
                 loader.goToPage(page);
             }
         },
@@ -181,28 +190,50 @@
         currentPageChanged: null,
         //set to run every second elsewhere
         getUpdates: function () {
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                dataType: "json",
-                url: "/getUpdates",
-                success: function (resp) {
-                    console.log("getUpdate");
-                    console.log(resp);
-                    //TODO
-//                    resp.isLoggedIn; //Call logout so it posts as well, and only do that
-//                    resp.currentPage;
-//                    resp.ticketId;
-//                    resp.isDriver;
+            //Only update if not active
+
+            if (loader.isLoggedIn && loader.userId.length > 1) {
+                if (loader.activeCyclesLeft > 0) {
+                    loader.activeCyclesLeft--;
                 }
-            });
+                else {
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        dataType: "json",
+                        url: "/getUpdates",
+                        success: function (data) {
+
+                            loader.ticketId = data.ticketId;
+                            if (!data.isLoggedIn) {
+                                loader.logout();
+                                return;
+                            }
+                            if (data.isDriver != loader.isDriver) {
+                                if (data.isDriver) {
+                                    loader.switchToDriver();
+                                    return;
+                                }
+                                else {
+                                    loader.switchToShopper();
+                                    return;
+                                }
+                            }
+                            if (data.currentPage != loader.currentPage) {
+                                goToPage(data.currentPage)
+                            }
+
+                        }
+                    });
+                }
+            }
         },
         login: function (data) { //Called after successful login, passing the returned data
             console.log("login");
             console.log(data);
 
             var d = new Date();
-            d.setTime(d.getTime() + (1000*24*60*60*1000));
+            d.setTime(d.getTime() + (1000 * 24 * 60 * 60 * 1000));
             document.cookie = "user=" + data.userId + ";expires=" + d.toUTCString();
             console.log(data.isLoggedIn);
             if (!data.isLoggedIn) {
@@ -214,21 +245,37 @@
                 goToPage(loader.previousPage);
             }
             else {
-                console.log("not")
                 loader.userId = data.userId;
                 loader.isLoggedIn = true;
                 loader.isDriver = data.isDriver;
                 loader.ticketId = data.ticketId;
+
                 switch (data.currentPage) {
-                    //TODO
+                    case '_driverList':
+                    case "_receiptPictureEnterPrice":
+                    case "_confirmCompletion":
+                        goToPage("_yourDeliveries");
+                        break;
+                    case "_viewTicket":
+                        goToPage("_tickets");
+                        break;
+                    case "_shoppingStatus":
+                    case "_cancelTicket":
+                    case "_confirmTicket":
+                        goToPage("_history");
+                        break;
+                    default:
+                        goToPage(data.currentPage);
                 }
+
             }
 
+            window.setInterval(loader.getUpdates, 501);
 
-            //window.setInterval(loader.getUpdates, 500);
+
         },
         logout: function () {
-            document.cookie = "user=" + data.userId + ";expires=" + new Date(0).toUTCString();
+            document.cookie = "user=" + loader.userId + ";expires=" + new Date(0).toUTCString();
             $.ajax({
                 type: "POST",
                 contentType: "application/json",
@@ -266,23 +313,30 @@
             goToPage("_history", true);
         }
     };
-    loader.currentPageChanged = _.throttle(loader.sendData, 500);
+    //loader.currentPageChanged = _.throttle(loader.sendData, 501);
 
-    /*
-     Each page that needs like sync (edit ticket pages and stateless pages) has:
-     data:
-     version:
-     getData: packages page data.
-     loadData: loads data package
-     Otherwise it is a missing property; the other pages load data through their own ajax(?)
-     */
+
+    $("document").ready(function () {
+        $(document).on('click mousemove focus keypress', loader.setActive);
+
+        pageInit();
+        for (var j = 0; j < allPages.length; j++) {
+            $('#page-content').append('<div id="section-' + j + '"></div>');
+            for (var i = 0; i < allPages[j].length; i++) {
+                var whichid = allPages[j][i];
+                loadPage(whichid, j, i);
+                var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
+                $("#Butt").append("<div " + clickVal + " >" + whichid + "</div>");
+            }
+        }
+
+        loadPage("payment", 0, 0);
+    });
 
     function pageInit() {
 
-        if (false){//document.cookie.length > 5) {
-            var user = document.cookie;
-            loader.userId = user.split(";")[0].substring(5);
-            alert(loader.userId);
+        if (document.cookie.length > 5) {
+            loader.userId = document.cookie.substring(5);
             $.ajax({
                 type: "POST",
                 url: "/init",
@@ -290,6 +344,11 @@
                     userId: loader.userId
                 },
                 success: function (data) {
+                    //If invalid, clear cookie and reload
+                    if (data.userId == "") {
+                        document.cookie = "user=" + data.userId + ";expires=" + new Date(0).toUTCString();
+                        window.location.reload();
+                    }
                     console.log("init exists");
                     console.log(data);
                     if (!data.isLoggedIn) {
@@ -304,18 +363,32 @@
                         loader.isLoggedIn = true;
                         loader.isDriver = data.isDriver;
                         loader.ticketId = data.ticketId;
-                        if (window.location.hash.length > 0){
+                        if (window.location.hash.length > 5) {
                             //submit or cancel ticket
                             goToPage(window.location.hash);
                             window.location.hash = "";
                         }
                         else {
                             switch (data.currentPage) {
-                                    //TODO
+                                case '_driverList':
+                                case "_receiptPictureEnterPrice":
+                                case "_confirmCompletion":
+                                    goToPage("_yourDeliveries");
+                                    break;
+                                case "_viewTicket":
+                                    goToPage("_tickets");
+                                    break;
+                                case "_shoppingStatus":
+                                case "_cancelTicket":
+                                case "_confirmTicket":
+                                    goToPage("_history");
+                                    break;
+                                default:
+                                    goToPage(data.currentPage);
                             }
                         }
                     }
-                    //window.setInterval(loader.getUpdates, 500);
+                    window.setInterval(loader.getUpdates, 501);
                 }
             });
         }
@@ -341,27 +414,13 @@
         });
     }
 
-    $(document).ready(function () {
-        pageInit();
-        for (var j = 0; j < allPages.length; j++) {
-            $('#page-content').append('<div id="section-' + j + '"></div>');
-            for (var i = 0; i < allPages[j].length; i++) {
-                var whichid = allPages[j][i];
-                loadPage(whichid, j, i);
-                var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
-              //  $("#Butt").append("<div " + clickVal + " >" + whichid + "</div>");
-            }
-        }
-
-        loadPage("payment", 0, 0);
-    });
 
     jQuery(document).ready(function ($) {
         $('#open-menu-drawer').on('click', function () {
             $('#menu-drawer').addClass('is-visible');
         });
         $('#menu-drawer').on('click', function (event) {
-            if ($(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close')|| $(event.target).is('.panel-divs')) {
+            if ($(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') || $(event.target).is('.panel-divs')) {
                 $('#menu-drawer').removeClass('is-visible');
             }
         });

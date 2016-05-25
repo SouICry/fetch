@@ -1,144 +1,82 @@
-<div id="accSetting" class="container" style="text-align: center">
-    <div class="row">
-        <div class="col-xs-12">
-            <h2>Account Information</h2>
+<div id="accSetting">
+    <div class="container" style="text-align: center">
+        <div class="row">
+            <div class="col-xs-12">
+                <h2>Account Information</h2>
+                <div id="accProfile">
+                    <form role="form" data-toggle="validator">
+                        <div class="row">
+                            <div class="col-xs-8 col-xs-offset-2">
+                                <div class="form-group">
+                                    <label for="accsetting_full_name" class=control-label">Full Name:</label>
+                                    <input type="text" class="form-control" id="accsetting_full_name" required="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8 col-xs-offset-2">
+                                <div class="form-group">
+                                    <label for="accsetting_email">Email:</label>
+                                    <input type="email" class="form-control" id="accsetting_email"
+                                           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8 col-xs-offset-2">
+                                <div class="form-group">
+                                    <label for="accsetting_phone">Phone Number:</label>
+                                    <input type="text" class="form-control bfh-phone" data-country="US"
+                                           id="accsetting_phone" required="">
+                                </div>
+                            </div>
+                        </div>
 
-            <div id="accProfile">
-                <form role="form">
-                    <div class="row">
-                        <div class="col-xs-8 col-xs-offset-2">
-                            <div class="form-group">
-                                <label for="accsetting_full_name">Name:</label>
-                                <input type="text" class="form-control" id="accsetting_full_name">
+                        <h2>Address</h2>
+                        <div class="row">
+                            <div class="col-xs-8 col-xs-offset-2">
+                                <div class="form-group">
+                                    <label for="accsetting_street">Street:</label>
+                                    <input type="text" class="form-control" id="accsetting_street" required="">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-8 col-xs-offset-2">
-                            <div class="form-group">
-                                <label for="accsetting_email">Email:</label>
-                                <input type="email" class="form-control" id="accsetting_email"
-                                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+                        <div class="row">
+                            <div class="col-xs-8 col-xs-offset-2">
+                                <div class="form-group">
+                                    <label for="accsetting_city">City:</label>
+                                    <input type="text" class="form-control" id="accsetting_city" required="">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-8 col-xs-offset-2">
-                            <div class="form-group">
-                                <label for="accsetting_phone">Phone Number:</label>
-                                <input type="text" class="form-control bfh-phone" data-country="US"
-                                       id="accsetting_phone">
+                        <div class="row">
+                            <div class="col-xs-8 col-xs-offset-2">
+                                <div class="form-group">
+                                    <label for="accsetting_state">State:</label>
+                                    <input type="text" class="form-control" id="accsetting_state" required="">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </form>
+                        <div class="row">
+                            <div class="col-xs-8 col-xs-offset-2">
+                                <div class="form-group">
+                                    <label for="accsetting_zip">ZIP Code:</label>
+                                    <input type="number" class="form-control" id="accsetting_zip" required="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="alert alert-danger fade in" id="accsetting_warning">
+                                <strong>Danger!</strong> There are some empty fields!
+                            </div>
+                            <div class="btn btn-primary" id="accsetting_submit_info" type="submit"
+                                    style="margin-bottom: 10%">Update
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-
-            <div id="address" class="container">
-                <h2>Address</h2>
-                <form role="form">
-                    <div class="row">
-                        <div class="col-xs-8 col-xs-offset-2">
-                            <div class="form-group">
-                                <label for="accsetting_street">Street:</label>
-                                <input type="text" class="form-control" id="accsetting_street">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-8 col-xs-offset-2">
-                            <div class="form-group">
-                                <label for="accsetting_city">City:</label>
-                                <input type="text" class="form-control" id="accsetting_city">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-8 col-xs-offset-2">
-                            <div class="form-group">
-                                <label for="accsetting_state">State:</label>
-                                <input type="text" class="form-control" id="accsetting_state">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-8 col-xs-offset-2">
-                            <div class="form-group">
-                                <label for="accsetting_zip">ZIP Code:</label>
-                                <input type="number" class="form-control" id="accsetting_zip">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                    <button id="submit_info" type="button" class="btn btn-primary" style="margin-bottom: 10%">Update</button>
-                    </div>
-                </form>
-            </div>
-
-            <!--<div id="payment" class="container">-->
-                <!--<h2>Payment</h2>-->
-                <!--<form role="form">-->
-                    <!--<div class="row">-->
-                        <!--<div class="col-xs-8 col-xs-offset-2">-->
-                            <!--<div class="form-group">-->
-                                <!--<label for="cardName">Card Holder's Name:</label>-->
-                                <!--<input type="text" class="form-control" id="cardName">-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="row">-->
-                        <!--<div class="col-xs-8 col-xs-offset-2">-->
-                            <!--<div class="form-group">-->
-                                <!--<label for="card">Card Number:</label>-->
-                                <!--<input type="number" class="form-control" id="card">-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="row">-->
-                        <!--<div class="form-inline col-xs-8 col-xs-offset-2">-->
-                            <!--<div class="row">-->
-                                <!--<label for="month">Card Expiration Date:</label>-->
-                            <!--</div>-->
-                            <!--<div class="form-group" style="margin-bottom: 13px;">-->
-                                <!--<select class="form-control" id="month">-->
-                                    <!--<option>January</option>-->
-                                    <!--<option>February</option>-->
-                                    <!--<option>March</option>-->
-                                    <!--<option>April</option>-->
-                                    <!--<option>May</option>-->
-                                    <!--<option>June</option>-->
-                                    <!--<option>July</option>-->
-                                    <!--<option>August</option>-->
-                                    <!--<option>September</option>-->
-                                    <!--<option>October</option>-->
-                                    <!--<option>November</option>-->
-                                    <!--<option>December</option>-->
-                                <!--</select>-->
-                            <!--</div>-->
-                            <!--<div class="form-group" style="margin-bottom: 13px; margin-top: .30%;">-->
-                                <!--<select class="form-control" id="year">-->
-                                    <!--<option>2015</option>-->
-                                    <!--<option>2016</option>-->
-                                    <!--<option>2017</option>-->
-                                    <!--<option>2018</option>-->
-                                    <!--<option>2019</option>-->
-                                    <!--<option>2020</option>-->
-                                <!--</select>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="row">-->
-                        <!--<div class="col-xs-8 col-xs-offset-2">-->
-                            <!--<div class="form-group">-->
-                                <!--<label for="cvv">Card CVV:</label>-->
-                                <!--<input type="text" class="form-control" id="cvv"-->
-                                       <!--pattern="(?=.*[0-9a-zA-Z]).{3,}" title="Must contain 3 digits">-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</form>-->
-            <!--</div>div-->
         </div>
     </div>
 </div>
-<script src="/js/_accSetting.js"></script>
+<script type="text/javascript" src="/js/_accSetting.js"></script>
