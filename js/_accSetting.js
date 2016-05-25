@@ -4,6 +4,7 @@
         version: 0, //Must be 0
         getData: null,  //must be null if not needed
         loadData: null,  // MUST RESET PAGE AS WELL
+
     };
     $('#submit_info').prop('disabled', true);
     $('#accsetting_email,#accsetting_full_name,#accsetting_phone,#accsetting_street,#accsetting_city,#accsetting_state,#accsetting_zip').keyup(function () {

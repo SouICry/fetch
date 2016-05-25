@@ -15,26 +15,26 @@
 
             shopping_count = 0;
             list_shopping.splice(0, list_shopping.length);
-            $("#list").empty();
+            $("#shopping_list").empty();
 
             for (var i = 0; i < data.length; i++) {
                 shoppping_toAdd = data[i];
                 var newItem = document.createElement('li');
                 newItem.innerHTML = shoppping_toAdd;
                 newItem.className = 'item';
-                $("#list").append(newItem);
+                $("#shopping_list").append(newItem);
                 list_shopping.push(shoppping_toAdd);
                 shopping_count++;
 
                 if (shopping_count == 1) {
-                    $("#numItems").text("1 item");
+                    $("#shopping_numItems").text("1 item");
                 }
                 else {
-                    $("#numItems").text(shopping_count + " items");
+                    $("#shopping_numItems").text(shopping_count + " items");
                 }
 
                 if (shopping_count != 0) {
-                    $("#footerInfo, .footerBars, #submit_list").show();
+                    $("#footerInfo, .footerBars, #shopping_submit_list").show();
                 }
                 else {
                     $("#footerInfo, .footerBars").hide();
@@ -46,8 +46,8 @@
     var shopping_count = 0;
     var shoppping_toAdd;
     var list_shopping = [];
-    $("#submit_list").hide();
-    $('#submit_list').click(function () {
+    $("#shopping_submit_list").hide();
+    $('#shopping_submit_list').click(function () {
         if (list_shopping.length > 0) {
             goToPage("_checkout");
         }
@@ -60,18 +60,18 @@
             var newItem = document.createElement('li');
             newItem.innerHTML = shoppping_toAdd;
             newItem.className = 'item';
-            $('#list').prepend(newItem);
+            $('#shopping_list').prepend(newItem);
             shopping_count++;
 
             if (shopping_count == 1) {
-                $("#numItems").text("1 item");
+                $("#shopping_numItems").text("1 item");
             }
             else {
-                $("#numItems").text(shopping_count + " items");
+                $("#shopping_numItems").text(shopping_count + " items");
             }
 
             if (shopping_count != 0) {
-                $("#footerInfo, .footerBars, #submit_list").show();
+                $("#footerInfo, .footerBars, #shopping_submit_list").show();
             }
             else {
                 $("#footerInfo, .footerBars").hide();
@@ -89,20 +89,20 @@
     //remove item
     $(document).on('click', '.item', function () {
         $(this).remove();
-        $('#submit_list').hide();
+        $('#shopping_submit_list').hide();
         shopping_count--;
         if (shopping_count == 1) {
-            $("#numItems").text("1 item");
+            $("#shopping_numItems").text("1 item");
         }
         else if (shopping_count == 0) {
-            $("#numItems").text("");
+            $("#shopping_numItems").text("");
         }
         else {
-            $("#numItems").text(shopping_count + " items");
+            $("#shopping_numItems").text(shopping_count + " items");
         }
 
         if (shopping_count != 0) {
-            $("#submit_list, #footerInfo, .footerBars").show();
+            $("#shopping_submit_list, #footerInfo, .footerBars").show();
         }
 
         var index = list_shopping.indexOf($(this).text());

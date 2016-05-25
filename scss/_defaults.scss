@@ -108,7 +108,7 @@ h3 {
   }
 
 
-  .item ,.driverItem{
+  .item ,.driverItem, .viewTicketItem {
     @media screen and(max-width:500px){
       font-size: 1em;
     }
@@ -137,7 +137,7 @@ h3 {
     //display: inline;
   }
 
-  .list {
+  .shopping_list {
     list-style: none;
     background: #fff;
     position: relative;
@@ -158,7 +158,7 @@ h3 {
   }
 
 
-  #submit_list, #_driver_submit_list {
+  #shopping_submit_list, #_driver_submit_list {
     text-align: center;
     width: 33%;
     color: $fetchOrange;

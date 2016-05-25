@@ -14,16 +14,16 @@
         {name: "vons", time: "10:00 pm", id: "864", state: "draft"}],
         version: 0,
         loadData: function (data) {
-            $("#yourOrders_accepted_tickets").empty();
+            $("#yourDeliveries__accepted_tickets").empty();
             $("#yourDeliveries_shopped_tickets").empty();
             $("#yourDeliveries_delivered_tickets").empty();
 
             if (data == "none" || data.length == 0) {
-                $("#yourDeliveries_accepted_tickets").append('<li id="ticket_not" class = "ticket"' +
+                $("#yourDeliveries_accepted_tickets").append('<li id="yourDeliveries_ticket_not" class = "ticket"' +
                     '>No deliveries</li>');
-                $("#yourDeliveries_shopped_tickets").append('<li id="ticket_not" class = "ticket"' +
+                $("#yourDeliveries_shopped_tickets").append('<li id="yourDeliveries_ticket_not" class = "ticket"' +
                     '>No deliveries</li>');
-                $("#yourDeliveries_delivered_tickets").append('<li id="ticket_not" class = "ticket"' +
+                $("#yourDeliveries_delivered_tickets").append('<li id="yourDeliveries_ticket_not" class = "ticket"' +
                     '>No deliveries</li>');
                 return;
             }
@@ -83,16 +83,16 @@
                     '</div></li>');
             }
 
-            if (delivered_tickets.length = 0) {
-                $("#yourDeliveries_shopped_tickets").append('<li id="ticket_not" class = "ticket"' +
+            if (accepted_tickets.length = 0) {
+                $("#yourDeliveries_accepted_tickets").append('<li id="yourDeliveries_ticket_not" class = "ticket"' +
+                    '>No deliveries</li>');
+            }
+            if (shopped_tickets.length = 0) {
+                $("#yourDeliveries_shopped_tickets").append('<li id="yourDeliveries_ticket_not" class = "ticket"' +
                     '>No deliveries</li>');
             }
             if (delivered_tickets.length = 0) {
-                $("#yourDeliveries_shopped_tickets").append('<li id="ticket_not" class = "ticket"' +
-                    '>No deliveries</li>');
-            }
-            if (delivered_tickets.length = 0) {
-                $("#yourDeliveries_completed_tickets").append('<li id="ticket_not" class = "ticket"' +
+                $("#yourDeliveries_delivered_tickets").append('<li id="yourDeliveries_ticket_not" class = "ticket"' +
                     '>No deliveries</li>');
             }
 

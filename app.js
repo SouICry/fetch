@@ -354,7 +354,6 @@ app.post('/_signUp', function (req, res, next) {
                     }
                     else {
                         var userId = req.session.passport.user;
-                        req.session.userId = userId;
                         if (!masters.hasOwnProperty(userId)){
                             masters[userId] = {
                                 isDriver: false,
@@ -363,23 +362,31 @@ app.post('/_signUp', function (req, res, next) {
                                 currentPage: ""
                             };
                             masters[userId].userId = userId;
+                            // res.setHeader('Content-Type', 'application/json');
+
+                            console.log(userId);
+                            console.log(JSON.stringify({
+
+                                isLoggedIn: false,
+                                userId: userId
+                            }));
                             res.setHeader('Content-Type', 'application/json');
                             res.send(JSON.stringify({
-                                userId: userId,
-                                isLoggedIn: false
+                                isLoggedIn: false,
+                                userId: userId
                             }));
                         }
                         else {
                             res.setHeader('Content-Type', 'application/json');
                             res.send(JSON.stringify({
-                                userId: masters[userId].userId,
+                                userId: userId,
                                 currentPage: masters[userId].currentPage,
                                 isLoggedIn: true,
                                 ticketId: masters[userId].ticketId,
                                 isDriver: masters[userId].isDriver
                             }));
                         }
-                        console.log('login success!');
+                        console.log('successful login');
                     }
                 });
             });
@@ -410,8 +417,7 @@ app.post('/_login', function (req, res, next) {
           
             req.session.userId = userId;
          
-
-
+            
             if (!masters.hasOwnProperty(userId)){
                 masters[userId] = {
                     isDriver: false,
@@ -591,6 +597,7 @@ var defaultO = {
     currentPage: ""
 
 };
+
 var masters = {};
 
 //TODO -------------------------------------------------------------------------
@@ -995,28 +1002,46 @@ app.post('/_tickets', function (req, res) {
 //may be update database in checkout,???
 app.post('/_checkout', function (req, res, next) {
     var userId = req.session.userId;
-    // if(req.body.notesTime) {
+    // if (req.body.notesTime) {
     //     masters[userId]["_checkout"].data.list_id = req.body.notesTime.id;
     //     masters[userId]["_checkout"].data.special_options = req.body.notesTime.notes;
     //     masters[userId]["_checkout"].data.available_time_start = req.body.notesTime.range1;
     //     masters[userId]["_checkout"].data.available_time_end = req.body.notesTime.range2;
 
-
     // Model for grocery list
-    var glist = {
+    var gticket = {
         _id: masters[userId]["_checkout"].data.list_id,
-        store_name: masters[userId]["_homePage"].data.store_name, // ?????? Need to communicate with geo/trivi for store name session
+        // May need to fix how fields are loaded from master for these new attributes
+        shopper: {
+            _id: userId,
+            phone_number: masters[userId].phone,
+            address: {
+                street: masters[userId].address.street,
+                city: masters[userId].address.city,
+                state: masters[userId].address.state,
+                zip: masters[userId].address.zip
+            },
+            rating: masters[userId].avg_rating
+        },
+        driver: {
+            _id: '',
+            phone_number: ''
+        },
+        store_name: masters[userId]["_homePage"].data.store_name,
         shopping_list: masters[userId]["_shopping"].data.list,
-        timestamp: date.toLocaleDateString() + ' ' + date.toLocaleTimeString(),
+        time_created: date.toLocaleDateString() + ' ' + date.toLocaleTimeString(),
+        time_accepted: '',
+        // Why are these from ['_accSetting'] ?
         special_options: masters[userId]["_accSetting"].data.special_options,
         available_time_start: masters[userId]["_accSetting"].data.available_time_start,
-        available_time_end: masters[userId]["_accSetting"].data.available_time_end
+        available_time_end: masters[userId]["_accSetting"].data.available_time_end,
+        state: 'pending'
     };
 
     // Check that empty list was not sent
-    if (glist.length === 0) {
+    if (gticket.length === 0) {
         res.status(500);
-        res.send({message: 'Submitted empty list'});
+        res.send(JSON.stringify({message: 'Submitted empty list'}));
         return;
     }
 
@@ -1031,7 +1056,7 @@ app.post('/_checkout', function (req, res, next) {
             var grocery_list = null;
 
             // Update user to hold grocery list submitted
-            grocery_list = db.collection('users').updateOne({_id: req.session.passport.user}, {$push: {grocery_list: glist}},
+            grocery_list = db.collection('users').updateOne({_id: req.session.passport.user}, {$push: {grocery_list: gticket}},
                 function (err, doc) {
                     if (err) {
                         console.log('error updating user grocery list');
@@ -1091,7 +1116,6 @@ app.post('/_driverList', function (req, res, next) {
         //TODO maybe get from database or from session
     }
     res.send('Fail, not login');
-
 });
 
 
@@ -1103,6 +1127,139 @@ app.post('/_DriverList2', function (req, res, next) {
 
 //----------------------------HISTORY----------------------
 app.post('/_history', function (req, res, next) {
+    var userId = req.session.userId;
+
+    // No user is logged in, no information should be loaded/sent to page
+
+    if (!userId) {
+        console.log('In _history: No user currently logged in');
+        res.send('');
+    }
+    else {
+        MongoClient.connect(mongodb_url, function(err, db) {
+            if (err) {
+                console.log('Error connecting to db in _history');
+                res.send('');
+            }
+            else {
+                var user = db.collection('users').findOne({_id: userId}, function (err, doc) {
+                    if (err) {
+                        console.log('Error in _history findOne()');
+                        res.send('');
+                    }
+                });
+
+                if (!user) {
+                    console.log('Could not find user with userId ' + userId + ' in _history');
+                    res.send('');
+                }
+                else {
+                    var i;
+                    var shopping_hist = user.user_history;
+                    var pending_shopping_list = user.grocery_list;
+                    var user_data = [];
+
+                    for (i = 0; i < shopping_hist.length; i++) {
+                        user_data.push(
+                            {
+                                name: shopping_hist[i].store_name,
+                                time: shopping_hist[i].time_created,
+                                id: shopping_hist[i]._id,
+                                state: 'delivered'
+                            }
+                        );
+                    }
+
+                    for (; i < pending_shopping_list.length; i++) {
+                        user_data.push(
+                            {
+                                name: pending_shopping_list[i].store_name,
+                                time: pending_shopping_list[i].time_created,
+                                id: pending_shopping_list[i]._id,
+                                state: 'pending'
+                            }
+                        );
+                    }
+
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send(JSON.stringify({data: user_data}));
+                }
+            }
+        });
+    }
+});
+
+app.post('_yourDeliveries', function(req, res) {
+    var userId = req.session.userId;
+
+    if (!userId) {
+        console.log('In _yourDeliveries: User is not logged in.');
+        res.send('');
+    }
+    else {
+        MongoClient.connect(mongodb_url, function(err, db) {
+            if (err) {
+                console.log('Error connecting to db in _history');
+                res.send('');
+            }
+            else {
+                var user = db.collection('users').findOne({_id: userId}, function (err, doc) {
+                    if (err) {
+                        console.log('Error in _history findOne()');
+                        res.send('');
+                    }
+                });
+
+                if (!user) {
+                    console.log('Could not find user with userId: ' + userId + ' in _yourDeliveries');
+                    res.send('');
+                }
+                else {
+                    var i;
+                    var delivery_history = user.delivery_history;
+                    var pending_delivery_list = user.delivery_list;
+                    var user_data = [];
+
+                    for (i = 0; i < delivery_history.length; i++) {
+                        user_data.push(
+                            {
+                                name: delivery_history[i].store_name,
+                                time: delivery_history[i].time_created,
+                                id: delivery_history[i]._id,
+                                state: 'delivered'
+                            }
+                        );
+                    }
+
+                    for (; i < pending_delivery_list.length; i++) {
+                        user_data.push(
+                            {
+                                name: pending_delivery_list[i].store_name,
+                                time: pending_delivery_list[i].time_created,
+                                id: pending_delivery_list[i]._id,
+                                state: 'pending'
+                            }
+                        );
+                    }
+                    
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send(JSON.stringify({data: user_data}));
+                }
+            }
+        });
+    }
+});
+
+
+// TODO: to let driver check-off items off grocery list
+
+// Update status of ticket
+app.post('/_viewTicket', function(req, res) {
+
+});
+
+// Get queue
+app.post('/_tickets', function(req, res) {
 
 });
 
