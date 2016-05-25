@@ -1004,12 +1004,6 @@ app.post('/_accSetting', function (req, res) {
 //TODO -------------------------------------------------------------------------
 
 
-// ---------------------------------------------------- TICKETS/GROCERY QUEUE ---------------------------------------
-app.post('/_tickets', function (req, res) {
-
-});
-//TODO -------------------------------------------------------------------------
-
 
 //------------------------------------------------------------checkout---------------------------------------------
 //may be update database in checkout,???
@@ -1130,7 +1124,7 @@ app.post('/_driverList', function (req, res, next) {
     }
 
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify({message: 'Fail, not login'});
+    res.send(JSON.stringify({message: 'Fail, not login'}));
 });
 
 
