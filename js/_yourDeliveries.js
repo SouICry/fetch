@@ -98,7 +98,6 @@
 
             $('li.yourDeliveries1').each(function () {
                 $(this).click(function () {
-                    alert($(this).data("id"));
                     loader.getTicket($(this).data("id"), $(this).data("state"))
                 });
             });
