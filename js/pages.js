@@ -1,7 +1,7 @@
 var allPages = [
     ["_accSetting", "_contact", "_passwordRecovery", "_passwordReset", "_login", "_signUp" /*", _takeProfilePicture"*/],
 
-    ["_homePage", "_shopping", "_checkout"/*, "_pendingPayment", "_submitted", "_cancelled"*/],
+    ["_homePage", "_shopping", "_checkout"/*, "_pendingPayment", "_submitted"*/, "_cancelled"],
     ["_history", "_shoppingStatus"/*, "_cancelTicket"*/],
     ['_confirmTicket', /*"_rateDriver",*/'_congratsTicketClosed'],
 

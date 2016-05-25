@@ -3,7 +3,6 @@
         data: "", //Optional
         version: 0, //Must be 0
         getData: function () { //must be null if not needed
-
             _account.full_name = $('#accsetting_full_name').val();
             _account.email = $('#accsetting_email').val();
             _account.phone = $('#accsetting_phone').val();

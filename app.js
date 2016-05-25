@@ -354,7 +354,6 @@ app.post('/_signUp', function (req, res, next) {
                     }
                     else {
                         var userId = req.session.passport.user;
-                        req.session.userId = userId;
                         if (!masters.hasOwnProperty(userId)){
                             masters[userId] = {
                                 isDriver: false,
@@ -363,23 +362,31 @@ app.post('/_signUp', function (req, res, next) {
                                 currentPage: ""
                             };
                             masters[userId].userId = userId;
+                            // res.setHeader('Content-Type', 'application/json');
+
+                            console.log(userId);
+                            console.log(JSON.stringify({
+
+                                isLoggedIn: false,
+                                userId: userId
+                            }));
                             res.setHeader('Content-Type', 'application/json');
                             res.send(JSON.stringify({
-                                userId: userId,
-                                isLoggedIn: false
+                                isLoggedIn: false,
+                                userId: userId
                             }));
                         }
                         else {
                             res.setHeader('Content-Type', 'application/json');
                             res.send(JSON.stringify({
-                                userId: masters[userId].userId,
+                                userId: userId,
                                 currentPage: masters[userId].currentPage,
                                 isLoggedIn: true,
                                 ticketId: masters[userId].ticketId,
                                 isDriver: masters[userId].isDriver
                             }));
                         }
-                        console.log('login success!');
+                        console.log('successful login');
                     }
                 });
             });
