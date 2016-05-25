@@ -3,7 +3,7 @@
         data: {full_name: "Pamela Anderson", id: 91731, avatar: "http://lorempixel.com/100/100/people/9/"},
         version: 0, //Must be 0 
         getData: function () {
-            return data.id;
+            return shoppingStatus_id;
         },
         loadData: function (data) {
             shoppingStatus_id = data.id;
@@ -25,7 +25,6 @@
     var shoppingStatus_id = 0;
 
     $('#shoppingStatus_list_btn').click(function () {
-        alert(shoppingStatus_id);
         goToPage("_shopping");
     });
 
