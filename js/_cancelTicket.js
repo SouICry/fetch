@@ -1,21 +1,21 @@
 (function () {
-    var cancelled_ticketState = {};
+    var cancelTicket_ticketState = {};
 
-    loader._cancelled  = {
+    loader._cancelTicket  = {
         data:{ticket_id: 3054},
         version: 0,
         getData: function () {
-            return cancelled_ticketState;
+            return cancelTicket_ticketState;
         },
         loadData: function (data) {
-            cancelled_ticketState = {
+            cancelTicket_ticketState = {
                 ticket_id: data.id,
-              //  state: "canceled"
+                  state: "canceled"
             }
         }
     };
 
-    $('#submit_cancelled').click(function () {
+    $('#submit_cancelTicket').click(function () {
         goToPage("_homePage");
     });
 
