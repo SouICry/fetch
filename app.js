@@ -841,26 +841,31 @@ app.post('/_accSetting', function (req, res) {
     }
         // might need to pull data from database first depending on how we are doing it
     else if (req.body.type === "request_data") {
-        object.full_name = masters[userId]["_accSetting"].data.full_name;
-        object.email = masters[userId]["_accSetting"].data.email;
-        object.phone =  masters[userId]["_accSetting"].data.phone;
-        object.address.street = masters[userId]["_accSetting"].data.address.street;
-        object.address.city = masters[userId]["_accSetting"].data.address.city;
-        object.address.state= masters[userId]["_accSetting"].data.address.state;
-        object.address.zip = masters[userId]["_accSetting"].data.address.zip;
-        
-        res.send(object);
+        MongoClient.connect(mongodb_url, function (err, db) {
+            if (err) {
+                console.log('Error: ' + err);
+                res.send(err);
+            }
+            else {
+                var user = db.collection('users').User.findOne({_id: master.userId},
+                    function (err) {
+                        if (err) return err;
+                    });
+                object.full_name = user.data.full_name;
+                object.email = user.email;
+                object.phone =  user.phone_number;
+                object.address.street = user.address.street;
+                object.address.city = user.address.city;
+                object.address.state= user.address.state;
+                object.address.zip = user.address.zip;
+
+                res.send(object);
+            }
+        });
+        //load the master user information
+
     }
     else {
-        // update session
-        masters[userId]["_accSetting"].data.full_name = req.body.user.full_name;
-        masters[userId]["_accSetting"].data.email = req.body.user.email;
-        masters[userId]["_accSetting"].data.phone = req.body.user.phone;
-        masters[userId]["_accSetting"].data.address.street = req.body.user.street;
-        masters[userId]["_accSetting"].data.address.city = req.body.user.city;
-        masters[userId]["_accSetting"].data.address.state = req.body.user.state;
-        masters[userId]["_accSetting"].data.address.zip = req.body.user.zip;
-
         // Update user document from users collection with the new info
         MongoClient.connect(mongodb_url, function (err, db) {
             if (err) {
@@ -868,7 +873,18 @@ app.post('/_accSetting', function (req, res) {
                 res.send(err);
             }
             else {
-                user = db.collection('users').updateOne({_id: master.userId}, {$push: {tickets: ticket}},
+                db.collection('users').update({_id: master.userId},
+                    {
+                        $set: {
+                            full_name: req.body.user.full_name,
+                            email: req.body.user.email,
+                            phone_number: req.body.user.phone,
+                            "address.street": req.body.user.street,
+                            "address.city": req.body.user.city,
+                            "address.state": req.body.user.state,
+                            "address.zip": req.body.user.zip
+                        }
+                    },
                     function (err) {
                         if (err) return err;
                     });
