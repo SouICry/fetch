@@ -11,7 +11,7 @@
         {name: "tjs", time: "7:00 pm", id: "525", state: "delivered"},
         {name: "ralphs", time: "8:00 pm", id: "532", state: "delivered"},
         {name: "vons", time: "9:00 pm", id: "864", state: "delivered"},
-        {name: "vons", time: "10:00 pm", id: "864", state: "draft"}],
+        {name: "vons", time: "10:00 pm", id: "864", state: "draft"}], // may not have draft state
         version: 0,
         loadData: function (data) {
             $("#yourDeliveries__accepted_tickets").empty();
