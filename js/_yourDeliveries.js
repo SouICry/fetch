@@ -111,5 +111,33 @@
             loader.getTicket($(this).data("id"), $(this).data("state"))
         });
     });
+
+    $('#_viewTicket_submit_list').click(function () {
+        goToPage("_yourDeliveries");
+        assholes40();
+    });
+
+    function assholes40() {
+        var info_to_send = {};
+        info_to_send.id = $('#user-name').data('id');
+        info_to_send.type = "get";
+
+        //Actual
+        $.ajax({
+                type: "POST",
+                url: "/_yourDeliveries",
+                data: info_to_send,
+                success: function (data) {
+                    //data is the object sent back on success (could also just be string)
+
+                    loader._viewTicket.loadData(data);
+                },
+                error: function (data) {
+                    alert("fail");
+                    //data is the object send back on fail (could also just be string)
+                }
+            }
+        );
+    }
 })();
 

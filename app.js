@@ -850,6 +850,7 @@ app.post('/_accSetting', function (req, res) {
         res.status(500);
         res.send({message: 'no user logged in'});
     }
+<<<<<<< HEAD
     // might need to pull data from database first depending on how we are doing it
     else if (req.body.type === "request_data") {
         var user = db.collection('users').findOne({_id: master.userId},
@@ -868,24 +869,87 @@ app.post('/_accSetting', function (req, res) {
         object.address.zip = user.address.zip;
         res.send(object);
         //load the master user information
+=======
+        
+    else if (req.body.type === "loadAccSetting") {
+        console.log('LOADING ACCOUNT');
+        MongoClient.connect(mongodb_url, function (err, db) {
+            if (err) {
+                console.log('Error in accSetting: ' + err);
+                res.status(500);
+                res.send({message: 'cannot connect to database'});
+            }
+            else {
+                db.collection('users').findOne({_id: userId},
+                    function (err, user) {
+                        if (err) {
+                            console.log('Error in accSetting: ' + err);
+                            res.status(500);
+                            res.send({message: 'cannot access collection to find user '})
+                        }
+                        //console.log('user = ' + JSON.stringify(user));
+                        if (!user) {
+                            console.log('Could not find user with userId ' + userId + ' in _accSetting');
+                            res.status(500);
+                            res.send('');
+                        }
+                        if (!user.full_name) {
+                            console.log('Could not find users fullname in _accSetting');
+                            res.status(500);
+                            res.send('');
+                        }
+                        else {
+                            object.full_name = user.full_name;
+                            object.email = user.email;
+                            object.phone = user.phone_number;
+                            object.address.street = user.address.street;
+                            object.address.city = user.address.city;
+                            object.address.state = user.address.state;
+                            object.address.zip = user.address.zip;
+
+                            res.setHeader('Content-Type', 'application/json');
+                            res.send(JSON.stringify(object));
+                        }
+                    });
+            }
+        });
+
+>>>>>>> 1778bdc23dd9309b38a606ea78e6ec44009d0e83
     }
+        //load the master user information
     else {
+        if(!req.body){
+            console.log('user didnt transfer');
+            return '';
+        }
+        var userData = req.body;
+        if (userData === null) {
+            console.log('U ARENT GETTING ANYTHING');
+            return '';
+        }
         // Update user document from users collection with the new info
-        db.collection('users').update({_id: master.userId},
-            {
-                $set: {
-                    full_name: req.body.user.full_name,
-                    email: req.body.user.email,
-                    phone_number: req.body.user.phone,
-                    "address.street": req.body.user.street,
-                    "address.city": req.body.user.city,
-                    "address.state": req.body.user.state,
-                    "address.zip": req.body.user.zip
-                }
-            },
-            function (err) {
-                if (err) return err;
-            });
+        MongoClient.connect(mongodb_url, function (err, db) {
+            if (err) {
+                console.log('Error: ' + err);
+                res.send(err);
+            }
+            else {
+                db.collection('users').updateOne({_id: userId},
+                    {$set: {
+                            full_name: userData.full_name,
+                            email: userData.email,
+                            phone_number: userData.phone,
+                            "address.street": userData.street,
+                            "address.city": userData.city,
+                            "address.state": userData.state,
+                            "address.zip": userData.zip
+                    }},
+                    function (err) {
+                        if (err) return err;
+                    });
+            }
+        });
+
     }
 });
 //TODO ------------------------------------------------------------------------------------------------------------------

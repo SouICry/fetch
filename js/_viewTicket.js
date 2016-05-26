@@ -3,7 +3,7 @@
         data:{full_name: "Jen", items:["green eggs", "ham"], id: 3054},
         version: 0,
         getData: function () {
-            return data_to_load;
+            return loader._viewTicket.data;
         },
         loadData: function (data) {
             //populate driver list
@@ -43,9 +43,6 @@
         }
     };
 
-
-    var data_to_load;
-
     $('#_viewTicket_submit_list').click(function () {
         goToPage("_yourDeliveries");
         assholes39();
@@ -64,12 +61,8 @@
                 success: function (data) {
                     //data is the object sent back on success (could also just be string)
 
-                    data_to_load = {
-                        id: data.id,
-                        full_name: data.full_name,
-                        items: data.items
-                    };
-                    //alert('data after login: ' + data.full_name);
+                    loader._viewTicket.loadData(data);
+                    //loader._viewTicket.getData(data);
                 },
                 error: function (data) {
                     alert("fail");
