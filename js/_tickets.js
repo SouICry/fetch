@@ -1,9 +1,9 @@
 (function () {
     loader._tickets = {
         data: ''/*[
-        {name: "wholeFoods", time: "12:00 pm", id: "123"}, {name: "ralphs", time: "5:00 pm", id: "344"},
-        {name: "tjs", time: "6:00 pm", id: "653"}, {name: "ralphs", time: "7:00 pm", id: "098"},
-        {name: "vons", time: "7:00 pm", id: "897"}]*/,
+         {name: "wholeFoods", time: "12:00 pm", id: "123"}, {name: "ralphs", time: "5:00 pm", id: "344"},
+         {name: "tjs", time: "6:00 pm", id: "653"}, {name: "ralphs", time: "7:00 pm", id: "098"},
+         {name: "vons", time: "7:00 pm", id: "897"}]*/,
         version: 0,
         getData: function () {
             return selected;
@@ -54,7 +54,7 @@
                                 break;
                             }
                         }
-                        
+
                         loader._viewTicket.loadData(ticket);
                         goToPage('/_viewTicket');
                         //loader.getTicket($(this).data("ticketId"));
@@ -119,7 +119,7 @@
         data: null,
         success: function (data) {
             //data is the object sent back on success (could also just be string)
-            loader._tickets.loadData(JSON.stringify(data));
+            loader._tickets.loadData(data);
             //alert(JSON.stringify(data));
         },
         error: function (data) {
@@ -127,4 +127,5 @@
         }
     });
 })();
+
 
