@@ -4,7 +4,6 @@
         data: "", //Optional
         version: 0, //Must be 0
         getData: function () { //must be null if not needed
-
             _checkout.checkout_notes = $('input[name="specialnotes"]:checked', '#checkout_notes').val();
             _checkout.checkout_range1 = $("#checkout_time1").val();
             _checkout.checkout_range2 = $("#checkout_time2").val();
@@ -31,7 +30,7 @@
             checkout_range2: ""
         };
 
-    loader._checkout.loadData(_checkout);
+        loader._checkout.loadData(_checkout);
     
         $('#checkout_submitcheckout').click(function () {
 
@@ -49,42 +48,47 @@
 
 
             if (valid == true) {
-                sendToServer();
+                // var info_to_send = {};
+                // info_to_send.ticketId: _checkout.checkout_range;
+                // info_to_send.available_time_end: _checkout.checkout_range1;
+                // info_to_send.available_time_end: _checkout.checkout_range2;
+                // info
+                // info_to_send.type = "send";
+
+                //Simulation (alert or console.log to check for yourself)
+                //alert(JSON.stringify(info_to_send));
+
+                //Actual
+                $.ajax({
+                    type: "POST",
+                    url: "/_checkout",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        list : loader._shopping.getData(),
+                        store_name: loader.store,
+                        options: loader._checkout.getData()
+                    }),
+                    success: function (data) {
+                        //data is the object sent back on success (could also just be string)
+                        alert("Congrats!");
+                    },
+                    error: function (data) {
+                        //data is the object send back on fail (could also just be string)
+                    }
+                });
             }
             else {
                 confirm("Enter a valid valid time range.");
             }
 
-            loader.next();
-
             // go to paypal to set up payment
             // on successful payment, goes to _submitted
             // unsuccessful goes to _cancelled
-            pageGoTo("");
+            goToPage("_pending");
+
+            //loader.payment.triggerPayment();
         });
 
-        function sendToServer() {
-            var info_to_send = {};
-            info_to_send.id = $('#user-name').data('id');
-            info_to_send.notesTime = _checkout;
-            info_to_send.type = "send";
-
-            //Simulation (alert or console.log to check for yourself)
-            alert(JSON.stringify(info_to_send));
-
-            //Actual
-            $.ajax({
-                type: "POST",
-                url: "/_checkout",
-                data: info_to_send,
-                success: function (data) {
-                    //data is the object sent back on success (could also just be string)
-                    alert("Congrats!");
-                },
-                error: function (data) {
-                    //data is the object send back on fail (could also just be string)
-                }
-            });
-        }
     
 })();

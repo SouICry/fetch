@@ -58,13 +58,13 @@ var userSchema = new mongoose.Schema(
         email: {type: String, required: true, unique: true},
         password: {type: String, required: true},
         phone_number: {type: String, required: true},
-        address: {type: String, required: true, unique: false},
-        /*{
+        address: //{type: String, required: true, unique: false},
+        {
             street: '',
             city: '',
             state: '',
             zip: ''
-        },*/
+        },
         // Not currently used
         payment_info: {
             card_holder_name: {type: String, required: false, unique: false},
@@ -78,7 +78,7 @@ var userSchema = new mongoose.Schema(
         num_times_rated: {type: Number, required: false, unique: false},
         time_created: {type: String, required: false, unique: false},
 
-        // Grcoery list holds tickets(?) (no longer grocery_list objs). May change.
+        // Grocery list holds tickets(?) (no longer grocery_list objs). May change.
         grocery_list: {type: [], required: false, unique: false},
         delivery_list: {type: [], required: false, unique: false},
         user_history: {type: [], required: false, unique: false},
@@ -204,7 +204,7 @@ passport.use('login', new LocalStrategy(
         passReqToCallback: true // allows us to pass back the entire request to the callback
     },
     function (req, email, password, done) {
-        //process.nextTick(function () {
+        process.nextTick(function () {
             User.findOne({email: email.toLowerCase()}, function (err, user) {
                 if (err)
                     return done(err);
@@ -220,7 +220,7 @@ passport.use('login', new LocalStrategy(
                 // Successful login
                 return done(null, user, {message: 'successful login'});
             });
-        //});
+        });
     }
 ));
 
@@ -245,9 +245,8 @@ passport.use('signup', new LocalStrategy(
 
         console.log('signup email: ' + email);
 
-        //process.nextTick(function () {
+        process.nextTick(function () {
             User.findOne({'email': email}, function (err, user) {
-
                 if (err) {
                     console.log('Error: ', err);
                     return done(err);
@@ -265,12 +264,13 @@ passport.use('signup', new LocalStrategy(
                         email: email,
                         password: password,
                         phone_number: req.body.phone_number,
-                        address: req.body.address/*{
-                         street: '',
-                         city: '',
-                         state: '',
-                         zip: ''
-                         }*/,
+                        address:
+                        {
+                             street: 'blah st.',
+                             city: 'blah city',
+                             state: 'CA',
+                             zip: '13315'
+                         },
                         payment_info: {
                             card_holder_name: '',
                             card_number: '',
@@ -300,7 +300,7 @@ passport.use('signup', new LocalStrategy(
                     return done(null, newUser, {message: 'successful signup'});
                 }
             });
-        //});
+        });
     }
 ));
 
@@ -866,13 +866,13 @@ app.post('/_accSetting', function (req, res) {
                             return;
                         }
                         //console.log('user = ' + JSON.stringify(user));
-                        if (!user) {
+                        if (user != null) {
                             console.log('Could not find user with userId ' + userId + ' in _accSetting');
                             res.status(500);
                             res.send('');
                             return;
                         }
-                        if (!user.full_name) {
+                        if (user.full_name != null) {
                             console.log('Could not find users fullname in _accSetting');
                             res.status(500);
                             res.send('');
@@ -1028,6 +1028,7 @@ app.post('/_accSetting', function (req, res) {
 //------------------------------------------------------------checkout---------------------------------------------
 //may be update database in checkout,???
 app.post('/_checkout', function (req, res, next) {
+    var date = new Date();
     var userId = req.session.userId;
     // if (req.body.notesTime) {
     //     masters[userId]["_checkout"].data.list_id = req.body.notesTime.id;
@@ -1035,75 +1036,77 @@ app.post('/_checkout', function (req, res, next) {
     //     masters[userId]["_checkout"].data.available_time_start = req.body.notesTime.range1;
     //     masters[userId]["_checkout"].data.available_time_end = req.body.notesTime.range2;
 
-    // Model for grocery list
-    var gticket = {
-        _id: masters[userId]["_checkout"].data.list_id,
-        // May need to fix how fields are loaded from master for these new attributes
-        shopper: {
-            _id: userId,
-            phone_number: masters[userId].phone,
-            address: {
-                street: masters[userId].address.street,
-                city: masters[userId].address.city,
-                state: masters[userId].address.state,
-                zip: masters[userId].address.zip
+    db.collection('users').findOne({_id: userId}, function(err, user) {
+        // Model for grocery list
+        var gticket = {
+            _id: user._id + date.getTime(),
+            // May need to fix how fields are loaded from master for these new attributes
+            shopper: {
+                _id: user._id,
+                phone_number: user.phone_number,
+                address: {
+                    street: user.address.street,
+                    city: user.address.city,
+                    state: user.address.state,
+                    zip: user.address.zip
+                },
+                rating: user.avg_rating
             },
-            rating: masters[userId].avg_rating
-        },
-        driver: {
-            _id: '',
-            phone_number: ''
-        },
-        store_name: masters[userId]["_homePage"].data.store_name,
-        shopping_list: masters[userId]["_shopping"].data.list,
-        time_created: date.toLocaleDateString() + ' ' + date.toLocaleTimeString(),
-        time_accepted: '',
-        // Why are these from ['_accSetting'] ?
-        special_options: masters[userId]["_accSetting"].data.special_options,
-        available_time_start: masters[userId]["_accSetting"].data.available_time_start,
-        available_time_end: masters[userId]["_accSetting"].data.available_time_end,
-        state: 'pending'
-    };
+            driver: {
+                _id: '',
+                phone_number: ''
+            },
+            store_name: req.body.store_name,
+            shopping_list: req.body.list,
+            time_created: date.toLocaleDateString() + ' ' + date.toLocaleTimeString(),
+            time_accepted: '',
+            // Why are these from ['_accSetting'] ?
+            special_options: req.body.options.checkout_notes,
+            available_time_start: req.body.options.checkout_range1,
+            available_time_end: req.body.options.checkout_range2,
+            state: 'pending'
+        };
 
-    // Check that empty list was not sent
-    if (gticket.length === 0) {
-        res.status(500);
-        res.send(JSON.stringify({message: 'Submitted empty list'}));
-        return;
-    }
+        // Check that empty list was not sent
+        if (gticket.shopping_list.length === 0) {
+            console.log('Grocery ticket submitted has no items');
+            res.status(500);
+            res.send(JSON.stringify({message: 'Submitted empty list'}));
+            return;
+        }
 
-    // Check that user is logged in
-    if (!req.session.passport || !req.session.passport.user) {
-        console.log('user is not logged in');
-        res.status(500);
-        res.send({message: 'user is not logged in'});
-    }
-    else {
-        // Update user to hold grocery list submitted
-        db.collection('users').updateOne({_id: req.session.passport.user}, {$push: {grocery_list: gticket}},
-            function (err, doc) {
-                if (err) {
-                    console.log('error updating user grocery list');
-                    res.status(500);
-                    res.send(err);
+        // Check that user is logged in
+        if (!req.session.passport || !req.session.passport.user) {
+            console.log('user is not logged in');
+            res.status(500);
+            res.send({message: 'user is not logged in'});
+        }
+        else {
+            // Update user to hold grocery list submitted
+            db.collection('users').updateOne({_id: req.session.passport.user}, {$push: {grocery_list: gticket}},
+                function (err, doc) {
+                    if (err) {
+                        console.log('error updating user grocery list');
+                        res.status(500);
+                        res.send(err);
+                    }
+                    else if (!doc) { // If grocery list successfully added to user's grocery list, add list to queue
+                        db.collection('grocery_queue').insert(doc, function (err) {
+                            if (err) {
+                                console.log('error adding list to queue: ' + err);
+                                res.status(500);
+                                res.send(err);
+                            }
+                        });
+                    }
                 }
-                else if (!doc) { // If grocery list successfully added to user's grocery list, add list to queue
-                    db.collection('grocery_queue').insert(doc, function (err) {
-                        if (err) {
-                            console.log('error adding list to queue: ' + err);
-                            res.status(500);
-                            res.send(err);
-                        }
-                    });
-                }
-            }
-        );
-    }
-    res.send("Successful");
+            );
+        }
+        res.send("Successful");
+    });
 
     // }
-    res.send("Fail");
-
+    //res.send("Fail");
 });
 //TODO -------------------------------------------------------------------------
 
