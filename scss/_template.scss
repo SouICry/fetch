@@ -12,7 +12,6 @@
 }
 #panel-Header{
   background-color: darkorange;
-  margin-top:-20px;
   height:90px;
 
 
@@ -45,36 +44,27 @@
   border-bottom: solid  lightgrey 3px;
   top: 0
 }
-#Glyph{
-  margin-top:20px;
-}
 
 
 button:focus {
   outline:0;
 }
 
-
+#Glyph {
+  line-height : 50px;
+}
 
 #Fetch{
-  div{
-    font-size:190%;
-  }
-  font-size: 190%;
-  margin-top:0px;
-  Font-family: Fetch;
+  margin: 0;
+  font-family: Fetch, serif;
   color: #f36100;
-  margin-bottom:0;
-  #title{
-    margin-top:3%;
-    margin-bottom:-5px;
-  }
-  button{
-  }
+  font-size: 32px;
+  line-height: 50px;
 }
 #Butt{
   margin-top:50px;
   overflow-y: auto;
+  overflow-x: hidden;
   div{
     cursor: pointer;
     width:100%;
@@ -85,10 +75,6 @@ button:focus {
     color:darkgray;
     background-color:transparent;
     text-align: left;
-    margin-left:3%;
-    .glyphicon{
-      margin-right:3%;
-    }
   }
 
   div:hover{
@@ -100,41 +86,16 @@ button:focus {
   }
 }
 
-#page-content{
-  margin-top:100px;
-
+#User {
+  height: 50px;
 }
-@media screen and(min-width: 200px){
-  #Fetch{
-    //margin-top: -10px;
-    font-size: 130%;
-  }
-  #page-content{
-    margin-top:100px;
-  }
-  #User{
-    height:50px;
 
-  }
-}
-@media screen and(min-width: 1000px){
-  #Fetch{
-    //margin-top: -20px;
-    font-size: 150%;
-  }
-  #User{
-    height:100px;
-
-  }
-  #page-content{
-    margin-top:100px;
+#open-menu-drawer {
+  color: $fetchOrange;
+  font-size: 24px;
+  line-height: 50px;
+  &:hover {
+    color: black;
   }
 }
 
-.glyphicon {
-
-  color: grey;
-}
-.glyphicon:hover{
-  color: orange;
-}

@@ -2,11 +2,7 @@
 
 #homePage {
 
-  margin: 15%;
-  min-width:250px;
-  margin-top:-50px;
-
-  button{
+  div{
     background-color: #ffffff;
     border:none;
   };
@@ -16,11 +12,6 @@
   .container-fluid {
     //max-width: 80%;
   }
-
-  //.row {
-  //  margin-left: 10%;
-  //  margin-right: 10%;
-  //}
 
   /* needed to overwrite bootstraps margins*/
   h2 {
@@ -32,24 +23,27 @@
     font-size: 45px;
   }
 
+  .shop {
+    position: relative;
+  }
   .name {
     font-family: Brandon;
     position: absolute;
     font-size: 3em;
-    left: 0;
     width: 100%;
-    top: 48%;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
-  figure img {
-    margin: 5% 0;
-    border-radius: 5px;
-    max-width: 100%;
-  }
 
   figure {
     position: relative;
+    padding: 16px 8px 0 8px;
     margin: 0;
+    cursor: pointer;
+    img {
+      border-radius: 5px;
+    }
   }
 
 

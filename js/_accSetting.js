@@ -35,7 +35,7 @@
     };
 
 
-    loadAccountData();
+    //loadAccountData();
 
     $("#accsetting_warning").hide();
 

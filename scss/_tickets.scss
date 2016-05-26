@@ -27,9 +27,8 @@
   }
 
   .store {
-    border: solid 1px lightgray;
     border-radius: 5px;
-    box-shadow: 1px 1px 1px #888888;
+    box-shadow: 0px 1px 3px #888888;
     margin: 0 0px;
     width:100%;
     padding:0;
@@ -47,6 +46,8 @@
     @media screen and(min-width: 500px) {
       width: 80%;
     }
+
+    margin-bottom: 5px;
   }
 
   .selected {

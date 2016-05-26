@@ -1,11 +1,11 @@
 #page-content {
   margin: 0;
-  padding: 0;
   position: relative;
   height: 100vh;
   width: 100vw;
   overflow: visible;
   transition: transform 1s;
+
 
   & > div {
     position: fixed;
@@ -20,7 +20,7 @@
 
 
     & > div {
-      padding-top: 100px;
+      padding-top: 50px;
       width: 100vw;
       height: 100%;
       overflow-y: auto;
@@ -29,6 +29,13 @@
       left: 0;
       position: absolute;
       transition: transform 1s;
+      & > *{
+        margin-bottom: 15px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
     }
 
     @for $i from 1 through 20 {
