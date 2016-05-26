@@ -7,6 +7,7 @@
             return list_shopping;
         },
         loadData: function (data) {
+            alert(data);
             if (data == "none" || data.length == 0) {
                 data = [];
                 list_shopping.splice(0, list_shopping.length);
@@ -65,7 +66,7 @@
             newItem.className = 'item';
             $('#shopping_list').prepend(newItem);
             shopping_count++;
-
+            loader._shopping.version++;
             if (shopping_count == 1) {
                 $("#shopping_numItems").text("1 item");
             }
@@ -96,6 +97,7 @@
         $(this).remove();
         $('#shopping_submit_list').hide();
         shopping_count--;
+        loader._shopping.version++;
         if (shopping_count == 1) {
             $("#shopping_numItems").text("1 item");
         }

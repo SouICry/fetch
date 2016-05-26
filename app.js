@@ -141,6 +141,33 @@ ViewController.prototype = {
     }
 };
 
+
+app.post("/_shopping", function(req, res){
+    //use pageCount or version
+    var userId = req.session.userId;
+
+    var list = req.body.list;
+    //TODO initialize verion in login, init, sign up
+    if(masters[userId].version < req.body.version) {
+        console.log("go in");
+        masters[userId].version = req.body.version;
+        masters[userId].list = list;
+        //masters[userId].ticketId = req.body.ticketId;
+    }
+    else if (masters[userId].version > req.body.version){
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({
+            //version: masters[userId].version,
+            list: masters[userId].list,
+            version: masters[userId].version
+        }));
+    }
+    else {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({"":""}));
+    }
+
+});
 // app.get('/_shopping', function (req, res){
 //     console.log('LIne 456, list in session is', req.session.list);
 //     if(req.session.passport && req.session.passport.user) {
@@ -367,6 +394,7 @@ app.post('/_signUp', function (req, res, next) {
                                 isDriver: false,
                                 isLoggedIn: true,
                                 userId: userId,
+                                version: 0,
                                 currentPage: ""
                             };
                             masters[userId].userId = userId;
@@ -431,6 +459,7 @@ app.post('/_login', function (req, res, next) {
                     isDriver: false,
                     isLoggedIn: true,
                     userId: userId,
+                    version: 0,
                     currentPage: ""
                 };
                 masters[userId].userId = userId;
@@ -747,6 +776,7 @@ app.post('/init', function (req, res) {
             isDriver: false,
             isLoggedIn: true,
             userId: userId,
+            version: 0,
             currentPage: "_homePage"
         };
         masters[userId].userId = userId;
