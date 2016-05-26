@@ -19,6 +19,7 @@ var flash = require('express-flash');
 var fs = require('fs');
 var mongodb_url = 'mongodb://test_user:test@ds013221.mlab.com:13221/insanely_creatives_db';
 
+var db;
 var app = express();
 app.use(favicon());
 app.use(logger('dev'));
@@ -120,7 +121,7 @@ userSchema.methods.comparePassword = function (password) {
 var User = mongoose.model('User', userSchema, 'users');
 
 // Connect to db
-mongoose.connect(mongodb_url);
+//mongoose.connect(mongodb_url);
 // -------------------------------------------------------------------
 
 
@@ -424,10 +425,10 @@ app.post('/_login', function (req, res, next) {
 
             //req.session.userId = req.body.email; //TODO set userId once login
             var userId = req.session.passport.user;
-          
+
             req.session.userId = userId;
-         
-            
+
+
             if (!masters.hasOwnProperty(userId)){
                 masters[userId] = {
                     isDriver: false,
@@ -666,22 +667,12 @@ app.post('/getTicket', function (req, res) {
     var ticketId = req.body.id;
     var store = req.body.store;
     var userId = req.session.userId;
-    var user;
 
-    MongoClient.connect(mongodb_url, function(err, db) {
-        if (err) {
-            console.log('Error: get ticket. ' + err);
+    var user = db.collection('grocery_queue').findOne({_id: ticketId}, function(err) {
+        if (err)
             res.send(err);
-        }
-        else {
-            user = db.collection('grocery_queue').findOne({_id: ticketId}, function(err) {
-                if (err){
-                    res.send(err);
-                }
-            });
-
-        }
     });
+
     if(user) {
         masters[userId]["_driverList"].data = user;
 
@@ -725,7 +716,7 @@ app.post('/switchRole', function(req, res) {
 //----------------------------------getUpdate--------------------------------------------------------------------------
 //run every second
 app.post('/getUpdates', function (req, res, next) {
-   // var object = {};
+    // var object = {};
     //send back JSON object to update current Page once the user is login on another device
     var userId = req.session.userId;
 
@@ -751,7 +742,7 @@ app.post('/getUpdates', function (req, res, next) {
 app.post('/init', function (req, res) {
     var userId = req.body.userId;
     req.session.userId = userId;
-   // var userId = req.session.userId;
+    // var userId = req.session.userId;
 
 
     if (!masters.hasOwnProperty(userId)) {
@@ -779,71 +770,71 @@ app.post('/init', function (req, res) {
         }));
     }
 });
-    // var userId = req.body.userId;
-    //
-    // if (masters.hasOwnProperty(userId)) {
-    //     //Exists user
-    //     if (masters[userId] != null) {
-    //         //is logged in, return master existing data
-    //     }
-    //     else {
-    //         //initialize master with user data and empty objects
-    //     }
-    // }
-    // else {
-    //
-    //     var id = new Date().getMilliseconds();
-    //     req.session.userId = id;
-    //     console.log(id);
-    //     console.log(req.session.userId);
-    //     var masterInit = {
-    //         //loader
-    //         isDriver: false,
-    //         isLoggedIn: false,
-    //         userId: id,
-    //         pageCount: 0,
-    //         previousPage: "_homePage",
-    //         currentPage: "_homePage",
-    //         currentPageObject: {
-    //             getData: null,
-    //             loadData: null,
-    //             data: null
-    //         },
-    //
-    //         userTickets: null,
-    //         driverTickets: null,
-    //         ticketQueue: null
-    //     };
-    //     //Initialize each page
-    //     var allPages = [
-    //         "_accSetting", "_contact", "_history", "_passwordRecovery", "_passwordReset", "_signUp", "_login",
-    //         "_yourDeliveries", "_homePage", "_shopping", "_checkout"/*, "_submitted"*/,
-    //         /*'_confirmTicket',*/ "_rating" /*,'_ticketClosed'*/,
-    //         '_tickets', '_driverList2', "_congrats_driver_finish_shopping", /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats'
-    //     ];
-    //
-    //     for (var i = 0; i < allPages.length; i++){
-    //         masterInit[allPages[i]] = {
-    //             data: null,
-    //             version: 0
-    //         }
-    //     }
-    //
-    //     masters[id] = masterInit;
-    //
-    //
-    //
-    //
-    //     //new user
-    //
-    //
-    //     res.setHeader('Content-Type', 'application/json');
-    //     res.send(JSON.stringify({
-    //         isLoggedIn: false,
-    //         userId: id
-    //     }));
-    //
-    // }
+// var userId = req.body.userId;
+//
+// if (masters.hasOwnProperty(userId)) {
+//     //Exists user
+//     if (masters[userId] != null) {
+//         //is logged in, return master existing data
+//     }
+//     else {
+//         //initialize master with user data and empty objects
+//     }
+// }
+// else {
+//
+//     var id = new Date().getMilliseconds();
+//     req.session.userId = id;
+//     console.log(id);
+//     console.log(req.session.userId);
+//     var masterInit = {
+//         //loader
+//         isDriver: false,
+//         isLoggedIn: false,
+//         userId: id,
+//         pageCount: 0,
+//         previousPage: "_homePage",
+//         currentPage: "_homePage",
+//         currentPageObject: {
+//             getData: null,
+//             loadData: null,
+//             data: null
+//         },
+//
+//         userTickets: null,
+//         driverTickets: null,
+//         ticketQueue: null
+//     };
+//     //Initialize each page
+//     var allPages = [
+//         "_accSetting", "_contact", "_history", "_passwordRecovery", "_passwordReset", "_signUp", "_login",
+//         "_yourDeliveries", "_homePage", "_shopping", "_checkout"/*, "_submitted"*/,
+//         /*'_confirmTicket',*/ "_rating" /*,'_ticketClosed'*/,
+//         '_tickets', '_driverList2', "_congrats_driver_finish_shopping", /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats'
+//     ];
+//
+//     for (var i = 0; i < allPages.length; i++){
+//         masterInit[allPages[i]] = {
+//             data: null,
+//             version: 0
+//         }
+//     }
+//
+//     masters[id] = masterInit;
+//
+//
+//
+//
+//     //new user
+//
+//
+//     res.setHeader('Content-Type', 'application/json');
+//     res.send(JSON.stringify({
+//         isLoggedIn: false,
+//         userId: id
+//     }));
+//
+// }
 //});
 
 //TODO ---------------------------------DATA-LOADER-------------------------
@@ -859,8 +850,7 @@ app.post('/_accSetting', function (req, res) {
         res.status(500);
         res.send({message: 'no user logged in'});
     }
-        // might need to pull data from database first depending on how we are doing it
-    // else if (req.body.type === "request_data") {
+        
     else if (req.body.type === "loadAccSetting") {
         console.log('LOADING ACCOUNT');
         MongoClient.connect(mongodb_url, function (err, db) {
@@ -903,6 +893,7 @@ app.post('/_accSetting', function (req, res) {
                     });
             }
         });
+
     }
         //load the master user information
     else {
@@ -937,6 +928,7 @@ app.post('/_accSetting', function (req, res) {
                     });
             }
         });
+
     }
 });
 //TODO ------------------------------------------------------------------------------------------------------------------
@@ -1112,15 +1104,7 @@ app.post('/_checkout', function (req, res, next) {
             }
         };
 
-        MongoClient.connect(mongodb_url, function (err, db) {
-            if (err) {
-                console.log('Error: ' + err);
-                res.send(err);
-            }
-            else {
-                updateGroceryListAndQueue(db);
-            }
-        });
+        updateGroceryListAndQueue(db);
     }
     res.send("Successful");
 
@@ -1173,55 +1157,42 @@ app.post('/_history', function (req, res, next) {
         res.send('');
     }
     else {
-        MongoClient.connect(mongodb_url, function(err, db) {
+        var user = db.collection('users').findOne({_id: userId}, function (err, doc) {
             if (err) {
-                console.log('Error connecting to db in _history');
+                console.log('Error in _history findOne()');
                 res.status(500);
                 res.send('');
             }
-            else {
-                var user = db.collection('users').findOne({_id: userId}, function (err, doc) {
-                    if (err) {
-                        console.log('Error in _history findOne()');
-                        res.status(500);
-                        res.send('');
-                    }
-                });
-
-                if (!user) {
-                    console.log('Could not find user with userId ' + userId + ' in _history');
-                    res.status(500);
-                    res.send('');
-                }
-                else {
-                    var i;
-                    var shopping_hist = user.user_history;
-                    var pending_shopping_list = user.grocery_list;
-                    var user_data = [];
-
-                    for (i = 0; i < shopping_hist.length; i++) {
-                        user_data.push({
-                            id: shopping_hist[i]._id,
-                            name: shopping_hist[i].store_name,
-                            time: shopping_hist[i].time_created,
-                            state: 'delivered'              // TODO: need to update status on database
-                        });
-                    }
-
-                    for (; i < pending_shopping_list.length; i++) {
-                        user_data.push({
-                            id: pending_shopping_list[i]._id,
-                            name: pending_shopping_list[i].store_name,
-                            time: pending_shopping_list[i].time_created,
-                            state: 'pending'
-                        });
-                    }
-
-                    res.setHeader('Content-Type', 'application/json');
-                    res.send(JSON.stringify({data: user_data}));
-                }
-            }
         });
+        if (!user) {
+            console.log('Could not find user with userId ' + userId + ' in _history');
+            res.status(500);
+            res.send('');
+        }
+        else {
+            var i;
+            var shopping_hist = user.user_history;
+            var pending_shopping_list = user.grocery_list;
+            var user_data = [];
+            for (i = 0; i < shopping_hist.length; i++) {
+                user_data.push({
+                    id: shopping_hist[i]._id,
+                    name: shopping_hist[i].store_name,
+                    time: shopping_hist[i].time_created,
+                    state: 'delivered'              // TODO: need to update status on database
+                });
+            }
+            for (; i < pending_shopping_list.length; i++) {
+                user_data.push({
+                    id: pending_shopping_list[i]._id,
+                    name: pending_shopping_list[i].store_name,
+                    time: pending_shopping_list[i].time_created,
+                    state: 'pending'
+                });
+            }
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify({data: user_data}));
+        }
     }
 });
 
@@ -1237,55 +1208,45 @@ app.post('_yourDeliveries', function(req, res) {
         res.send('');
     }
     else {
-        MongoClient.connect(mongodb_url, function(err, db) {
+        var user = db.collection('users').findOne({_id: userId}, function (err, doc) {
             if (err) {
-                console.log('Error connecting to db in _history');
+                console.log('Error in _history findOne()');
                 res.status(500);
                 res.send('');
             }
-            else {
-                var user = db.collection('users').findOne({_id: userId}, function (err, doc) {
-                    if (err) {
-                        console.log('Error in _history findOne()');
-                        res.status(500);
-                        res.send('');
-                    }
-                });
-
-                if (!user) {
-                    console.log('Could not find user with userId: ' + userId + ' in _yourDeliveries');
-                    res.status(500);
-                    res.send('');
-                }
-                else {
-                    var i;
-                    var delivery_history = user.delivery_history;
-                    var pending_delivery_list = user.delivery_list;
-                    var user_data = [];
-
-                    for (i = 0; i < delivery_history.length; i++) {
-                        user_data.push({
-                            id: delivery_history[i]._id,
-                            name: delivery_history[i].store_name,
-                            time: delivery_history[i].time_created,
-                            state: 'delivered'
-                        });
-                    }
-
-                    for (; i < pending_delivery_list.length; i++) {
-                        user_data.push({
-                            id: pending_delivery_list[i]._id,
-                            name: pending_delivery_list[i].store_name,
-                            time: pending_delivery_list[i].time_created,
-                            state: 'pending'
-                        });
-                    }
-                    
-                    res.setHeader('Content-Type', 'application/json');
-                    res.send(JSON.stringify({data: user_data}));
-                }
-            }
         });
+
+        if (!user) {
+            console.log('Could not find user with userId: ' + userId + ' in _yourDeliveries');
+            res.status(500);
+            res.send('');
+        }
+        else {
+            var i;
+            var delivery_history = user.delivery_history;
+            var pending_delivery_list = user.delivery_list;
+            var user_data = [];
+
+            for (i = 0; i < delivery_history.length; i++) {
+                user_data.push({
+                    id: delivery_history[i]._id,
+                    name: delivery_history[i].store_name,
+                    time: delivery_history[i].time_created,
+                    state: 'delivered'
+                });
+            }
+            for (; i < pending_delivery_list.length; i++) {
+                user_data.push({
+                    id: pending_delivery_list[i]._id,
+                    name: pending_delivery_list[i].store_name,
+                    time: pending_delivery_list[i].time_created,
+                    state: 'pending'
+                });
+            }
+
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify({data: user_data}));
+        }
     }
 });
 
@@ -1311,55 +1272,46 @@ app.post('/_viewTicket', function(req, res) {
     else {
         ticketId = masters[userId].ticketId;
 
-        MongoClient.connect(mongodb_url, function(err, db) {
-            if (err) {
-                console.log('Error: could not connect to db in _viewTicket');
-                res.status(500);
-                res.send('');
+        var user = db.collection('users').update(
+            {
+                _id: userId,
+                'grocery_list._id': ticketId
+            },
+            {
+                $set: {
+                    'grocery_list.$.state': 'accepted'
+                }
+            });
+
+        if (!user) {
+            console.log('In _viewTicket: could not find user with corresponding ticketId: ' + ticketId);
+            res.status(500);
+            res.send('');
+            return;
+        }
+        var ticket = db.collection('grocery_queue').remove({_id: ticketId});
+
+        if (!ticket) {
+            console.log('In _viewTicket: could not remove ticket from queue: ' + ticketId);
+            res.status(500);
+            res.send('');
+            return;
+        }
+
+        var list_of_items;
+        for (var i = 0; i < user.grocery_list.length; i++) {
+            if (user.grocery_list[i]._id === ticketId) {
+                list_of_items = user.grocery_list[i].shopping_list;
+                break;
             }
-            else {
-                var user = db.collection('users').update(
-                    {
-                        _id: userId,
-                        'grocery_list._id': ticketId
-                    },
-                    {
-                        $set: {
-                            'grocery_list.$.state': 'accepted'
-                        }
-                    });
+        }
 
-                if (!user) {
-                    console.log('In _viewTicket: could not find user with corresponding ticketId: ' + ticketId);
-                    res.status(500);
-                    res.send('');
-                    return;
-                }
-                var ticket = db.collection('grocery_queue').remove({_id: ticketId});
-
-                if (!ticket) {
-                    console.log('In _viewTicket: could not remove ticket from queue: ' + ticketId);
-                    res.status(500);
-                    res.send('');
-                    return;
-                }
-
-                var list_of_items;
-                for (var i = 0; i < user.grocery_list.length; i++) {
-                    if (user.grocery_list[i]._id === ticketId) {
-                        list_of_items = user.grocery_list[i].shopping_list;
-                        break;
-                    }
-                }
-
-                res.setHeader('Content-Type', 'application/json');
-                res.send(JSON.stringify({
-                    id: ticketId,
-                    full_name: user.full_name,
-                    items: list_of_items
-                }));
-            }
-        });
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({
+            id: ticketId,
+            full_name: user.full_name,
+            items: list_of_items
+        }));
     }
 });
 
@@ -1377,34 +1329,25 @@ app.post('/_tickets', function(req, res) {
         res.send('');
     }
     else {
-        MongoClient.connect(mongodb_url, function(err, db) {
-            if (err) {
+        var tickets = db.collection('grocery_queue').find().toArray(function(err, docs) {
+            if (err){
                 console.log('Error in _tickets: ' + err);
                 res.status(500);
                 res.send('');
             }
-            else {
-                var tickets = db.collection('grocery_queue').find().toArray(function(err, docs) {
-                    if (err){
-                        console.log('Error in _tickets: ' + err);
-                        res.status(500);
-                        res.send('');
-                    }
-                });
-
-                var data = [];
-                for (var i = 0; i < tickets.length; i++) {
-                    data.push({
-                        id: tickets[i]._id,
-                        name: tickets[i].store_name,
-                        time: tickets[i].time_created
-                    });
-                }
-
-                res.setHeader('Content-Type', 'application/json');
-                res.send(JSON.stringify({data: data}));
-            }
         });
+
+        var data = [];
+        for (var i = 0; i < tickets.length; i++) {
+            data.push({
+                id: tickets[i]._id,
+                name: tickets[i].store_name,
+                time: tickets[i].time_created
+            });
+        }
+
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({data: data}));
     }
 });
 // --------------------------------------------------------------------------
@@ -1421,13 +1364,17 @@ app.get('/cancel-payment', function(req, res){
     //actually submit and redirect to fetchgrocery.com#_cancelled
 });
 
+MongoClient.connect(mongodb_url, function(err, database) {
+    if (err)
+        throw err;
+    mongoose.connect(mongodb_url);
+    db = database;
+});
 
 var server = app.listen(3000, function () {
-
     var host = server.address().address;
     var port = server.address().port;
-
     console.log("Example app listening at http://%s:%s", host, port)
-
 });
+
 // -------------------------------------------------------------

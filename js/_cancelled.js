@@ -10,7 +10,7 @@
         loadData: function (data) {
             cancelled_ticketState = {
                 ticket_id: data.id,
-                state: "canceled"
+              //  state: "canceled"
             }
         }
     };

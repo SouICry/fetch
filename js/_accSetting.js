@@ -1,3 +1,5 @@
+// User enters account information.
+// First, data is loaded into data field if there is data, otherwise input fields are empty
 (function () {
     loader._accSetting = {
         data: {
@@ -23,14 +25,19 @@
         }
     };
 
+
     loadAccountData();
+
     $("#accsetting_warning").hide();
 
+    // when user is typing, hides warning
     $('#accsetting_full_name, #accsetting_email, #accsetting_phone, #accsetting_street, ' +
         '#accsetting_city, #accsetting_state, #accsetting_zip').keypress(function () {
         $("#accsetting_warning").hide();
     });
 
+    // when user clicks, sends data and takes user to homepage
+    // if any field is empty, warning shows up
     $("#accsetting_submit_info").click(function () {
 
         sendAccountData();
