@@ -46,8 +46,10 @@
     var shopping_count = 0;
     var shoppping_toAdd;
     var list_shopping = [];
+    
     $("#shopping_submit_list").hide();
     $('#shopping_submit_list').click(function () {
+        alert(list_shopping.length);
         if (list_shopping.length > 0) {
             goToPage("_checkout");
         }
@@ -55,6 +57,7 @@
 
     $('#shopping_list_form').submit(addItem);
     function addItem() {
+
         if ($('#shoppingCheckListItem').val() !== '') {
             shoppping_toAdd = $('#shoppingCheckListItem').val();
             var newItem = document.createElement('li');
@@ -78,8 +81,10 @@
             }
             event.preventDefault();
             $('#shoppingCheckListItem').val('');
-            loader.currentPageChanged();
+
             list_shopping.push(shoppping_toAdd);
+
+
         }
         else {
             event.preventDefault();
@@ -110,6 +115,5 @@
             list_shopping.splice(index, 1);
         }
 
-        loader.currentPageChanged();
     });
 })();   

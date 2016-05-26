@@ -2,15 +2,12 @@
     loader._viewTicket = {
         data:{full_name: "Jen", items:["green eggs", "ham"], id: 3054},
         version: 0,
-        getData: function () {
-            return loader._viewTicket.data;
-        },
+        getData: null,
         loadData: function (data) {
             //populate driver list
             $("#listName").text(" ");
             $("ul").empty();
             $("#_viewTicket_numItems").text(" ");
-            fullName = data.full_name;
             array = data.items;
             var separatedNames = data.full_name.split(" ");
             for (var i = 0; i < array.length; i++) {
@@ -62,7 +59,6 @@
                     //data is the object sent back on success (could also just be string)
 
                     loader._viewTicket.loadData(data);
-                    //loader._viewTicket.getData(data);
                 },
                 error: function (data) {
                     alert("fail");

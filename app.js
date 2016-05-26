@@ -58,16 +58,13 @@ var userSchema = new mongoose.Schema(
         email: {type: String, required: true, unique: true},
         password: {type: String, required: true},
         phone_number: {type: String, required: true},
-        address: //{type: String, required: true, unique: false}
-        // ^^^^^ TEMPORARY IMPLEMENTATION BY FRONTEND
-
-        //THIS SHOULD BE IMPLEMENTED BY FRONT END
-        {
+        address: {type: String, required: true, unique: false},
+        /*{
             street: '',
             city: '',
             state: '',
             zip: ''
-        },
+        },*/
         // Not currently used
         payment_info: {
             card_holder_name: {type: String, required: false, unique: false},
@@ -207,7 +204,7 @@ passport.use('login', new LocalStrategy(
         passReqToCallback: true // allows us to pass back the entire request to the callback
     },
     function (req, email, password, done) {
-        process.nextTick(function () {
+        //process.nextTick(function () {
             User.findOne({email: email.toLowerCase()}, function (err, user) {
                 if (err)
                     return done(err);
@@ -223,7 +220,7 @@ passport.use('login', new LocalStrategy(
                 // Successful login
                 return done(null, user, {message: 'successful login'});
             });
-        });
+        //});
     }
 ));
 
@@ -248,7 +245,7 @@ passport.use('signup', new LocalStrategy(
 
         console.log('signup email: ' + email);
 
-        process.nextTick(function () {
+        //process.nextTick(function () {
             User.findOne({'email': email}, function (err, user) {
 
                 if (err) {
@@ -303,7 +300,7 @@ passport.use('signup', new LocalStrategy(
                     return done(null, newUser, {message: 'successful signup'});
                 }
             });
-        });
+        //});
     }
 ));
 
@@ -866,17 +863,20 @@ app.post('/_accSetting', function (req, res) {
                             console.log('Error in accSetting: ' + err);
                             res.status(500);
                             res.send({message: 'cannot access collection to find user '})
+                            return;
                         }
                         //console.log('user = ' + JSON.stringify(user));
                         if (!user) {
                             console.log('Could not find user with userId ' + userId + ' in _accSetting');
                             res.status(500);
                             res.send('');
+                            return;
                         }
                         if (!user.full_name) {
                             console.log('Could not find users fullname in _accSetting');
                             res.status(500);
                             res.send('');
+                            return;
                         }
                         else {
                             object.full_name = user.full_name;
@@ -898,11 +898,13 @@ app.post('/_accSetting', function (req, res) {
     else {
         if(!req.body){
             console.log('user didnt transfer');
+            res.send();
             return '';
         }
         var userData = req.body;
         if (userData === null) {
             console.log('U ARENT GETTING ANYTHING');
+            res.send();
             return '';
         }
         // Update user document from users collection with the new info
