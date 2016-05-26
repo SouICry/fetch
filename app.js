@@ -1084,21 +1084,22 @@ app.post('/_checkout', function (req, res, next) {
         else {
             // Update user to hold grocery list submitted
             db.collection('users').updateOne({_id: req.session.passport.user}, {$push: {grocery_list: gticket}},
-                function (err, doc) {
+                function (err) {
                     if (err) {
                         console.log('error updating user grocery list');
                         res.status(500);
                         res.send(err);
+                        return;
                     }
-                    else if (!doc) { // If grocery list successfully added to user's grocery list, add list to queue
-                        db.collection('grocery_queue').insert(doc, function (err) {
-                            if (err) {
-                                console.log('error adding list to queue: ' + err);
-                                res.status(500);
-                                res.send(err);
-                            }
-                        });
-                    }
+
+                    // If grocery list successfully added to user's grocery list, add list to queue
+                    db.collection('grocery_queue').insert(gticket, function (err) {
+                        if (err) {
+                            console.log('error adding list to queue: ' + err);
+                            res.status(500);
+                            res.send(err);
+                        }
+                    });
                 }
             );
         }
@@ -1352,11 +1353,12 @@ app.post('/_tickets', function(req, res) {
 
 
 //------------------------------ PAYMENT ------------------------------------
-app.get('/complete-payment', function(req, res){
+app.get('/complete-payment', function(req, res) {
     var userId = req.query.user;
     //actually submit and redirect to fetchgrocery.com#_submitted
 });
-app.get('/cancel-payment', function(req, res){
+
+app.get('/cancel-payment', function(req, res) {
     var userId = req.query.user;
     //actually submit and redirect to fetchgrocery.com#_cancelled
 });
