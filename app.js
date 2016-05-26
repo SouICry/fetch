@@ -1344,7 +1344,7 @@ app.post('/_tickets', function(req, res) {
             }
 
             res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify({data: data}));
+            res.send(JSON.stringify(data);
         });
     }
 });
