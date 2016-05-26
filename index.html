@@ -412,8 +412,8 @@
             data: {name: pageName},
             async: false,
             success: function (data) {
-                $('#section-' + row).append("<div id='" + pageName +
-                        "' data-x='" + column + "' data-y='" + row + "'>" + data + "</div>");
+                $('#section-' + row).append("<div><div id='" + pageName +
+                        "' data-x='" + column + "' data-y='" + row + "'>" + data + "</div></div>");
             }
         });
     }
