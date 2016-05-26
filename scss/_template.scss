@@ -3,21 +3,35 @@
   overflow-y: scroll;
 
 }
+.cd-panel-content{
+  margin-top:60px;
+}
 .cd-main-content{
+
   overflow: hidden;
 }
 #panel-Header{
   background-color: darkorange;
   margin-top:-20px;
   height:90px;
+
+
    #index-image-user{
      height: 50px;
      width: 50px;
-     margin-top: 30px;
+     margin-top: -30px;
      margin-left: 15px;
   }
-}
+  #index_user-name{
+    margin-left:10px;
+    margin-top: 30px;
+    font-size: 40px;
+  }
 
+}
+.div1,.div2{
+  display:inline-block;
+}
 .cd-panel-header{
   background-color: darkorange;
 }
