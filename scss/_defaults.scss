@@ -8,7 +8,7 @@ $fetchOrange: #f36100;
 
 
 body, html {
-  background-color: #ffffff;
+  background-color: #ffdb99;
   overflow: visible;
   width: 100vw;
   height: 100vh;
@@ -51,19 +51,16 @@ button{
 h2, h3, h4{
   color: $fetchOrange;
   opacity: .8;
-  margin:auto;
-  margin-bottom:3%;
+  margin: 15px 0;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 h2 {
   font-size:40px;
-  margin-top: 3%;
   font-weight: 100;
   text-align: center;
 }
 h3 {
-  margin-top: 3%;
   font-size:30px;
   font-weight: 100;
   text-align: center;

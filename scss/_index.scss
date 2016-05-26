@@ -5,7 +5,7 @@
   width: 100vw;
   overflow: visible;
   transition: transform 1s;
-
+  background-color: #ffdb99;
 
   & > div {
     position: fixed;
@@ -15,9 +15,7 @@
 
     overflow: visible;
     overflow-x: visible;
-    background-color: white;
     transition: transform 1s;
-
 
     & > div {
       padding-top: 50px;
@@ -30,9 +28,13 @@
       position: absolute;
       transition: transform 1s;
       & > *{
+        width: 100%;
+        max-height: calc(100% - 100px);
         margin-bottom: 15px;
+        padding: 0 10px;
+        margin-top: 50px;
         position: absolute;
-        top: 50%;
+        top: calc(50% - 50px);
         left: 50%;
         transform: translate(-50%, -50%);
       }

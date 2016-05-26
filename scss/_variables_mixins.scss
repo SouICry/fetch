@@ -1,32 +1,5 @@
 
 
-/*    Media queries    */
-/*
-Usage:
-By default (as in bootstrap) css should be written to target mobilee devices.
-Use breakpoints when differing for larger devices.
-
-We are not allowing user to rotate screen in app, so only 3 breakpoints matter:
-tablet, if specifically targeting tablet (might be optional since we won't be demoing)
-desktop, if targeting all desktop or smaller desktop
-large-desktop, if targeting specifically larger desktop
-
-@include <device_size> {
-  //intended styles
-}
-ex.
-//.button:hover {
-//    //Does nothing if not on desktop; if attribute is empty like this, don't need type it out
-//}
-@include desktop {
-  //On desktop, expand on hover
-  .button:hover {
-    transform: scale(1.2, 1.2);
-  }
-}
-*/
-
-
 $tablet-width: 720px; //bootstrap has this set to 768, excluding quite a bit of tablets vertical
 $small-desktop-width: 992px;
 $large-desktop-width: 1200px;
@@ -47,3 +20,23 @@ $large-desktop-width: 1200px;
   }
 }
 
+
+
+@mixin outline-shadow {
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.5);
+  @include tablet {
+    box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.5);
+  }
+  @include desktop {
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
+  }
+}
+@mixin emphasis-shadow {
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.8);
+  @include tablet {
+    box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.8);
+  }
+  @include desktop {
+    box-shadow: 0 0 25px 0px rgba(0, 0, 0, 0.8);
+  }
+}
