@@ -17,15 +17,16 @@
 <div id="User">
     <div class="container">
         <div class="row">
-            <div class="col-xs-3"></div>
-            <div id="Fetch" class="col-xs-6" style="text-align:center">
-                <div id="title">Fetch</div>
+            <div id="Glyph" class="col-xs-3">
+                <div id="open-menu-drawer"><span
+                        class="glyphicon glyphicon-menu-hamburger"></span></div>
             </div>
 
-            <div id="Glyph" class="col-xs-3">
-                <div id="open-menu-drawer" class="btn btn-lg pull-right"><span
-                        class="glyphicon glyphicon-user large"></span></div>
+            <div id="Fetch" class=" text-center col-xs-6">
+                <div id="title">Fetch</div>
             </div>
+            <div class="col-xs-3"></div>
+
         </div>
     </div>
 </div>
@@ -34,12 +35,13 @@
 
 </div>
 
-<div id="menu-drawer" class="cd-panel from-right" style="z-index: 3000">
+<div id="menu-drawer" class="cd-panel from-left" style="z-index: 3000">
     <div class="cd-panel-container">
         <header id="panel-Header" class="">
             <div class="container-name">
-                <div class="div1" onclick="goToPage('_accSetting')"><img class="img-circle" id="index-image-user"src="placeholder/person4.png"></div>
-                <div class="div2"id="index_user-name">hell</div>
+                <div class="div1" onclick="goToPage('_accSetting')"><img class="img-circle" id="index-image-user"
+                                                                         src="placeholder/person4.png"></div>
+                <div class="div2" id="index_user-name">hell</div>
             </div>
             <!--<div id="close-menu" class="cd-panel-close">Close</div>-->
         </header>
@@ -139,7 +141,7 @@
                         newPage: page
                     }),
                 });
-                switch (page){
+                switch (page) {
                     case "_takeProfilePicture":
                         loader._takeProfilePicture.loadData();
                         break;
@@ -418,11 +420,18 @@
 
 
     jQuery(document).ready(function ($) {
+        var menuIsVisible = false;
         $('#open-menu-drawer').on('click', function () {
-            $('#menu-drawer').addClass('is-visible');
+            if (!menuIsVisible) {
+                $('#menu-drawer').addClass('is-visible');
+                menuIsVisible = true;
+                event.stopPropagation();
+            }
         });
-        $('#menu-drawer').on('click', function (event) {
-            if ($(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') || $(event.target).is('.panel-divs')) {
+
+        $(document).on('click', function (event) {
+            if (menuIsVisible) {
+                menuIsVisible = false;
                 $('#menu-drawer').removeClass('is-visible');
             }
         });
