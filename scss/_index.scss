@@ -5,6 +5,7 @@
   width: 100vw;
   overflow: visible;
   transition: transform 1s;
+  background-color: #ffdb99;
 
   & > div {
     position: fixed;
@@ -14,7 +15,6 @@
 
     overflow: visible;
     overflow-x: visible;
-    background-color: white;
     transition: transform 1s;
 
     & > div {
