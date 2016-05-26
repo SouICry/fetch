@@ -852,10 +852,12 @@ app.post('/_accSetting', function (req, res) {
     }
     // might need to pull data from database first depending on how we are doing it
     else if (req.body.type === "request_data") {
-        var user = db.collection('users').User.findOne({_id: master.userId},
+        var user = db.collection('users').findOne({_id: master.userId},
             function (err) {
                 if (err) return err;
             });
+
+
 
         object.full_name = user.data.full_name;
         object.email = user.email;
@@ -1033,33 +1035,25 @@ app.post('/_checkout', function (req, res, next) {
         res.send({message: 'user is not logged in'});
     }
     else {
-        var updateGroceryListAndQueue = function (db) {
-            var grocery_list = null;
-
-            // Update user to hold grocery list submitted
-            grocery_list = db.collection('users').updateOne({_id: req.session.passport.user}, {$push: {grocery_list: gticket}},
-                function (err, doc) {
-                    if (err) {
-                        console.log('error updating user grocery list');
-                        res.status(500);
-                        res.send(err);
-                    }
+        // Update user to hold grocery list submitted
+        db.collection('users').updateOne({_id: req.session.passport.user}, {$push: {grocery_list: gticket}},
+            function (err, doc) {
+                if (err) {
+                    console.log('error updating user grocery list');
+                    res.status(500);
+                    res.send(err);
                 }
-            );
-
-            // If grocery list successfully added to user's grocery list, add list to queue
-            if (!grocery_list) {
-                db.collection('grocery_queue').insert(grocery_list, function (err, doc) {
-                    if (err) {
-                        console.log('error adding list to queue: ' + err);
-                        res.status(500);
-                        res.send(err);
-                    }
-                });
+                else if (!doc) { // If grocery list successfully added to user's grocery list, add list to queue
+                    db.collection('grocery_queue').insert(doc, function (err) {
+                        if (err) {
+                            console.log('error adding list to queue: ' + err);
+                            res.status(500);
+                            res.send(err);
+                        }
+                    });
+                }
             }
-        };
-
-        updateGroceryListAndQueue(db);
+        );
     }
     res.send("Successful");
 
@@ -1112,42 +1106,45 @@ app.post('/_history', function (req, res, next) {
         res.send('');
     }
     else {
-        var user = db.collection('users').findOne({_id: userId}, function (err, doc) {
+        db.collection('users').findOne({_id: userId}, function (err, doc) {
             if (err) {
                 console.log('Error in _history findOne()');
                 res.status(500);
                 res.send('');
             }
+            else if (!doc) {
+                console.log('Could not find user with userId ' + userId + ' in _history');
+                res.status(500);
+                res.send('');
+            }
+            else {
+                var i;
+                var shopping_hist = doc.user_history;
+                var pending_shopping_list = doc.grocery_list;
+                var user_data = [];
+
+                for (i = 0; i < shopping_hist.length; i++) {
+                    user_data.push({
+                        id: shopping_hist[i]._id,
+                        name: shopping_hist[i].store_name,
+                        time: shopping_hist[i].time_created,
+                        state: 'delivered'              // TODO: need to update status on database
+                    });
+                }
+
+                for (; i < pending_shopping_list.length; i++) {
+                    user_data.push({
+                        id: pending_shopping_list[i]._id,
+                        name: pending_shopping_list[i].store_name,
+                        time: pending_shopping_list[i].time_created,
+                        state: 'pending'
+                    });
+                }
+
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify({data: user_data}));
+            }
         });
-        if (!user) {
-            console.log('Could not find user with userId ' + userId + ' in _history');
-            res.status(500);
-            res.send('');
-        }
-        else {
-            var i;
-            var shopping_hist = user.user_history;
-            var pending_shopping_list = user.grocery_list;
-            var user_data = [];
-            for (i = 0; i < shopping_hist.length; i++) {
-                user_data.push({
-                    id: shopping_hist[i]._id,
-                    name: shopping_hist[i].store_name,
-                    time: shopping_hist[i].time_created,
-                    state: 'delivered'              // TODO: need to update status on database
-                });
-            }
-            for (; i < pending_shopping_list.length; i++) {
-                user_data.push({
-                    id: pending_shopping_list[i]._id,
-                    name: pending_shopping_list[i].store_name,
-                    time: pending_shopping_list[i].time_created,
-                    state: 'pending'
-                });
-            }
-            res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify({data: user_data}));
-        }
     }
 });
 
@@ -1163,45 +1160,44 @@ app.post('_yourDeliveries', function(req, res) {
         res.send('');
     }
     else {
-        var user = db.collection('users').findOne({_id: userId}, function (err, doc) {
+        db.collection('users').findOne({_id: userId}, function (err, doc) {
             if (err) {
                 console.log('Error in _history findOne()');
                 res.status(500);
                 res.send('');
             }
+            else if (!doc) {
+                console.log('Could not find user with userId: ' + userId + ' in _yourDeliveries');
+                res.status(500);
+                res.send('');
+            }
+            else {
+                var i;
+                var delivery_history = doc.delivery_history;
+                var pending_delivery_list = doc.delivery_list;
+                var user_data = [];
+
+                for (i = 0; i < delivery_history.length; i++) {
+                    user_data.push({
+                        id: delivery_history[i]._id,
+                        name: delivery_history[i].store_name,
+                        time: delivery_history[i].time_created,
+                        state: 'delivered'
+                    });
+                }
+                for (; i < pending_delivery_list.length; i++) {
+                    user_data.push({
+                        id: pending_delivery_list[i]._id,
+                        name: pending_delivery_list[i].store_name,
+                        time: pending_delivery_list[i].time_created,
+                        state: 'pending'
+                    });
+                }
+
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify({data: user_data}));
+            }
         });
-
-        if (!user) {
-            console.log('Could not find user with userId: ' + userId + ' in _yourDeliveries');
-            res.status(500);
-            res.send('');
-        }
-        else {
-            var i;
-            var delivery_history = user.delivery_history;
-            var pending_delivery_list = user.delivery_list;
-            var user_data = [];
-
-            for (i = 0; i < delivery_history.length; i++) {
-                user_data.push({
-                    id: delivery_history[i]._id,
-                    name: delivery_history[i].store_name,
-                    time: delivery_history[i].time_created,
-                    state: 'delivered'
-                });
-            }
-            for (; i < pending_delivery_list.length; i++) {
-                user_data.push({
-                    id: pending_delivery_list[i]._id,
-                    name: pending_delivery_list[i].store_name,
-                    time: pending_delivery_list[i].time_created,
-                    state: 'pending'
-                });
-            }
-
-            res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify({data: user_data}));
-        }
     }
 });
 
@@ -1236,37 +1232,36 @@ app.post('/_viewTicket', function(req, res) {
                 $set: {
                     'grocery_list.$.state': 'accepted'
                 }
+            }, function(err, doc) {
+                if (!user) {
+                    console.log('In _viewTicket: could not find user with corresponding ticketId: ' + ticketId);
+                    res.status(500);
+                    res.send('');
+                    return;
+                }
+
+                db.collection('grocery_queue').remove({_id: ticketId}, function(err) {
+                    if (err) {
+                        console.log('In _viewTicket: could not remove ticket from queue: ' + ticketId);
+                        res.status(500);
+                        res.send('');
+                    }
+
+                    var list_of_items;
+                    for (var i = 0; i < doc.grocery_list.length; i++) {
+                        if (doc.grocery_list[i]._id === ticketId) {
+                            list_of_items = doc.grocery_list[i].shopping_list;
+                            break;
+                        }
+                    }
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send(JSON.stringify({
+                        id: ticketId,
+                        full_name: doc.full_name,
+                        items: list_of_items
+                    }));
+                });
             });
-
-        if (!user) {
-            console.log('In _viewTicket: could not find user with corresponding ticketId: ' + ticketId);
-            res.status(500);
-            res.send('');
-            return;
-        }
-        var ticket = db.collection('grocery_queue').remove({_id: ticketId});
-
-        if (!ticket) {
-            console.log('In _viewTicket: could not remove ticket from queue: ' + ticketId);
-            res.status(500);
-            res.send('');
-            return;
-        }
-
-        var list_of_items;
-        for (var i = 0; i < user.grocery_list.length; i++) {
-            if (user.grocery_list[i]._id === ticketId) {
-                list_of_items = user.grocery_list[i].shopping_list;
-                break;
-            }
-        }
-
-        res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({
-            id: ticketId,
-            full_name: user.full_name,
-            items: list_of_items
-        }));
     }
 });
 
@@ -1284,25 +1279,25 @@ app.post('/_tickets', function(req, res) {
         res.send('');
     }
     else {
-        var tickets = db.collection('grocery_queue').find().toArray(function(err, docs) {
+        db.collection('grocery_queue').find().toArray(function(err, docs) {
             if (err){
                 console.log('Error in _tickets: ' + err);
                 res.status(500);
                 res.send('');
             }
+
+            var data = [];
+            for (var i = 0; i < docs.length; i++) {
+                data.push({
+                    id: docs[i]._id,
+                    name: docs[i].store_name,
+                    time: docs[i].time_created
+                });
+            }
+
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify({data: data}));
         });
-
-        var data = [];
-        for (var i = 0; i < tickets.length; i++) {
-            data.push({
-                id: tickets[i]._id,
-                name: tickets[i].store_name,
-                time: tickets[i].time_created
-            });
-        }
-
-        res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({data: data}));
     }
 });
 // --------------------------------------------------------------------------
