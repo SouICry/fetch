@@ -6,8 +6,12 @@
         loadData: null,
     };
     $('#signup_butt').prop('disabled', true);
-    $('#signup_user_email,#signup_user_name,#signup_phone,#signup_user_pass,#signup_re_pass,#signup_address').keyup(function () {
-        if ($('#signup_user_name').val() && $('#signup_user_pass').val() && $('#signup_address').val()&& $('#signup_user_email').val() && $('#signup_re_pass').val() && $('#signup_phone').val() && ($('#signup_user_pass').val() == $('#signup_re_pass').val())) {
+    $('#signup_user_email,#signup_user_name,#signup_phone,#signup_user_pass,#signup_re_pass,#signup_street,#signup_city,#signup_state,#signup_zip').keyup(function () {
+        if ($('#signup_user_name').val() && $('#signup_user_email').val() && $('#signup_re_pass').val() && $('#signup_phone').val() 
+            && ($('#signup_user_pass').val() == $('#signup_re_pass').val()) && $('#signup_street').val()
+            && $('#signup_city').val()
+            && $('#signup_state').val() && $('#signup_zip').val())
+        {
             $('#signup_butt').prop('disabled', false);
         }
         else {
@@ -25,7 +29,10 @@
         info_to_send.full_name = $('#signup_user_name').val();
         info_to_send.password = $('#signup_user_pass').val();
         info_to_send.phone_number = $('#signup_phone').val();
-        info_to_send.address = $('#signup_address').val();
+        info_to_send.street = $('#signup_street').val();
+        info_to_send.city = $('#signup_city').val();
+        info_to_send.state = $('#signup_state').val();
+        info_to_send.zip = $('#signup_zip').val();
         info_to_send.type = "get";
 
         //Simulation (alert or console.log to check for yourself)
