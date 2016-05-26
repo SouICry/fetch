@@ -850,27 +850,7 @@ app.post('/_accSetting', function (req, res) {
         res.status(500);
         res.send({message: 'no user logged in'});
     }
-<<<<<<< HEAD
-    // might need to pull data from database first depending on how we are doing it
-    else if (req.body.type === "request_data") {
-        var user = db.collection('users').findOne({_id: master.userId},
-            function (err) {
-                if (err) return err;
-            });
 
-
-
-        object.full_name = user.data.full_name;
-        object.email = user.email;
-        object.phone =  user.phone_number;
-        object.address.street = user.address.street;
-        object.address.city = user.address.city;
-        object.address.state= user.address.state;
-        object.address.zip = user.address.zip;
-        res.send(object);
-        //load the master user information
-=======
-        
     else if (req.body.type === "loadAccSetting") {
         console.log('LOADING ACCOUNT');
         MongoClient.connect(mongodb_url, function (err, db) {
@@ -913,10 +893,8 @@ app.post('/_accSetting', function (req, res) {
                     });
             }
         });
-
->>>>>>> 1778bdc23dd9309b38a606ea78e6ec44009d0e83
     }
-        //load the master user information
+
     else {
         if(!req.body){
             console.log('user didnt transfer');
