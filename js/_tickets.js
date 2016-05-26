@@ -9,7 +9,6 @@
             return selected;
         },
         loadData: function (data) {
-            alert(JSON.stringify(data));
 
             $("#tickets_content").empty();
 
@@ -42,14 +41,16 @@
                         '" class = "' + data[i].name + ' ticket" ' +
                         ' ><div id =' + data[i].name + ' >' + toName(data[i].name) +
                         ' <br> Estimate Deliver Time: ' + data[i].time + '</div></li>');
+                    alert(i);
+                    alert(data[i].id);
                 }
 
                 $('#tickets_content li').click(function () {
-                    if ($(this).attr("id") != null) {
+                    if ($(this).attr("data-ticketId") != null) {
                         // Find the ticket with that id
                         var ticket = null;
                         for (var j = 0; j < data.length; j++) {
-                            if (data[j]._id == $(this).attr('id')) {
+                            if (data[j]._id == $(this).attr('data-ticketId')) {
                                 ticket = data[j];
                                 break;
                             }
@@ -120,7 +121,6 @@
         success: function (data) {
             //data is the object sent back on success (could also just be string)
             loader._tickets.loadData(data);
-            //alert(JSON.stringify(data));
         },
         error: function (data) {
             //data is the object send back on fail (could also just be string)
