@@ -419,11 +419,12 @@
     }
 
 
-    jQuery(document).ready(function ($) {
+    $(document).ready(function ($) {
         var menuIsVisible = false;
+        var menuDrawer = $('#menu-drawer');
         $('#open-menu-drawer').on('click', function () {
             if (!menuIsVisible) {
-                $('#menu-drawer').addClass('is-visible');
+                $(menuDrawer).addClass('is-visible');
                 menuIsVisible = true;
                 event.stopPropagation();
             }
@@ -432,7 +433,7 @@
         $(document).on('click', function (event) {
             if (menuIsVisible) {
                 menuIsVisible = false;
-                $('#menu-drawer').removeClass('is-visible');
+                $(menuDrawer).removeClass('is-visible');
             }
         });
     });
