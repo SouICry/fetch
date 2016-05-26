@@ -221,9 +221,13 @@
         currentPageChanged: null,
         //set to run every second elsewhere
         getUpdates: function () {
-            //Only update if not active
 
+            //Only update if not active
             if (loader.isLoggedIn && loader.userId.length > 1) {
+                //keep updating no matter what
+                if(loader.currentPage == "_shopping"){
+                    loader.updateShopping();
+                }
                 if (loader.activeCyclesLeft > 0) {
                     loader.activeCyclesLeft--;
                 }
@@ -250,9 +254,7 @@
                                     return;
                                 }
                             }
-                            if(data.currentPage == "_shopping"){
-                                loader.updateShopping();
-                            }
+
                             if (data.currentPage != loader.currentPage) {
                                 goToPage(data.currentPage)
                             }
@@ -304,7 +306,7 @@
 
             }
 
-            window.setInterval(loader.getUpdates, 501);
+            window.setInterval(loader.getUpdates, 251);
 
 
         },
