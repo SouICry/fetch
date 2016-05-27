@@ -60,7 +60,7 @@
                         }
 
                         //loader._viewTicket.loadData(ticket);
-                        goToPage('/_viewTicket');
+                        goToPage('_viewTicket');
                         //loader.getTicket($(this).data("ticketId"));
                     }
                 });
