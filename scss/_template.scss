@@ -57,7 +57,10 @@ button:focus {
 }
 
 #Glyph {
-  line-height : 50px;
+  line-height : 56px;
+  span {
+    line-height: 48px;
+  }
 }
 
 #Fetch{
@@ -65,7 +68,7 @@ button:focus {
   font-family: Fetch, serif;
   color: #f36100;
   font-size: 32px;
-  line-height: 50px;
+  line-height: 56px;
 }
 #Butt{
   margin-top:30px;
