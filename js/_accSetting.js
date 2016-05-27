@@ -10,14 +10,14 @@
         getData: function () {
             return {
                 full_name: $("#accsetting_full_name").val(),
-                email : $("#accsetting_email").val(),
+                email: $("#accsetting_email").val(),
                 phone: $("#accsetting_phone").val(),
                 street: $("#accsetting_street").val(),
                 city: $("#accsetting_city").val(),
                 state: $("#accsetting_state").val(),
                 zip: $("#accsetting_zip").val()
 
-        };
+            };
         },
         loadData: function (data) {
             if (!data) {
@@ -93,7 +93,7 @@ function sendAccountData() {
         }
     });
 }
-    
+
 function loadAccountData() {
     $.ajax({
         type: "POST",

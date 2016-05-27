@@ -1,76 +1,56 @@
 <div id="accSetting">
     <div class="container" style="text-align: center">
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
                 <h2>Account Information</h2>
                 <div id="accProfile">
                     <form role="form" data-toggle="validator">
-                        <div class="row">
-                            <div class="col-xs-8 col-xs-offset-2">
-                                <div class="input-field">
-                                    <label for="accsetting_full_name" class=control-label">Full Name:</label>
-                                    <input type="text" class="form-control" id="accsetting_full_name">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-8 col-xs-offset-2">
-                                <div class="input-field">
-                                    <label for="accsetting_email">Email:</label>
-                                    <input type="email" class="form-control" id="accsetting_email"
-                                           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-8 col-xs-offset-2">
-                                <div class="input-field">
-                                    <label for="accsetting_phone">Phone Number:</label>
-                                    <input type="text" class="form-control bfh-phone" data-country="US"
-                                           id="accsetting_phone">
-                                </div>
-                            </div>
+
+                        <div class="input-field">
+                            <label for="accsetting_full_name" class=control-label">Full Name:</label>
+                            <input type="text" class="form-control" id="accsetting_full_name">
                         </div>
 
+                        <div class="input-field">
+                            <label for="accsetting_email">Email:</label>
+                            <input type="email" class="form-control" id="accsetting_email"
+                                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+                        </div>
+
+                        <div class="input-field">
+                            <label for="accsetting_phone">Phone Number:</label>
+                            <input type="text" class="form-control bfh-phone" data-country="US"
+                                   id="accsetting_phone">
+                        </div>
+
+
                         <h2>Address</h2>
-                        <div class="row">
-                            <div class="col-xs-8 col-xs-offset-2">
-                                <div class="input-field">
-                                    <label for="accsetting_street">Street:</label>
-                                    <input type="text" class="form-control" id="accsetting_street">
-                                </div>
-                            </div>
+
+                        <div class="input-field">
+                            <label for="accsetting_street">Street:</label>
+                            <input type="text" class="form-control" id="accsetting_street">
                         </div>
-                        <div class="row">
-                            <div class="col-xs-8 col-xs-offset-2">
-                                <div class="input-field">
-                                    <label for="accsetting_city">City:</label>
-                                    <input type="text" class="form-control" id="accsetting_city">
-                                </div>
-                            </div>
+
+                        <div class="input-field">
+                            <label for="accsetting_city">City:</label>
+                            <input type="text" class="form-control" id="accsetting_city">
                         </div>
-                        <div class="row">
-                            <div class="col-xs-8 col-xs-offset-2">
-                                <div class="input-field">
-                                    <label for="accsetting_state">State:</label>
-                                    <input type="text" class="form-control" id="accsetting_state">
-                                </div>
-                            </div>
+
+                        <div class="input-field">
+                            <label for="accsetting_state">State:</label>
+                            <input type="text" class="form-control" id="accsetting_state">
                         </div>
-                        <div class="row">
-                            <div class="col-xs-8 col-xs-offset-2">
-                                <div class="input-field">
-                                    <label for="accsetting_zip">ZIP Code:</label>
-                                    <input type="number" class="form-control" id="accsetting_zip">
-                                </div>
-                            </div>
+
+                        <div class="input-field">
+                            <label for="accsetting_zip">ZIP Code:</label>
+                            <input type="number" class="form-control" id="accsetting_zip">
                         </div>
                         <div class="row input-filed">
                             <div class="alert alert-danger fade in" id="accsetting_warning">
                                 <strong>Danger!</strong> There are some empty fields!
                             </div>
                             <div class="btn btn-primary" id="accsetting_submit_info" type="submit"
-                                    style="margin-bottom: 10%">Update
+                                 style="margin-bottom: 10%">Update
                             </div>
                         </div>
                     </form>
