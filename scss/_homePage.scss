@@ -2,6 +2,15 @@
 
 #homePage {
 
+  .marketRow{
+    //margin-top:10%;
+  }
+
+  .shop {
+    position: relative;
+    margin-top:10%;
+  }
+
   div{
     border:none;
   };
@@ -22,9 +31,6 @@
     font-size: 45px;
   }
 
-  .shop {
-    position: relative;
-  }
   .name {
     font-family: Brandon;
     position: absolute;

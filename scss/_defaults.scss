@@ -8,11 +8,15 @@ $fetchOrange: #f36100;
 
 
 body, html {
-  background-color: #ffdb99;
   overflow: visible;
   width: 100vw;
   height: 100vh;
   //min-width:460px;
+  background: url("/resources/images/beet-on-pink.jpg") no-repeat center;
+  background-size: cover;
+  -o-background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
 }
 
 img {
