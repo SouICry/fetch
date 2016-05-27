@@ -875,6 +875,7 @@ app.post('/_accSetting', function (req, res) {
     var object = {};
     if (!req.session.userId) {
         res.status(500);
+        res.setHeader('Content-Type', 'application/json');
         res.send({message: 'no user logged in'});
     }
 
@@ -892,6 +893,7 @@ app.post('/_accSetting', function (req, res) {
                         if (err) {
                             console.log('Error in accSetting: ' + err);
                             res.status(500);
+                            res.setHeader('Content-Type', 'application/json');
                             res.send({message: 'cannot access collection to find user '})
                             return;
                         }
@@ -1102,6 +1104,7 @@ app.post('/_checkout', function (req, res, next) {
         if (gticket.shopping_list.length === 0) {
             console.log('Grocery ticket submitted has no items');
             res.status(500);
+            res.setHeader('Content-Type', 'application/json');
             res.send(JSON.stringify({message: 'Submitted empty list'}));
             return;
         }
@@ -1110,6 +1113,7 @@ app.post('/_checkout', function (req, res, next) {
         if (!req.session.passport || !req.session.passport.user) {
             console.log('user is not logged in');
             res.status(500);
+            res.setHeader('Content-Type', 'application/json');
             res.send({message: 'user is not logged in'});
         }
         else {
@@ -1119,6 +1123,7 @@ app.post('/_checkout', function (req, res, next) {
                     if (err) {
                         console.log('error updating user grocery list');
                         res.status(500);
+                        res.setHeader('Content-Type', 'application/json');
                         res.send(err);
                         return;
                     }
@@ -1128,13 +1133,15 @@ app.post('/_checkout', function (req, res, next) {
                         if (err) {
                             console.log('error adding list to queue: ' + err);
                             res.status(500);
+                            res.setHeader('Content-Type', 'application/json');
                             res.send(err);
                         }
                     });
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send("Successful");
                 }
             );
         }
-        res.send("Successful");
     });
 
     // }

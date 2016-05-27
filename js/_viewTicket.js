@@ -1,6 +1,6 @@
 (function () {
     loader._viewTicket = {
-        data:{full_name: "Jen", items:["green eggs", "ham"], id: 3054},
+        data: /*{full_name: "Jen", items:["green eggs", "ham"], id: 3054}*/'',
         version: 0,
         getData: null,
         loadData: function (data) {
@@ -8,7 +8,7 @@
             $("#listName").text(" ");
             $("ul").empty();
             $("#_viewTicket_numItems").text(" ");
-            array = data.items;
+            var array = data.items;
             var separatedNames = data.full_name.split(" ");
             for (var i = 0; i < array.length; i++) {
 
