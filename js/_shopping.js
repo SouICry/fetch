@@ -7,8 +7,7 @@
             return list_shopping;
         },
         loadData: function (data) {
-            alert(data);
-            if (data == "none" || data.length == 0) {
+            if (data == null || data == "none" || data.length == 0) {
                 data = [];
                 list_shopping.splice(0, list_shopping.length);
                 $("#footerInfo, .footerBars").hide();
