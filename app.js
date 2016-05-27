@@ -1384,7 +1384,7 @@ app.post('/_tickets', function(req, res) {
                 });
             }
 
-            res.setHeader('Content-Typ_e', 'application/json');
+            res.setHeader('Content-Type', 'application/json');
             res.send(JSON.stringify(data));
         });
     }
