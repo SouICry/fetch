@@ -3,32 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="js/underscore.js"></script>
+    <script src="js/loader.js"></script>
 </head>
 <style>
     * {
         box-sizing: border-box;
     }
+
     #notifications {
-        background-color: orange;
         position: fixed;
-        z-index: -1;
+        z-index: 2000;
         top: 0;
         right: 0;
-        width: 300px;
+        width: 400px;
         max-width: 100vw;
         pointer-events: none;
-
     }
+
     .notification {
+        background-color: darkorange;
         pointer-events: auto;
         float: right;
+        margin: 10px 10px 0 10px;
+        width: calc(100% - 20px);
+        min-height: 80px;
+        vertical-align: center;
+        position: relative;
+        overflow: hidden;
+    }
 
+    .notification .text {
+        position: absolute;
+        width: calc(100% - 120px);
+        top: 50%;
+        left: calc(50% + 40px);
+        transform: translate(-50%, -50%)
+    }
+    .notification .icon {
+        width: 80px;
+        height: 80px;
     }
 </style>
-
+<i class="material-icons">add_alert</i>
 <body style="height: 100%;">
-    <div id="notification">
-
+<div id="notifications">
+    <div class="notification">
+        <div class="icon"></div>
+        <div class="text">
+             This is a notification This is a notification This is a notification This is a notification
+        </div>
     </div>
+</div>
 </body>
 </html>
