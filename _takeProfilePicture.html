@@ -45,9 +45,21 @@
 
         $('#uploadButton1').click(function(){
             disableCamera(vid);
+            uploadFromCanvas();
             goToPage("_signUp");
         });
 
+
+        function uploadFromCanvas(){
+            $.ajax({
+                type: "POST",
+                url: "/savePhoto",
+                data: canvas.toDataURL("image/png"),
+                success: function(){
+                    alert("uploader");
+                }
+            });
+        }
 
     })();
 </script>
