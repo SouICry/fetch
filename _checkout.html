@@ -1,20 +1,25 @@
 <div id="checkout" class="container">
     <div class="text-center row">
-        <div class="col-xs-2"></div>
-        <div class="col-xs-8">
+        <div class="col-xs-offset-2 col-xs-8">
             <h2>Continue Checkout</h2>
 
             <h4>If driver cannot locate your specific item, buy... </h4>
-            <div class="list-group" id="checkout_notes" data-toggle="buttons">
+            <div class="list-group vertical-center" id="checkout_notes" data-toggle="buttons">
+                <div class = "row">
                 <label class="btn list-group-item active">
                     <input type="radio" name="specialnotes" id="checkout_option1" value="cheapest" autocomplete="off" checked>Cheapest option
                 </label>
+                </div>
+                <div class = "row">
                 <label class="btn list-group-item">
                     <input type="radio" name="specialnotes" id="checkout_option2" value="expensive" autocomplete="off">Most expensive option
                 </label><s></s>
+                </div>
+                <div class = "div">
                 <label class="btn list-group-item">
                     <input type="radio" name="specialnotes" id="checkout_option3" value="none" autocomplete="off">Nothing
                 </label>
+                </div>
             </div>
 
             <h4>Available times for drop-off.</h4>
@@ -68,7 +73,7 @@
 
             <div class="row" style="text-align: center">
                 <button type="button" id="checkout_submitcheckout" class="btn btn-default">Continue</button>
-                <a href="/_homePage.html" class="btn btn-default" role="button">Close</a>
+                <button type="button" id="checkout_close" class="btn btn-default">Close</button>
             </div>
 
         </div>

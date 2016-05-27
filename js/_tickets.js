@@ -51,8 +51,8 @@
 
                 for (var i = 0; i < data.length; i++) {
                     $("#tickets_content").append('<li data-ticketId="' + data[i]._id +
-                        '" class = "' + data[i].full_name + ' ticket" ' +
-                        ' ><div id =' + data[i].full_name + ' >' + toName(data[i].full_name) +
+                        '" class = "' + data[i].store_name + ' ticket" ' +
+                        ' ><div id =' + data[i].store_name + ' >' + toName(data[i].store_name) +
                         ' <br> Estimate Deliver Time: ' + (data[i].time_created) + '</div></li>'); // TODO: UPDATE TO ESTIMATED TIME
                 }
 
