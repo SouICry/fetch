@@ -454,7 +454,7 @@ app.post('/_login', function (req, res, next) {
             req.session.userId = userId;
 
 
-            if (!masters.hasOwnProperty(userId)){
+            if (!masters.hasOwnProperty(userId)) {
                 masters[userId] = {
                     isDriver: false,
                     isLoggedIn: true,
@@ -1353,6 +1353,7 @@ app.post('/_viewTicket', function(req, res) {
                                 console.log('In _viewTicket: could not remove ticket from queue: ' + ticketId);
                                 res.status(500);
                                 res.send('');
+                                return;
                             }
 
                             var list_of_items;
@@ -1395,13 +1396,6 @@ app.post('/_tickets', function(req, res) {
                 res.status(500);
                 res.send('');
             }
-
-
-
-            // var data = [];
-            // for (var i = 0; i < docs.length; i++) {
-            //     data.push();
-            // }
 
             res.setHeader('Content-Type', 'application/json');
             res.send(JSON.stringify(docs));
