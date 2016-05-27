@@ -1,15 +1,14 @@
 (function () {
     loader._tickets = {
         data: ''/*[
-        {name: "wholeFoods", time: "12:00 pm", id: "123"}, {name: "ralphs", time: "5:00 pm", id: "344"},
-        {name: "tjs", time: "6:00 pm", id: "653"}, {name: "ralphs", time: "7:00 pm", id: "098"},
-        {name: "vons", time: "7:00 pm", id: "897"}]*/,
+         {name: "wholeFoods", time: "12:00 pm", id: "123"}, {name: "ralphs", time: "5:00 pm", id: "344"},
+         {name: "tjs", time: "6:00 pm", id: "653"}, {name: "ralphs", time: "7:00 pm", id: "098"},
+         {name: "vons", time: "7:00 pm", id: "897"}]*/,
         version: 0,
         getData: function () {
             return selected;
         },
         loadData: function (data) {
-            alert(JSON.stringify(data));
 
             $("#tickets_content").empty();
 
@@ -42,19 +41,21 @@
                         '" class = "' + data[i].name + ' ticket" ' +
                         ' ><div id =' + data[i].name + ' >' + toName(data[i].name) +
                         ' <br> Estimate Deliver Time: ' + data[i].time + '</div></li>');
+                    alert(i);
+                    alert(data[i].id);
                 }
 
                 $('#tickets_content li').click(function () {
-                    if ($(this).attr("id") != null) {
+                    if ($(this).attr("data-ticketId") != null) {
                         // Find the ticket with that id
                         var ticket = null;
                         for (var j = 0; j < data.length; j++) {
-                            if (data[j]._id == $(this).attr('id')) {
+                            if (data[j]._id == $(this).attr('data-ticketId')) {
                                 ticket = data[j];
                                 break;
                             }
                         }
-                        
+
                         loader._viewTicket.loadData(ticket);
                         goToPage('/_viewTicket');
                         //loader.getTicket($(this).data("ticketId"));
@@ -119,12 +120,12 @@
         data: null,
         success: function (data) {
             //data is the object sent back on success (could also just be string)
-            loader._tickets.loadData(JSON.stringify(data));
-            //alert(JSON.stringify(data));
+            loader._tickets.loadData(data);
         },
         error: function (data) {
             //data is the object send back on fail (could also just be string)
         }
     });
 })();
+
 
