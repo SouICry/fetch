@@ -293,10 +293,10 @@ passport.use('signup', new LocalStrategy(
                         phone_number: req.body.phone_number,
                         address:
                         {
-                             street: 'blah st.',
-                             city: 'blah city',
-                             state: 'CA',
-                             zip: '13315'
+                             street: req.body.street,
+                             city: req.body.city,
+                             state: req.body.state,
+                             zip: req.body.zip
                          },
                         payment_info: {
                             card_holder_name: '',
@@ -898,26 +898,27 @@ app.post('/_accSetting', function (req, res) {
                             return;
                         }
                         //console.log('user = ' + JSON.stringify(user));
-                        if (user != null) {
+                        if (!user) {
                             console.log('Could not find user with userId ' + userId + ' in _accSetting');
                             res.status(500);
                             res.send('');
                             return;
                         }
-                        if (user.full_name != null) {
+                        if (!user.full_name) {
                             console.log('Could not find users fullname in _accSetting');
                             res.status(500);
                             res.send('');
                             return;
                         }
                         else {
+                            console.log(JSON.stringify(user));
                             object.full_name = user.full_name;
                             object.email = user.email;
                             object.phone = user.phone_number;
-                            object.address.street = user.address.street;
-                            object.address.city = user.address.city;
-                            object.address.state = user.address.state;
-                            object.address.zip = user.address.zip;
+                            object.street = user.address.street;
+                            object.city = user.address.city;
+                            object.state = user.address.state;
+                            object.zip = user.address.zip;
 
                             res.setHeader('Content-Type', 'application/json');
                             res.send(JSON.stringify(object));
@@ -1070,8 +1071,11 @@ app.post('/_checkout', function (req, res, next) {
 
     db.collection('users').findOne({_id: userId}, function(err, user) {
         // Model for grocery list
+        var listId = user._id + date.getTime();
+        masters[userId].ticketId = listId;
+
         var gticket = {
-            _id: user._id + date.getTime(),
+            _id: listId,
             // May need to fix how fields are loaded from master for these new attributes
             shopper: {
                 _id: user._id,
@@ -1333,9 +1337,9 @@ app.post('/_viewTicket', function(req, res) {
                     }
 
                     var list_of_items;
-                    for (var i = 0; i < doc.grocery_list.length; i++) {
-                        if (doc.grocery_list[i]._id === ticketId) {
-                            list_of_items = doc.grocery_list[i].shopping_list;
+                    for (var i = 0; i < doc.shopping_list.length; i++) {
+                        if (doc.shopping_list[i]._id === ticketId) {
+                            list_of_items = doc.shopping_list[i].shopping_list;
                             break;
                         }
                     }
@@ -1376,7 +1380,8 @@ app.post('/_tickets', function(req, res) {
                 data.push({
                     id: docs[i]._id,
                     name: docs[i].store_name,
-                    time: docs[i].time_created
+                    time: docs[i].time_created,
+                    items: docs[i].shopping_list
                 });
             }
 

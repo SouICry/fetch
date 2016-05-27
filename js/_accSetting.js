@@ -61,7 +61,7 @@
     });
 })();
 
-
+loadAccountData();
 function sendAccountData() {
 
     var info_to_send = {};
