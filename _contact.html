@@ -3,7 +3,7 @@
         <div class="col-xs-2"></div>
         <div class="col-xs-8">
 
-            <form class="input-field">
+            <!--<form class="input-field">-->
                 <div class="input-field">
                     <label for="contact_name">Name</label>
                     <input type="text" class="form-control" id="contact_name">
@@ -12,9 +12,13 @@
                     <label for="contact_email">Email</label>
                     <input type="email" class="form-control" id="contact_email">
                 </div>
+                <!--<div class="input-field">-->
+                    <!--<label for="contact_comment">Comment:</label>-->
+                    <!--<textarea class="form-control" rows="5" id="contact_comment"></textarea>-->
+                <!--</div>-->
                 <div class="input-field">
+                    <textarea id="contact_comment" class="materialize-textarea form-control"></textarea>
                     <label for="contact_comment">Comment:</label>
-                    <textarea class="form-control" rows="5" id="contact_comment"></textarea>
                 </div>
                 <div class="row input-field">
                     <div class="alert alert-danger fade in" id="contact_warning">
@@ -22,7 +26,7 @@
                     </div>
                 </div>
                 <div type="submit" id="contact_submit" class="btn btn-primary">Send</div>
-            </form>
+            <!--</form>-->
         </div>
         <div class="col-xs-2"></div>
     </div>
