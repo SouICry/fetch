@@ -1,5 +1,5 @@
 (function () {
-    loader.contact = {
+    loader._contact = {
         data: "none",
         version: 0,
         getData: function () {

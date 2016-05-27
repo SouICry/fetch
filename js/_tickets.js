@@ -41,22 +41,25 @@
                         '" class = "' + data[i].name + ' ticket" ' +
                         ' ><div id =' + data[i].name + ' >' + toName(data[i].name) +
                         ' <br> Estimate Deliver Time: ' + data[i].time + '</div></li>');
-                    alert(i);
-                    alert(data[i].id);
+                    // alert(i);
+                    // alert(data[i].id);
                 }
 
                 $('#tickets_content li').click(function () {
+                    //alert('THIS SHOULD POP UPPPPPPPPPPPPPPPPP');
+
                     if ($(this).attr("data-ticketId") != null) {
                         // Find the ticket with that id
                         var ticket = null;
                         for (var j = 0; j < data.length; j++) {
-                            if (data[j]._id == $(this).attr('data-ticketId')) {
+                            if (data[j].id === $(this).attr('data-ticketId')) {
+                                //alert(data[j]);
                                 ticket = data[j];
                                 break;
                             }
                         }
 
-                        loader._viewTicket.loadData(ticket);
+                        //loader._viewTicket.loadData(ticket);
                         goToPage('/_viewTicket');
                         //loader.getTicket($(this).data("ticketId"));
                     }
