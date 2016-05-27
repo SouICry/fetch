@@ -898,26 +898,27 @@ app.post('/_accSetting', function (req, res) {
                             return;
                         }
                         //console.log('user = ' + JSON.stringify(user));
-                        if (user != null) {
+                        if (!user) {
                             console.log('Could not find user with userId ' + userId + ' in _accSetting');
                             res.status(500);
                             res.send('');
                             return;
                         }
-                        if (user.full_name != null) {
+                        if (!user.full_name) {
                             console.log('Could not find users fullname in _accSetting');
                             res.status(500);
                             res.send('');
                             return;
                         }
                         else {
+                            console.log(JSON.stringify(user));
                             object.full_name = user.full_name;
                             object.email = user.email;
                             object.phone = user.phone_number;
-                            object.address.street = user.address.street;
-                            object.address.city = user.address.city;
-                            object.address.state = user.address.state;
-                            object.address.zip = user.address.zip;
+                            object.street = user.address.street;
+                            object.city = user.address.city;
+                            object.state = user.address.state;
+                            object.zip = user.address.zip;
 
                             res.setHeader('Content-Type', 'application/json');
                             res.send(JSON.stringify(object));
