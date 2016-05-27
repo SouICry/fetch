@@ -8,10 +8,11 @@
             $("#listName").text(" ");
             $("ul").empty();
             $("#_viewTicket_numItems").text(" ");
+            alert(JSON.stringify(data));
             var array = data.items;
-            var separatedNames = data.full_name.split(" ");
+            var separatedNames = data.full_name;
             for (var i = 0; i < array.length; i++) {
-
+                alert(array[i]);
                 // item count
                 count = array.length;
                 //create the contact info(where should I got this, is there a flied relates to contact?
@@ -57,7 +58,7 @@
                 data: info_to_send,
                 success: function (data) {
                     //data is the object sent back on success (could also just be string)
-                    loader._viewTicket.loadData(data);
+                    //loader._viewTicket.loadData(data);
                 },
                 error: function (data) {
                     alert("fail");
