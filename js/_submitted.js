@@ -15,7 +15,7 @@
         },
         onPageLoad : function(){
             loader._shopping.loadData(null);
-           // loader._checkout.loadData(null);
+            loader._checkout.loadData(null);
         }
 
     };

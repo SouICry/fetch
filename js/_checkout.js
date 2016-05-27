@@ -9,15 +9,18 @@
             return _checkout;
         },
         loadData: function (data) {
-            if (data != "none") {
-                $('input[name="specialnotes"]:checked', '#checkout_notes').val(data.checkout_notes);
-                $("#checkout_time1").val(data.checkout_range1);
-                $("#checkout_time2").val(data.checkout_range2);
-            }
-            else {
+            alert(JSON.stringify(data));
+            if (data == null) {
                 $('input[name="specialnotes"]:checked', '#checkout_notes').val("");
                 $("#checkout_time1").val("");
                 $("#checkout_time2").val("");
+            }
+            else {
+
+                // NO NEED BCAUSE NEVER HAS TO LOAD DATA FROM PREV 
+                // $('input[name="specialnotes"]:checked', '#checkout_notes').val(data.checkout_notes);
+                // $("#checkout_time1").val(data.checkout_range1);
+                // $("#checkout_time2").val(data.checkout_range2);
             }
         }
     };
@@ -29,7 +32,7 @@
         checkout_range2: ""
     };
 
-    loader._checkout.loadData(_checkout);
+    //loader._checkout.loadData(_checkout);
 
     $('#checkout_submitcheckout').click(function () {
 
@@ -76,7 +79,7 @@
                     //data is the object send back on fail (could also just be string)
                 }
             });
-            //goToPage("_pendingPayment");
+            goToPage("_pendingPayment");
 
         }
         else {
