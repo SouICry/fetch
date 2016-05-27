@@ -59,8 +59,8 @@
                             }
                         }
 
-                        //loader._viewTicket.loadData(ticket);
-                        goToPage('/_viewTicket');
+                        loader._viewTicket.loadData(ticket);
+                        goToPage('_viewTicket');
                         //loader.getTicket($(this).data("ticketId"));
                     }
                 });
