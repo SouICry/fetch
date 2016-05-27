@@ -129,7 +129,13 @@
         },
         setCurrentPage: function (page, noPrevious) {
             if (loader.currentPage != page) {
+                if (loader[loader.currentPage].hasOwnProperty("onPageLeave")){
+                    loader[loader.currentPage].onPageLeave();
+                }
 
+                if (loader[page].hasOwnProperty("onPageLoad")){
+                    loader[page].onPageLoad();
+                }
 
                 loader.previousPage = loader.currentPage;
                 loader.currentPage = page;
@@ -140,13 +146,8 @@
                     url: "/changePage",
                     data: JSON.stringify({
                         newPage: page
-                    }),
+                    })
                 });
-                switch (page) {
-                    case "_takeProfilePicture":
-                        loader._takeProfilePicture.loadData();
-                        break;
-                }
                 loader.goToPage(page);
             }
         },
