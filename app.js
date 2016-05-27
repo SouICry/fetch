@@ -293,10 +293,10 @@ passport.use('signup', new LocalStrategy(
                         phone_number: req.body.phone_number,
                         address:
                         {
-                             street: 'blah st.',
-                             city: 'blah city',
-                             state: 'CA',
-                             zip: '13315'
+                             street: req.body.street,
+                             city: req.body.city,
+                             state: req.body.state,
+                             zip: req.body.zip
                          },
                         payment_info: {
                             card_holder_name: '',
@@ -1070,8 +1070,11 @@ app.post('/_checkout', function (req, res, next) {
 
     db.collection('users').findOne({_id: userId}, function(err, user) {
         // Model for grocery list
+        var listId = user._id + date.getTime();
+        masters[userId].ticketId = listId;
+
         var gticket = {
-            _id: user._id + date.getTime(),
+            _id: listId,
             // May need to fix how fields are loaded from master for these new attributes
             shopper: {
                 _id: user._id,
@@ -1333,9 +1336,9 @@ app.post('/_viewTicket', function(req, res) {
                     }
 
                     var list_of_items;
-                    for (var i = 0; i < doc.grocery_list.length; i++) {
-                        if (doc.grocery_list[i]._id === ticketId) {
-                            list_of_items = doc.grocery_list[i].shopping_list;
+                    for (var i = 0; i < doc.shopping_list.length; i++) {
+                        if (doc.shopping_list[i]._id === ticketId) {
+                            list_of_items = doc.shopping_list[i].shopping_list;
                             break;
                         }
                     }
@@ -1376,11 +1379,12 @@ app.post('/_tickets', function(req, res) {
                 data.push({
                     id: docs[i]._id,
                     name: docs[i].store_name,
-                    time: docs[i].time_created
+                    time: docs[i].time_created,
+                    items: docs[i].shopping_list
                 });
             }
 
-            res.setHeader('Content-Type', 'application/json');
+            res.setHeader('Content-Typ_e', 'application/json');
             res.send(JSON.stringify(data));
         });
     }
