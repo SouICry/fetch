@@ -146,26 +146,38 @@ ViewController.prototype = {
 app.post("/_shopping", function(req, res){
     //use pageCount or version
     var userId = req.session.userId;
-
     var list = req.body.list;
+    var checkout = req.body.checkout;
     //TODO initialize verion in login, init, sign up
-    if(masters[userId].version < req.body.version) {
-        console.log("go in");
-        masters[userId].version = req.body.version;
+    if (masters[userId].shoppingVersion < req.body.shoppingVersion) {
+        masters[userId].shoppingVersion = req.body.shoppingVersion;
         masters[userId].list = list;
-        //masters[userId].ticketId = req.body.ticketId;
+        res.send("");
     }
-    else if (masters[userId].version > req.body.version){
+    else if (masters[userId].shoppingVersion > req.body.shoppingVersion) {
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify({
             //version: masters[userId].version,
             list: masters[userId].list,
-            version: masters[userId].version
+            shoppingVersion: masters[userId].shoppingVersion
+        }));
+    }
+    else if (masters[userId].checkoutVersion < req.body.checkoutVersion) {
+        console.log("version update");
+        masters[userId].checkoutVersion = req.body.checkoutVersion;
+        masters[userId].checkout = checkout;
+        res.send("");
+    }
+    else if (masters[userId].checkoutVersion > req.body.checkoutVersion) {
+        console.log("send back data");
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({
+            checkout: masters[userId].checkout,
+            checkoutVersion: masters[userId].checkoutVersion
         }));
     }
     else {
-        res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({"":""}));
+        res.send("");
     }
 
 });
@@ -406,7 +418,8 @@ app.post('/_signUp', function (req, res, next) {
                                 isDriver: false,
                                 isLoggedIn: true,
                                 userId: userId,
-                                version: 0,
+                                shoppingVersion: 0,
+                                checkoutVersion: 0,
                                 currentPage: ""
                             };
                             masters[userId].userId = userId;
@@ -471,7 +484,8 @@ app.post('/_login', function (req, res, next) {
                     isDriver: false,
                     isLoggedIn: true,
                     userId: userId,
-                    version: 0,
+                    shoppingVersion: 0,
+                    checkoutVersion: 0,
                     currentPage: ""
                 };
                 masters[userId].userId = userId;
@@ -788,7 +802,8 @@ app.post('/init', function (req, res) {
             isDriver: false,
             isLoggedIn: true,
             userId: userId,
-            version: 0,
+            shoppingVersion: 0,
+            checkoutVersion: 0,
             currentPage: "_homePage"
         };
         masters[userId].userId = userId;

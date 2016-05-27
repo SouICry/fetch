@@ -4,12 +4,14 @@
         version: 0, //Must be 0
         getData: function () { //must be null if not needed
             _checkout.checkout_notes = $('input[name="specialnotes"]:checked', '#checkout_notes').val();
+            _checkout.checkout_id = $('#checkout_notes :checked').attr("id");
+            //alert($('#checkout_notes :checked').attr("id"));
             _checkout.checkout_range1 = $("#checkout_time1").val();
             _checkout.checkout_range2 = $("#checkout_time2").val();
             return _checkout;
         },
         loadData: function (data) {
-            alert(JSON.stringify(data));
+            console.log(JSON.stringify(data));
             if (data == null) {
                 $('input[name="specialnotes"]:checked', '#checkout_notes').val("");
                 $("#checkout_time1").val("");
@@ -21,12 +23,21 @@
                 // $('input[name="specialnotes"]:checked', '#checkout_notes').val(data.checkout_notes);
                 // $("#checkout_time1").val(data.checkout_range1);
                 // $("#checkout_time2").val(data.checkout_range2);
+          
+                //NEEDED FOR SYNC
+                $('input[name="specialnotes"]:checked', '#checkout_notes').val(data.checkout_notes);
+                document.getElementById(data.checkout_id).click();
+               
+                $("#checkout_time1").val(data.checkout_range1);
+                $("#checkout_time2").val(data.checkout_range2);
             }
+            
         }
     };
 
 
     var _checkout = {
+        checkout_id: "",
         checkout_notes: "",
         checkout_range1: "",
         checkout_range2: ""
@@ -96,6 +107,18 @@
     $('#checkout_close').click(function () {
         goToPage("_homePage");
     });
-
+    
+    $('#checkout_notes').click(function (event) {
+        loader._checkout.version++;
+        //alert("options");
+    });
+    $('#checkout_time1').click(function(){
+        loader._checkout.version++;
+        // alert("time 1");
+    });
+    $('#checkout_time2').click(function(){
+        loader._checkout.version++;
+        //  alert("time 2");
+    });
 
 })();
