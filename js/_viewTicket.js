@@ -9,15 +9,16 @@
             $("ul").empty();
             $("#_viewTicket_numItems").text(" ");
             alert(JSON.stringify(data));
-            var array = data.items;
-            var separatedNames = data.full_name;
+            var array = data.shopping_list;
+            var separatedNames = data.shopper.full_name;
+
             for (var i = 0; i < array.length; i++) {
                 alert(array[i]);
                 // item count
                 count = array.length;
                 //create the contact info(where should I got this, is there a flied relates to contact?
-                document.getElementById("listName").innerHTML = separatedNames[0] + "'s Shopping List";
-                document.getElementById("phone").innerHTML = "Phone: " + data.contact;
+                document.getElementById("listName").innerHTML = separatedNames + "'s Shopping List";
+                document.getElementById("phone").innerHTML = "Phone: " + data.shopper.phone_number;
                 // Create the list item:
                 var newItem = document.createElement('li');
                 newItem.innerHTML = array[i];

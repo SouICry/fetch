@@ -1063,15 +1063,31 @@ app.post('/_accSetting', function (req, res) {
 app.post('/_checkout', function (req, res, next) {
     var date = new Date();
     var userId = req.session.userId;
+
     // if (req.body.notesTime) {
     //     masters[userId]["_checkout"].data.list_id = req.body.notesTime.id;
     //     masters[userId]["_checkout"].data.special_options = req.body.notesTime.notes;
     //     masters[userId]["_checkout"].data.available_time_start = req.body.notesTime.range1;
     //     masters[userId]["_checkout"].data.available_time_end = req.body.notesTime.range2;
-
     db.collection('users').findOne({_id: userId}, function(err, user) {
         // Model for grocery list
+        if (err) {
+            console.log('Err in _checkout: ' + err);
+            res.status(500);
+            res.send('');
+        }
+
+        if (user === null) {
+            console.log('Error: cannot find user with id: ' + userId);
+            res.status(500);
+            res.send('');
+            return;
+        }
+
+        console.log('USER ID = ' + user._id);
+
         var listId = user._id + date.getTime();
+        console.log('Setting masters[userId].ticketId!');
         masters[userId].ticketId = listId;
 
         var gticket = {
@@ -1079,6 +1095,7 @@ app.post('/_checkout', function (req, res, next) {
             // May need to fix how fields are loaded from master for these new attributes
             shopper: {
                 _id: user._id,
+                full_name: user.full_name,
                 phone_number: user.phone_number,
                 address: {
                     street: user.address.street,
@@ -1312,7 +1329,7 @@ app.post('/_viewTicket', function(req, res) {
     else {
         ticketId = masters[userId].ticketId;
 
-        var user = db.collection('users').update(
+        db.collection('users').update(
             {
                 _id: userId,
                 'grocery_list._id': ticketId
@@ -1321,35 +1338,39 @@ app.post('/_viewTicket', function(req, res) {
                 $set: {
                     'grocery_list.$.state': 'accepted'
                 }
-            }, function(err, doc) {
-                if (!user) {
-                    console.log('In _viewTicket: could not find user with corresponding ticketId: ' + ticketId);
-                    res.status(500);
-                    res.send('');
-                    return;
-                }
-
-                db.collection('grocery_queue').remove({_id: ticketId}, function(err) {
-                    if (err) {
-                        console.log('In _viewTicket: could not remove ticket from queue: ' + ticketId);
-                        res.status(500);
-                        res.send('');
-                    }
-
-                    var list_of_items;
-                    for (var i = 0; i < doc.shopping_list.length; i++) {
-                        if (doc.shopping_list[i]._id === ticketId) {
-                            list_of_items = doc.shopping_list[i].shopping_list;
-                            break;
+            }, function(err, result) {
+                    // Get the user that we just modified
+                    db.collection('users').findOne({_id: userId}, function(err, user) {
+                        if (!user) {
+                            console.log('In _viewTicket: could not find user with corresponding ticketId: ' + ticketId);
+                            res.status(500);
+                            res.send('');
+                            return;
                         }
-                    }
-                    res.setHeader('Content-Type', 'application/json');
-                    res.send(JSON.stringify({
-                        id: ticketId,
-                        full_name: doc.full_name,
-                        items: list_of_items
-                    }));
-                });
+
+                        db.collection('grocery_queue').remove({_id: ticketId}, function(err) {
+                            if (err) {
+                                console.log('In _viewTicket: could not remove ticket from queue: ' + ticketId);
+                                res.status(500);
+                                res.send('');
+                            }
+
+                            var list_of_items;
+                            console.log(user);
+                            for (var i = 0; i < user.shopping_list.length; i++) {
+                                if (user.shopping_list[i]._id === ticketId) {
+                                    list_of_items = user.shopping_list[i].shopping_list;
+                                    break;
+                                }
+                            }
+                            res.setHeader('Content-Type', 'application/json');
+                            res.send(JSON.stringify({
+                                id: ticketId,
+                                full_name: user.full_name,
+                                items: list_of_items
+                            }));
+                        });
+                    });
             });
     }
 });
@@ -1375,18 +1396,15 @@ app.post('/_tickets', function(req, res) {
                 res.send('');
             }
 
-            var data = [];
-            for (var i = 0; i < docs.length; i++) {
-                data.push({
-                    id: docs[i]._id,
-                    name: docs[i].store_name,
-                    time: docs[i].time_created,
-                    items: docs[i].shopping_list
-                });
-            }
+
+
+            // var data = [];
+            // for (var i = 0; i < docs.length; i++) {
+            //     data.push();
+            // }
 
             res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify(data));
+            res.send(JSON.stringify(docs));
         });
     }
 });
@@ -1397,6 +1415,8 @@ app.post('/_tickets', function(req, res) {
 //------------------------------ PAYMENT ------------------------------------
 app.get('/complete-payment', function(req, res) {
     var userId = req.query.user;
+    //TODO: send to database masters[userId].ticket;
+
     //actually submit and redirect to fetchgrocery.com#_submitted
 });
 
