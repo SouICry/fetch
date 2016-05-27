@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+    #notifications {
+        background-color: orange;
+        position: fixed;
+        z-index: -1;
+        top: 0;
+        right: 0;
+        width: 300px;
+        max-width: 100vw;
+        pointer-events: none;
+
+    }
+    .notification {
+        pointer-events: auto;
+        float: right;
+
+    }
+</style>
+
+<body style="height: 100%;">
+    <div id="notification">
+
+    </div>
+</body>
+</html>

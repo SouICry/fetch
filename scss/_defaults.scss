@@ -1,4 +1,8 @@
 $fetchOrange: #f36100;
+* {
+  box-sizing: border-box;
+}
+
 
 :not(.box, .footerBars) {
   overflow: hidden;
