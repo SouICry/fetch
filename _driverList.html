@@ -1,14 +1,22 @@
 
 
-    <div class="container text-center" id="_driverList2_shopping">
-        <div class="row" >
-        <div class="col-xs-12">
-            <h2 id="listName_driverList"></h2>
-            <h3 id="phone"></h3>
-        </div>
-    </div>
+    <!--<div class="container text-center" id="_driverList2_header">-->
+        <!--<div class="row" >-->
+        <!--<div class="col-xs-12">-->
+            <!--<h2 id="listName_driverList"></h2>-->
+            <!--<h3 id="phone"></h3>-->
+        <!--</div>-->
+    <!--</div>-->
 
-        <div class="container box">
+        <div class="container box text-center">
+            <div class="row" id="driverListHeader">
+                <div class="col-xs-12">
+                    <div>
+                        <h2 id="listName_driverList"></h2>
+                        <h3 id="phone"></h3>
+                    </div>
+                </div>
+            </div>
             <div class="row" >
                 <div class="col-xs-12">
                     <ul id="_driverList2_list"></ul>
@@ -18,14 +26,11 @@
             <div class = "row">
                 <div class="col-xs-12">
                     <div class="driver-footer">
-                        <div id="_driver_footerInfo">
-                            <div id="_driver_numItems"></div>
-                            <div class="text-center">
-                                <button id="_driver_submit_list" type="button" class="btn btn-link">
-                                    submit
-                                </button>
-                            </div>
-
+                        <div class = "row" id="_driver_footerInfo">
+                            <div class="col-xs-4" id="_driver_numItems"></div>
+                            <button class="col-x-4" id="_driver_submit_list" type="button" class="btn btn-link">
+                                    <h6>submit</h6>
+                            </button>
                         </div>
                     </div>
                 </div>

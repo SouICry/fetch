@@ -163,30 +163,30 @@
             }
         },
         updateShopping: function(){
-            if (loader.isLoggedIn && loader.userId.length > 1) {
 
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json",
-                    dataType: "json",
-                    url: "/_shopping",
-                    data: JSON.stringify({
-                        version: loader._shopping.version,
-                        list: loader._shopping.getData()
-                    }),
-                    success: function (data) {
-                        if (data.list) {
-                            loader._shopping.loadData(data.list);
-                            loader._shopping.version = data.version;
-                            //loader._shopping.version = data.version;
-                        }
-//                    else{
-//                        //ticketPrototype.ticket.list = loader._shopping.getData();
-//                        loader._shopping.data = loader._shopping.getData();
-//                    }
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                url: "/_shopping",
+                data: JSON.stringify({
+                    shoppingVersion: loader._shopping.version,
+                    list: loader._shopping.getData(),
+                    checkoutVersion: loader._checkout.version,
+                    checkout: loader._checkout.getData()
+                }),
+                success: function (data) {
+                    if (data.list) {
+                        loader._shopping.loadData(data.list);
+                        loader._shopping.version = data.shoppingVersion;
+                        //loader._shopping.version = data.version;
                     }
-                });
-            }
+                    if (data.checkout) {
+                        loader._checkout.loadData(data.checkout);
+                        loader._checkout.version = data.checkoutVersion;
+                    }
+                }
+            });
         },
         //Saves current active ticket (if any), then fetches new one and loads page data corresponding to ticket status in back end store
 //        sendData: function () { //Gets data from page and sends to server for update. Server will send back version num
@@ -237,7 +237,7 @@
             //Only update if not active
             if (loader.isLoggedIn && loader.userId.length > 1) {
                 //keep updating no matter what
-                if(loader.currentPage == "_shopping"){
+                if(loader.currentPage == "_shopping" || loader.currentPage == "_checkout"){
                     loader.updateShopping();
                 }
                 if (loader.activeCyclesLeft > 0) {
@@ -318,7 +318,7 @@
 
             }
 
-            window.setInterval(loader.getUpdates, 251);
+            window.setInterval(loader.getUpdates, 501);
 
 
         },

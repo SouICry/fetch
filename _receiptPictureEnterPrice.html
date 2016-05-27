@@ -1,0 +1,31 @@
+<div class="container text-center" id="receipt-pic">
+    <div class="row">
+        <div class="col-md-4 col-lg-4" id="receipt-button-box-outer">
+
+            <h2>Receipt Picture</h2>
+
+            <div class="col-md-8 col-lg-8" id="receipt-outer">
+                <video width="400" height="300" id="receipt_video1" muted autoplay></video>
+                <canvas width="400" height="300" id="receipt_canvas1"></canvas>
+            </div>
+
+            <div id="receipt-button-box">
+                <div class="btn btn-default" id="takeReceiptButton1">Take Photo</div>
+                <div class="btn btn-primary" id="redoReceiptButton1">Retake Photo</div>
+                <h4>or</h4>
+                <label class="btn btn-default">
+                    Upload From File<input class="hidden" type="file" id="uploadReceipt1" name="imageLoader"/>
+                </label>
+
+                <div class="input-field">
+                    <input type="text" class="form-control" name="username" id="enter_price"/><br>
+                    <label for="enter_price">Enter the price:</label>
+                </div>
+
+                <div class="btn btn-primary" id="uploadReceiptButton1">Submit</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/_receiptPictureEnterPrice.js"></script>

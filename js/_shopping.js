@@ -49,7 +49,6 @@
     
     $("#shopping_submit_list").hide();
     $('#shopping_submit_list').click(function () {
-        alert(list_shopping.length);
         if (list_shopping.length > 0) {
             goToPage("_checkout");
         }

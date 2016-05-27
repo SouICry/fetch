@@ -92,7 +92,7 @@ function enableCamera(vid, canvas, takeButton, redoButton, source, onTakePic) {
 
 function disableCamera(vid) {
     if (window.stream) {
-        vid.src = null;
+        //vid.src = null;
         window.stream.getTracks().forEach(function (track) {
             track.stop();
         });
