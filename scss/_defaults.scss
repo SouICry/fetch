@@ -20,6 +20,7 @@ body, html {
   -moz-background-size: cover;
 }
 
+
 img {
   width: 100%;
 }
@@ -50,7 +51,7 @@ button {
   text-decoration: none;
 }
 
-h2, h3, h4 {
+h2, h3, h4, h6 {
   color: $fetchOrange;
   opacity: .8;
   margin: 15px 0;
@@ -68,12 +69,20 @@ h3 {
   font-weight: 100;
   text-align: center;
 }
+h6 {
+  font-size: 1.5em;
+  font-weight: 200;
+  margin: 0;
+  text-shadow: 1px 1px rgba(119, 119, 119, 0.36);
+}
 
 // this is for the box's around the shopping and driver list
 .box {
   padding: 0;
   margin: auto;
   text-align: center;
+  opacity:.9;
+  background-color:white;
 
   @media screen and(max-width: 500px) {
     width: 95%;
@@ -86,6 +95,8 @@ h3 {
   0 25px 50px 0 rgba(0, 0, 0, 0.1);
 
   .input {
+
+    //background-color: white;
     position: relative;
     @media screen and (max-width: 500px) {
       font-size: 17px;
@@ -104,6 +115,7 @@ h3 {
     width: 100%;
     line-height: 2;
     text-indent: 7%;
+    margin:0;
   }
 
   .item, .driverItem, .viewTicketItem {
@@ -121,6 +133,7 @@ h3 {
     line-height: 2;
     text-indent: 7%;
     text-align: left;
+    //background-color: white;
   }
 
   .selected {
@@ -166,6 +179,8 @@ h3 {
 }
 
 .footerBars {
+
+  opacity:.9;
   .footer2 {
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
     0 25px 50px 0 rgba(0, 0, 0, 0.1);

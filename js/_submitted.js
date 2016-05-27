@@ -12,7 +12,12 @@
                 ticket_id: data.id,
                 state: "pending"
             }
+        },
+        onPageLoad : function(){
+            loader._shopping.loadData(null);
+            loader._checkout.loadData(null);
         }
+
     };
 
     $('#submit_submitted').click(function () {

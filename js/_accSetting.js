@@ -31,11 +31,14 @@
             $("#accsetting_city").val(data.city);
             $("#accsetting_state").val(data.state);
             $("#accsetting_zip").val(data.zip);
+        },
+        onPageLoad: function(data) {
+            loadAccountData();
         }
     };
 
 
-    //loadAccountData();
+    loadAccountData();
 
     $("#accsetting_warning").hide();
 
@@ -49,29 +52,73 @@
     // if any field is empty, warning shows up
     $("#accsetting_submit_info").click(function () {
 
-        sendAccountData();
-
-        if ($('#accsetting_full_name, #accsetting_email, #accsetting_phone, #accsetting_street, ' +
-                '#accsetting_city, #accsetting_state, #accsetting_zip').val() != '') {
-            goToPage("_homePage");
+        if (($('#accsetting_full_name').val() == '') || ($('#accsetting_email').val() == '') || ($('#accsetting_phone').val() == '')
+            || ($('#accsetting_street').val() == '') || ($('#accsetting_city').val() == '') || ($('#accsetting_state').val() == '')
+            || ($('#accsetting_zip').val() == '')){
+            $("#accsetting_warning").show();
+            if (($('#accsetting_full_name').val() == '')){
+                $("#accsetting_full_name_parent").addClass("has-error");
+            }
+            else {
+                $("#accsetting_full_name_parent").removeClass("has-error");
+            }
+            if (($('#accsetting_email').val() == '')){
+                $("#accsetting_email_parent").addClass("has-error");
+            }
+            else {
+                $("#accsetting_email_parent").removeClass("has-error");
+            }
+            if (($('#accsetting_phone').val() == '')){
+                $("#accsetting_phone_parent").addClass("has-error");
+            }
+            else {
+                $("#accsetting_phone_parent").removeClass("has-error");
+            }
+            if (($('#accsetting_street').val() == '')){
+                $("#accsetting_street_parent").addClass("has-error");
+            }
+            else {
+                $("#accsetting_street_parent").removeClass("has-error");
+            }
+            if (($('#accsetting_city').val() == '')){
+                $("#accsetting_city_parent").addClass("has-error");
+            }
+            else {
+                $("#accsetting_city_parent").removeClass("has-error");
+            }
+            if (($('#accsetting_state').val() == '')){
+                $("#accsetting_state_parent").addClass("has-error");
+            }
+            else {
+                $("#accsetting_state_parent").removeClass("has-error");
+            }
+            if (($('#accsetting_zip').val() == '')){
+                $("#accsetting_zip_parent").addClass("has-error");
+            }
+            else {
+                $("#accsetting_zip_parent").removeClass("has-error");
+            }
         }
         else {
-            $("#accsetting_warning").show();
+            $("#accsetting_full_name_parent").removeClass("has-error");
+            $("#accsetting_email_parent").removeClass("has-error");
+            $("#accsetting_phone_parent").removeClass("has-error");
+            $("#accsetting_street_parent").removeClass("has-error");
+            $("#accsetting_city_parent").removeClass("has-error");
+            $("#accsetting_state_parent").removeClass("has-error");
+            $("#accsetting_zip_parent").removeClass("has-error");
+
+            goToPage("_homePage");
+            sendAccountData();
+
         }
     });
 })();
 
-loadAccountData();
+//loadAccountData();
 function sendAccountData() {
 
-    var info_to_send = {};
-    info_to_send.full_name = $('#accsetting_full_name').val();
-    info_to_send.email = $('#accsetting_email').val();
-    info_to_send.phone = $('#accsetting_phone').val();
-    info_to_send.street = $('#accsetting_street').val();
-    info_to_send.city = $('#accsetting_city').val();
-    info_to_send.state = $('#accsetting_state').val();
-    info_to_send.zip = $('#accsetting_zip').val();
+    var info_to_send = loader._accSetting.getData();
     info_to_send.type = "send";
 
     //Simulation (alert or console.log to check for yourself)
