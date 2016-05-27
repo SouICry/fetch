@@ -24,6 +24,7 @@ var app = express();
 app.use(favicon());
 app.use(logger('dev'));
 app.use(flash());
+app.use(bodyParser({limit: '2mb'}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
@@ -332,13 +333,24 @@ passport.use('signup', new LocalStrategy(
 ));
 
 //Save profile picture to server
-app.post('/savePhoto',function(req){
-    fs.writeFile("images/profiles/" + userId + ".png", req.body.image,"base64", function (err, data ) {
+app.post('/savePhoto',function(req,res){
+
+    var img = (req.body.image);
+    var data = img.replace(/^data:image\/\w+;base64,/, "");
+
+    var buf = new Buffer(data, 'base64');
+    //noinspection JSUnresolvedFunction
+    fs.writeFile('images/profiles/image.png', buf);
+    //console.log(img);
+    //console.log(typeof(img));
+    console.log("Photo Saved");
+    /*fs.writeFile("images/profiles/" + req.session.userId + ".png", req.body.image,"base64", function (err, data ) {
         if (err) {
             return console.log("Error");
         }
-        console.log("Photo saved. Success!");});
-
+        console.log("Photo saved. Success!");}
+    );*/
+    res.send("");
 });
 
 // Serialize user for storing to session
