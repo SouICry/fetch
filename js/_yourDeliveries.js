@@ -113,8 +113,9 @@
     });
 
     $('#_viewTicket_submit_list').click(function () {
-        goToPage("_yourDeliveries");
         assholes40();
+        goToPage("_yourDeliveries");
+        //assholes40();
     });
 
     function assholes40() {
@@ -130,7 +131,7 @@
                 success: function (data) {
                     //data is the object sent back on success (could also just be string)
 
-                    loader._viewTicket.loadData(data);
+                    loader._yourDeliveries.loadData(data);
                 },
                 error: function (data) {
                     alert("fail");
