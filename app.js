@@ -143,7 +143,7 @@ ViewController.prototype = {
 };
 
 
-app.post("/_shopping", function(req, res){
+app.post("/_shopping", function (req, res) {
     //use pageCount or version
     var userId = req.session.userId;
     var list = req.body.list;
@@ -304,13 +304,12 @@ passport.use('signup', new LocalStrategy(
                         email: email,
                         password: password,
                         phone_number: req.body.phone_number,
-                        address:
-                        {
-                             street: req.body.street,
-                             city: req.body.city,
-                             state: req.body.state,
-                             zip: req.body.zip
-                         },
+                        address: {
+                            street: req.body.street,
+                            city: req.body.city,
+                            state: req.body.state,
+                            zip: req.body.zip
+                        },
                         payment_info: {
                             card_holder_name: '',
                             card_number: '',
@@ -345,7 +344,7 @@ passport.use('signup', new LocalStrategy(
 ));
 
 //Save profile picture to server
-app.post('/savePhoto',function(req,res){
+app.post('/savePhoto', function (req, res) {
 
     var img = (req.body.image);
     var data = img.replace(/^data:image\/\w+;base64,/, "");
@@ -357,11 +356,11 @@ app.post('/savePhoto',function(req,res){
     //console.log(typeof(img));
     console.log("Photo Saved");
     /*fs.writeFile("images/profiles/" + req.session.userId + ".png", req.body.image,"base64", function (err, data ) {
-        if (err) {
-            return console.log("Error");
-        }
-        console.log("Photo saved. Success!");}
-    );*/
+     if (err) {
+     return console.log("Error");
+     }
+     console.log("Photo saved. Success!");}
+     );*/
     res.send("");
 });
 
@@ -413,7 +412,7 @@ app.post('/_signUp', function (req, res, next) {
                     }
                     else {
                         var userId = req.session.passport.user;
-                        if (!masters.hasOwnProperty(userId)){
+                        if (!masters.hasOwnProperty(userId)) {
                             masters[userId] = {
                                 isDriver: false,
                                 isLoggedIn: true,
@@ -706,7 +705,7 @@ app.post('/loadData', function (req, res, next) {
 
 
 app.post('/changePage', function (req, res) {
-    if(!req.session.hasOwnProperty("userId"))
+    if (!req.session.hasOwnProperty("userId"))
         res.send("");
     else {
         var newPage = req.body.newPage;
@@ -724,12 +723,12 @@ app.post('/getTicket', function (req, res) {
     var store = req.body.store;
     var userId = req.session.userId;
 
-    var user = db.collection('grocery_queue').findOne({_id: ticketId}, function(err) {
+    var user = db.collection('grocery_queue').findOne({_id: ticketId}, function (err) {
         if (err)
             res.send(err);
     });
 
-    if(user) {
+    if (user) {
         masters[userId]["_driverList"].data = user;
 
     }
@@ -761,8 +760,8 @@ app.post('/getTicket', function (req, res) {
 
 
 //----------------------------------getTicket----------------------------------------------------------------
-app.post('/switchRole', function(req, res) {
-    if(masters.hasOwnProperty(userId) && masters[userId] != null) {
+app.post('/switchRole', function (req, res) {
+    if (masters.hasOwnProperty(userId) && masters[userId] != null) {
         var userId = req.session.userId;
         masters[userId].isDriver = req.body.isDriver;
         res.send();
@@ -777,21 +776,31 @@ app.post('/getUpdates', function (req, res, next) {
     var userId = req.session.userId;
     var notificationToSendBack = [];
     var lengthRecieve = req.body.notification;
-    if(masters.hasOwnProperty(userId) && masters[userId] != null ){
-        if(masters[userId].notification.length > lengthRecieve){
-            for (var i = lengthRecieve; i < masters[userId].notification.length; i++){
+    if (masters.hasOwnProperty(userId) && masters[userId] != null) {
+        if (masters[userId].notification.length > lengthRecieve) {
+            for (var i = lengthRecieve; i < masters[userId].notification.length; i++) {
                 notificationToSendBack.push(masters[userId].notification[i]);
             }
 
         }
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({
-            currentPage: masters[userId].currentPage,
-            ticketId: masters[userId].ticketId,
-            isLoggedIn: masters[userId].isLoggedIn,
-            isDriver: masters[userId].isDriver,
-            notification: notificationToSendBack
-        }));
+
+        if (req.body.isInactive) {
+            res.send(JSON.stringify({
+                isInactive: req.body.isInactive,
+                currentPage: masters[userId].currentPage,
+                ticketId: masters[userId].ticketId,
+                isLoggedIn: masters[userId].isLoggedIn,
+                isDriver: masters[userId].isDriver,
+                notification: notificationToSendBack
+            }));
+        } else {
+            res.send(JSON.stringify({
+                isInactive: req.body.isInactive,
+                notification: notificationToSendBack
+            }));
+
+        }
     }
     else {
         res.setHeader('Content-Type', 'application/json');
@@ -913,7 +922,7 @@ app.post('/_accSetting', function (req, res) {
     // if (!req.session.passport || !res.session.passport.user) {
     var userId = req.session.userId;
     var object = {};
-    
+
     if (userId == null) {
         res.status(420);
         console.log('ERROR IS HERE');
@@ -964,7 +973,7 @@ app.post('/_accSetting', function (req, res) {
     }
 
     else {
-        if(!req.body){
+        if (!req.body) {
             console.log('user didnt transfer');
             res.send();
             return '';
@@ -977,20 +986,22 @@ app.post('/_accSetting', function (req, res) {
         }
         // Update user document from users collection with the new info
         db.collection('users').updateOne({_id: userId},
-            {$set: {
-                full_name: userData.full_name,
-                email: userData.email,
-                phone_number: userData.phone,
-                "address.street": userData.street,
-                "address.city": userData.city,
-                "address.state": userData.state,
-                "address.zip": userData.zip
-            }},
+            {
+                $set: {
+                    full_name: userData.full_name,
+                    email: userData.email,
+                    phone_number: userData.phone,
+                    "address.street": userData.street,
+                    "address.city": userData.city,
+                    "address.state": userData.state,
+                    "address.zip": userData.zip
+                }
+            },
             function (err) {
                 if (err) return err;
             });
     }
-    
+
 });
 //TODO ------------------------------------------------------------------------------------------------------------------
 
@@ -1084,7 +1095,6 @@ app.post('/_accSetting', function (req, res) {
 //TODO -------------------------------------------------------------------------
 
 
-
 //------------------------------------------------------------checkout---------------------------------------------
 //may be update database in checkout,???
 app.post('/_checkout', function (req, res, next) {
@@ -1096,7 +1106,7 @@ app.post('/_checkout', function (req, res, next) {
     //     masters[userId]["_checkout"].data.special_options = req.body.notesTime.notes;
     //     masters[userId]["_checkout"].data.available_time_start = req.body.notesTime.range1;
     //     masters[userId]["_checkout"].data.available_time_end = req.body.notesTime.range2;
-    db.collection('users').findOne({_id: userId}, function(err, user) {
+    db.collection('users').findOne({_id: userId}, function (err, user) {
         // Model for grocery list
         if (err) {
             console.log('Err in _checkout: ' + err);
@@ -1285,9 +1295,8 @@ app.post('/_history', function (req, res, next) {
 });
 
 
-
 // ---------------------------- YOUR DELIVERIES -------------------------------
-app.post('_yourDeliveries', function(req, res) {
+app.post('_yourDeliveries', function (req, res) {
     var userId = req.session.userId;
 
     if (!userId) {
@@ -1345,7 +1354,7 @@ app.post('_yourDeliveries', function(req, res) {
 
 // ---------------------------- VIEW TICKET -------------------------------
 // Update status of ticket
-app.post('/_viewTicket', function(req, res) {
+app.post('/_viewTicket', function (req, res) {
     var userId = req.session.userId;
     var ticketId;
 
@@ -1354,7 +1363,7 @@ app.post('/_viewTicket', function(req, res) {
         res.status(500);
         res.send('');
     }
-    else if (!masters[userId].ticketId){
+    else if (!masters[userId].ticketId) {
         console.log('In _viewTicket: masters[userId].ticketId is null');
         res.status(500);
         res.send('');
@@ -1371,40 +1380,40 @@ app.post('/_viewTicket', function(req, res) {
                 $set: {
                     'grocery_list.$.state': 'accepted'
                 }
-            }, function(err, result) {
-                    // Get the user that we just modified
-                    db.collection('users').findOne({_id: userId}, function(err, user) {
-                        if (!user) {
-                            console.log('In _viewTicket: could not find user with corresponding ticketId: ' + ticketId);
+            }, function (err, result) {
+                // Get the user that we just modified
+                db.collection('users').findOne({_id: userId}, function (err, user) {
+                    if (!user) {
+                        console.log('In _viewTicket: could not find user with corresponding ticketId: ' + ticketId);
+                        res.status(500);
+                        res.send('');
+                        return;
+                    }
+
+                    db.collection('grocery_queue').remove({_id: ticketId}, function (err) {
+                        if (err) {
+                            console.log('In _viewTicket: could not remove ticket from queue: ' + ticketId);
                             res.status(500);
                             res.send('');
                             return;
                         }
 
-                        db.collection('grocery_queue').remove({_id: ticketId}, function(err) {
-                            if (err) {
-                                console.log('In _viewTicket: could not remove ticket from queue: ' + ticketId);
-                                res.status(500);
-                                res.send('');
-                                return;
+                        var list_of_items;
+                        console.log(user);
+                        for (var i = 0; i < user.shopping_list.length; i++) {
+                            if (user.shopping_list[i]._id === ticketId) {
+                                list_of_items = user.shopping_list[i].shopping_list;
+                                break;
                             }
-
-                            var list_of_items;
-                            console.log(user);
-                            for (var i = 0; i < user.shopping_list.length; i++) {
-                                if (user.shopping_list[i]._id === ticketId) {
-                                    list_of_items = user.shopping_list[i].shopping_list;
-                                    break;
-                                }
-                            }
-                            res.setHeader('Content-Type', 'application/json');
-                            res.send(JSON.stringify({
-                                id: ticketId,
-                                full_name: user.full_name,
-                                items: list_of_items
-                            }));
-                        });
+                        }
+                        res.setHeader('Content-Type', 'application/json');
+                        res.send(JSON.stringify({
+                            id: ticketId,
+                            full_name: user.full_name,
+                            items: list_of_items
+                        }));
                     });
+                });
             });
     }
 });
@@ -1414,7 +1423,7 @@ app.post('/_viewTicket', function(req, res) {
 
 // ---------------------------- TICKETS/QUEUE -------------------------------
 // Queue page
-app.post('/_tickets', function(req, res) {
+app.post('/_tickets', function (req, res) {
     var userId = req.session.userId;
 
     if (!userId) {
@@ -1423,8 +1432,8 @@ app.post('/_tickets', function(req, res) {
         res.send('');
     }
     else {
-        db.collection('grocery_queue').find().toArray(function(err, docs) {
-            if (err){
+        db.collection('grocery_queue').find().toArray(function (err, docs) {
+            if (err) {
                 console.log('Error in _tickets: ' + err);
                 res.status(500);
                 res.send('');
@@ -1438,33 +1447,29 @@ app.post('/_tickets', function(req, res) {
 // --------------------------------------------------------------------------
 
 
-
 //------------------------------ PAYMENT ------------------------------------
-app.get('/complete-payment', function(req, res) {
+app.get('/complete-payment', function (req, res) {
     var userId = req.query.user;
     //TODO: send to database masters[userId].ticket;
 
     //actually submit and redirect to fetchgrocery.com#_submitted
 });
 
-app.get('/cancel-payment', function(req, res) {
+app.get('/cancel-payment', function (req, res) {
     var userId = req.query.user;
     //actually submit and redirect to fetchgrocery.com#_cancelled
 });
 
 
-
-
 //---------------------------- Price and Receipt Photo ------------------------
-app.post('/_recievedPrice', function(req, res) {
+app.post('/_recievedPrice', function (req, res) {
 
 
 });
 
 
-
 //-------------------------- Contact -----------------------------------
-app.post('/_contact', function(req, res) {
+app.post('/_contact', function (req, res) {
     var Transport = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
@@ -1490,10 +1495,7 @@ app.post('/_contact', function(req, res) {
 });
 
 
-
-
-
-MongoClient.connect(mongodb_url, function(err, database) {
+MongoClient.connect(mongodb_url, function (err, database) {
     if (err)
         throw err;
     mongoose.connect(mongodb_url);
