@@ -37,7 +37,8 @@ var masters = {};
 
 function createNotification(userId, text, page, icon) {
     var onClick = "loader.closeNotification('" + page + "', this);";
-    masters[userId].notification.push('<div class="notification" data-changePage="true" onclick="' + onClick + '"><div class="icon"><i class="material-icons">'
+    
+    masters[userId].notification.push( '<div class="notification-inner" data-changePage="true" onclick="' + onClick + '"><div class="icon"><i class="material-icons">'
         + icon + '</i></div><div class="text">' + text + '</div></div>');
 }
 
