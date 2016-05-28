@@ -37,7 +37,8 @@ var masters = {};
 
 function createNotification(userId, text, page, icon) {
     var onClick = "loader.closeNotification('" + page + "', this);";
-    masters[userId].notification.push( '<div class="notification" data-changePage="true" onclick="' + onClick + '"><div class="icon"><i class="material-icons">'
+    
+    masters[userId].notification.push( '<div class="notification-inner" data-changePage="true" onclick="' + onClick + '"><div class="icon"><i class="material-icons">'
         + icon + '</i></div><div class="text">' + text + '</div></div>');
 }
 
@@ -673,7 +674,6 @@ var defaultO = {
 };
 
 
-
 //TODO -------------------------------------------------------------------------
 
 //------------------shopping route----------------------
@@ -1164,7 +1164,8 @@ app.post('/_checkout', function (req, res, next) {
             special_options: req.body.options.checkout_notes,
             available_time_start: req.body.options.checkout_range1,
             available_time_end: req.body.options.checkout_range2,
-            state: 'pending'
+            state: 'pending',
+            price: ''
         };
 
         // Check that empty list was not sent
@@ -1473,6 +1474,9 @@ app.get('/cancel-payment', function (req, res) {
 
 //---------------------------- Price and Receipt Photo ------------------------
 app.post('/_recievedPrice', function (req, res) {
+    //send price and receipt to the database
+    var price = req.body.price;
+    
 
 
 });
