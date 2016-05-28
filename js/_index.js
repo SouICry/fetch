@@ -78,6 +78,8 @@ $(document).ready(function (){
     $("#Butt").append("<div class='panel-divs'id='' onclick=goToPage('_congrats'); > <span class= 'glyphicon glyphicon-off'></span> Congrats </div>");
     $("#Butt").append("<div class='panel-divs'id='' onclick=goToPage('_payment'); > <span class= 'glyphicon glyphicon-off'></span> Payment </div>");
     $("#Butt").append("<div class='panel-divs'id='' onclick=goToPage('_viewTicket'); > <span class= 'glyphicon glyphicon-off'></span> View Ticket </div>");
+    $("#Butt").append("<div class='panel-divs'id='index-RateShopper' onclick=goToPage('_rateUser'); > <span class= 'glyphicon glyphicon-signal'></span> Rate Shopper </div>");
+    $("#Butt").append("<div class='panel-divs'id='index-RateDriver' onclick=goToPage('_rateDriver'); > <span class= 'glyphicon glyphicon-signal'></span> Rate Driver</div>");
 });
 
 function toggleShopper(){
@@ -90,7 +92,7 @@ function toggleShopper(){
     $("#Butt").append("<div class='panel-divs'id='index-History' onclick=goToPage('_history'); > <span class= ''></span> History </div>");
     $("#Butt").append("<div class='panel-divs'id='index-Setting' onclick=goToPage('_accSetting'); > <span class= 'glyphicon glyphicon-cog'></span> Setting</div>");
     $("#Butt").append("<div class='panel-divs'id='index-LogOut' onclick=goToPage('_homePage'); > <span class= 'glyphicon glyphicon-off'></span> Log Out </div>");
-    
+  
 
 
 
@@ -103,7 +105,8 @@ function toggleDriver(){
     $("#Butt").append("<div class='panel-divs' id='index-Home' onclick=goToPage('_homePage'); > <span class= 'glyphicon glyphicon-home'></span> Home </div>");
     $("#Butt").append("<div class='panel-divs'id='index-Deliveries' onclick=goToPage('_yourDeliveries'); > <span class= ''></span> Your Deliveries </div>");
     $("#Butt").append("<div class='panel-divs'id='index-Setting' onclick=goToPage('_accSetting'); > <span class= 'glyphicon glyphicon-cog'></span> Setting</div>");
-    $("#Butt").append("<div class='panel-divs'id='index-Rating' onclick=goToPage('_rating'); > <span class= 'glyphicon glyphicon-signal'></span> Rating </div>");
+   
+
     $("#Butt").append("<div class='panel-divs'id='index-LogOut' onclick=goToPage('_homePage'); > <span class= 'glyphicon glyphicon-off'></span> Log Out </div>");
 
 }
