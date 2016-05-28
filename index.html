@@ -93,7 +93,7 @@
 
     function createNotification(text, page, icon) {
         var onClick = "loader.closeNotification('" + page + "', this);";
-        return '<div class="notification" data-changePage="true" onclick="' + onClick + '"><div class="icon"><i class="material-icons">'
+        return '<div class="notification-inner" data-changePage="true" onclick="' + onClick + '"><div class="icon"><i class="material-icons">'
                 + icon + '</i></div><div class="text">' + text + '</div></div>';
     }
 
@@ -198,67 +198,31 @@
                 }
             });
         },
-        //Saves current active ticket (if any), then fetches new one and loads page data corresponding to ticket status in back end store
-//        sendData: function () { //Gets data from page and sends to server for update. Server will send back version num
-//            if (loader.currentPageObject.getData != null) {
-//                loader.currentPageObject.data = loader.currentPageObject.getData();
-//                $.ajax({
-//                    type: "POST",
-//                    contentType: "application/json",
-//                    dataType: "json",
-//                    url: "/sendData",
-//                    data: JSON.stringify({
-//                        name: loader.currentPage,
-//                        data: loader.currentPageObject.data,
-//                        version: loader.currentPageObject.version
-//                    }), success: function (resp) {
-//                        if (loader.currentPageObject.version < resp) {
-//                            loader.currentPageObject.version = resp;
-//                        }
-//                    }
-//                });
-//            }
-//        },
-//        loadData: function () { //Gets data from server to load page with
-//            if (loader.currentPageObject.loadData != null) {
-//                $.ajax({
-//                    type: "POST",
-//                    contentType: "application/json",
-//                    dataType: "json",
-//                    url: "/loadData",
-//                    data: JSON.stringify({
-//                        name: loader.currentPage,
-//                        version: loader.currentPageObject.version
-//                    }),
-//                    success: function (resp) {
-//                        if (resp != "none") {
-//                            loader.currentPageObject.data = resp.data;
-//                            loader.currentPageObject.version = resp.version;
-//                            loader.currentPageObject.loadData();
-//                        }
-//                    }
-//                });
-//            }
-//        },
+
         currentPageChanged: null,
         addNotification: function (notification) {
-            var e = $("#notifications");
-            $(e).append(notification);
+            var e = document.createElement('div');
+            e.className = "notification";
+            e.innerHTML = notification;
+            document.getElementById("notifications").appendChild(e);
             setTimeout(function () {
-                $(e).children().last().css("transform", "translateX(-400px)")
+                $(e).css("transform", "translateX(-400px)")
             }, 100);
             setTimeout(function () {
-                $(e).children().first().data("changepage", "false").trigger("click");
+                e.firstChild.dataset.changepage = "false";
+                $(e).children().trigger("click");
             }, 10000);
         },
 
         closeNotification: function (page, element) {
-            element.style.transform = "translateX(0)";
+
+            var p = element.parentNode;
+            p.style.transform = "translateX(0)";
             if (element.dataset.changepage == "true") {
                 goToPage(page);
             }
             setTimeout(function () {
-                element.parentNode.removeChild(element);
+                p.parentNode.removeChild(p);
             }, 600);
         },
         //set to run every second elsewhere
@@ -422,8 +386,6 @@
     });
 
     function pageInit() {
-        $('#notifications').html("");
-        alert();
         if (document.cookie.length > 5) {
             loader.userId = document.cookie.substring(5);
             $.ajax({
