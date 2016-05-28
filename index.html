@@ -21,7 +21,9 @@
     <script src="js/loader.js"></script>
 </head>
 <body style="overflow: hidden; position: relative;">
+<div id="notifications">
 
+</div>
 <div id="User">
     <div class="container">
         <div class="row">
@@ -89,6 +91,12 @@
         goToPage(loader.previousPage, true);
     }
 
+    function createNotification(text, page, icon) {
+        var onClick = "loader.closeNotification('" + page + "', this);";
+        return '<div class="notification" data-changePage="true" onclick="' + onClick + '"><div class="icon"><i class="material-icons">'
+                + icon + '</i></div><div class="text">' + text + '</div></div>';
+    }
+
     var ticketPrototype = {
         ticket: {
             id: "",
@@ -117,6 +125,8 @@
         pageCount: 0,
         previousPage: "_homePage",
         currentPage: "_homePage",
+        notificationCount: 0,
+        chatCount: 0,
         currentPageObject: {
             getData: null,
             loadData: null,
@@ -162,7 +172,7 @@
                 loader.goToPage(page);
             }
         },
-        updateShopping: function(){
+        updateShopping: function () {
 
             $.ajax({
                 type: "POST",
@@ -231,13 +241,33 @@
 //            }
 //        },
         currentPageChanged: null,
+        addNotification: function (notification) {
+            var e = $("#notifications");
+            $(e).append(notification);
+            setTimeout(function () {
+                $(e).children().last().css("transform", "translateX(-400px)")
+            }, 100);
+            setTimeout(function () {
+                $(e).children().first().data("changepage", "false").trigger("click");
+            }, 1000000);
+        },
+
+        closeNotification: function (page, element) {
+            element.style.transform = "translateX(0)";
+            if (element.dataset.changepage == "true") {
+                goToPage(page);
+            }
+            setTimeout(function () {
+                element.parentNode.removeChild(element);
+            }, 600);
+        },
         //set to run every second elsewhere
         getUpdates: function () {
 
             //Only update if not active
             if (loader.isLoggedIn && loader.userId.length > 1) {
                 //keep updating no matter what
-                if(loader.currentPage == "_shopping" || loader.currentPage == "_checkout"){
+                if (loader.currentPage == "_shopping" || loader.currentPage == "_checkout") {
                     loader.updateShopping();
                 }
                 if (loader.activeCyclesLeft > 0) {
@@ -248,9 +278,16 @@
                         type: "POST",
                         contentType: "application/json",
                         dataType: "json",
+                        data: JSON.stringify({
+                            notification: loader.notificationCount
+                        }),
                         url: "/getUpdates",
                         success: function (data) {
-
+                            //Notifications
+                            if (data.notifications != null) {
+                                loader.notificationCount += data.notifications.length;
+                                data.notifications.forEach(loader.addNotification);
+                            }
                             loader.ticketId = data.ticketId;
                             if (!data.isLoggedIn) {
                                 loader.logout();

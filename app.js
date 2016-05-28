@@ -33,6 +33,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname));
 
+var masters = {};
+
+function createNotification(userId, text, page, icon) {
+    var onClick = "loader.closeNotification('" + page + "', this);";
+    masters[userId].notifications.push( '<div class="notification" data-changePage="true" onclick="' + onClick + '"><div class="icon"><i class="material-icons">'
+        + icon + '</i></div><div class="text">' + text + '</div></div>');
+}
+
 
 app.post('/loadPage', function (req, res) {
     try {
@@ -661,7 +669,7 @@ var defaultO = {
 
 };
 
-var masters = {};
+
 
 //TODO -------------------------------------------------------------------------
 
@@ -705,6 +713,7 @@ app.post('/changePage', function (req, res) {
     if(!req.session.hasOwnProperty("userId"))
         res.send("");
     else {
+        createNotification(req.session.userId, "Change Page "+ newPage, "_homePage", "add_alert");
         var newPage = req.body.newPage;
         //save it to master current page field
         var userId = req.session.userId;
