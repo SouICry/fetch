@@ -273,21 +273,23 @@
                 if (loader.activeCyclesLeft > 0) {
                     loader.activeCyclesLeft--;
                 }
-                else {
-                    $.ajax({
-                        type: "POST",
-                        contentType: "application/json",
-                        dataType: "json",
-                        data: JSON.stringify({
-                            notification: loader.notificationCount
-                        }),
-                        url: "/getUpdates",
-                        success: function (data) {
-                            //Notifications
-                            if (data.notifications != null) {
-                                loader.notificationCount += data.notifications.length;
-                                data.notifications.forEach(loader.addNotification);
-                            }
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        isInactive: loader.activeCyclesLeft <= 0,
+                        notification: loader.notificationCount
+                    }),
+                    url: "/getUpdates",
+                    success: function (data) {
+                        //Notifications
+                        if (data.notification != null) {
+                            loader.notificationCount += data.notification.length;
+                            data.notification.forEach(loader.addNotification);
+                        }
+                        if (data.isInactive) {
                             loader.ticketId = data.ticketId;
                             if (!data.isLoggedIn) {
                                 loader.logout();
@@ -307,10 +309,11 @@
                             if (data.currentPage != loader.currentPage) {
                                 goToPage(data.currentPage)
                             }
-
                         }
-                    });
-                }
+
+                    }
+                });
+
             }
         },
         login: function (data) { //Called after successful login, passing the returned data

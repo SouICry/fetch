@@ -36,9 +36,11 @@ app.use(express.static(__dirname));
 var masters = {};
 
 function createNotification(userId, text, page, icon) {
+    console.log("notification created");
     var onClick = "loader.closeNotification('" + page + "', this);";
     masters[userId].notification.push( '<div class="notification" data-changePage="true" onclick="' + onClick + '"><div class="icon"><i class="material-icons">'
         + icon + '</i></div><div class="text">' + text + '</div></div>');
+    console.log(masters[userId].notification)
 }
 
 
@@ -717,8 +719,9 @@ app.post('/changePage', function (req, res) {
     if(!req.session.hasOwnProperty("userId"))
         res.send("");
     else {
-        createNotification(req.session.userId, "Change Page "+ newPage, "_homePage", "add_alert");
         var newPage = req.body.newPage;
+
+        createNotification(req.session.userId, "Change Page "+ newPage, "_homePage", "add_alert");
         //save it to master current page field
         var userId = req.session.userId;
         masters[userId].currentPage = newPage;
@@ -791,6 +794,7 @@ app.post('/getUpdates', function (req, res, next) {
             for (var i = lengthRecieve; i < masters[userId].notification.length; i++){
                 notificationToSendBack.push(masters[userId].notification[i]);
             }
+            console.log("notifications sent");
 
         }
         res.setHeader('Content-Type', 'application/json');
