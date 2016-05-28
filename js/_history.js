@@ -1,7 +1,7 @@
 (function () {
     loader._history = {
         data:
-            [{name: "wholeFoods", time: "12:00 pm", id: "222", state: "pending"},
+            [/*{name: "wholeFoods", time: "12:00 pm", id: "222", state: "pending"},
             {name: "ralphs", time: "1:00 pm", id: "333", state: "pending"},
             {name: "tjs", time: "2:00 pm", id: "555", state: "pending"},
             {name: "wholeFoods", time: "12:00 pm", id: "123", state: "accepted"},
@@ -14,15 +14,31 @@
             {name: "tjs", time: "7:00 pm", id: "525", state: "delivered"},
             {name: "ralphs", time: "8:00 pm", id: "532", state: "delivered"},
             {name: "vons", time: "9:00 pm", id: "864", state: "delivered"},
-            {name: "vons", time: "10:00 pm", id: "864", state: "draft"}],
+            {name: "vons", time: "10:00 pm", id: "864", state: "draft"}*/],
         version: 0,
+        onPageLoad: function() {
+            $.ajax({
+                type: "POST",
+                url: "/_history",
+                contentType: "application/json",
+                dataType: "json",
+                data: null,
+                success: function (data) {
+                    //data is the object sent back on success (could also just be string)
+                    loader._history.loadData(data);
+                },
+                error: function (data) {
+                    //data is the object send back on fail (could also just be string)
+                }
+            });
+        },
         loadData: function (data) {
             $("#yourOrders_pending_tickets").empty();
             $("#yourOrders_accepted_tickets").empty();
             $("#yourOrders_shopped_tickets").empty();
             $("#yourOrders_delivered_tickets").empty();
 
-            if (data == "none" || data.length == 0) {
+            if (data == "none" || data.user_history.length == 0 || data.pending_lists.length == 0) {
                 $("#yourOrders_pending_tickets").append('<li id="ticket_not" class = "ticket"' +
                     '>No deliveries</li>');
                 $("#yourOrders_accepted_tickets").append('<li id="ticket_not" class = "ticket"' +
@@ -34,28 +50,43 @@
                 return;
             }
 
-            var tickets = [];
-            tickets = data;
-
+            var tickets = data;
             var pending_tickets  = [];
             var accepted_tickets = [];
             var shopped_tickets = [];
             var delivered_tickets = [];
             var extra = [];
 
-            for (var i = 0; i < tickets.length; i++) {
+            for (var i = 0; i < tickets.user_history.length; i++) {
+                if (tickets.user_history[i].state == 'pending') {
+                    pending_tickets.push(tickets.user_history[i]);
+                }
+                else if (tickets.user_history[i].state == 'accepted') {
+                    accepted_tickets.push(tickets.user_history[i]);
+                }
+                else if (tickets.user_history[i].state == 'shopped') {
+                    shopped_tickets.push(tickets.user_history[i]);
+                }
+                else if (tickets.user_history[i].state == 'delivered') {
+                    delivered_tickets.push(tickets.user_history[i]);
+                }
+                else {
+                    extra.push(tickets[i]);
+                }
+            }
 
-                if (tickets[i].state == 'pending') {
-                    pending_tickets.push(tickets[i]);
+            for (var i = 0; i < tickets.pending_list.length; i++) {
+                if (tickets.pending_list[i].state == 'pending') {
+                    pending_tickets.push(tickets.pending_list[i]);
                 }
-                else if (tickets[i].state == 'accepted') {
-                    accepted_tickets.push(tickets[i]);
+                else if (tickets.pending_list[i].state == 'accepted') {
+                    accepted_tickets.push(tickets.pending_list[i]);
                 }
-                else if (tickets[i].state == 'shopped') {
-                    shopped_tickets.push(tickets[i]);
+                else if (tickets.pending_list[i].state == 'shopped') {
+                    shopped_tickets.push(tickets.pending_list[i]);
                 }
-                else if (tickets[i].state == 'delivered') {
-                    delivered_tickets.push(tickets[i]);
+                else if (tickets.pending_list[i].state == 'delivered') {
+                    delivered_tickets.push(tickets.pending_list[i]);
                 }
                 else {
                     extra.push(tickets[i]);
@@ -134,6 +165,21 @@
             alert($(this).data("id"));
             loader.getTicket($(this).data("id"), $(this).data("state"))
         });
+    });
+
+    $.ajax({
+        type: "POST",
+        url: "/_history",
+        contentType: "application/json",
+        dataType: "json",
+        data: null,
+        success: function (data) {
+            //data is the object sent back on success (could also just be string)
+            loader._history.loadData(data);
+        },
+        error: function (data) {
+            //data is the object send back on fail (could also just be string)
+        }
     });
 })();
 

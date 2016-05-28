@@ -23,7 +23,7 @@
                 // $('input[name="specialnotes"]:checked', '#checkout_notes').val(data.checkout_notes);
                 // $("#checkout_time1").val(data.checkout_range1);
                 // $("#checkout_time2").val(data.checkout_range2);
-          
+
                 //NEEDED FOR SYNC
                 $('input[name="specialnotes"]:checked', '#checkout_notes').val(data.checkout_notes);
                 document.getElementById(data.checkout_id).click();
@@ -90,7 +90,7 @@
                     //data is the object send back on fail (could also just be string)
                 }
             });
-            goToPage("_pendingPayment");
+            //goToPage("_pendingPayment");
 
         }
         else {
