@@ -25,7 +25,6 @@
             return selected;
         },
         loadData: function (data) {
-
             $("#tickets_content").empty();
 
             $("#tickets_content").append('<li id="ticket_not" class = "ticket"' +

@@ -101,7 +101,7 @@ var userSchema = new mongoose.Schema(
 // Hash password prior to saving user to db
 userSchema.pre('save', function (next) {
     var user = this;
-    var SALT_FACTOR = 15;
+    var SALT_FACTOR = 8;
 
     if (!user.isModified('password')) return next();
 

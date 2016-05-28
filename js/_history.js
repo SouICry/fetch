@@ -106,29 +106,29 @@
             var ticket;
             for (var i = 0; i < pending_tickets.length; i++) {
                 ticket = pending_tickets[i];
-                $("#yourOrders_pending_tickets").append('<li  data-id="' + ticket.id + '" class = "yourOrders1 ' + ticket.name + ' ticket" ' + ' ><div  >'
-                    + toName(ticket.name) + ' <br> Estimate Deliver Time: ' + ticket.time +
+                $("#yourOrders_pending_tickets").append('<li  data-id="' + ticket._id + '" class = "yourOrders1 ' + ticket.full_name + ' ticket" ' + ' ><div  >'
+                    + toName(ticket.full_name) + ' <br> Estimate Deliver Time: ' + ticket.time_created +
                     '</div></li>');
             }
 
             for (var i = 0; i < accepted_tickets.length; i++) {
                 ticket = accepted_tickets[i];
-                $("#yourOrders_accepted_tickets").append('<li  data-id="' + ticket.id + '" class = "yourOrders1 ' + ticket.name + ' ticket" ' + ' ><div  >'
-                    + toName(ticket.name) + ' <br> Estimate Deliver Time: ' + ticket.time +
+                $("#yourOrders_accepted_tickets").append('<li  data-id="' + ticket._id + '" class = "yourOrders1 ' + ticket.full_name + ' ticket" ' + ' ><div  >'
+                    + toName(ticket.full_name) + ' <br> Estimate Deliver Time: ' + ticket.time_created +
                     '</div></li>');
             }
 
             for (var i = 0; i < shopped_tickets.length; i++) {
                 ticket = shopped_tickets[i];
-                $("#yourOrders_shopped_tickets").append('<li  data-id="' + ticket.id + '" class = "yourOrders1 ' + ticket.name + ' ticket" ' + ' ><div  >'
-                    + toName(ticket.name) + ' <br> Estimate Deliver Time: ' + ticket.time +
+                $("#yourOrders_shopped_tickets").append('<li  data-id="' + ticket._id + '" class = "yourOrders1 ' + ticket.full_name + ' ticket" ' + ' ><div  >'
+                    + toName(ticket.full_name) + ' <br> Estimate Deliver Time: ' + ticket.time_created +
                     '</div></li>');
             }
 
             for (var i = 0; i < delivered_tickets.length; i++) {
                 ticket = delivered_tickets[i];
-                $("#yourOrders_delivered_tickets").append('<li  data-id="' + ticket.id + '" class = "yourOrders1 ' + ticket.name + ' ticket" ' + ' ><div  >'
-                    + toName(ticket.name) + ' <br> Estimate Deliver Time: ' + ticket.time +
+                $("#yourOrders_delivered_tickets").append('<li  data-id="' + ticket._id + '" class = "yourOrders1 ' + ticket.full_name + ' ticket" ' + ' ><div  >'
+                    + toName(ticket.full_name) + ' <br> Estimate Deliver Time: ' + ticket.time_created +
                     '</div></li>');
             }
 
@@ -155,9 +155,7 @@
                     loader.getTicket($(this).data("id"), $(this).data("state"))
                 });
             });
-
         }
-
     };
 
     $('li.yourOrders1').each(function () {
