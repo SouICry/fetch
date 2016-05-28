@@ -25,16 +25,13 @@
             return selected;
         },
         loadData: function (data) {
-
             $("#tickets_content").empty();
 
-            $("#tickets_content").append('<li id="ticket_not" class = "ticket"' +
-                '>No tickets available</li>');
-
-            $("#ticket_not").hide();
+            $("#ticket_not").remove();
 
             if (data == null || data.length == 0) {
-                $("#ticket_not").show();
+                $("#tickets_content").append('<li id="ticket_not" class = "ticket"' +
+                    '>No tickets available</li>');
                 var ticket_no_data = true;
             }
 
@@ -104,17 +101,19 @@
                         }
                     }
 
+                    alert("checking to show");
                     if (noTickets == true || ticket_no_data) {
-                        $("#ticket_not").show();
+                        $("#tickets_content").append('<li id="ticket_not" class = "ticket"' +
+                            '>No tickets available</li>');
                     }
                     else {
-                        $("#ticket_not").hide();
+                        $("#ticket_not").remove();
                     }
                 });
             });
         }
     };
-
+    
     var selected = {
         ralphs: true,
         wholeFoods: true,
