@@ -418,6 +418,8 @@ app.post('/_signUp', function (req, res, next) {
                                 isDriver: false,
                                 isLoggedIn: true,
                                 userId: userId,
+                                notification: [],
+                                chat: [],
                                 shoppingVersion: 0,
                                 checkoutVersion: 0,
                                 currentPage: ""
@@ -484,6 +486,8 @@ app.post('/_login', function (req, res, next) {
                     isDriver: false,
                     isLoggedIn: true,
                     userId: userId,
+                    notification: [],
+                    chat: [],
                     shoppingVersion: 0,
                     checkoutVersion: 0,
                     currentPage: ""
@@ -771,15 +775,22 @@ app.post('/getUpdates', function (req, res, next) {
     // var object = {};
     //send back JSON object to update current Page once the user is login on another device
     var userId = req.session.userId;
+    var notificationToSendBack = [];
+    var lengthRecieve = req.body.notification;
+    if(masters.hasOwnProperty(userId) && masters[userId] != null ){
+        if(masters[userId].notification.length > lengthRecieve){
+            for (var i = lengthRecieve; i < masters[userId].notification.length; i++){
+                notificationToSendBack.push(masters[userId].notification[i]);
+            }
 
-    if(masters.hasOwnProperty(userId) && masters[userId] != null){
-
+        }
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify({
             currentPage: masters[userId].currentPage,
             ticketId: masters[userId].ticketId,
             isLoggedIn: masters[userId].isLoggedIn,
-            isDriver: masters[userId].isDriver
+            isDriver: masters[userId].isDriver,
+            notification: notificationToSendBack
         }));
     }
     else {
@@ -802,6 +813,8 @@ app.post('/init', function (req, res) {
             isDriver: false,
             isLoggedIn: true,
             userId: userId,
+            notification: [],
+            chat: [],
             shoppingVersion: 0,
             checkoutVersion: 0,
             currentPage: "_homePage"
