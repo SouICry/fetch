@@ -249,7 +249,7 @@
             }, 100);
             setTimeout(function () {
                 $(e).children().first().data("changepage", "false").trigger("click");
-            }, 1000000);
+            }, 10000);
         },
 
         closeNotification: function (page, element) {
@@ -404,7 +404,7 @@
     //loader.currentPageChanged = _.throttle(loader.sendData, 501);
 
 
-    $("document").ready(function () {
+    $(document).ready(function () {
         $(document).on('click mousemove focus keypress', loader.setActive);
 
         pageInit();
@@ -422,7 +422,8 @@
     });
 
     function pageInit() {
-
+        $('#notifications').html("");
+        alert();
         if (document.cookie.length > 5) {
             loader.userId = document.cookie.substring(5);
             $.ajax({
