@@ -550,7 +550,7 @@ app.post('/_passwordRecovery', function (req, res, next) {
 
     async.waterfall([
         function (done) {
-            crypto.randomBytes(20, function (err, buf) {
+            crypto.randomBytes(6, function (err, buf) {
                 var token = buf.toString('hex');
                 done(err, token);
             });
@@ -564,7 +564,7 @@ app.post('/_passwordRecovery', function (req, res, next) {
                 }
 
                 user.resetPasswordToken = token;
-                user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+
 
                 user.save(function (err) {
                     done(err, token, user);
@@ -1476,8 +1476,17 @@ app.get('/cancel-payment', function (req, res) {
 app.post('/_recievedPrice', function (req, res) {
     //send price and receipt to the database
     var price = req.body.price;
-    
-
+    var ticketId = req.body.ticket;
+    db.collection('users').updateOne({'grocery_list._id': ticketId},
+        {
+            $set: {
+                price: price
+            }
+        },
+        function (err) {
+            if (err) return err;
+        }
+    );
 
 });
 
