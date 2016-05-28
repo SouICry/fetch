@@ -900,59 +900,54 @@ app.post('/_accSetting', function (req, res) {
     // if (!req.session.passport || !res.session.passport.user) {
     var userId = req.session.userId;
     var object = {};
-    if (!req.session.userId) {
-        res.status(500);
+    
+    if (userId == null) {
+        res.status(420);
+        console.log('ERROR IS HERE');
+        console.log(userId)
         res.setHeader('Content-Type', 'application/json');
         res.send({message: 'no user logged in'});
     }
 
     else if (req.body.type === "loadAccSetting") {
         console.log('LOADING ACCOUNT');
-        MongoClient.connect(mongodb_url, function (err, db) {
-            if (err) {
-                console.log('Error in accSetting: ' + err);
-                res.status(500);
-                res.send({message: 'cannot connect to database'});
-            }
-            else {
-                db.collection('users').findOne({_id: userId},
-                    function (err, user) {
-                        if (err) {
-                            console.log('Error in accSetting: ' + err);
-                            res.status(500);
-                            res.setHeader('Content-Type', 'application/json');
-                            res.send({message: 'cannot access collection to find user '})
-                            return;
-                        }
-                        //console.log('user = ' + JSON.stringify(user));
-                        if (!user) {
-                            console.log('Could not find user with userId ' + userId + ' in _accSetting');
-                            res.status(500);
-                            res.send('');
-                            return;
-                        }
-                        if (!user.full_name) {
-                            console.log('Could not find users fullname in _accSetting');
-                            res.status(500);
-                            res.send('');
-                            return;
-                        }
-                        else {
-                            console.log(JSON.stringify(user));
-                            object.full_name = user.full_name;
-                            object.email = user.email;
-                            object.phone = user.phone_number;
-                            object.street = user.address.street;
-                            object.city = user.address.city;
-                            object.state = user.address.state;
-                            object.zip = user.address.zip;
+        db.collection('users').findOne({_id: userId},
+            function (err, user) {
+                if (err) {
+                    console.log('Error in accSetting: ' + err);
+                    res.status(500);
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send({message: 'cannot access collection to find user '})
+                    return;
+                }
+                //console.log('user = ' + JSON.stringify(user));
+                if (user == null) {
+                    console.log('Could not find user with userId ' + userId + ' in _accSetting');
+                    console.log(JSON.stringify(user));
+                    res.status(500);
+                    res.send('');
+                    return;
+                }
+                if (user.full_name == null) {
+                    console.log('Could not find users fullname in _accSetting');
+                    res.status(500);
+                    res.send('');
+                    return;
+                }
+                else {
+                    console.log(JSON.stringify(user));
+                    object.full_name = user.full_name;
+                    object.email = user.email;
+                    object.phone = user.phone_number;
+                    object.street = user.address.street;
+                    object.city = user.address.city;
+                    object.state = user.address.state;
+                    object.zip = user.address.zip;
 
-                            res.setHeader('Content-Type', 'application/json');
-                            res.send(JSON.stringify(object));
-                        }
-                    });
-            }
-        });
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send(JSON.stringify(object));
+                }
+            });
     }
 
     else {
@@ -968,29 +963,21 @@ app.post('/_accSetting', function (req, res) {
             return '';
         }
         // Update user document from users collection with the new info
-        MongoClient.connect(mongodb_url, function (err, db) {
-            if (err) {
-                console.log('Error: ' + err);
-                res.send(err);
-            }
-            else {
-                db.collection('users').updateOne({_id: userId},
-                    {$set: {
-                            full_name: userData.full_name,
-                            email: userData.email,
-                            phone_number: userData.phone,
-                            "address.street": userData.street,
-                            "address.city": userData.city,
-                            "address.state": userData.state,
-                            "address.zip": userData.zip
-                    }},
-                    function (err) {
-                        if (err) return err;
-                    });
-            }
-        });
-
+        db.collection('users').updateOne({_id: userId},
+            {$set: {
+                full_name: userData.full_name,
+                email: userData.email,
+                phone_number: userData.phone,
+                "address.street": userData.street,
+                "address.city": userData.city,
+                "address.state": userData.state,
+                "address.zip": userData.zip
+            }},
+            function (err) {
+                if (err) return err;
+            });
     }
+    
 });
 //TODO ------------------------------------------------------------------------------------------------------------------
 
@@ -1445,6 +1432,47 @@ app.get('/cancel-payment', function(req, res) {
     var userId = req.query.user;
     //actually submit and redirect to fetchgrocery.com#_cancelled
 });
+
+
+
+
+//---------------------------- Price and Receipt Photo ------------------------
+app.post('/_recievedPrice', function(req, res) {
+
+
+});
+
+
+
+//-------------------------- Contact -----------------------------------
+app.post('/_contact', function(req, res) {
+    var Transport = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: 'fetchtestuser',
+            pass: 'insanelycreatives'
+        }
+    });
+    var mailOptions = {
+        to: 'allen@fetchgrocery.com',
+        from: 'fetchtestuser@gmail.com',
+        subject: 'User Contact from ' + req.body.email + ', ' + req.body.name,
+        text: req.body.comment
+    };
+    console.log('Sending Mail');
+    Transport.sendMail(mailOptions, function (err, info) {
+        if (err) {
+            console.log('Error occurred');
+            console.log(err.message);
+            res.status(500);
+            return;
+        }
+    });
+});
+
+
+
+
 
 MongoClient.connect(mongodb_url, function(err, database) {
     if (err)

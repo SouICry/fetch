@@ -10,14 +10,14 @@
         getData: function () {
             return {
                 full_name: $("#accsetting_full_name").val(),
-                email : $("#accsetting_email").val(),
+                email: $("#accsetting_email").val(),
                 phone: $("#accsetting_phone").val(),
                 street: $("#accsetting_street").val(),
                 city: $("#accsetting_city").val(),
                 state: $("#accsetting_state").val(),
                 zip: $("#accsetting_zip").val()
 
-        };
+            };
         },
         loadData: function (data) {
             if (!data) {
@@ -31,6 +31,9 @@
             $("#accsetting_city").val(data.city);
             $("#accsetting_state").val(data.state);
             $("#accsetting_zip").val(data.zip);
+        },
+        onPageLoad: function(data) {
+            loadAccountData();
         }
     };
 
@@ -112,17 +115,10 @@
     });
 })();
 
-loadAccountData();
+//loadAccountData();
 function sendAccountData() {
 
-    var info_to_send = {};
-    info_to_send.full_name = $('#accsetting_full_name').val();
-    info_to_send.email = $('#accsetting_email').val();
-    info_to_send.phone = $('#accsetting_phone').val();
-    info_to_send.street = $('#accsetting_street').val();
-    info_to_send.city = $('#accsetting_city').val();
-    info_to_send.state = $('#accsetting_state').val();
-    info_to_send.zip = $('#accsetting_zip').val();
+    var info_to_send = loader._accSetting.getData();
     info_to_send.type = "send";
 
     //Simulation (alert or console.log to check for yourself)
@@ -144,7 +140,7 @@ function sendAccountData() {
         }
     });
 }
-    
+
 function loadAccountData() {
     $.ajax({
         type: "POST",
