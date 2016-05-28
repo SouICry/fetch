@@ -19,54 +19,41 @@
     <script src="js/underscore.js"></script>
     <script src="js/loader.js"></script>
 </head>
-<style>
-    * {
-        box-sizing: border-box;
-    }
 
-    #notifications {
-        position: fixed;
-        z-index: 2000;
-        top: 0;
-        right: 0;
-        width: 400px;
-        max-width: 100vw;
-        pointer-events: none;
-    }
 
-    .notification {
-        background-color: darkorange;
-        pointer-events: auto;
-        float: right;
-        margin: 10px 10px 0 10px;
-        width: calc(100% - 20px);
-        min-height: 80px;
-        vertical-align: center;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .notification .text {
-        position: absolute;
-        width: calc(100% - 120px);
-        top: 50%;
-        left: calc(50% + 40px);
-        transform: translate(-50%, -50%)
-    }
-    .notification .icon {
-        width: 80px;
-        height: 80px;
-    }
-</style>
-<i class="material-icons">add_alert</i>
 <body style="height: 100%;">
 <div id="notifications">
-    <div class="notification">
-        <div class="icon"></div>
-        <div class="text">
-             This is a notification This is a notification This is a notification This is a notification
-        </div>
-    </div>
+
 </div>
 </body>
 </html>
+
+<script>
+    function addNotification(notification) {
+        var e = $("#notifications");
+        $(e).append(notification);
+        setTimeout(function () {
+            $(e).children().last().css("transform", "translateX(-400px)")
+        }, 100);
+        setTimeout(function(){
+            $(e).children().first().data("changePage", "false").trigger("click");
+        }, 10000);
+    }
+
+    function closeNotification(page, element) {
+        element.style.transform = "translateX(0)";
+
+        setTimeout(function () {
+            element.parentNode.removeChild(element);
+        }, 600);
+        if (element.dataset.changePage == "true") {
+            goToPage(page);
+        }
+    }
+
+    function createNotification(text, page, icon) {
+        var onClick = "closeNotification('" + page + "', this);";
+        return '<div class="notification" data-changePage="true" onclick="' + onClick + '"><div class="icon"><i class="material-icons">'
+                + icon + '</i></div><div class="text">' + text + '</div></div>';
+    }
+</script>
