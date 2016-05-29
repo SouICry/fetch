@@ -1,14 +1,14 @@
 (function () {
     loader._viewTicket = {
-        data: /*{full_name: "Jen", items:["green eggs", "ham"], id: 3054}*/'',
+        data: null,
         version: 0,
         getData: null,
         loadData: function (data) {
+            ticketId = data._id;
             //populate driver list
             $("#listName").text(" ");
             $("ul").empty();
             $("#_viewTicket_numItems").text(" ");
-            alert(JSON.stringify(data));
             var array = data.shopping_list;
             var separatedNames = data.shopper.full_name;
 
@@ -42,6 +42,8 @@
         }
     };
 
+    var ticketId = null;
+
     $('#_viewTicket_submit_list').click(function () {
         goToPage("_yourDeliveries");
         assholes39();
@@ -50,6 +52,7 @@
     function assholes39() {
         var info_to_send = {};
         info_to_send.id = $('#user-name').data('id');
+        info_to_send.ticketId = ticketId;
         info_to_send.type = "get";
 
         //Actual
