@@ -1367,21 +1367,19 @@ app.post('_yourDeliveries', function (req, res) {
 // Update status of ticket
 app.post('/_viewTicket', function (req, res) {
     var userId = req.session.userId;
-    var ticketId;
+    var ticketId = req.body.ticketId;
 
     if (!userId) {
         console.log('In _viewTicket: userId is null');
         res.status(500);
         res.send('');
     }
-    else if (!masters[userId].ticketId) {
+    else if (!ticketId) {
         console.log('In _viewTicket: masters[userId].ticketId is null');
         res.status(500);
         res.send('');
     }
     else {
-        ticketId = masters[userId].ticketId;
-
         db.collection('users').update(
             {
                 _id: userId,
@@ -1409,20 +1407,22 @@ app.post('/_viewTicket', function (req, res) {
                             return;
                         }
 
-                        var list_of_items;
-                        console.log(user);
-                        for (var i = 0; i < user.shopping_list.length; i++) {
-                            if (user.shopping_list[i]._id === ticketId) {
-                                list_of_items = user.shopping_list[i].shopping_list;
-                                break;
-                            }
-                        }
-                        res.setHeader('Content-Type', 'application/json');
-                        res.send(JSON.stringify({
-                            id: ticketId,
-                            full_name: user.full_name,
-                            items: list_of_items
-                        }));
+                        console.log('Removed ticket with id: ' + ticketId);
+
+                        // var list_of_items;
+                        // //console.log(user);
+                        // for (var i = 0; i < user.shopping_list.length; i++) {
+                        //     if (user.shopping_list[i]._id === ticketId) {
+                        //         list_of_items = user.shopping_list[i].shopping_list;
+                        //         break;
+                        //     }
+                        // }
+                        // res.setHeader('Content-Type', 'application/json');
+                        // res.send(JSON.stringify({
+                        //     id: ticketId,
+                        //     full_name: user.full_name,
+                        //     items: list_of_items
+                        // }));
                     });
                 });
             });
