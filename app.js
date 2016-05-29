@@ -1307,7 +1307,7 @@ app.post('/_history', function (req, res, next) {
 
 
 // ---------------------------- YOUR DELIVERIES -------------------------------
-app.post('_yourDeliveries', function (req, res) {
+app.post('/_yourDeliveries', function (req, res) {
     var userId = req.session.userId;
 
     if (!userId) {
