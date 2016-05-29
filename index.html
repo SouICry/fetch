@@ -29,31 +29,7 @@
 
 </div>
 <div id="chats">
-    <div class="chat">
-        <div class="chat-head">
-            <div class="chat-profile"><span class="glyphicon medium glyphicon-user"></span></div>
-            <div class="chat-name"> name</div>
-            <div class="chat-close" onclick="loader.closeChat(this.parentNode.parentNode);"><span class="glyphicon medium glyphicon-remove"></span></div>
-        </div>
-        <div class="window">
-            <div class="ours">
-                <div>asdfasdf</div>
-            </div>
 
-            <div class="theirs">
-                <div>asdfasdf</div>
-            </div>
-            <div class="ours">
-                <div>asdfasdf</div>
-            </div>
-        </div>
-        <div class="input">
-            <div class="photo"><span class="glyphicon medium glyphicon-picture"></span></div>
-            <form class="chatForm" data-userid="  id  ">
-                <input autocomplete="off" name="message" type="text" id="enter_price" placeholder="Enter a message...">
-            </form>
-        </div>
-    </div>
 </div>
 <div id="User">
     <div class="container">
@@ -167,24 +143,28 @@
             }
             var e = document.createElement('div');
             e.className = "chat";
+            var min = 'onclick="loader.minimizeChat(this.parentNode.parentNode);"';
             var onClick = "loader.closeChat(this.parentNode.parentNode);";
-            e.innerHTML = '<div class="chat-head">' +
-                    '<div class="chat-profile">' + '<span class="glyphicon medium glyphicon-user"></span>' + '</div>' +
-                    '<div class="chat-name">' + name + '</div>' +
+            e.innerHTML = '<div class="chat-head"  data-closed="false" >' +
+                    '<div class="chat-profile" '+min+'>' + '<span class="glyphicon medium glyphicon-user"></span>' + '</div>' +
+                    '<div class="chat-name" '+min+'>' + name + '</div>' +
                     '<div class="chat-close" onclick="'+ onClick+'"><span class="glyphicon medium glyphicon-remove"></span></div></div>' +
                     '<div class="window"></div>' +
                     '<div class="input">' +
                     '<div class="photo"><span class="glyphicon medium glyphicon-picture"></span></div>' +
-                    '<form class="chatForm"  data-userid="' + id + '">' +
+                    '<form class="chatForm" id="chatForm' + id +'"  data-userid="' + id + '">' +
                     '<input autocomplete="off" name="message" type="text" id="enter_price" placeholder="Enter a message...">' +
                     '</form></div>';
 
-            $(e).find('.chatForm').submit(function () {
+            $(e).find('.chatForm').submit(function (event) {
                 event.preventDefault();
+
                 var input = $(this).find('input');
                 var message = $(input).val();
                 if (message.length > 0) {
+
                     var parent = $(this).parent();
+                    $(parent).parent().find('.window').append('<div class="ours"><div>' +message +'</div></div>');
                     console.log({
                         userIdToChat: $(this).data('userid'),
                         message: message
@@ -199,12 +179,18 @@
                             message: message
                         })
                     });
-                    $(parent).find(".window").append("<div>" + message + "</div>");
+                    var w = $(parent).find(".window");
+                    w.append("<div>" + message + "</div>");
+                    $(w).scrollTop(20000);
                     $(input).val("");
                 }
+                return false;
             });
             $('#chats').append(e);
 
+        },
+        minimizeChat: function(parent){
+            $(parent).toggleClass("min");
         },
         closeChat: function (parent) {
             var id = $(parent).find('.chatForm').data('userid');
@@ -502,7 +488,7 @@
                         loader.ticketId = data.ticketId;
                         if (window.location.hash.length > 5) {
                             //submit or cancel ticket
-                            goToPage(window.location.hash);
+                            goToPage(window.location.hash.substring(1));
                             window.location.hash = "";
                         }
                         else {

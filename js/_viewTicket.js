@@ -65,7 +65,7 @@
                     //loader._viewTicket.loadData(data);
                 },
                 error: function (data) {
-                    alert("fail");
+                    console.log("view ticket failed");
                     //data is the object send back on fail (could also just be string)
                 }
             }

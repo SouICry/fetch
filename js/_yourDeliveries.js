@@ -153,7 +153,7 @@
                     loader._yourDeliveries.loadData(data);
                 },
                 error: function (data) {
-                    alert("fail");
+                    console.log("your deliveries fail")
                     //data is the object send back on fail (could also just be string)
                 }
             }

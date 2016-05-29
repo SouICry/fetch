@@ -1472,60 +1472,61 @@ app.post('/_tickets', function (req, res) {
 app.get('/complete-payment', function (req, res) {
     var userId = req.query.user;
     //TODO: send to database masters[userId].ticket;
-    var userId = req.session.userId;
+    //var userId = req.session.userId;
 
-    
-    var gticket = masters[userId].ticket;
-    // Check that empty list was not sent
-    if (gticket.shopping_list.length === 0) {
-        console.log('Grocery ticket submitted has no items');
-        res.status(500);
-        res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({message: 'Submitted empty list'}));
-        return;
-    }
+    //
+    // var gticket = masters[userId].ticket;
+    // // Check that empty list was not sent
+    // if (gticket.shopping_list.length === 0) {
+    //     console.log('Grocery ticket submitted has no items');
+    //     res.status(500);
+    //     res.setHeader('Content-Type', 'application/json');
+    //     res.send(JSON.stringify({message: 'Submitted empty list'}));
+    //     return;
+    // }
+    //
+    // // Check that user is logged in
+    // if (!req.session.passport || !req.session.passport.user) {
+    //     console.log('user is not logged in');
+    //     res.status(500);
+    //     res.setHeader('Content-Type', 'application/json');
+    //     res.send({message: 'user is not logged in'});
+    // }
+    // else {
+    //     // Update user to hold grocery list submitted
+    //     db.collection('users').updateOne({_id: req.session.passport.user}, {$push: {grocery_list: gticket}},
+    //         function (err) {
+    //             if (err) {
+    //                 console.log('error updating user grocery list');
+    //                 res.status(500);
+    //                 res.setHeader('Content-Type', 'application/json');
+    //                 res.send(err);
+    //                 return;
+    //             }
+    //
+    //             // If grocery list successfully added to user's grocery list, add list to queue
+    //             db.collection('grocery_queue').insert(gticket, function (err) {
+    //                 if (err) {
+    //                     console.log('error adding list to queue: ' + err);
+    //                     res.status(500);
+    //                     res.setHeader('Content-Type', 'application/json');
+    //                     res.send(err);
+    //                 }
+    //             });
+    //             res.setHeader('Content-Type', 'application/json');
+    //             res.send("Successful");
+    //         }
+    //     );
+    // }
 
-    // Check that user is logged in
-    if (!req.session.passport || !req.session.passport.user) {
-        console.log('user is not logged in');
-        res.status(500);
-        res.setHeader('Content-Type', 'application/json');
-        res.send({message: 'user is not logged in'});
-    }
-    else {
-        // Update user to hold grocery list submitted
-        db.collection('users').updateOne({_id: req.session.passport.user}, {$push: {grocery_list: gticket}},
-            function (err) {
-                if (err) {
-                    console.log('error updating user grocery list');
-                    res.status(500);
-                    res.setHeader('Content-Type', 'application/json');
-                    res.send(err);
-                    return;
-                }
-
-                // If grocery list successfully added to user's grocery list, add list to queue
-                db.collection('grocery_queue').insert(gticket, function (err) {
-                    if (err) {
-                        console.log('error adding list to queue: ' + err);
-                        res.status(500);
-                        res.setHeader('Content-Type', 'application/json');
-                        res.send(err);
-                    }
-                });
-                res.setHeader('Content-Type', 'application/json');
-                res.send("Successful");
-            }
-        );
-    }
-
-    //actually submit and redirect to fetchgrocery.com#_submitted
+    console.log("submitted");
+    console.log(userId);
+    res.redirect('/submittedRedirect.html');
 });
 
 app.get('/cancel-payment', function (req, res) {
     var userId = req.query.user;
-    //actually submit and redirect to fetchgrocery.com#_cancelled
-    res.redirect('/homePage');
+    res.redirect('/cancelRedirect.html');
 });
 
 
@@ -1545,6 +1546,25 @@ app.post('/_receiptPictureEnterPrice', function (req, res) {
             if (err) return err;
         }
     );
+
+    var img = (req.body.image);
+    var data = img.replace(/^data:image\/\w+;base64,/, "");
+
+    var buf = new Buffer(data, 'base64');
+    //noinspection JSUnresolvedFunction
+    if(req.session.userId === 'undefined')
+        fs.writeFile('images/receipts/image.png', buf);
+    else
+        fs.writeFile('images/receipts/' + ticketId + '.png', buf);
+
+    console.log("Photo Saved: " + data.substring(0,10));
+    /*fs.writeFile("images/profiles/" + req.session.userId + ".png", req.body.image,"base64", function (err, data ) {
+     if (err) {
+     return console.log("Error");
+     }
+     console.log("Photo saved. Success!");}
+     );*/
+    res.send("");
 
 });
 

@@ -16,7 +16,9 @@
                 0, beforeTake); //0 front cam, 1 back cam if available
         },
         onPageLeave: function(){
-            disableCamera(vid);
+            disableCamera(vid,
+                document.getElementById("takeButton1"),
+                document.getElementById("redoButton1"));
         }
     };
 
@@ -25,7 +27,9 @@
 
     $('#uploadButton1').click(function(){
         uploadFromCanvas();
-        disableCamera(vid);
+        disableCamera(vid,
+            document.getElementById("takeButton1"),
+            document.getElementById("redoButton1"));
         goToPage("_signUp");
     });
 
