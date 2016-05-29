@@ -1,0 +1,59 @@
+#chats {
+  position: fixed;
+  z-index: 2000;
+  bottom: 0;
+  right: 0;
+  height: 400px;
+  max-height: 100vh;
+  pointer-events: none;
+  .chat {
+    width: 300px;
+    height: 100%;
+    overflow: hidden;
+    margin: 0 10px 0 0;
+    cursor: pointer;
+    background-color: orange;
+    pointer-events: auto;
+    float: right;
+  }
+  .chat-head {
+    height: 40px;
+    width: 100%;
+    .chat-name {
+      float: left;
+      height: 40px;
+      width: 260px;
+      line-height: 40px;
+      font-size: 32px;
+    }
+    .chat-close {
+      float: left;
+      width: 40px;
+      height: 40px;
+    }
+  }
+  .window {
+    height: 320px;
+    width: 100%;
+  }
+  .input {
+    height: 40px;
+    width: 300px;
+    .photo {
+      float: left;
+      width: 40px;
+      height: 40px;
+    }
+    .chatForm {
+      float: left;
+      width: 260px;
+      input {
+
+        width: 240px;
+        margin: 0 10px;
+        height: 100%;
+      }
+    }
+  }
+}
+

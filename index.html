@@ -24,6 +24,9 @@
 <div id="notifications">
 
 </div>
+<div id="chats">
+
+</div>
 <div id="User">
     <div class="container">
         <div class="row">
@@ -87,6 +90,7 @@
             }
         }
     }
+
     function goToPreviousPage() {
         goToPage(loader.previousPage, true);
     }
@@ -117,6 +121,7 @@
             checkoff: []
         }
     };
+
     var loader = {
         activeCyclesLeft: 20,
         isDriver: false,
@@ -127,6 +132,56 @@
         currentPage: "_homePage",
         notificationCount: 0,
         chatCount: 0,
+        chat: {
+            //id: length
+        },
+        openChat: function (id, name) {
+            if (!loader.chat.hasOwnProperty(id)) {
+                loader.chat.id = 0;
+            }
+            var e = document.createElement('div');
+            e.className = "chat";
+            e.innerHTML =  '<div class="chat-head"> ' +
+                    '<div class="chat-name">' + name +' </div> ' +
+                    '<div class="chat-close"> </div> </div> ' +
+                    '<div class="window"></div> ' +
+                    '<div class="input"> ' +
+                    '<div class="photo"> </div> ' +
+                    '<form class="chatForm"  data-userid="' + id + '"> ' +
+                    '<input name="message" type="text" id="enter_price" placeholder="Enter a message..."> ' +
+                    '</form> </div>';
+            $(e).find('.chatForm').submit(function () {
+                event.preventDefault();
+                var input = $(this).find('input');
+                var message = $(input).val();
+                if (message.length > 0) {
+                    var parent = $(this).parent();
+                    console.log({
+                        userIdToChat: $(this).data('userid'),
+                        message: message
+                    });
+                    $.ajax({
+                        type: "POST",
+                        url: "/chat",
+                        contentType: "application/json",
+                        dataType: "json",
+                        data: JSON.stringify({
+                            userIdToChat: $(this).data('userid'),
+                            message: message
+                        })
+                    });
+                    $(parent).find(".window").append("<div>" + message + "</div>");
+                    $(input).val("");
+                }
+            });
+            $('#chats').append(e);
+
+        },
+        closeChat: function (id) {
+            if (loader.chat.hasOwnProperty(id)) {
+                delete loader.chat[id];
+            }
+        },
         currentPageObject: {
             getData: null,
             loadData: null,
