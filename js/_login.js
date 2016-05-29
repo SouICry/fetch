@@ -43,7 +43,7 @@
                     //alert('data after login: ' + data.full_name);
                 },
                 error: function (data) {
-                    alert("fail");
+                    console.log("login failed");
                     //data is the object send back on fail (could also just be string)
                 }
             }
