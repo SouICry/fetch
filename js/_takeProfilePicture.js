@@ -27,7 +27,9 @@
 
     $('#uploadButton1').click(function(){
         uploadFromCanvas();
-        disableCamera(vid);
+        disableCamera(vid,
+            document.getElementById("takeButton1"),
+            document.getElementById("redoButton1"));
         goToPage("_signUp");
     });
 
