@@ -1274,7 +1274,7 @@ app.post('_homePage', function (req, res, next) {
 //-----------------------------------------------------DRIVER LIST -----------------------------------------
 app.post('/_driverList', function (req, res, next) {
     var object = {};
-    var userId = req.session.userId;
+    var ticketId = req.session.ticketId;
 
     if (userId) {
         object.notes = masters[userId]["_checkout"].data.special_options;
@@ -1283,11 +1283,30 @@ app.post('/_driverList', function (req, res, next) {
         object.contact = masters[userId].phone;
         res.send(object);
 
-        //TODO maybe get from database or from session
-    }
+        db.collection('users').findOne({_id: userId}, function(err, user) {
+            if (err) {
+                console.log('Error in _driverList: ' + err);
+                res.status(500);
+                res.send('');
+                return;
+            }
 
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify({message: 'Fail, not login'}));
+            if (!user) {
+                console.log('Error cannot find user in _driverList with id: ' + userId);
+                res.status(500);
+                res.send('');
+            }
+            else {
+                // TODO: checkoff items in grocery list
+            }
+        });
+        
+        
+        
+        res.setHeader('Content-Type', 'application/json');
+
+    }
+    res.send('Fail');
 });
 
 
@@ -1321,29 +1340,6 @@ app.post('/_history', function (req, res, next) {
                 res.send('');
             }
             else {
-                // var i;
-                // var shopping_hist = doc.user_history;
-                // var pending_shopping_list = doc.grocery_list;
-                // var user_data = [];
-                //
-                // for (i = 0; i < shopping_hist.length; i++) {
-                //     user_data.push({
-                //         id: shopping_hist[i]._id,
-                //         name: shopping_hist[i].store_name,
-                //         time: shopping_hist[i].time_created,
-                //         state: 'delivered'              // TODO: need to update status on database
-                //     });
-                // }
-                //
-                // for (; i < pending_shopping_list.length; i++) {
-                //     user_data.push({
-                //         id: pending_shopping_list[i]._id,
-                //         name: pending_shopping_list[i].store_name,
-                //         time: pending_shopping_list[i].time_created,
-                //         state: 'pending'
-                //     });
-                // }
-
                 res.setHeader('Content-Type', 'application/json');
                 res.send(JSON.stringify({
                     user_history: doc.user_history,
@@ -1377,27 +1373,6 @@ app.post('/_yourDeliveries', function (req, res) {
                 res.send('');
             }
             else {
-                // var i;
-                // var delivery_history = doc.delivery_history;
-                // var pending_delivery_list = doc.delivery_list;
-                // var user_data = [];
-                //
-                // for (i = 0; i < delivery_history.length; i++) {
-                //     user_data.push({
-                //         id: delivery_history[i]._id,
-                //         name: delivery_history[i].store_name,
-                //         time: delivery_history[i].time_created,
-                //         state: 'delivered'
-                //     });
-                // }
-                // for (; i < pending_delivery_list.length; i++) {
-                //     user_data.push({
-                //         id: pending_delivery_list[i]._id,
-                //         name: pending_delivery_list[i].store_name,
-                //         time: pending_delivery_list[i].time_created,
-                //         state: 'pending'
-                //     });
-                // }
                 console.log('Sending data back to _yourDeliveries.js');
                 res.setHeader('Content-Type', 'application/json');
                 res.send(JSON.stringify({
@@ -1456,25 +1431,11 @@ app.post('/_viewTicket', function (req, res) {
                             return;
                         }
 
-                        console.log('Removed ticket with id: ' + ticketId);
-
-                        // var list_of_items;
-                        // //console.log(user);
-                        // for (var i = 0; i < user.shopping_list.length; i++) {
-                        //     if (user.shopping_list[i]._id === ticketId) {
-                        //         list_of_items = user.shopping_list[i].shopping_list;
-                        //         break;
-                        //     }
-                        // }
-                        // res.setHeader('Content-Type', 'application/json');
-                        // res.send(JSON.stringify({
-                        //     id: ticketId,
-                        //     full_name: user.full_name,
-                        //     items: list_of_items
-                        // }));
+                        console.log('Successfully removed ticket from queue with id: ' + ticketId);
                     });
                 });
-            });
+            }
+        );
     }
 });
 

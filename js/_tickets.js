@@ -85,6 +85,7 @@
                     }
 
                     $('.store.selected').each(function () {
+                        
                         selected[$(this).data("name")] = true;
                     });
 
