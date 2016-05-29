@@ -3,6 +3,7 @@
  */
 (function() {
     loader._receiptPictureEnterPrice = {
+<<<<<<< HEAD
         // onPageLoad: function(){
             // function beforeTake() {
             //     canvas.height = vid.offsetHeight;
@@ -13,6 +14,20 @@
             //     document.getElementById("redoReceiptButton1"),
             //     document.getElementById('uploadReceipt1'),
             //     0, beforeTake); //0 front cam, 1 back cam if available
+=======
+        getData: null,
+        loadData: null,
+        onPageLoad: function(){
+            function beforeTake() {
+                canvas.height = vid.offsetHeight;
+                canvas.width = canvas.height;
+            }
+            enableCameraImage(vid, canvas,
+                document.getElementById("takeReceiptButton1"),
+                document.getElementById("redoReceiptButton1"),
+                document.getElementById('uploadReceipt1'),
+                0, beforeTake); //0 front cam, 1 back cam if available
+>>>>>>> c54c5be5d28154f67f30ad904b953b46466d16d5
 
 
         // },
@@ -34,7 +49,11 @@
     $('#uploadReceiptButton1').prop('disabled', true);
 
     $('#uploadReceiptButton1').click(function(){
+<<<<<<< HEAD
         // disableCamera(vid);
+=======
+        disableCamera(vid);
+>>>>>>> c54c5be5d28154f67f30ad904b953b46466d16d5
         uploadFromCanvas();
         goToPage("_congrats_driver_finish_shopping");
     });
@@ -45,10 +64,15 @@
     // }
 
     function uploadFromCanvas(){
+        var data_to_send = {
+            image: canvas.toDataURL("image/png"),
+            price: $("enter_price").val,
+            ticket: loader.ticketId
+        }
         $.ajax({
             type: "POST",
             url: "/savePhoto",
-            data: canvas.toDataURL("image/png"),
+            data: data_to_send,
             success: function(){
                 alert("uploader");
             }

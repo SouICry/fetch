@@ -25,17 +25,61 @@
 <div id="notifications">
 
 </div>
+<div id="chats">
+    <div class="chat" data-userId="123">
+        <div class="chat-head">
+            <div class="chat-name">
+
+            </div>
+            <div class="chat-close">
+
+            </div>
+        </div>
+        <div class="window"></div>
+        <div class="input">
+            <div class="photo">
+
+            </div>
+            <form class="chatForm">
+                <input name="message" type="text" id="enter_price" placeholder="Enter a message...">
+            </form>
+        </div>
+    </div>
+</div>
 </body>
 </html>
 
 <script>
+    $(document).ready(function () {
+        $('.chatForm').submit(function () {
+            event.preventDefault();
+            if (message.length > 0) {
+                var parent = $(this).parent();
+                var id = $(parent).data('userId');
+                $.ajax({
+                    type: "POST",
+                    url: "/chat",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        userIdToChat: id,
+                        message: message
+                    })
+                });
+                $(parent).find(".window").append("<div>" + message + "</div>");
+                $(this).val("");
+            }
+
+        });
+    });
+
     function addNotification(notification) {
         var e = $("#notifications");
         $(e).append(notification);
         setTimeout(function () {
             $(e).children().last().css("transform", "translateX(-400px)")
         }, 100);
-        setTimeout(function(){
+        setTimeout(function () {
             $(e).children().first().data("changePage", "false").trigger("click");
         }, 10000);
     }
@@ -53,7 +97,7 @@
 
     function createNotification(userId, text, page, icon) {
         var onClick = "loader.closeNotification('" + page + "', this);";
-        masters[userId].notifications.push( '<div class="notification" data-changePage="true" onclick="' + onClick + '"><div class="icon"><i class="material-icons">'
+        masters[userId].notifications.push('<div class="notification" data-changePage="true" onclick="' + onClick + '"><div class="icon"><i class="material-icons">'
                 + icon + '</i></div><div class="text">' + text + '</div></div>');
     }
 </script>

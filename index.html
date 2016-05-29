@@ -24,6 +24,33 @@
 <div id="notifications">
 
 </div>
+<div id="chats">
+    <div class="chat">
+        <div class="chat-head">
+            <div class="chat-profile"><span class="glyphicon medium glyphicon-user"></span></div>
+            <div class="chat-name"> name</div>
+            <div class="chat-close"><span class="glyphicon medium glyphicon-remove"></span></div>
+        </div>
+        <div class="window">
+            <div class="ours">
+                <div>asdfasdf</div>
+            </div>
+
+            <div class="theirs">
+                <div>asdfasdf</div>
+            </div>
+            <div class="ours">
+                <div>asdfasdf</div>
+            </div>
+        </div>
+        <div class="input">
+            <div class="photo"><span class="glyphicon medium glyphicon-picture"></span></div>
+            <form class="chatForm" data-userid="  id  ">
+                <input autocomplete="off" name="message" type="text" id="enter_price" placeholder="Enter a message...">
+            </form>
+        </div>
+    </div>
+</div>
 <div id="User">
     <div class="container">
         <div class="row">
@@ -87,6 +114,7 @@
             }
         }
     }
+
     function goToPreviousPage() {
         goToPage(loader.previousPage, true);
     }
@@ -117,6 +145,7 @@
             checkoff: []
         }
     };
+
     var loader = {
         activeCyclesLeft: 20,
         isDriver: false,
@@ -127,6 +156,56 @@
         currentPage: "_homePage",
         notificationCount: 0,
         chatCount: 0,
+        chat: {},
+        openChat: function (id, name) {
+            if (!loader.chat.hasOwnProperty(id)) {
+                loader.chat[id] = 0;
+            }
+            var e = document.createElement('div');
+            e.className = "chat";
+            e.innerHTML = '<div class="chat-head">' +
+                    '<div class="chat-profile">' + '<span class="glyphicon medium glyphicon-user"></span>' + '</div>' +
+                    '<div class="chat-name">' + name + '</div>' +
+                    '<div class="chat-close"><span class="glyphicon medium glyphicon-remove"></span></div></div>' +
+                    '<div class="window"></div>' +
+                    '<div class="input">' +
+                    '<div class="photo"><span class="glyphicon medium glyphicon-picture"></span></div>' +
+                    '<form class="chatForm"  data-userid="' + id + '">' +
+                    '<input autocomplete="off" name="message" type="text" id="enter_price" placeholder="Enter a message...">' +
+                    '</form></div>';
+
+            $(e).find('.chatForm').submit(function () {
+                event.preventDefault();
+                var input = $(this).find('input');
+                var message = $(input).val();
+                if (message.length > 0) {
+                    var parent = $(this).parent();
+                    console.log({
+                        userIdToChat: $(this).data('userid'),
+                        message: message
+                    });
+                    $.ajax({
+                        type: "POST",
+                        url: "/chat",
+                        contentType: "application/json",
+                        dataType: "json",
+                        data: JSON.stringify({
+                            userIdToChat: $(this).data('userid'),
+                            message: message
+                        })
+                    });
+                    $(parent).find(".window").append("<div>" + message + "</div>");
+                    $(input).val("");
+                }
+            });
+            $('#chats').append(e);
+
+        },
+        closeChat: function (id) {
+            if (loader.chat.hasOwnProperty(id)) {
+                delete loader.chat[id];
+            }
+        },
         currentPageObject: {
             getData: null,
             loadData: null,

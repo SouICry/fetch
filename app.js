@@ -37,6 +37,7 @@ var masters = {};
 
 function createNotification(userId, text, page, icon) {
     var onClick = "loader.closeNotification('" + page + "', this);";
+    
     masters[userId].notification.push( '<div class="notification-inner" data-changePage="true" onclick="' + onClick + '"><div class="icon"><i class="material-icons">'
         + icon + '</i></div><div class="text">' + text + '</div></div>');
 }
@@ -101,7 +102,7 @@ var userSchema = new mongoose.Schema(
 // Hash password prior to saving user to db
 userSchema.pre('save', function (next) {
     var user = this;
-    var SALT_FACTOR = 15;
+    var SALT_FACTOR = 8;
 
     if (!user.isModified('password')) return next();
 
@@ -549,7 +550,7 @@ app.post('/_passwordRecovery', function (req, res, next) {
 
     async.waterfall([
         function (done) {
-            crypto.randomBytes(20, function (err, buf) {
+            crypto.randomBytes(6, function (err, buf) {
                 var token = buf.toString('hex');
                 done(err, token);
             });
@@ -563,7 +564,7 @@ app.post('/_passwordRecovery', function (req, res, next) {
                 }
 
                 user.resetPasswordToken = token;
-                user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+
 
                 user.save(function (err) {
                     done(err, token, user);
@@ -671,7 +672,6 @@ var defaultO = {
     currentPage: ""
 
 };
-
 
 
 //TODO -------------------------------------------------------------------------
@@ -1164,7 +1164,8 @@ app.post('/_checkout', function (req, res, next) {
             special_options: req.body.options.checkout_notes,
             available_time_start: req.body.options.checkout_range1,
             available_time_end: req.body.options.checkout_range2,
-            state: 'pending'
+            state: 'pending',
+            price: ''
         };
 
         // Check that empty list was not sent
@@ -1306,7 +1307,7 @@ app.post('/_history', function (req, res, next) {
 
 
 // ---------------------------- YOUR DELIVERIES -------------------------------
-app.post('_yourDeliveries', function (req, res) {
+app.post('/_yourDeliveries', function (req, res) {
     var userId = req.session.userId;
 
     if (!userId) {
@@ -1366,21 +1367,19 @@ app.post('_yourDeliveries', function (req, res) {
 // Update status of ticket
 app.post('/_viewTicket', function (req, res) {
     var userId = req.session.userId;
-    var ticketId;
+    var ticketId = req.body.ticketId;
 
     if (!userId) {
         console.log('In _viewTicket: userId is null');
         res.status(500);
         res.send('');
     }
-    else if (!masters[userId].ticketId) {
+    else if (!ticketId) {
         console.log('In _viewTicket: masters[userId].ticketId is null');
         res.status(500);
         res.send('');
     }
     else {
-        ticketId = masters[userId].ticketId;
-
         db.collection('users').update(
             {
                 _id: userId,
@@ -1408,20 +1407,22 @@ app.post('/_viewTicket', function (req, res) {
                             return;
                         }
 
-                        var list_of_items;
-                        console.log(user);
-                        for (var i = 0; i < user.shopping_list.length; i++) {
-                            if (user.shopping_list[i]._id === ticketId) {
-                                list_of_items = user.shopping_list[i].shopping_list;
-                                break;
-                            }
-                        }
-                        res.setHeader('Content-Type', 'application/json');
-                        res.send(JSON.stringify({
-                            id: ticketId,
-                            full_name: user.full_name,
-                            items: list_of_items
-                        }));
+                        console.log('Removed ticket with id: ' + ticketId);
+
+                        // var list_of_items;
+                        // //console.log(user);
+                        // for (var i = 0; i < user.shopping_list.length; i++) {
+                        //     if (user.shopping_list[i]._id === ticketId) {
+                        //         list_of_items = user.shopping_list[i].shopping_list;
+                        //         break;
+                        //     }
+                        // }
+                        // res.setHeader('Content-Type', 'application/json');
+                        // res.send(JSON.stringify({
+                        //     id: ticketId,
+                        //     full_name: user.full_name,
+                        //     items: list_of_items
+                        // }));
                     });
                 });
             });
@@ -1473,7 +1474,20 @@ app.get('/cancel-payment', function (req, res) {
 
 //---------------------------- Price and Receipt Photo ------------------------
 app.post('/_recievedPrice', function (req, res) {
-
+    //send price and receipt to the database
+    var price = req.body.price;
+    var ticketId = req.body.ticket;
+    //update shopper's grocery list
+    db.collection('users').updateOne({'grocery_list._id': ticketId},
+        {
+            $set: {
+                price: price
+            }
+        },
+        function (err) {
+            if (err) return err;
+        }
+    );
 
 });
 
