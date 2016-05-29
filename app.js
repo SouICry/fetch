@@ -427,7 +427,9 @@ app.post('/_signUp', function (req, res, next) {
                                 isLoggedIn: true,
                                 userId: userId,
                                 notification: [],
-                                chat: [],
+                                chat: {
+                                    messages: []
+                                },
                                 shoppingVersion: 0,
                                 checkoutVersion: 0,
                                 currentPage: ""
@@ -495,7 +497,9 @@ app.post('/_login', function (req, res, next) {
                     isLoggedIn: true,
                     userId: userId,
                     notification: [],
-                    chat: [],
+                    chat: {
+                        messages: []
+                    },
                     shoppingVersion: 0,
                     checkoutVersion: 0,
                     currentPage: ""
@@ -778,23 +782,73 @@ app.post('/switchRole', function (req, res) {
     }
 });
 
+
+app.post('/chat', function(req,res){
+    var userId = req.session.userId;
+
+    if(!masters[userId].chat.hasOwnProperty(req.body.userIdToChat)) {
+        masters[userId].chat[req.body.userIdToChat] = {
+            messages: []
+        };
+        masters[userId].chat[req.body.userIdToChat].messages.push(req.body.message);
+    }
+    
+    if (!masters.hasOwnProperty(req.body.userIdToChat)) {
+        masters[req.body.userIdToChat] = {
+            isDriver: false,
+            isLoggedIn: true,
+            userId: req.body.userIdToChat,
+            notification: [],
+            chat: {
+                messages: []
+            },
+            shoppingVersion: 0,
+            checkoutVersion: 0,
+            currentPage: "_homePage"
+        };
+        if(!masters[req.body.userIdToChat].chat.hasOwnProperty(userId)){
+            masters[req.body.userIdToChat].chat[userId] = {
+                messages: []
+            };
+            masters[req.body.userIdToChat].chat[userId].messages.push(req.body.message);
+        }
+    }
+    else{
+        masters[userId].chat[req.body.userIdToChat].messages.push(req.body.message);
+        masters[req.body.userIdToChat].chat[userId].messages.push(req.body.message);
+    }
+
+    res.send("");
+});
+
 //----------------------------------getUpdate--------------------------------------------------------------------------
 //run every second
 app.post('/getUpdates', function (req, res, next) {
     // var object = {};
     //send back JSON object to update current Page once the user is login on another device
     var userId = req.session.userId;
+    var chatToSendBack = [];
     var notificationToSendBack = [];
     var lengthRecieve = req.body.notification;
     if (masters.hasOwnProperty(userId) && masters[userId] != null) {
+
+        // //send chat
+        // if (masters[userId].chat[req.body.userIdToChat].length > req.body.count){
+        //     console.log(masters[userId].chat[req.body.userIdToChat].length);
+        //     chatToSendBack = masters[userId].chat[req.body.userIdToChat];
+        // }
+
+        //send notification back if masters has new notification
         if (masters[userId].notification.length > lengthRecieve) {
             for (var i = lengthRecieve; i < masters[userId].notification.length; i++) {
                 notificationToSendBack.push(masters[userId].notification[i]);
             }
 
         }
+
         res.setHeader('Content-Type', 'application/json');
 
+        //send all to update when inactive
         if (req.body.isInactive) {
             res.send(JSON.stringify({
                 isInactive: req.body.isInactive,
@@ -803,11 +857,19 @@ app.post('/getUpdates', function (req, res, next) {
                 isLoggedIn: masters[userId].isLoggedIn,
                 isDriver: masters[userId].isDriver,
                 notification: notificationToSendBack
+                // chat: {
+                //     chatMessages: chatToSendBack,
+                //     count: masters[userId].chat[req.body.userIdToChat].length
+                // }
             }));
         } else {
             res.send(JSON.stringify({
                 isInactive: req.body.isInactive,
                 notification: notificationToSendBack
+                // chat: {
+                //     chatMessages: chatToSendBack,
+                //     count: masters[userId].chat[req.body.userIdToChat].length
+                // }
             }));
 
         }
@@ -833,7 +895,9 @@ app.post('/init', function (req, res) {
             isLoggedIn: true,
             userId: userId,
             notification: [],
-            chat: [],
+            chat: {
+                messages: []
+            },
             shoppingVersion: 0,
             checkoutVersion: 0,
             currentPage: "_homePage"
@@ -1110,12 +1174,7 @@ app.post('/_accSetting', function (req, res) {
 app.post('/_checkout', function (req, res, next) {
     var date = new Date();
     var userId = req.session.userId;
-
-    // if (req.body.notesTime) {
-    //     masters[userId]["_checkout"].data.list_id = req.body.notesTime.id;
-    //     masters[userId]["_checkout"].data.special_options = req.body.notesTime.notes;
-    //     masters[userId]["_checkout"].data.available_time_start = req.body.notesTime.range1;
-    //     masters[userId]["_checkout"].data.available_time_end = req.body.notesTime.range2;
+     
     db.collection('users').findOne({_id: userId}, function (err, user) {
         // Model for grocery list
         if (err) {
@@ -1167,53 +1226,11 @@ app.post('/_checkout', function (req, res, next) {
             state: 'pending',
             price: ''
         };
-
-        // Check that empty list was not sent
-        if (gticket.shopping_list.length === 0) {
-            console.log('Grocery ticket submitted has no items');
-            res.status(500);
-            res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify({message: 'Submitted empty list'}));
-            return;
-        }
-
-        // Check that user is logged in
-        if (!req.session.passport || !req.session.passport.user) {
-            console.log('user is not logged in');
-            res.status(500);
-            res.setHeader('Content-Type', 'application/json');
-            res.send({message: 'user is not logged in'});
-        }
-        else {
-            // Update user to hold grocery list submitted
-            db.collection('users').updateOne({_id: req.session.passport.user}, {$push: {grocery_list: gticket}},
-                function (err) {
-                    if (err) {
-                        console.log('error updating user grocery list');
-                        res.status(500);
-                        res.setHeader('Content-Type', 'application/json');
-                        res.send(err);
-                        return;
-                    }
-
-                    // If grocery list successfully added to user's grocery list, add list to queue
-                    db.collection('grocery_queue').insert(gticket, function (err) {
-                        if (err) {
-                            console.log('error adding list to queue: ' + err);
-                            res.status(500);
-                            res.setHeader('Content-Type', 'application/json');
-                            res.send(err);
-                        }
-                    });
-                    res.setHeader('Content-Type', 'application/json');
-                    res.send("Successful");
-                }
-            );
-        }
+        masters[userId].ticket = gticket;
+        res.setHeader('Content-Type', 'application/json');
+        res.send("Successful");
     });
 
-    // }
-    //res.send("Fail");
 });
 //TODO -------------------------------------------------------------------------
 
@@ -1462,6 +1479,52 @@ app.post('/_tickets', function (req, res) {
 app.get('/complete-payment', function (req, res) {
     var userId = req.query.user;
     //TODO: send to database masters[userId].ticket;
+    var userId = req.session.userId;
+
+    
+    var gticket = masters[userId].ticket;
+    // Check that empty list was not sent
+    if (gticket.shopping_list.length === 0) {
+        console.log('Grocery ticket submitted has no items');
+        res.status(500);
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({message: 'Submitted empty list'}));
+        return;
+    }
+
+    // Check that user is logged in
+    if (!req.session.passport || !req.session.passport.user) {
+        console.log('user is not logged in');
+        res.status(500);
+        res.setHeader('Content-Type', 'application/json');
+        res.send({message: 'user is not logged in'});
+    }
+    else {
+        // Update user to hold grocery list submitted
+        db.collection('users').updateOne({_id: req.session.passport.user}, {$push: {grocery_list: gticket}},
+            function (err) {
+                if (err) {
+                    console.log('error updating user grocery list');
+                    res.status(500);
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send(err);
+                    return;
+                }
+
+                // If grocery list successfully added to user's grocery list, add list to queue
+                db.collection('grocery_queue').insert(gticket, function (err) {
+                    if (err) {
+                        console.log('error adding list to queue: ' + err);
+                        res.status(500);
+                        res.setHeader('Content-Type', 'application/json');
+                        res.send(err);
+                    }
+                });
+                res.setHeader('Content-Type', 'application/json');
+                res.send("Successful");
+            }
+        );
+    }
 
     //actually submit and redirect to fetchgrocery.com#_submitted
 });
@@ -1469,6 +1532,7 @@ app.get('/complete-payment', function (req, res) {
 app.get('/cancel-payment', function (req, res) {
     var userId = req.query.user;
     //actually submit and redirect to fetchgrocery.com#_cancelled
+    res.redirect('/homePage');
 });
 
 
