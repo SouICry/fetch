@@ -14,7 +14,7 @@ var videoSelect = document.getElementById('videoSource');
 
 navigator.getUserMedia = navigator.getUserMedia ||
     navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-
+//console.log(navigator.getUserMedia);
 function gotSources(sourceInfos) {
     for (var i = 0; i !== sourceInfos.length; ++i) {
         var sourceInfo = sourceInfos[i];
@@ -37,7 +37,7 @@ function enableCamera(vid, canvas, takeButton, redoButton, source, onTakePic) {
         typeof MediaStreamTrack.getSources === 'undefined') {
         alert('Your browser doesnt support using the camera :( Try uploading or use Chrome instead');
     } else {
-        MediaStreamTrack.getSources(gotSources);
+        navigator.mediaDevices.enumerateDevices(gotSources)//MediaStreamTrack.getSources(gotSources);
     }
 
     takeButton.style.display = "block";
@@ -53,32 +53,48 @@ function enableCamera(vid, canvas, takeButton, redoButton, source, onTakePic) {
     var constraints = {
         video: {
             optional: [{
-                sourceId: videoSource
+                sourceId: ""//videoSource
             }]
         }
     };
-
+    //console.log("Enable con: ");
+    //console.log(constraints);
     function successCallback(stream) {
         canvas.style.display = "none";
         vid.style.display = "block";
+        //console.log("Video On");
+        //console.log(stream);
+        //console.log(constraints);
         takeButton.style.display = "block";
         redoButton.style.display = "none";
+        
+        if(window.stream){
+            window.stream.getTracks().forEach(function (track) {
+                //console.log("Track " + track + " Camera has been stopped")
+                track.stop();
+            });
+            window.stream = null;
+        }
+        
         window.stream = stream; // make stream available to console
         vid.src = window.URL.createObjectURL(stream);
         vid.play();
+
     }
 
     function errorCallback(error) {
         console.log('navigator.getUserMedia error: ', error);
         alert('Something went wrong with the camera :( Try uploading or use Chrome instead');
     }
-
+    //console.log("Enable is alive");
+    //navigator.mediaDevices.getUserMedia(constraints).then(successCallback(s)).catch(errorCallback(e));
     navigator.getUserMedia(constraints, successCallback, errorCallback);
 
     takeButton.addEventListener("click", function () {
         onTakePic();
         var context = canvas.getContext("2d");
         context.drawImage(vid, 0, 0, vid.offsetWidth, canvas.height);
+        //console.log("Fired");
         canvas.style.display = "block";
         vid.style.display = "none";
         takeButton.style.display = "none";
@@ -86,14 +102,17 @@ function enableCamera(vid, canvas, takeButton, redoButton, source, onTakePic) {
     });
 
     redoButton.addEventListener("click", function () {
+        //navigator.mediaDevices.getUserMedia(constraints).then(successCallback).catch(errorCallback);
         navigator.getUserMedia(constraints, successCallback, errorCallback);
     });
 }
 
 function disableCamera(vid) {
     if (window.stream) {
-        //vid.src = null;
+        vid.pause();
+        vid.src = "";
         window.stream.getTracks().forEach(function (track) {
+            //console.log("Track " + track + " Camera has been stopped")
             track.stop();
         });
         window.stream = null;

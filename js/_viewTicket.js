@@ -9,7 +9,6 @@
             $("#listName").text(" ");
             $("ul").empty();
             $("#_viewTicket_numItems").text(" ");
-            alert(JSON.stringify(data));
             var array = data.shopping_list;
             var separatedNames = data.shopper.full_name;
 
