@@ -30,15 +30,26 @@
     //         });
     //     }
     // });
-    $('#uploadReceiptButton1').prop('disabled', true);
 
     $('#uploadReceiptButton1').click(function(){
         uploadFromCanvas();
         goToPage("_congrats_driver_finish_shopping");
     });
 
-    // if($("#enter_price").val() >= 0){
-    //     // $("#uploadReceiptButton1").disable(false);
+    $("#enter_price_receipt").keyup(function(){
+
+        if(!isNaN($("#enter_price_receipt").val()) && $("#enter_price_receipt").val() != "" ){
+
+            if($("#uploadReceiptButton1").hasClass('disabled')) {
+                $("#uploadReceiptButton1").removeClass("disabled");
+            }
+        }
+        else{
+            $("#uploadReceiptButton1").addClass('disabled');
+        }
+    });
+    // if(!isNAN($("#enter_price_receipt").val()) ){
+    //
     //     $('#uploadReceiptButton1').prop('disabled', false);
     // }
 
