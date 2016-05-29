@@ -11,10 +11,10 @@
         getData:null,
         loadData: null,
     };
-    function checkPass() {
+    window.checkPass = function() {
         //Store the password field objects into variables ...
         var pass1 = $('#pass1').val();
-        var pass2 = $('#pass1').val();
+        var pass2 = $('#pass2').val();
         //Store the Confimation Message Object ...
         var message = document.getElementById('confirmMessage');
         //Set the colors we will be using ...
@@ -22,7 +22,9 @@
         var badColor = "#ff6666";
         //Compare the values in the password field
         //and the confirmation field
-        if (pass1.value == pass2.value) {
+        if (pass1 == pass2) {
+            console.log(pass1);
+            console.log(pass2);
             //The passwords match.
             //Set the color to the good color and inform
             //the user that they have entered the correct password
@@ -60,7 +62,7 @@
         //Actual
         $.ajax({
             type: "POST",
-            url: "/_rating",
+            url: "/_passwordReset",
             data: info_to_send,
             success: function (data) {
                 //data is the object sent back on success (could also just be string)
