@@ -1,9 +1,9 @@
 (function() {
     loader._takeProfilePicture = {
-        /*data: "", //Optional
+        data: "", //Optional
         version: 0, //Must be 0
         getData:null,
-        loadData: null,*/
+        loadData: null,
         onPageLoad: function(){
             function beforeTake() {
                 canvas.height = vid.offsetHeight;
@@ -24,8 +24,8 @@
     var canvas = document.getElementById("canvas1");
 
     $('#uploadButton1').click(function(){
-        disableCamera(vid);
         uploadFromCanvas();
+        disableCamera(vid);
         goToPage("_signUp");
     });
 
@@ -38,6 +38,7 @@
             url: "/savePhoto",
             data: JSON.stringify({image: canvas.toDataURL("image/png")}),
             success: function(){
+                
                 alert("uploader");
             }
         });

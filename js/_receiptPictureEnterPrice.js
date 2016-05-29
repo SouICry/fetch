@@ -50,7 +50,7 @@
         }
         $.ajax({
             type: "POST",
-            url: "/savePhoto",
+            url: "/_receiptPictureEnterPrice",
             data: data_to_send,
             success: function(){
                 alert("uploader");
