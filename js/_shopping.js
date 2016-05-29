@@ -2,7 +2,10 @@
     loader._shopping = {
        // data: "none",
         data: ["greenEggs", "ham"],
-        version: 0, //Must be 0 
+        version: 0,
+        onPageLoad: function() {
+            loader._shopping.loadData(null);
+        },//Must be 0 
         getData: function () { //must be null if not needed 
             return list_shopping;
         },
@@ -82,8 +85,6 @@
             $('#shoppingCheckListItem').val('');
 
             list_shopping.push(shoppping_toAdd);
-
-
         }
         else {
             event.preventDefault();
@@ -114,6 +115,5 @@
         if (index > -1) {
             list_shopping.splice(index, 1);
         }
-
     });
 })();   

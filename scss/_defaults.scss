@@ -262,6 +262,11 @@ h6 {
 }
 
 .box2{
+
+  @media screen and(max-width: 550px) {
+    width: 90%;
+  }
+
   background-color: white;
   opacity:.9;
   width:60%;

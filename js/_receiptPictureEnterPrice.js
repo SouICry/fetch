@@ -3,6 +3,8 @@
  */
 (function() {
     loader._receiptPictureEnterPrice = {
+        getData: null,
+        loadData: null,
         onPageLoad: function(){
             function beforeTake() {
                 canvas.height = vid.offsetHeight;
@@ -26,16 +28,21 @@
 
     $('#uploadReceiptButton1').click(function(){
         disableCamera(vid);
-        //uploadFromCanvas();
+        uploadFromCanvas();
         goToPage("_congrats_driver_finish_shopping");
     });
 
 
     function uploadFromCanvas(){
+        var data_to_send = {
+            image: canvas.toDataURL("image/png"),
+            price: $("enter_price").val,
+            ticket: loader.ticketId
+        }
         $.ajax({
             type: "POST",
             url: "/savePhoto",
-            data: canvas.toDataURL("image/png"),
+            data: data_to_send,
             success: function(){
                 alert("uploader");
             }
