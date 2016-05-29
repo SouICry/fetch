@@ -38,7 +38,6 @@
             var extra = [];
 
             for (var i = 0; i < tickets.user_history.length; i++) {
-                alert(tickets.user_history[i]);
                 if (tickets.user_history[i].state == 'accepted') {
                     accepted_tickets.push(tickets.user_history[i]);
                 }
@@ -54,7 +53,6 @@
             }
 
             for (var i = 0; i < tickets.pending_list.length; i++) {
-                alert(tickets.pending_list[i]);
                 if (tickets.pending_list[i].state == 'accepted') {
                     accepted_tickets.push(tickets.pending_list[i]);
                 }
