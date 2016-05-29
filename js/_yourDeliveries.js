@@ -1,7 +1,7 @@
 (function () {
     loader._yourDeliveries = {
-        data:
-        [/*{name: "wholeFoods", time: "12:00 pm", id: "123", state: "accepted"},
+        data: null,
+        /*[{name: "wholeFoods", time: "12:00 pm", id: "123", state: "accepted"},
         {name: "ralphs", time: "1:00 pm", id: "234", state: "accepted"},
         {name: "tjs", time: "2:00 pm", id: "234", state: "accepted"},
         {name: "ralphs", time: "3:00 pm", id: "345", state: "shopped"},
@@ -11,7 +11,7 @@
         {name: "tjs", time: "7:00 pm", id: "525", state: "delivered"},
         {name: "ralphs", time: "8:00 pm", id: "532", state: "delivered"},
         {name: "vons", time: "9:00 pm", id: "864", state: "delivered"},
-        {name: "vons", time: "10:00 pm", id: "864", state: "draft"}*/], // may not have draft state
+        {name: "vons", time: "10:00 pm", id: "864", state: "draft"}],*/ // may not have draft state
         version: 0,
         onPageLoad: function() {
             assholes135();
@@ -114,16 +114,23 @@
 
             $('li.yourDeliveries1').each(function () {
                 $(this).click(function () {
-                    loader.getTicket($(this).data("id"), $(this).data("state"))
+                    alert($('li.yourDeliveries1').data('id'));
+                    loader._driverList.data = $('li.yourDeliveries1').data('id');
+                    goToPage('_driverList');
+                    //loader._driverList.loadData($('li.yourDeliveries1').data('id'));
+                    //goToPage('_driverList');
+                    //loader.getTicket($(this).data("id"), $(this).data("state"))
                 });
             });
-
         }
     };
 
     $('li.yourDeliveries1').each(function () {
         $(this).click(function () {
-            loader.getTicket($(this).data("id"), $(this).data("state"))
+            alert($('li.yourDeliveries1').data('id'));
+            loader._driverList.data = $('li.yourDeliveries1').data('id');
+            goToPage('_driverList');
+            //loader.getTicket($(this).data("id"), $(this).data("state"))
         });
     });
 
@@ -143,7 +150,6 @@
                 data: null,
                 success: function (data) {
                     //data is the object sent back on success (could also just be string)
-
                     loader._yourDeliveries.loadData(data);
                 },
                 error: function (data) {
