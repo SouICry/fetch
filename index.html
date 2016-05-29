@@ -488,7 +488,7 @@
                         loader.ticketId = data.ticketId;
                         if (window.location.hash.length > 5) {
                             //submit or cancel ticket
-                            goToPage(window.location.hash);
+                            goToPage(window.location.hash.substring(1));
                             window.location.hash = "";
                         }
                         else {
