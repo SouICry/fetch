@@ -29,7 +29,7 @@
         <div class="chat-head">
             <div class="chat-profile"><span class="glyphicon medium glyphicon-user"></span></div>
             <div class="chat-name"> name</div>
-            <div class="chat-close"><span class="glyphicon medium glyphicon-remove"></span></div>
+            <div class="chat-close" onclick="loader.closeChat(this.parentNode.parentNode);"><span class="glyphicon medium glyphicon-remove"></span></div>
         </div>
         <div class="window">
             <div class="ours">
@@ -163,10 +163,11 @@
             }
             var e = document.createElement('div');
             e.className = "chat";
+            var onClick = "loader.closeChat(this.parentNode.parentNode);";
             e.innerHTML = '<div class="chat-head">' +
                     '<div class="chat-profile">' + '<span class="glyphicon medium glyphicon-user"></span>' + '</div>' +
                     '<div class="chat-name">' + name + '</div>' +
-                    '<div class="chat-close"><span class="glyphicon medium glyphicon-remove"></span></div></div>' +
+                    '<div class="chat-close" onclick="'+ onClick+'"><span class="glyphicon medium glyphicon-remove"></span></div></div>' +
                     '<div class="window"></div>' +
                     '<div class="input">' +
                     '<div class="photo"><span class="glyphicon medium glyphicon-picture"></span></div>' +
@@ -201,10 +202,12 @@
             $('#chats').append(e);
 
         },
-        closeChat: function (id) {
+        closeChat: function (parent) {
+            var id = $(parent).find('.chatForm').data('userid');
             if (loader.chat.hasOwnProperty(id)) {
                 delete loader.chat[id];
             }
+            $(parent).remove();
         },
         currentPageObject: {
             getData: null,
