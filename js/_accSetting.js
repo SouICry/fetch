@@ -24,13 +24,13 @@
                 alert('NO DATA TO LOAD');
             }
             // document.getElementById('accsetting_full_name').innerHTML = data.full_name;
-            $("#accsetting_full_name").val(data.full_name);
-            $("#accsetting_email").val(data.email);
-            $("#accsetting_phone").val(data.phone);
-            $("#accsetting_street").val(data.street);
-            $("#accsetting_city").val(data.city);
-            $("#accsetting_state").val(data.state);
-            $("#accsetting_zip").val(data.zip);
+            $("#accsetting_full_name").val(data.full_name).siblings().addClass("active");
+            $("#accsetting_email").val(data.email).siblings().addClass("active");;
+            $("#accsetting_phone").val(data.phone).siblings().addClass("active");;
+            $("#accsetting_street").val(data.street).siblings().addClass("active");;
+            $("#accsetting_city").val(data.city).siblings().addClass("active");;
+            $("#accsetting_state").val(data.state).siblings().addClass("active");;
+            $("#accsetting_zip").val(data.zip).siblings().addClass("active");;
         },
         onPageLoad: function(data) {
             loadAccountData();
