@@ -1,6 +1,6 @@
 <div id="payment-background" class="hidden">
     <form class="hidden" id="payment-form-1" action="https://www.paypal.com/cgi-bin/webscr" method="post"
-          target="_blank">
+          target="_top">
         <input type="hidden" name="cmd" value="_xclick">
         <input type="hidden" name="business" value="YSDLMAVKEK5R8">
         <input type="hidden" name="lc" value="US">
@@ -59,7 +59,7 @@
     </form>
 
     <form class="hidden" id="payment-form-2" action="https://www.paypal.com/cgi-bin/webscr" method="post"
-          target="_blank">
+          target="_top">
         <input type="hidden" name="cmd" value="_xclick">
         <input type="hidden" name="business" value="YSDLMAVKEK5R8">
         <input type="hidden" name="lc" value="US">
@@ -118,7 +118,7 @@
     </form>
 
     <form class="hidden" id="payment-form-3" action="https://www.paypal.com/cgi-bin/webscr" method="post"
-          target="_blank">
+          target="_top">
         <input type="hidden" name="cmd" value="_xclick">
         <input type="hidden" name="business" value="YSDLMAVKEK5R8">
         <input type="hidden" name="lc" value="US">
@@ -171,7 +171,7 @@
     loader.payment = {
         triggerPayment: function () {
             $('.complete-payment').val('https://fetchgrocery.com/complete-payment?user=' + loader.userId);
-            $('.cancel-payment').val('https://fetchgrocery.com/cancel-payment?user=' + loader.userId);
+            $('.cancel-payment').val('http://localhost:3000/cancel-payment?user=' + loader.userId);
 
             var price = 5;
 
