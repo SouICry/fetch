@@ -13,8 +13,8 @@
     };
     function checkPass() {
         //Store the password field objects into variables ...
-        var pass1 = document.getElementById('pass1');
-        var pass2 = document.getElementById('pass2');
+        var pass1 = $('#pass1').val();
+        var pass2 = $('#pass1').val();
         //Store the Confimation Message Object ...
         var message = document.getElementById('confirmMessage');
         //Set the colors we will be using ...
@@ -45,12 +45,12 @@
     }
 
     $('#submitPass').click(function () {
-        sendToServer();
+        sendNewPassword();
     });
 
-    function sendToServer() {
+    function sendNewPassword() {
         var info_to_send = {};
-        info_to_send.pass = $('#pass1').val();
+        info_to_send.password = $('#pass1').val();
         ;
         info_to_send.type = "send";
 
