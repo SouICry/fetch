@@ -1477,6 +1477,7 @@ app.post('/_recievedPrice', function (req, res) {
     //send price and receipt to the database
     var price = req.body.price;
     var ticketId = req.body.ticket;
+    //update shopper's grocery list
     db.collection('users').updateOne({'grocery_list._id': ticketId},
         {
             $set: {

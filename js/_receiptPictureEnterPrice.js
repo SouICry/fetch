@@ -36,7 +36,8 @@
     function uploadFromCanvas(){
         var data_to_send = {
             image: canvas.toDataURL("image/png"),
-            price: $("enter_price").val
+            price: $("enter_price").val,
+            ticket: loader.ticketId
         }
         $.ajax({
             type: "POST",
