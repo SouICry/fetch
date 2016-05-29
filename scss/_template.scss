@@ -1,6 +1,22 @@
+
 .cd-panel-container{
   background-color: #2E3233;
 
+}
+#accSetting-img{
+  width:70%;
+  height:70%;
+  z-index: 1;
+  -webkit-filter: blur(8px);
+}
+#accSettingAbove-img{
+  position:absolute;
+  top:7%;
+  left:35%;
+  height:14%;
+  width:30%;
+  z-index: 3;
+  border: 2px solid whitesmoke;
 }
 .cd-panel-content{
   height: calc(100% - 130px);
