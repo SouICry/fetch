@@ -627,64 +627,65 @@ app.post('/_passwordReset', function(req, res) {
             });
             console.log('New password saved!');
         });
-        
     }
 });
-app.post('/reset/:token', function (req, res) {
-    async.waterfall([
-        function (done) {
-            User.findOne({
-                resetPasswordToken: req.params.token,
-                resetPasswordExpires: {$gt: Date.now()}
-            }, function (err, user) {
-                if (!user) {
-                    req.flash('error', 'Password reset token is invalid or has expired.');
-                    res.status(500);
-                    return;
-                    //return res.redirect('back');
-                }
 
-                user.password = req.body.password;
-                user.resetPasswordToken = undefined;
-                user.resetPasswordExpires = undefined;
 
-                user.save(function (err) {
-                    req.login(user, function (err) {
-                        done(err, user);
-                    });
-                });
-            });
-        },
-        function (user, done) {
-            var Transport = nodemailer.createTransport({
-                service: 'Gmail',
-                auth: {
-                    user: 'fetchtestuser',
-                    pass: 'insanelycreatives'
-                }
-            });
-            var mailOptions = {
-                to: user.email,
-                from: 'passwordreset@demo.com',
-                subject: 'Your password has been changed',
-                text: 'Hello,\n\n' +
-                'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
-            };
-            Transport.sendMail(mailOptions, function (err, info) {
-                if (err) {
-                    console.log('Error occurred');
-                    console.log(err.message);
-                    res.status(500);
-                    return;
-                }
-                req.flash('success', 'Success! Your password has been changed.');
-                done(err);
-            });
-        }
-    ], function (err) {
-        res.status(500);
-    });
-});
+// app.post('/reset/:token', function (req, res) {
+//     async.waterfall([
+//         function (done) {
+//             User.findOne({
+//                 resetPasswordToken: req.params.token,
+//                 resetPasswordExpires: {$gt: Date.now()}
+//             }, function (err, user) {
+//                 if (!user) {
+//                     req.flash('error', 'Password reset token is invalid or has expired.');
+//                     res.status(500);
+//                     return;
+//                     //return res.redirect('back');
+//                 }
+//
+//                 user.password = req.body.password;
+//                 user.resetPasswordToken = undefined;
+//                 user.resetPasswordExpires = undefined;
+//
+//                 user.save(function (err) {
+//                     req.login(user, function (err) {
+//                         done(err, user);
+//                     });
+//                 });
+//             });
+//         },
+//         function (user, done) {
+//             var Transport = nodemailer.createTransport({
+//                 service: 'Gmail',
+//                 auth: {
+//                     user: 'fetchtestuser',
+//                     pass: 'insanelycreatives'
+//                 }
+//             });
+//             var mailOptions = {
+//                 to: user.email,
+//                 from: 'passwordreset@demo.com',
+//                 subject: 'Your password has been changed',
+//                 text: 'Hello,\n\n' +
+//                 'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
+//             };
+//             Transport.sendMail(mailOptions, function (err, info) {
+//                 if (err) {
+//                     console.log('Error occurred');
+//                     console.log(err.message);
+//                     res.status(500);
+//                     return;
+//                 }
+//                 req.flash('success', 'Success! Your password has been changed.');
+//                 done(err);
+//             });
+//         }
+//     ], function (err) {
+//         res.status(500);
+//     });
+// });
 
 //userId =req.session.userId
 //masters[userId]["_homepage"].data
