@@ -66,10 +66,8 @@
             data: info_to_send,
             success: function (data) {
                 //data is the object sent back on success (could also just be string)
-                alert("congrats!");
             },
             error: function (data) {
-                alert("congrats!");
                 //data is the object send back on fail (could also just be string)
             }
         });

@@ -608,7 +608,7 @@ app.post('/_passwordReset', function(req, res) {
     var userId = req.session.userId;
 
     if (userId == null) {
-        res.status(420);
+        res.status();
         console.log('ERROR IS HERE');
         console.log(userId)
         res.setHeader('Content-Type', 'application/json');
@@ -623,7 +623,10 @@ app.post('/_passwordReset', function(req, res) {
             }
             user.password = req.body.password;
             user.save(function (err) {
-                done(err, token, user);
+                if (err) {
+                    console.log('Could not save new password to db in passwordReset');
+                    res.status(500);
+                }
             });
             console.log('New password saved!');
         });
@@ -1498,7 +1501,7 @@ app.get('/cancel-payment', function (req, res) {
 
 
 //---------------------------- Price and Receipt Photo ------------------------
-app.post('/_recievedPrice', function (req, res) {
+app.post('/_receiptPictureEnterPrice', function (req, res) {
     //send price and receipt to the database
     var price = req.body.price;
     var ticketId = req.body.ticket;
