@@ -25,7 +25,31 @@
 
 </div>
 <div id="chats">
+    <div class="chat">
+        <div class="chat-head">
+            <div class="chat-profile"><span class="glyphicon medium glyphicon-user"></span></div>
+            <div class="chat-name"> name</div>
+            <div class="chat-close"><span class="glyphicon medium glyphicon-remove"></span></div>
+        </div>
+        <div class="window">
+            <div class="ours">
+                <div>asdfasdf</div>
+            </div>
 
+            <div class="theirs">
+                <div>asdfasdf</div>
+            </div>
+            <div class="ours">
+                <div>asdfasdf</div>
+            </div>
+        </div>
+        <div class="input">
+            <div class="photo"><span class="glyphicon medium glyphicon-picture"></span></div>
+            <form class="chatForm" data-userid="  id  ">
+                <input autocomplete="off" name="message" type="text" id="enter_price" placeholder="Enter a message...">
+            </form>
+        </div>
+    </div>
 </div>
 <div id="User">
     <div class="container">
@@ -132,24 +156,24 @@
         currentPage: "_homePage",
         notificationCount: 0,
         chatCount: 0,
-        chat: {
-            //id: length
-        },
+        chat: {},
         openChat: function (id, name) {
             if (!loader.chat.hasOwnProperty(id)) {
-                loader.chat.id = 0;
+                loader.chat[id] = 0;
             }
             var e = document.createElement('div');
             e.className = "chat";
-            e.innerHTML =  '<div class="chat-head"> ' +
-                    '<div class="chat-name">' + name +' </div> ' +
-                    '<div class="chat-close"> </div> </div> ' +
-                    '<div class="window"></div> ' +
-                    '<div class="input"> ' +
-                    '<div class="photo"> </div> ' +
-                    '<form class="chatForm"  data-userid="' + id + '"> ' +
-                    '<input name="message" type="text" id="enter_price" placeholder="Enter a message..."> ' +
-                    '</form> </div>';
+            e.innerHTML = '<div class="chat-head">' +
+                    '<div class="chat-profile">' + '<span class="glyphicon medium glyphicon-user"></span>' + '</div>' +
+                    '<div class="chat-name">' + name + '</div>' +
+                    '<div class="chat-close"><span class="glyphicon medium glyphicon-remove"></span></div></div>' +
+                    '<div class="window"></div>' +
+                    '<div class="input">' +
+                    '<div class="photo"><span class="glyphicon medium glyphicon-picture"></span></div>' +
+                    '<form class="chatForm"  data-userid="' + id + '">' +
+                    '<input autocomplete="off" name="message" type="text" id="enter_price" placeholder="Enter a message...">' +
+                    '</form></div>';
+
             $(e).find('.chatForm').submit(function () {
                 event.preventDefault();
                 var input = $(this).find('input');

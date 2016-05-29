@@ -6,52 +6,106 @@
   height: 400px;
   max-height: 100vh;
   pointer-events: none;
+
   .chat {
     width: 300px;
     height: 100%;
     overflow: hidden;
     margin: 0 10px 0 0;
-    cursor: pointer;
     background-color: orange;
     pointer-events: auto;
     float: right;
+    @include outline-shadow;
   }
   .chat-head {
     height: 40px;
     width: 100%;
-    .chat-name {
-      float: left;
-      height: 40px;
-      width: 260px;
-      line-height: 40px;
-      font-size: 32px;
-    }
-    .chat-close {
+    .chat-profile {
       float: left;
       width: 40px;
       height: 40px;
+      & > * {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+    .chat-name {
+      cursor: pointer;
+      float: left;
+      height: 40px;
+      width: 200px;
+      margin: 0 10px;
+      line-height: 40px;
+      font-size: 24px;
+    }
+    .chat-close {
+      cursor: pointer;
+      float: left;
+      width: 40px;
+      height: 40px;
+      span {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
     }
   }
   .window {
+    overflow: auto;
+    padding: 10px;
     height: 320px;
-    width: 100%;
+    width: 300px;
+    background-color: white;
+    .ours {
+      overflow: auto;
+      height: auto;
+      display: block;
+      width: 100%;
+      div {
+        padding: 5px;
+        float: right;
+        background-color: orange;
+        border-radius: 10px;
+        max-width: 260px;
+      }
+    }
+    .theirs {
+      overflow: auto;
+      height: auto;
+      width: 100%;
+      display: block;
+      div {
+        padding: 5px;
+        float: left;
+        background-color: cornflowerblue;
+        border-radius: 10px;
+        max-width: 260px;
+      }
+    }
   }
   .input {
     height: 40px;
     width: 300px;
     .photo {
+
+      cursor: pointer;
       float: left;
       width: 40px;
       height: 40px;
+      span {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
     }
     .chatForm {
       float: left;
       width: 260px;
       input {
-
         width: 240px;
-        margin: 0 10px;
-        height: 100%;
+        margin: 0 10px 0 0;
+        height: 40px;
       }
     }
   }
