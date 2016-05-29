@@ -110,7 +110,7 @@ var test_data = {
     function assholes61323355() {
         var info_to_send = {};
         info_to_send.ticketId = loader._driverList.data;
-        alert(info_to_send.ticketId);
+        //alert(info_to_send.ticketId);
         info_to_send.type = 'get';
 
         $.ajax({

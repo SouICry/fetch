@@ -79,7 +79,7 @@
                     $(this).toggleClass("selected");
 
                     $('.store.selected').each(function () {
-                        alert($(this).data("name"));
+                        //alert($(this).data("name"));
                         selected[$(this).data("name")] = true;
                     });
 

@@ -114,7 +114,7 @@
 
             $('li.yourDeliveries1').each(function () {
                 $(this).click(function () {
-                    alert($('li.yourDeliveries1').data('id'));
+                    //alert($('li.yourDeliveries1').data('id'));
                     loader._driverList.data = $('li.yourDeliveries1').data('id');
                     goToPage('_driverList');
                     //loader._driverList.loadData($('li.yourDeliveries1').data('id'));
@@ -127,7 +127,7 @@
 
     $('li.yourDeliveries1').each(function () {
         $(this).click(function () {
-            alert($('li.yourDeliveries1').data('id'));
+            //alert($('li.yourDeliveries1').data('id'));
             loader._driverList.data = $('li.yourDeliveries1').data('id');
             goToPage('_driverList');
             //loader.getTicket($(this).data("id"), $(this).data("state"))
