@@ -27,15 +27,16 @@
         loadData: function (data) {
             $("#tickets_content").empty();
 
-            $("#ticket_not").remove();
-
             if (data == null || data.length == 0) {
                 $("#tickets_content").append('<li id="ticket_not" class = "ticket"' +
                     '>No tickets available</li>');
-                var ticket_no_data = true;
             }
 
             else {
+                $("#tickets_content").append('<li id="ticket_not" class = "ticket"' +
+                    '>No tickets available</li>');
+                $("#ticket_not").addClass("hidden");
+
                 function toName(nameString) {
                     var name = {};
                     name['wholeFoods'] = "WholeFoods";
@@ -58,7 +59,7 @@
                         // Find the ticket with that id
                         var ticket = null;
                         for (var j = 0; j < data.length; j++) {
-                            if (data[j]._id === $(this).attr('data-ticketId')) {
+                            if (data[j]._id == $(this).attr('data-ticketId')) {
                                 ticket = data[j];
                                 break;
                             }
@@ -76,22 +77,26 @@
                         selected[x] = false;
                     }
 
-                    $(this).toggleClass("selected");
+                    if ($(this).hasClass("selected")) {
+                        $(this).removeClass("selected");
+                    }
+                    else {
+                        $(this).addClass("selected");
+                    }
 
                     $('.store.selected').each(function () {
-                        //alert($(this).data("name"));
+                        
                         selected[$(this).data("name")] = true;
                     });
 
-                    var noTickets = true;
                     for (var x in selected) {
                         var a = "." + x;
-                        if (selected[x] == true) {
+                        if (selected[x] == false) {
                             if ($(a).hasClass("hidden")) {
                                 $(a).removeClass("hidden");
                             }
+
                             $(a).addClass("show");
-                            noTickets = false;
                         }
                         else {
                             if ($(a).hasClass("show")) {
@@ -101,19 +106,31 @@
                         }
                     }
 
-                    //alert("checking to show");
-                    if (noTickets == true || ticket_no_data) {
-                        $("#tickets_content").append('<li id="ticket_not" class = "ticket"' +
-                            '>No tickets available</li>');
+                    var no_ticket = true;
+                    $( "#tickets_content li" ).each(function() {
+                      if ($(this).hasClass("show")){
+                          no_ticket = false;
+                      }
+                      else {
+                          no_ticket = true;
+                      }
+                    });
+
+                    $("#ticket_not").show();
+                    if (no_ticket = true) {
+                        $("#ticket_not").show();
                     }
                     else {
-                        $("#ticket_not").remove();
+                        $("#ticket_not").hide();
                     }
                 });
             });
         }
     };
-    
+
+
+//    $("#ticket_not").hide();
+
     var selected = {
         ralphs: true,
         wholeFoods: true,
