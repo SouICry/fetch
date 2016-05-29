@@ -5,7 +5,6 @@ var test_data = {
 };
 
 (function () {
-
     loader._driverList = {
         version: 0,
         getData: function () {
@@ -17,6 +16,9 @@ var test_data = {
 
             return packData;
         },
+        onPageLoad: function() {
+            assholes61323355();
+        },
         loadData: function (data) {
             //populate driver list
             $("#listName").text(" ");
@@ -26,14 +28,13 @@ var test_data = {
 
             fullName = data.full_name;
             array = data.items;
-            var separatedNames = data.full_name.split(" ");
+            var name = data.full_name;
 
             //create the contact info(where should I got this, is there a flied relates to contact?
-            document.getElementById("listName_driverList").innerHTML = separatedNames[0] + "'s Shopping List";
+            document.getElementById("listName_driverList").innerHTML = name + "'s Shopping List";
             document.getElementById("phone").innerHTML = "Phone: " + data.contact;
 
             for (var i = 0; i < array.length; i++) {
-
                 // item count
                 count = array.length;
 
@@ -104,5 +105,28 @@ var test_data = {
         }
     });
 
+    assholes61323355();
+    
+    function assholes61323355() {
+        var info_to_send = {};
+        info_to_send.ticketId = loader._driverList.data;
+        //alert(info_to_send.ticketId);
+        info_to_send.type = 'get';
+
+        $.ajax({
+            type: "POST",
+            url: "/_driverList",
+            contentType: "application/json",
+            dataType: "json",
+            data: null,
+            success: function (data) {
+                //data is the object sent back on success (could also just be string)
+                loader._driverList.loadData(data);
+            },
+            error: function (data) {
+                //data is the object send back on fail (could also just be string)
+            }
+        });
+    }
 })();
 

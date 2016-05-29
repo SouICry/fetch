@@ -90,8 +90,7 @@
                     //data is the object send back on fail (could also just be string)
                 }
             });
-            //goToPage("_pendingPayment");
-
+            goToPage("_pendingPayment");
         }
         else {
             confirm("Enter a valid valid time range.");
@@ -100,7 +99,7 @@
         // on successful payment, goes to _submitted
         // unsuccessful goes to _cancelled
 
-        //loader.payment.triggerPayment();
+        loader.payment.simulateCompletePayment();
     });
 
 
