@@ -24,8 +24,8 @@ var app = express();
 app.use(favicon());
 app.use(logger('dev'));
 app.use(flash());
-app.use(bodyParser({limit: '2mb'}));
-app.use(bodyParser.json());
+//app.use(bodyParser());
+app.use(bodyParser.json({limit: '2mb'}));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(session({resave: true, saveUninitialized: true, secret: 'williamiscool'}));
@@ -360,10 +360,13 @@ app.post('/savePhoto', function (req, res) {
 
     var buf = new Buffer(data, 'base64');
     //noinspection JSUnresolvedFunction
-    fs.writeFile('images/profiles/image.png', buf);
+    if(req.session.userId === 'undefined')
+        fs.writeFile('images/profiles/image.png', buf);
+    else
+        fs.writeFile('images/profiles/' + req.session.userId + '.png', buf);
     //console.log(img);
     //console.log(typeof(img));
-    console.log("Photo Saved");
+    console.log("Photo Saved: " + data.substring(0,10));
     /*fs.writeFile("images/profiles/" + req.session.userId + ".png", req.body.image,"base64", function (err, data ) {
      if (err) {
      return console.log("Error");
