@@ -13,6 +13,9 @@
         {name: "vons", time: "9:00 pm", id: "864", state: "delivered"},
         {name: "vons", time: "10:00 pm", id: "864", state: "draft"}*/], // may not have draft state
         version: 0,
+        // onPageLoad: function() {
+        //     assholes135();
+        // },
         loadData: function (data) {
             $("#yourDeliveries__accepted_tickets").empty();
             $("#yourDeliveries_shopped_tickets").empty();
@@ -29,39 +32,38 @@
             }
 
             var tickets = data;
-
             var accepted_tickets = [];
             var shopped_tickets = [];
             var delivered_tickets = [];
             var extra = [];
 
             for (var i = 0; i < tickets.user_history.length; i++) {
-                if (tickets[i].state == 'accepted') {
-                    accepted_tickets.push(tickets[i]);
+                if (tickets.user_history[i].state == 'accepted') {
+                    accepted_tickets.push(tickets.user_history[i]);
                 }
-                else if (tickets[i].state == 'shopped') {
-                    shopped_tickets.push(tickets[i]);
+                else if (tickets.user_history[i].state == 'shopped') {
+                    shopped_tickets.push(tickets.user_history[i]);
                 }
-                else if (tickets[i].state == 'delivered') {
-                    delivered_tickets.push(tickets[i]);
+                else if (tickets.user_history[i].state == 'delivered') {
+                    delivered_tickets.push(tickets.user_history[i]);
                 }
                 else {
-                    extra.push(tickets[i]);
+                    extra.push(tickets.user_history[i]);
                 }
             }
 
             for (var i = 0; i < tickets.pending_list.length; i++) {
-                if (tickets[i].state == 'accepted') {
-                    accepted_tickets.push(tickets[i]);
+                if (tickets.pending_list[i].state == 'accepted') {
+                    accepted_tickets.push(tickets.pending_list[i]);
                 }
-                else if (tickets[i].state == 'shopped') {
-                    shopped_tickets.push(tickets[i]);
+                else if (tickets.pending_list[i].state == 'shopped') {
+                    shopped_tickets.push(tickets.pending_list[i]);
                 }
-                else if (tickets[i].state == 'delivered') {
-                    delivered_tickets.push(tickets[i]);
+                else if (tickets.pending_list[i].state == 'delivered') {
+                    delivered_tickets.push(tickets.pending_list[i]);
                 }
                 else {
-                    extra.push(tickets[i]);
+                    extra.push(tickets.pending_list[i]);
                 }
             }
 
@@ -117,7 +119,6 @@
             });
 
         }
-
     };
 
     $('li.yourDeliveries1').each(function () {
@@ -126,22 +127,20 @@
         });
     });
 
-    $('#_viewTicket_submit_list').click(function () {
-        assholes40();
-        goToPage("_yourDeliveries");
-        //assholes40();
-    });
+    assholes135();
 
-    function assholes40() {
-        var info_to_send = {};
-        info_to_send.id = $('#user-name').data('id');
-        info_to_send.type = "get";
+    // $('#_viewTicket_submit_list').click(function () {
+    //     assholes40();
+    //     goToPage("_yourDeliveries");
+    //     //assholes40();
+    // });
 
+    function assholes135() {
         //Actual
         $.ajax({
                 type: "POST",
                 url: "/_yourDeliveries",
-                data: info_to_send,
+                data: null,
                 success: function (data) {
                     //data is the object sent back on success (could also just be string)
 
