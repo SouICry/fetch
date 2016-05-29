@@ -1346,7 +1346,7 @@ app.post('/_yourDeliveries', function (req, res) {
                 res.status(500);
                 res.send('');
             }
-            else if (!doc) {
+            else if (doc == null) {
                 console.log('Could not find user with userId: ' + userId + ' in _yourDeliveries');
                 res.status(500);
                 res.send('');
@@ -1373,7 +1373,7 @@ app.post('/_yourDeliveries', function (req, res) {
                 //         state: 'pending'
                 //     });
                 // }
-
+                console.log('Sending data back to _yourDeliveries.js');
                 res.setHeader('Content-Type', 'application/json');
                 res.send(JSON.stringify({
                     user_history: doc.user_history,

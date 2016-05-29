@@ -57,17 +57,19 @@
     height: 320px;
     width: 300px;
     background-color: white;
+    div > div {
+      padding: 5px 10px;
+      background-color: orange;
+      border-radius: 10px;
+      max-width: 260px;
+    }
     .ours {
       overflow: auto;
       height: auto;
       display: block;
       width: 100%;
       div {
-        padding: 5px;
         float: right;
-        background-color: orange;
-        border-radius: 10px;
-        max-width: 260px;
       }
     }
     .theirs {
@@ -76,11 +78,7 @@
       width: 100%;
       display: block;
       div {
-        padding: 5px;
         float: left;
-        background-color: cornflowerblue;
-        border-radius: 10px;
-        max-width: 260px;
       }
     }
   }

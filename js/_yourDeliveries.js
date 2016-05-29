@@ -13,15 +13,15 @@
         {name: "vons", time: "9:00 pm", id: "864", state: "delivered"},
         {name: "vons", time: "10:00 pm", id: "864", state: "draft"}*/], // may not have draft state
         version: 0,
-        // onPageLoad: function() {
-        //     assholes135();
-        // },
+        onPageLoad: function() {
+            assholes135();
+        },
         loadData: function (data) {
             $("#yourDeliveries__accepted_tickets").empty();
             $("#yourDeliveries_shopped_tickets").empty();
             $("#yourDeliveries_delivered_tickets").empty();
 
-            if (data == "none" || data.user_history.length == 0 || data.pending_list.length == 0) {
+            if (data == "none" || (data.user_history.length == 0 && data.pending_list.length == 0)) {
                 $("#yourDeliveries_accepted_tickets").append('<li id="yourDeliveries_ticket_not" class = "ticket"' +
                     '>No deliveries</li>');
                 $("#yourDeliveries_shopped_tickets").append('<li id="yourDeliveries_ticket_not" class = "ticket"' +
@@ -38,6 +38,7 @@
             var extra = [];
 
             for (var i = 0; i < tickets.user_history.length; i++) {
+                alert(tickets.user_history[i]);
                 if (tickets.user_history[i].state == 'accepted') {
                     accepted_tickets.push(tickets.user_history[i]);
                 }
@@ -53,6 +54,7 @@
             }
 
             for (var i = 0; i < tickets.pending_list.length; i++) {
+                alert(tickets.pending_list[i]);
                 if (tickets.pending_list[i].state == 'accepted') {
                     accepted_tickets.push(tickets.pending_list[i]);
                 }
@@ -80,22 +82,22 @@
             var ticket;
             for (var i = 0; i < accepted_tickets.length; i++) {
                 ticket = accepted_tickets[i];
-                $("#yourDeliveries_accepted_tickets").append('<li  data-id="' + ticket._id + '" class = "yourDeliveries1 ' + ticket.full_name + ' ticket" ' + ' ><div  >'
-                    + toName(ticket.full_name) + ' <br> Estimate Deliver Time: ' + ticket.time_created +
+                $("#yourDeliveries_accepted_tickets").append('<li  data-id="' + ticket._id + '" class = "yourDeliveries1 ' + ticket.store_name + ' ticket" ' + ' ><div  >'
+                    + toName(ticket.store_name) + ' <br> Estimate Deliver Time: ' + ticket.time_created +
                     '</div></li>');
             }
 
             for (var i = 0; i < shopped_tickets.length; i++) {
                 ticket = shopped_tickets[i];
-                $("#yourDeliveries_shopped_tickets").append('<li  data-id="' + ticket._id + '" class = "yourDeliveries1 ' + ticket.full_name + ' ticket" ' + ' ><div  >'
-                    + toName(ticket.full_name) + ' <br> Estimate Deliver Time: ' + ticket.time_created +
+                $("#yourDeliveries_shopped_tickets").append('<li  data-id="' + ticket._id + '" class = "yourDeliveries1 ' + ticket.store_name + ' ticket" ' + ' ><div  >'
+                    + toName(ticket.store_name) + ' <br> Estimate Deliver Time: ' + ticket.time_created +
                     '</div></li>');
             }
 
             for (var i = 0; i < delivered_tickets.length; i++) {
                 ticket = delivered_tickets[i];
-                $("#yourDeliveries_delivered_tickets").append('<li  data-id="' + ticket._id + '" class = "yourDeliveries1 ' + ticket.full_name + ' ticket" ' + ' ><div  >'
-                    + toName(ticket.full_name) + ' <br> Estimate Deliver Time: ' + ticket.time_created +
+                $("#yourDeliveries_delivered_tickets").append('<li  data-id="' + ticket._id + '" class = "yourDeliveries1 ' + ticket.store_name + ' ticket" ' + ' ><div  >'
+                    + toName(ticket.store_name) + ' <br> Estimate Deliver Time: ' + ticket.time_created +
                     '</div></li>');
             }
 
