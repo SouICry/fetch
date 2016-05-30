@@ -1228,6 +1228,12 @@ app.post('/_checkout', function (req, res, next) {
         console.log('Setting masters[userId].ticketId!');
         masters[userId].ticketId = listId;
 
+        var shoppingcart = req.body.list;
+        var checkofflist = {};
+
+        for (var i = 0; i < shoppingcart; i++)
+            checkofflist[shoppingcart[i]] = false;
+
         var gticket = {
             _id: listId,
             // May need to fix how fields are loaded from master for these new attributes
@@ -1248,7 +1254,8 @@ app.post('/_checkout', function (req, res, next) {
                 phone_number: ''
             },
             store_name: req.body.store_name,
-            shopping_list: req.body.list,
+            shopping_list: shoppingcart,
+            /*checkoff_list: checkofflist,*/
             time_created: date.toLocaleDateString() + ' ' + date.toLocaleTimeString(),
             time_accepted: '',
             // Why are these from ['_accSetting'] ?
@@ -1258,6 +1265,7 @@ app.post('/_checkout', function (req, res, next) {
             state: 'pending',
             price: ''
         };
+
         masters[userId].ticket = gticket;
         res.setHeader('Content-Type', 'application/json');
         res.send("Successful");
@@ -1270,41 +1278,57 @@ app.post('_homePage', function (req, res, next) {
 
 });
 
-// TODO: Update ticket in users and grocery_queue collection to update status of item (bought or not) - low priority
 //-----------------------------------------------------DRIVER LIST -----------------------------------------
 app.post('/_driverList', function (req, res, next) {
     var object = {};
     var ticketId = req.session.ticketId;
 
-    if (userId) {
+    if (ticketId) {
         object.notes = masters[userId]["_checkout"].data.special_options;
         object.items = masters[userId]["_"].data.items;   //TODO where is items located?
         object.name = masters[userId].name;
         object.contact = masters[userId].phone;
         res.send(object);
 
-        db.collection('users').findOne({_id: userId}, function(err, user) {
-            if (err) {
-                console.log('Error in _driverList: ' + err);
-                res.status(500);
-                res.send('');
-                return;
-            }
+        db.collection('users').update(
+            {
+                'grocery_list._id': ticketId
+            },
+            {
+                $set: {
+                    'grocery_list.$.state': 'Purchased'
+                }
+            },
+            {
+                multi: true
+            }, function(err, user) {
+                if (err) {
+                    console.log('Error in _driverList: ' + err);
+                    res.status(500);
+                    res.send('');
+                    return;
+                }
 
-            if (!user) {
-                console.log('Error cannot find user in _driverList with id: ' + userId);
-                res.status(500);
-                res.send('');
-            }
-            else {
-                // TODO: checkoff items in grocery list
-            }
+            // if (!user) {
+            //     console.log('Error cannot find user in _driverList with id: ' + userId);
+            //     res.status(500);
+            //     res.send('');
+            // }
+            // else {
+            //     console.log('found user in driverList: ' + user);
+            //     res.setHeader('Content-Type', 'application/json');
+            //     var index;
+            //
+            //     for (var i = 0; i < user.grocery_list.length; i++) {
+            //         if (user.grocery_list[i]._id == ticketId) {
+            //             index = i;
+            //             break;
+            //         }
+            //     }
+            // }
         });
-        
-        
-        
-        res.setHeader('Content-Type', 'application/json');
-
+        console.log('Successfully updated tickets in user db');
+        res.send('');
     }
     res.send('Fail');
 });
@@ -1475,49 +1499,49 @@ app.get('/complete-payment', function (req, res) {
     //var userId = req.session.userId;
 
     //
-    // var gticket = masters[userId].ticket;
-    // // Check that empty list was not sent
-    // if (gticket.shopping_list.length === 0) {
-    //     console.log('Grocery ticket submitted has no items');
-    //     res.status(500);
-    //     res.setHeader('Content-Type', 'application/json');
-    //     res.send(JSON.stringify({message: 'Submitted empty list'}));
-    //     return;
-    // }
-    //
-    // // Check that user is logged in
-    // if (!req.session.passport || !req.session.passport.user) {
-    //     console.log('user is not logged in');
-    //     res.status(500);
-    //     res.setHeader('Content-Type', 'application/json');
-    //     res.send({message: 'user is not logged in'});
-    // }
-    // else {
-    //     // Update user to hold grocery list submitted
-    //     db.collection('users').updateOne({_id: req.session.passport.user}, {$push: {grocery_list: gticket}},
-    //         function (err) {
-    //             if (err) {
-    //                 console.log('error updating user grocery list');
-    //                 res.status(500);
-    //                 res.setHeader('Content-Type', 'application/json');
-    //                 res.send(err);
-    //                 return;
-    //             }
-    //
-    //             // If grocery list successfully added to user's grocery list, add list to queue
-    //             db.collection('grocery_queue').insert(gticket, function (err) {
-    //                 if (err) {
-    //                     console.log('error adding list to queue: ' + err);
-    //                     res.status(500);
-    //                     res.setHeader('Content-Type', 'application/json');
-    //                     res.send(err);
-    //                 }
-    //             });
-    //             res.setHeader('Content-Type', 'application/json');
-    //             res.send("Successful");
-    //         }
-    //     );
-    // }
+    var gticket = masters[userId].ticket;
+    // Check that empty list was not sent
+    if (gticket.shopping_list.length === 0) {
+        console.log('Grocery ticket submitted has no items');
+        res.status(500);
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({message: 'Submitted empty list'}));
+        return;
+    }
+
+    // Check that user is logged in
+    if (!req.session.passport || !req.session.passport.user) {
+        console.log('user is not logged in');
+        res.status(500);
+        res.setHeader('Content-Type', 'application/json');
+        res.send({message: 'user is not logged in'});
+    }
+    else {
+        // Update user to hold grocery list submitted
+        db.collection('users').updateOne({_id: req.session.passport.user}, {$push: {grocery_list: gticket}},
+            function (err) {
+                if (err) {
+                    console.log('error updating user grocery list');
+                    res.status(500);
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send(err);
+                    return;
+                }
+
+                // If grocery list successfully added to user's grocery list, add list to queue
+                db.collection('grocery_queue').insert(gticket, function (err) {
+                    if (err) {
+                        console.log('error adding list to queue: ' + err);
+                        res.status(500);
+                        res.setHeader('Content-Type', 'application/json');
+                        res.send(err);
+                    }
+                });
+                res.setHeader('Content-Type', 'application/json');
+                res.send("Successful");
+            }
+        );
+    }
 
     console.log("submitted");
     console.log(userId);
