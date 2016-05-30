@@ -13,7 +13,7 @@
             if (data == null || data == "none" || data.length == 0) {
                 data = [];
                 list_shopping.splice(0, list_shopping.length);
-                $("#footerInfo, .footerBars").hide();
+                $("#footerInfo").hide();
             }
 
             shopping_count = 0;
@@ -38,10 +38,10 @@
                 }
 
                 if (shopping_count != 0) {
-                    $("#footerInfo, .footerBars, #shopping_submit_list").show();
+                    $("#footerInfo, #shopping_submit_list").show();
                 }
                 else {
-                    $("#footerInfo, .footerBars").hide();
+                    $("#footerInfo").hide();
                 }
             }
         }
@@ -77,10 +77,10 @@
             }
 
             if (shopping_count != 0) {
-                $("#footerInfo, .footerBars, #shopping_submit_list").show();
+                $("#footerInfo, #shopping_submit_list").show();
             }
             else {
-                $("#footerInfo, .footerBars").hide();
+                $("#footerInfo").hide();
             }
             event.preventDefault();
             $('#shoppingCheckListItem').val('');
@@ -109,7 +109,7 @@
         }
 
         if (shopping_count != 0) {
-            $("#shopping_submit_list, #footerInfo, .footerBars").show();
+            $("#shopping_submit_list, #footerInfo").show();
         }
 
         var index = list_shopping.indexOf($(this).text());

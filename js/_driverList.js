@@ -57,10 +57,10 @@ var test_data = {
                 }
 
                 if (count != 0) {
-                    $("#_driver_footerInfo, .footerBars").show();
+                    $("#_driver_footerInfo").show();
                 }
                 else {
-                    $("#_driver_footerInfo,.footerBars").hide();
+                    $("#_driver_footerInfo").hide();
                 }
             }
 

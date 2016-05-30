@@ -63,10 +63,10 @@
                 }
 
                 if (count != 0) {
-                    $("#_confirm_footerInfo, .footerBars").show();
+                    $("#_confirm_footerInfo").show();
                 }
                 else {
-                    $("#_confirm_footerInfo,.footerBars").hide();
+                    $("#_confirm_footerInfo").hide();
                 }
             }
         }

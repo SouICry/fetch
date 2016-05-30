@@ -55,10 +55,10 @@
                     }
 
                     if (count != 0) {
-                        $("#_cancelTicket_footerInfo, .footerBars").show();
+                        $("#_cancelTicket_footerInfo").show();
                     }
                     else {
-                        $("#_cancelTicket_footerInfo,.footerBars").hide();
+                        $("#_cancelTicket_footerInfo").hide();
                     }
                 }
 

@@ -55,10 +55,10 @@
                     }
 
                     if (count != 0) {
-                        $("#_shoppingStatus_footerInfo, .footerBars").show();
+                        $("#_shoppingStatus_footerInfo").show();
                     }
                     else {
-                        $("#_shoppingStatus_footerInfo,.footerBars").hide();
+                        $("#_shoppingStatus_footerInfo").hide();
                     }
                 }
 

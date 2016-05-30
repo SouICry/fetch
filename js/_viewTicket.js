@@ -33,10 +33,10 @@
                 }
 
                 if (count != 0) {
-                    $("#_viewTicket_footerInfo, .footerBars").show();
+                    $("#_viewTicket_footerInfo").show();
                 }
                 else {
-                    $("#_viewTicket_footerInfo,.footerBars").hide();
+                    $("#_viewTicket_footerInfo").hide();
                 }
             }
         }
