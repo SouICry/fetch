@@ -31,6 +31,8 @@
             $("#accsetting_city").val(data.city).siblings().addClass("active");;
             $("#accsetting_state").val(data.state).siblings().addClass("active");;
             $("#accsetting_zip").val(data.zip).siblings().addClass("active");;
+            document.getElementById("index_user-name").innerHTML = data.full_name;
+
         },
         onPageLoad: function(data) {
             loadAccountData();
