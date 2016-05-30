@@ -364,9 +364,17 @@ app.post('/savePhoto', function (req, res) {
     var buf = new Buffer(data, 'base64');
     //noinspection JSUnresolvedFunction
     if (req.session.userId === 'undefined')
-        fs.writeFile('images/profiles/image.png', buf);
+        fs.writeFile('images/profiles/image.png', buf, function(err) {
+            if(err)
+                throw err;
+            console.log("Photo saved");
+        });
     else
-        fs.writeFile('images/profiles/' + req.session.userId + '.png', buf);
+        fs.writeFile('images/profiles/' + req.session.userId + '.png', buf, function(err) {
+            if(err)
+                throw err;
+            console.log("Photo saved");
+        });
     //console.log(img);
     //console.log(typeof(img));
     console.log("Photo Saved: " + data.substring(0, 10));
