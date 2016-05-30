@@ -24,5 +24,5 @@
         window.setInterval(func, interval);
     }
 
-    run(3000); //milliseconds, frames
+    run(30000); //milliseconds, frames
 })();
