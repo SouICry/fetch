@@ -37,9 +37,6 @@
         }
     };
 
-
-    loadAccountData();
-
     $("#accsetting_warning").hide();
 
     // when user is typing, hides warning
