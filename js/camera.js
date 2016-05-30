@@ -12,6 +12,7 @@
 
 var videoSelect = document.getElementById('videoSource');
 
+//noinspection JSUnresolvedVariable
 navigator.getUserMedia = navigator.getUserMedia ||
     navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 //console.log(navigator.getUserMedia);
@@ -31,13 +32,18 @@ function gotSources(sourceInfos) {
     }
 }
 
-function enableCamera(vid, canvas, takeButton, redoButton, source, onTakePic) {
+var takePhoto;
+var reTake;
+var imageUp;
 
+//var counter =0;
+function enableCamera(vid, canvas, takeButton, redoButton, source, onTakePic) {
     if (typeof MediaStreamTrack === 'undefined' ||
         typeof MediaStreamTrack.getSources === 'undefined') {
         alert('Your browser doesnt support using the camera :( Try uploading or use Chrome instead');
     } else {
-        navigator.mediaDevices.enumerateDevices(gotSources)//MediaStreamTrack.getSources(gotSources);
+        //noinspection JSUnresolvedVariable,JSUnresolvedFunction
+        navigator.mediaDevices.enumerateDevices(gotSources);//MediaStreamTrack.getSources(gotSources);
     }
 
     takeButton.style.display = "block";
@@ -49,7 +55,7 @@ function enableCamera(vid, canvas, takeButton, redoButton, source, onTakePic) {
         source = videoSelect.length - 1;
     }
     videoSelect.selectedIndex = source;
-    var videoSource = videoSelect.value;
+    //var videoSource = videoSelect.value;
     var constraints = {
         video: {
             optional: [{
@@ -57,7 +63,7 @@ function enableCamera(vid, canvas, takeButton, redoButton, source, onTakePic) {
             }]
         }
     };
-    //console.log("Enable con: ");
+    //console.log("Enable con: " + counter);
     //console.log(constraints);
     function successCallback(stream) {
         canvas.style.display = "none";
@@ -67,15 +73,16 @@ function enableCamera(vid, canvas, takeButton, redoButton, source, onTakePic) {
         //console.log(constraints);
         takeButton.style.display = "block";
         redoButton.style.display = "none";
-        
+
         if(window.stream){
             window.stream.getTracks().forEach(function (track) {
-                //console.log("Track " + track + " Camera has been stopped")
+                //console.log("Camera has been stopped")
+                //console.log(track)
                 track.stop();
             });
             window.stream = null;
         }
-        
+
         window.stream = stream; // make stream available to console
         vid.src = window.URL.createObjectURL(stream);
         vid.play();
@@ -90,43 +97,63 @@ function enableCamera(vid, canvas, takeButton, redoButton, source, onTakePic) {
     //navigator.mediaDevices.getUserMedia(constraints).then(successCallback(s)).catch(errorCallback(e));
     navigator.getUserMedia(constraints, successCallback, errorCallback);
 
-    takeButton.addEventListener("click", function () {
+     takePhoto = function () {
         onTakePic();
         var context = canvas.getContext("2d");
         context.drawImage(vid, 0, 0, vid.offsetWidth, canvas.height);
-        //console.log("Fired");
+        console.log("Picture taked");
         canvas.style.display = "block";
         vid.style.display = "none";
         takeButton.style.display = "none";
         redoButton.style.display = "block";
-    });
+         /*if(window.stream){
+             window.stream.getTracks().forEach(function (track) {
+                 //console.log("Camera has been stopped")
+                 //console.log(track)
+                 track.stop();
+             });
+             window.stream = null;
+         }*/
+    };
+    //console.log(takePhoto);
+    //addListenr: function ()
 
-    redoButton.addEventListener("click", function () {
+    takeButton.addEventListener("click", takePhoto);
+ 
+    reTake = function () {
         //navigator.mediaDevices.getUserMedia(constraints).then(successCallback).catch(errorCallback);
         navigator.getUserMedia(constraints, successCallback, errorCallback);
-    });
+        //console.log("Who am I?");
+    };
+    redoButton.addEventListener("click", reTake);
+    
 }
 
-function disableCamera(vid) {
+function disableCamera(vid, takeButton, redoButton, uploadInput) {
     if (window.stream) {
         vid.pause();
         vid.src = "";
+        //noinspection JSUnresolvedFunction
         window.stream.getTracks().forEach(function (track) {
             //console.log("Track " + track + " Camera has been stopped")
             track.stop();
         });
         window.stream = null;
     }
+    takeButton.removeEventListener("click", takePhoto);
+    redoButton.removeEventListener("click", reTake);
+    uploadInput.removeEventListener("change", imageUp);
+    
 }
 
 function enableImageUpload(vid, canvas, takeButton, redoButton, uploadInput) {
-    uploadInput.addEventListener('change', handleImageUpload, false);
 
     var context = canvas.getContext("2d");
 
-    function handleImageUpload(e) {
+    imageUp = function handleImageUpload(e) {
         var reader = new FileReader();
         reader.onload = function (event) {
+            //console.log("In Load");
             var img = new Image();
             img.onload = function () {
                 var canvasWidth = canvas.width;
@@ -148,6 +175,7 @@ function enableImageUpload(vid, canvas, takeButton, redoButton, uploadInput) {
         };
         reader.readAsDataURL(e.target.files[0]);
     }
+    uploadInput.addEventListener('change', imageUp, false);
 }
 
 function enableCameraImage(vid, canvas, takeButton, redoButton, uploadInput, source, onTakePic) {

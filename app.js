@@ -437,6 +437,34 @@ app.post('/_signUp', function (req, res, next) {
                                 checkoutVersion: 0,
                                 currentPage: ""
                             };
+                            db.collection('users').findOne({_id: userId},
+                                function (err, user) {
+                                    if (err) {
+                                        console.log('Error in accSetting: ' + err);
+                                        res.status(500);
+                                        res.setHeader('Content-Type', 'application/json');
+                                        res.send({message: 'cannot access collection to find user '})
+                                        return;
+                                    }
+                                    //console.log('user = ' + JSON.stringify(user));
+                                    if (user == null) {
+                                        console.log('Could not find user with userId ' + userId + ' in _accSetting');
+                                        console.log(JSON.stringify(user));
+                                        res.status(500);
+                                        res.send('');
+                                        return;
+                                    }
+                                    if (user.full_name == null) {
+                                        console.log('Could not find users fullname in _accSetting');
+                                        res.status(500);
+                                        res.send('');
+                                        return;
+                                    }
+                                    else {
+                                        console.log(JSON.stringify(user));
+                                        masters[userId].full_name = user.full_name;
+                                    }
+                                });
                             masters[userId].userId = userId;
                             // res.setHeader('Content-Type', 'application/json');
 
@@ -506,9 +534,37 @@ app.post('/_login', function (req, res, next) {
                     shoppingVersion: 0,
                     checkoutVersion: 0,
                     currentPage: ""
+
                 };
+                db.collection('users').findOne({_id: userId},
+                    function (err, user) {
+                        if (err) {
+                            console.log('Error in accSetting: ' + err);
+                            res.status(500);
+                            res.setHeader('Content-Type', 'application/json');
+                            res.send({message: 'cannot access collection to find user '})
+                            return;
+                        }
+                        //console.log('user = ' + JSON.stringify(user));
+                        if (user == null) {
+                            console.log('Could not find user with userId ' + userId + ' in _accSetting');
+                            console.log(JSON.stringify(user));
+                            res.status(500);
+                            res.send('');
+                            return;
+                        }
+                        if (user.full_name == null) {
+                            console.log('Could not find users fullname in _accSetting');
+                            res.status(500);
+                            res.send('');
+                            return;
+                        }
+                        else {
+                            console.log(JSON.stringify(user));
+                            masters[userId].full_name = user.full_name;
+                        }
+                    });
                 masters[userId].userId = userId;
-                // res.setHeader('Content-Type', 'application/json');
 
                 console.log(userId);
                 console.log(JSON.stringify({
@@ -859,16 +915,32 @@ app.post('/getUpdates', function (req, res, next) {
     // var object = {};
     //send back JSON object to update current Page once the user is login on another device
     var userId = req.session.userId;
-    var chatToSendBack = [];
+    var chatRecieve = req.body.chat;
+    var chat = {};
     var notificationToSendBack = [];
     var lengthRecieve = req.body.notification;
+
     if (masters.hasOwnProperty(userId) && masters[userId] != null) {
 
         // //send chat
-        // if (masters[userId].chat[req.body.userIdToChat].length > req.body.count){
-        //     console.log(masters[userId].chat[req.body.userIdToChat].length);
-        //     chatToSendBack = masters[userId].chat[req.body.userIdToChat];
-        // }
+        for (var personToChat in masters[userId].chat) {
+            if (masters[userId].chat.hasOwnProperty(personToChat)) {
+                if(masters[userId].chat[personToChat].messages != null) {
+                    if (chatRecieve[personToChat] != null ||
+                        masters[userId].chat[personToChat].messages.length > chatRecieve[personToChat]) {
+                        for (var k = chatRecieve[personToChat]; k < masters[userId].chat[personToChat].messages.length; k++) {
+                            chat[personToChat].push(masters[userId].chat[personToChat].messages[k]);
+                        }
+                    }
+                    else {
+                        chat[0] = masters[userId].full_name;
+                        chat[personToChat] = masters[userId].chat[personToChat].messages;
+                    }
+                }
+            }
+
+        }
+
 
         //send notification back if masters has new notification
         if (masters[userId].notification.length > lengthRecieve) {
@@ -888,20 +960,16 @@ app.post('/getUpdates', function (req, res, next) {
                 ticketId: masters[userId].ticketId,
                 isLoggedIn: masters[userId].isLoggedIn,
                 isDriver: masters[userId].isDriver,
+                chat: chat,
                 notification: notificationToSendBack
-                // chat: {
-                //     chatMessages: chatToSendBack,
-                //     count: masters[userId].chat[req.body.userIdToChat].length
-                // }
+
             }));
         } else {
             res.send(JSON.stringify({
                 isInactive: req.body.isInactive,
+                chat: chat,
                 notification: notificationToSendBack
-                // chat: {
-                //     chatMessages: chatToSendBack,
-                //     count: masters[userId].chat[req.body.userIdToChat].length
-                // }
+
             }));
 
         }
@@ -934,12 +1002,41 @@ app.post('/init', function (req, res) {
             checkoutVersion: 0,
             currentPage: "_homePage"
         };
+        db.collection('users').findOne({_id: userId},
+            function (err, user) {
+                if (err) {
+                    console.log('Error in init: ' + err);
+                    res.status(500);
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send({message: 'cannot access collection to find user '});
+                    return;
+                }
+                //console.log('user = ' + JSON.stringify(user));
+                if (user == null) {
+                    console.log('Could not find user with userId ' + userId + ' in _init');
+                    console.log(JSON.stringify(user));
+                    res.status(500);
+                    res.send('');
+                    return;
+                }
+                if (user.full_name == null) {
+                    console.log('Could not find users fullname in _init');
+                    res.status(500);
+                    res.send('');
+                    return;
+                }
+                else {
+                    console.log(JSON.stringify(user));
+                    masters[userId].full_name = user.full_name;
+                }
+            });
         masters[userId].userId = userId;
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify({
             userId: userId,
             isLoggedIn: false
         }));
+        return;
     }
     else {
         res.setHeader('Content-Type', 'application/json');
@@ -950,6 +1047,7 @@ app.post('/init', function (req, res) {
             ticketId: masters[userId].ticketId,
             isDriver: masters[userId].isDriver
         }));
+        return;
     }
 });
 // var userId = req.body.userId;
@@ -1228,6 +1326,12 @@ app.post('/_checkout', function (req, res, next) {
         console.log('Setting masters[userId].ticketId!');
         masters[userId].ticketId = listId;
 
+        var shoppingcart = req.body.list;
+        var checkofflist = {};
+
+        for (var i = 0; i < shoppingcart; i++)
+            checkofflist[shoppingcart[i]] = false;
+
         var gticket = {
             _id: listId,
             // May need to fix how fields are loaded from master for these new attributes
@@ -1248,7 +1352,8 @@ app.post('/_checkout', function (req, res, next) {
                 phone_number: ''
             },
             store_name: req.body.store_name,
-            shopping_list: req.body.list,
+            shopping_list: shoppingcart,
+            /*checkoff_list: checkofflist,*/
             time_created: date.toLocaleDateString() + ' ' + date.toLocaleTimeString(),
             time_accepted: '',
             // Why are these from ['_accSetting'] ?
@@ -1258,8 +1363,9 @@ app.post('/_checkout', function (req, res, next) {
             state: 'pending',
             price: ''
         };
+
         masters[userId].ticket = gticket;
-        res.setHeader('Content-Type', 'application/json');
+        //res.setHeader('Content-Type', 'application/json');
         res.send("Successful");
     });
 
@@ -1270,41 +1376,57 @@ app.post('_homePage', function (req, res, next) {
 
 });
 
-// TODO: Update ticket in users and grocery_queue collection to update status of item (bought or not) - low priority
 //-----------------------------------------------------DRIVER LIST -----------------------------------------
 app.post('/_driverList', function (req, res, next) {
     var object = {};
     var ticketId = req.session.ticketId;
 
-    if (userId) {
+    if (ticketId) {
         object.notes = masters[userId]["_checkout"].data.special_options;
         object.items = masters[userId]["_"].data.items;   //TODO where is items located?
         object.name = masters[userId].name;
         object.contact = masters[userId].phone;
         res.send(object);
 
-        db.collection('users').findOne({_id: userId}, function(err, user) {
-            if (err) {
-                console.log('Error in _driverList: ' + err);
-                res.status(500);
-                res.send('');
-                return;
-            }
+        db.collection('users').update(
+            {
+                'grocery_list._id': ticketId
+            },
+            {
+                $set: {
+                    'grocery_list.$.state': 'Purchased'
+                }
+            },
+            {
+                multi: true
+            }, function(err, user) {
+                if (err) {
+                    console.log('Error in _driverList: ' + err);
+                    res.status(500);
+                    res.send('');
+                    return;
+                }
 
-            if (!user) {
-                console.log('Error cannot find user in _driverList with id: ' + userId);
-                res.status(500);
-                res.send('');
-            }
-            else {
-                // TODO: checkoff items in grocery list
-            }
+            // if (!user) {
+            //     console.log('Error cannot find user in _driverList with id: ' + userId);
+            //     res.status(500);
+            //     res.send('');
+            // }
+            // else {
+            //     console.log('found user in driverList: ' + user);
+            //     res.setHeader('Content-Type', 'application/json');
+            //     var index;
+            //
+            //     for (var i = 0; i < user.grocery_list.length; i++) {
+            //         if (user.grocery_list[i]._id == ticketId) {
+            //             index = i;
+            //             break;
+            //         }
+            //     }
+            // }
         });
-        
-        
-        
-        res.setHeader('Content-Type', 'application/json');
-
+        console.log('Successfully updated tickets in user db');
+        res.send('');
     }
     res.send('Fail');
 });
@@ -1472,55 +1594,51 @@ app.post('/_tickets', function (req, res) {
 app.get('/complete-payment', function (req, res) {
     var userId = req.query.user;
     //TODO: send to database masters[userId].ticket;
-    //var userId = req.session.userId;
-
-    //
-    // var gticket = masters[userId].ticket;
-    // // Check that empty list was not sent
-    // if (gticket.shopping_list.length === 0) {
-    //     console.log('Grocery ticket submitted has no items');
-    //     res.status(500);
-    //     res.setHeader('Content-Type', 'application/json');
-    //     res.send(JSON.stringify({message: 'Submitted empty list'}));
-    //     return;
-    // }
-    //
-    // // Check that user is logged in
-    // if (!req.session.passport || !req.session.passport.user) {
-    //     console.log('user is not logged in');
-    //     res.status(500);
-    //     res.setHeader('Content-Type', 'application/json');
-    //     res.send({message: 'user is not logged in'});
-    // }
-    // else {
-    //     // Update user to hold grocery list submitted
-    //     db.collection('users').updateOne({_id: req.session.passport.user}, {$push: {grocery_list: gticket}},
-    //         function (err) {
-    //             if (err) {
-    //                 console.log('error updating user grocery list');
-    //                 res.status(500);
-    //                 res.setHeader('Content-Type', 'application/json');
-    //                 res.send(err);
-    //                 return;
-    //             }
-    //
-    //             // If grocery list successfully added to user's grocery list, add list to queue
-    //             db.collection('grocery_queue').insert(gticket, function (err) {
-    //                 if (err) {
-    //                     console.log('error adding list to queue: ' + err);
-    //                     res.status(500);
-    //                     res.setHeader('Content-Type', 'application/json');
-    //                     res.send(err);
-    //                 }
-    //             });
-    //             res.setHeader('Content-Type', 'application/json');
-    //             res.send("Successful");
-    //         }
-    //     );
-    // }
-
-    console.log("submitted");
     console.log(userId);
+    //
+    var gticket = masters[userId].ticket;
+    // Check that empty list was not sent
+    if (gticket.shopping_list.length === 0) {
+        console.log('Grocery ticket submitted has no items');
+        res.status(500);
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({message: 'Submitted empty list'}));
+        return;
+    }
+
+    // Check that user is logged in
+    if (!req.session.passport || !req.session.passport.user) {
+        console.log('user is not logged in');
+        res.status(500);
+        res.setHeader('Content-Type', 'application/json');
+        res.send({message: 'user is not logged in'});
+    }
+    else {
+        // Update user to hold grocery list submitted
+        db.collection('users').updateOne({_id: req.session.passport.user}, {$push: {grocery_list: gticket}},
+            function (err) {
+                if (err) {
+                    console.log('error updating user grocery list');
+                    res.status(500);
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send(err);
+                    return;
+                }
+
+                // If grocery list successfully added to user's grocery list, add list to queue
+                db.collection('grocery_queue').insert(gticket, function (err) {
+                    if (err) {
+                        console.log('error adding list to queue: ' + err);
+                        res.status(500);
+                        res.setHeader('Content-Type', 'application/json');
+                        res.send(err);
+                        return;
+                    }
+                });
+            }
+        );
+    }
+
     res.redirect('/submittedRedirect.html');
 });
 
@@ -1546,6 +1664,25 @@ app.post('/_receiptPictureEnterPrice', function (req, res) {
             if (err) return err;
         }
     );
+
+    var img = (req.body.image);
+    var data = img.replace(/^data:image\/\w+;base64,/, "");
+
+    var buf = new Buffer(data, 'base64');
+    //noinspection JSUnresolvedFunction
+    if(req.session.userId === 'undefined')
+        fs.writeFile('images/receipts/image.png', buf);
+    else
+        fs.writeFile('images/receipts/' + ticketId + '.png', buf);
+
+    console.log("Photo Saved: " + data.substring(0,10));
+    /*fs.writeFile("images/profiles/" + req.session.userId + ".png", req.body.image,"base64", function (err, data ) {
+     if (err) {
+     return console.log("Error");
+     }
+     console.log("Photo saved. Success!");}
+     );*/
+    res.send("");
 
 });
 
