@@ -925,15 +925,17 @@ app.post('/getUpdates', function (req, res, next) {
         // //send chat
         for (var personToChat in masters[userId].chat) {
             if (masters[userId].chat.hasOwnProperty(personToChat)) {
-                if(chatRecieve[personToChat] != null ||
-                    masters[userId].chat[personToChat].messages.length > chatRecieve[personToChat] ){
-                    for (var k = chatRecieve[personToChat]; k < masters[userId].chat[personToChat].messages.length; k++) {
-                        chat[personToChat].push(masters[userId].chat[personToChat].messages[k]);
+                if(masters[userId].chat[personToChat].messages != null) {
+                    if (chatRecieve[personToChat] != null ||
+                        masters[userId].chat[personToChat].messages.length > chatRecieve[personToChat]) {
+                        for (var k = chatRecieve[personToChat]; k < masters[userId].chat[personToChat].messages.length; k++) {
+                            chat[personToChat].push(masters[userId].chat[personToChat].messages[k]);
+                        }
                     }
-                }
-                else{
-                    chat[0] = masters[userId].full_name;
-                    chat[personToChat] = masters[userId].chat[personToChat].messages;
+                    else {
+                        chat[0] = masters[userId].full_name;
+                        chat[personToChat] = masters[userId].chat[personToChat].messages;
+                    }
                 }
             }
 
@@ -1003,22 +1005,22 @@ app.post('/init', function (req, res) {
         db.collection('users').findOne({_id: userId},
             function (err, user) {
                 if (err) {
-                    console.log('Error in accSetting: ' + err);
+                    console.log('Error in init: ' + err);
                     res.status(500);
                     res.setHeader('Content-Type', 'application/json');
-                    res.send({message: 'cannot access collection to find user '})
+                    res.send({message: 'cannot access collection to find user '});
                     return;
                 }
                 //console.log('user = ' + JSON.stringify(user));
                 if (user == null) {
-                    console.log('Could not find user with userId ' + userId + ' in _accSetting');
+                    console.log('Could not find user with userId ' + userId + ' in _init');
                     console.log(JSON.stringify(user));
                     res.status(500);
                     res.send('');
                     return;
                 }
                 if (user.full_name == null) {
-                    console.log('Could not find users fullname in _accSetting');
+                    console.log('Could not find users fullname in _init');
                     res.status(500);
                     res.send('');
                     return;
