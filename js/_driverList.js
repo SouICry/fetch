@@ -60,10 +60,10 @@ var test_data = {
                 }
             }
 
-            for(var j = 0; j < arrayCheckedOff.length; j++){
-                var selector =  "#" + arrayCheckedOff[j];
-                $(selector).toggleClass("selected");
-            }
+            // for(var j = 0; j < arrayCheckedOff.length; j++){
+            //     var selector =  "#" + arrayCheckedOff[j];
+            //     $(selector).toggleClass("selected");
+            // }
         }
     };
 
