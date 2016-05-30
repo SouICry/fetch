@@ -435,6 +435,7 @@ app.post('/_signUp', function (req, res, next) {
                     }
                     else {
                         var userId = req.session.passport.user;
+                        req.session.userId = userId;
                         if (!masters.hasOwnProperty(userId)) {
                             masters[userId] = {
                                 isDriver: false,
