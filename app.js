@@ -95,7 +95,8 @@ var userSchema = new mongoose.Schema(
         delivery_history: {type: [], required: false, unique: false},
         is_driver: {type: Boolean, required: false, unique: false},
         resetPasswordToken: String,
-        resetPasswordExpires: Date
+        resetPasswordExpires: Date,
+        // TODO: add image (research how to do it)
     }
 );
 
@@ -1492,7 +1493,7 @@ app.post('/_history', function (req, res, next) {
                 res.send('');
             }
             else {
-                res.setHeader('Content-Type', 'application/json');
+                //res.setHeader('Content-Type', 'application/json');
                 res.send(JSON.stringify({
                     user_history: doc.user_history,
                     pending_list: doc.grocery_list
