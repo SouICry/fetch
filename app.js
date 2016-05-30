@@ -926,8 +926,8 @@ app.post('/getUpdates', function (req, res, next) {
         // //send chat
         for (var personToChat in masters[userId].chat) {
             if (masters[userId].chat.hasOwnProperty(personToChat)) {
-                if(masters[userId].chat[personToChat].messages != null) {
-                    if (chatRecieve[personToChat] != null){
+                if (masters[userId].chat[personToChat].messages != null) {
+                    if (chatRecieve[personToChat] != null) {
 
                         if (masters[userId].chat[personToChat].messages.length > chatRecieve[personToChat]) {
                             chat[personToChat] = [];
@@ -938,15 +938,14 @@ app.post('/getUpdates', function (req, res, next) {
                     }
                     else {
                         chat[0] = masters[personToChat].full_name;
-                        console.log("User full name is ", chat[0], "user Id is"  , personToChat );
+                        console.log("User full name is ", chat[0], "user Id is", personToChat);
                         chat[personToChat] = masters[userId].chat[personToChat].messages;
-                        console.log("Chat messages are ", chat[personToChat] );
+                        console.log("Chat messages are ", chat[personToChat]);
                     }
                 }
             }
 
         }
-    console.log(chat);
 
         //send notification back if masters has new notification
         if (masters[userId].notification.length > lengthRecieve) {
