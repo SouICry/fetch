@@ -101,7 +101,14 @@ function enableCamera(vid, canvas, takeButton, redoButton, source, onTakePic) {
         onTakePic();
         var context = canvas.getContext("2d");
         context.drawImage(vid, 0, 0, vid.offsetWidth, canvas.height);
-        console.log("Picture taked");
+
+         var image = new Image();
+         image.src = canvas.toDataURL("image/png");
+         image.class = "resize-image";
+         //console.log($(image));
+         //resizeableImage($(image))
+
+         console.log("Picture taken");
         canvas.style.display = "block";
         vid.style.display = "none";
         takeButton.style.display = "none";
