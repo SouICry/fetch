@@ -127,10 +127,9 @@
 
     $('li.yourDeliveries1').each(function () {
         $(this).click(function () {
-            //alert($('li.yourDeliveries1').data('id'));
+            // Setting loader._driverList.data to ticketId here
             loader._driverList.data = $('li.yourDeliveries1').data('id');
             goToPage('_driverList');
-            //loader.getTicket($(this).data("id"), $(this).data("state"))
         });
     });
 
