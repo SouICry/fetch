@@ -1,6 +1,8 @@
 // User enters account information.
 // First, data is loaded into data field if there is data, otherwise input fields are empty
+
 (function () {
+   
     loader._accSetting = {
         data: {
             full_name: "Jeanette Phung", email: "jeanettephung@hotmail.com", phone: "(626)443-5688",
@@ -23,7 +25,7 @@
             if (!data) {
                 alert('NO DATA TO LOAD');
             }
-            // document.getElementById('accsetting_full_name').innerHTML = data.full_name;
+            
             $("#accsetting_full_name").val(data.full_name).siblings().addClass("active");
             $("#accsetting_email").val(data.email).siblings().addClass("active");;
             $("#accsetting_phone").val(data.phone).siblings().addClass("active");;

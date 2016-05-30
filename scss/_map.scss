@@ -1,9 +1,11 @@
-body, html, #map {
-  height: 100%;
-  margin: 0;
+#map-select-loc {
+  height: 720px;
+}
+#map-select-loc, #map-select-loc * {
+  transition: none;
 }
 
-#centerMarker {
+#centerMarker-select-loc {
   position: absolute;
   /*url of the marker*/
   background: url(https://maps.gstatic.com/mapfiles/markers2/marker.png) no-repeat;
