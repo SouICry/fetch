@@ -144,7 +144,7 @@ h6 {
     opacity: .3;
   }
 
-  #shopping_numItems, #driver_numItems {
+  #shopping_numItems, #driver_numItems, #_viewTicket_numItems {
     float: left;
     width: 33%;
     //display: inline;
@@ -170,7 +170,7 @@ h6 {
     line-height: 2;
   }
 
-  #shopping_submit_list, #_driver_submit_list {
+  #shopping_submit_list, #_driver_submit_list, #_viewTicket_submit_list {
     text-align: center;
     width: 33%;
     color: $fetchOrange;
