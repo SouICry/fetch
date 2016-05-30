@@ -75,7 +75,8 @@
     var status;
     $("#confirm_button").click(function(){
         status = "completed";
-        goToPage("_congratsTicketClosed");
+        //goToPage("_congratsTicketClosed");
+        goToPage("_rateDriver");  //Trivi added
     });
 
 })();/**
