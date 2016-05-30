@@ -1363,7 +1363,7 @@ app.post('/_checkout', function (req, res, next) {
         };
 
         masters[userId].ticket = gticket;
-        res.setHeader('Content-Type', 'application/json');
+        //res.setHeader('Content-Type', 'application/json');
         res.send("Successful");
     });
 
@@ -1630,10 +1630,9 @@ app.get('/complete-payment', function (req, res) {
                         res.status(500);
                         res.setHeader('Content-Type', 'application/json');
                         res.send(err);
+                        return;
                     }
                 });
-                res.setHeader('Content-Type', 'application/json');
-                res.send("Successful");
             }
         );
     }
