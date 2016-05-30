@@ -549,6 +549,12 @@
                         loader.currentPage = "_homePage";
                     }
                     else {
+                        if(UrlExists('images/profiles/' + data.userId + '.png'))
+                            document.getElementById("index-image-user").src = 'images/profiles/' + data.userId + '.png';
+                        else
+                            document.getElementById("index-image-user").src = 'placeholder/person4.png';
+                        document.getElementById("index_user-name").innerHTML = data.userId;
+
                         loader.userId = data.userId;
                         loader.isLoggedIn = true;
                         loader.isDriver = data.isDriver;
