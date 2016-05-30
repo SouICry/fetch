@@ -37,8 +37,8 @@ var masters = {};
 
 function createNotification(userId, text, page, icon) {
     var onClick = "loader.closeNotification('" + page + "', this);";
-    
-    masters[userId].notification.push( '<div class="notification-inner" data-changePage="true" onclick="' + onClick + '"><div class="icon"><i class="material-icons">'
+
+    masters[userId].notification.push('<div class="notification-inner" data-changePage="true" onclick="' + onClick + '"><div class="icon"><i class="material-icons">'
         + icon + '</i></div><div class="text">' + text + '</div></div>');
 }
 
@@ -95,7 +95,8 @@ var userSchema = new mongoose.Schema(
         delivery_history: {type: [], required: false, unique: false},
         is_driver: {type: Boolean, required: false, unique: false},
         resetPasswordToken: String,
-        resetPasswordExpires: Date
+        resetPasswordExpires: Date,
+        // TODO: add image (research how to do it)
     }
 );
 
@@ -360,13 +361,13 @@ app.post('/savePhoto', function (req, res) {
 
     var buf = new Buffer(data, 'base64');
     //noinspection JSUnresolvedFunction
-    if(req.session.userId === 'undefined')
+    if (req.session.userId === 'undefined')
         fs.writeFile('images/profiles/image.png', buf);
     else
         fs.writeFile('images/profiles/' + req.session.userId + '.png', buf);
     //console.log(img);
     //console.log(typeof(img));
-    console.log("Photo Saved: " + data.substring(0,10));
+    console.log("Photo Saved: " + data.substring(0, 10));
     /*fs.writeFile("images/profiles/" + req.session.userId + ".png", req.body.image,"base64", function (err, data ) {
      if (err) {
      return console.log("Error");
@@ -667,7 +668,7 @@ app.post('/_passwordRecovery', function (req, res, next) {
         //res.redirect('/forgot');
     });
 });
-app.post('/_passwordReset', function(req, res) {
+app.post('/_passwordReset', function (req, res) {
     var userId = req.session.userId;
 
     if (userId == null) {
@@ -870,16 +871,16 @@ app.post('/switchRole', function (req, res) {
 });
 
 
-app.post('/chat', function(req,res){
+app.post('/chat', function (req, res) {
     var userId = req.session.userId;
 
-    if(!masters[userId].chat.hasOwnProperty(req.body.userIdToChat)) {
+    if (!masters[userId].chat.hasOwnProperty(req.body.userIdToChat)) {
         masters[userId].chat[req.body.userIdToChat] = {
             messages: []
         };
-        masters[userId].chat[req.body.userIdToChat].messages.push(req.body.message);
+        masters[userId].chat[req.body.userIdToChat].messages.push("<div class='ours'><div>" + req.body.message + "</div></div>");
     }
-    
+
     if (!masters.hasOwnProperty(req.body.userIdToChat)) {
         masters[req.body.userIdToChat] = {
             isDriver: false,
@@ -893,16 +894,17 @@ app.post('/chat', function(req,res){
             checkoutVersion: 0,
             currentPage: "_homePage"
         };
-        if(!masters[req.body.userIdToChat].chat.hasOwnProperty(userId)){
-            masters[req.body.userIdToChat].chat[userId] = {
-                messages: []
-            };
-            masters[req.body.userIdToChat].chat[userId].messages.push(req.body.message);
-        }
+
     }
-    else{
-        masters[userId].chat[req.body.userIdToChat].messages.push(req.body.message);
-        masters[req.body.userIdToChat].chat[userId].messages.push(req.body.message);
+    if (!masters[req.body.userIdToChat].chat.hasOwnProperty(userId)) {
+        masters[req.body.userIdToChat].chat[userId] = {
+            messages: []
+        };
+        masters[req.body.userIdToChat].chat[userId].messages.push("<div class='theirs'><div>" + req.body.message + "</div></div>");
+    }
+    else {
+        masters[userId].chat[req.body.userIdToChat].messages.push("<div class='ours'><div>" + req.body.message + "</div></div>");
+        masters[req.body.userIdToChat].chat[userId].messages.push("<div class='theirs'><div>" + req.body.message + "</div></div>");
     }
 
     res.send("");
@@ -925,16 +927,21 @@ app.post('/getUpdates', function (req, res, next) {
         // //send chat
         for (var personToChat in masters[userId].chat) {
             if (masters[userId].chat.hasOwnProperty(personToChat)) {
-                if(masters[userId].chat[personToChat].messages != null) {
-                    if (chatRecieve[personToChat] != null ||
-                        masters[userId].chat[personToChat].messages.length > chatRecieve[personToChat]) {
-                        for (var k = chatRecieve[personToChat]; k < masters[userId].chat[personToChat].messages.length; k++) {
-                            chat[personToChat].push(masters[userId].chat[personToChat].messages[k]);
+                if (masters[userId].chat[personToChat].messages != null) {
+                    if (chatRecieve[personToChat] != null) {
+
+                        if (masters[userId].chat[personToChat].messages.length > chatRecieve[personToChat]) {
+                            chat[personToChat] = [];
+                            for (var k = chatRecieve[personToChat]; k < masters[userId].chat[personToChat].messages.length; k++) {
+                                chat[personToChat].push(masters[userId].chat[personToChat].messages[k]);
+                            }
                         }
                     }
                     else {
-                        chat[0] = masters[userId].full_name;
+                        chat[0] = masters[personToChat].full_name;
+                        console.log("User full name is ", chat[0], "user Id is", personToChat);
                         chat[personToChat] = masters[userId].chat[personToChat].messages;
+                        console.log("Chat messages are ", chat[personToChat]);
                     }
                 }
             }
@@ -1036,6 +1043,7 @@ app.post('/init', function (req, res) {
             userId: userId,
             isLoggedIn: false
         }));
+        return;
     }
     else {
         res.setHeader('Content-Type', 'application/json');
@@ -1046,6 +1054,7 @@ app.post('/init', function (req, res) {
             ticketId: masters[userId].ticketId,
             isDriver: masters[userId].isDriver
         }));
+        return;
     }
 });
 // var userId = req.body.userId;
@@ -1302,7 +1311,7 @@ app.post('/_accSetting', function (req, res) {
 app.post('/_checkout', function (req, res, next) {
     var date = new Date();
     var userId = req.session.userId;
-     
+
     db.collection('users').findOne({_id: userId}, function (err, user) {
         // Model for grocery list
         if (err) {
@@ -1324,6 +1333,12 @@ app.post('/_checkout', function (req, res, next) {
         console.log('Setting masters[userId].ticketId!');
         masters[userId].ticketId = listId;
 
+        var shoppingcart = req.body.list;
+        var checkofflist = {};
+
+        for (var i = 0; i < shoppingcart; i++)
+            checkofflist[shoppingcart[i]] = false;
+
         var gticket = {
             _id: listId,
             // May need to fix how fields are loaded from master for these new attributes
@@ -1344,7 +1359,8 @@ app.post('/_checkout', function (req, res, next) {
                 phone_number: ''
             },
             store_name: req.body.store_name,
-            shopping_list: req.body.list,
+            shopping_list: shoppingcart,
+            /*checkoff_list: checkofflist,*/
             time_created: date.toLocaleDateString() + ' ' + date.toLocaleTimeString(),
             time_accepted: '',
             // Why are these from ['_accSetting'] ?
@@ -1354,8 +1370,9 @@ app.post('/_checkout', function (req, res, next) {
             state: 'pending',
             price: ''
         };
+
         masters[userId].ticket = gticket;
-        res.setHeader('Content-Type', 'application/json');
+        //res.setHeader('Content-Type', 'application/json');
         res.send("Successful");
     });
 
@@ -1366,41 +1383,107 @@ app.post('_homePage', function (req, res, next) {
 
 });
 
-// TODO: Update ticket in users and grocery_queue collection to update status of item (bought or not) - low priority
+app.post('/driverListUpdate', function (req, res) {
+
+    var ticketId = req.body.ticketId;
+
+    if (!ticketId) {
+        console.log('In driverListUpdate err');
+        res.status(500);
+        res.send('');
+
+    } else {
+        db.collection('users').findOne({'grocery_list._id': ticketId}, function (err, user) {
+
+            if (err) {
+                console.log('Err in driverListUpdate: ' + err);
+                res.status(500);
+                res.send('');
+            } else if (!user) {
+                console.log('User cannot be found in driverListUpdate: ' + user);
+                res.status(500);
+                res.send('');
+            } else {
+                var index = -1;
+                for (var i = 0; i < user.grocery_list.length; i++) {
+                    if (user.grocery_list[i]._id == ticketId) {
+                        index = i;
+                        break;
+                    }
+                }
+
+                if (index == -1) {
+                    console.log('could not find ticket with id: ' + ticketId + ' in driverListUpdate');
+                    res.status(500);
+                    res.send('');
+
+                } else {
+
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send(JSON.stringify({
+                        full_name: user.grocery_list[i].shopper.full_name,
+                        items: user.grocery_list[i].shopping_list,
+                        contact: user.phone_number
+                    }));
+                }
+            }
+        });
+    }
+});
+
 //-----------------------------------------------------DRIVER LIST -----------------------------------------
 app.post('/_driverList', function (req, res, next) {
     var object = {};
     var ticketId = req.session.ticketId;
 
-    if (userId) {
+    if (ticketId) {
         object.notes = masters[userId]["_checkout"].data.special_options;
         object.items = masters[userId]["_"].data.items;   //TODO where is items located?
         object.name = masters[userId].name;
         object.contact = masters[userId].phone;
         res.send(object);
 
-        db.collection('users').findOne({_id: userId}, function(err, user) {
-            if (err) {
-                console.log('Error in _driverList: ' + err);
-                res.status(500);
-                res.send('');
-                return;
-            }
+        db.collection('users').update({
+                'grocery_list._id': ticketId
+            },
+            {
+                $set: {
+                    'grocery_list.$.state': 'Purchased'
+                }
+            },
+            {
+                multi: true
 
-            if (!user) {
-                console.log('Error cannot find user in _driverList with id: ' + userId);
-                res.status(500);
-                res.send('');
-            }
-            else {
-                // TODO: checkoff items in grocery list
-            }
-        });
-        
-        
-        
-        res.setHeader('Content-Type', 'application/json');
+            }, function (err, user) {
 
+                if (err) {
+                    console.log('Error in _driverList: ' + err);
+                    res.status(500);
+                    res.send('');
+                }
+
+
+                // if (!user) {
+                //     console.log('Error cannot find user in _driverList with id: ' + userId);
+                //     res.status(500);
+                //     res.send('');
+                // }
+                // else {
+                //     console.log('found user in driverList: ' + user);
+                //     res.setHeader('Content-Type', 'application/json');
+                //     var index;
+                //
+                //     for (var i = 0; i < user.grocery_list.length; i++) {
+                //         if (user.grocery_list[i]._id == ticketId) {
+                //             index = i;
+                //             break;
+                //         }
+                //     }
+                // }
+            });
+
+        console.log('Successfully updated tickets in user db');
+        res.send('');
     }
     res.send('Fail');
 });
@@ -1436,7 +1519,7 @@ app.post('/_history', function (req, res, next) {
                 res.send('');
             }
             else {
-                res.setHeader('Content-Type', 'application/json');
+                //res.setHeader('Content-Type', 'application/json');
                 res.send(JSON.stringify({
                     user_history: doc.user_history,
                     pending_list: doc.grocery_list
@@ -1569,50 +1652,42 @@ app.get('/complete-payment', function (req, res) {
     var userId = req.query.user;
     //TODO: send to database masters[userId].ticket;
     console.log(userId);
+    //
+    var gticket = masters[userId].ticket;
+    // Check that empty list was not sent
+    if (gticket.shopping_list.length === 0) {
+        console.log('Grocery ticket submitted has no items');
+        res.status(500);
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({message: 'Submitted empty list'}));
+        return;
+    }
 
-    // var gticket = masters[userId].ticket;
-    // // Check that empty list was not sent
-    // if (gticket.shopping_list.length === 0) {
-    //     console.log('Grocery ticket submitted has no items');
-    //     res.status(500);
-    //     res.setHeader('Content-Type', 'application/json');
-    //     res.send(JSON.stringify({message: 'Submitted empty list'}));
-    //     return;
-    // }
-    //
-    // // Check that user is logged in
-    // if (!req.session.passport || !req.session.passport.user) {
-    //     console.log('user is not logged in');
-    //     res.status(500);
-    //     res.setHeader('Content-Type', 'application/json');
-    //     res.send({message: 'user is not logged in'});
-    // }
-    // else {
-    //     // Update user to hold grocery list submitted
-    //     db.collection('users').updateOne({_id: req.session.passport.user}, {$push: {grocery_list: gticket}},
-    //         function (err) {
-    //             if (err) {
-    //                 console.log('error updating user grocery list');
-    //                 res.status(500);
-    //                 res.setHeader('Content-Type', 'application/json');
-    //                 res.send(err);
-    //                 return;
-    //             }
-    //
-    //             // If grocery list successfully added to user's grocery list, add list to queue
-    //             db.collection('grocery_queue').insert(gticket, function (err) {
-    //                 if (err) {
-    //                     console.log('error adding list to queue: ' + err);
-    //                     res.status(500);
-    //                     res.setHeader('Content-Type', 'application/json');
-    //                     res.send(err);
-    //                 }
-    //             });
-    //             res.setHeader('Content-Type', 'application/json');
-    //             res.send("Successful");
-    //         }
-    //     );
-    // }
+
+    // Update user to hold grocery list submitted
+    db.collection('users').updateOne({_id: req.session.userId}, {$push: {grocery_list: gticket}},
+        function (err) {
+            if (err) {
+                console.log('error updating user grocery list');
+                res.status(500);
+                res.setHeader('Content-Type', 'application/json');
+                res.send(err);
+                return;
+            }
+
+            // If grocery list successfully added to user's grocery list, add list to queue
+            db.collection('grocery_queue').insert(gticket, function (err) {
+                if (err) {
+                    console.log('error adding list to queue: ' + err);
+                    res.status(500);
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send(err);
+                    return;
+                }
+            });
+        }
+    );
+
 
     res.redirect('/submittedRedirect.html');
 });
@@ -1645,12 +1720,12 @@ app.post('/_receiptPictureEnterPrice', function (req, res) {
 
     var buf = new Buffer(data, 'base64');
     //noinspection JSUnresolvedFunction
-    if(req.session.userId === 'undefined')
+    if (req.session.userId === 'undefined')
         fs.writeFile('images/receipts/image.png', buf);
     else
         fs.writeFile('images/receipts/' + ticketId + '.png', buf);
 
-    console.log("Photo Saved: " + data.substring(0,10));
+    console.log("Photo Saved: " + data.substring(0, 10));
     /*fs.writeFile("images/profiles/" + req.session.userId + ".png", req.body.image,"base64", function (err, data ) {
      if (err) {
      return console.log("Error");

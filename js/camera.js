@@ -34,6 +34,7 @@ function gotSources(sourceInfos) {
 
 var takePhoto;
 var reTake;
+var imageUp;
 
 //var counter =0;
 function enableCamera(vid, canvas, takeButton, redoButton, source, onTakePic) {
@@ -100,12 +101,26 @@ function enableCamera(vid, canvas, takeButton, redoButton, source, onTakePic) {
         onTakePic();
         var context = canvas.getContext("2d");
         context.drawImage(vid, 0, 0, vid.offsetWidth, canvas.height);
-        console.log("Picture taked");
+
+         var image = new Image();
+         image.src = canvas.toDataURL("image/png");
+         image.class = "resize-image";
+         //console.log($(image));
+         //resizeableImage($(image))
+
+         console.log("Picture taken");
         canvas.style.display = "block";
         vid.style.display = "none";
         takeButton.style.display = "none";
         redoButton.style.display = "block";
-
+         /*if(window.stream){
+             window.stream.getTracks().forEach(function (track) {
+                 //console.log("Camera has been stopped")
+                 //console.log(track)
+                 track.stop();
+             });
+             window.stream = null;
+         }*/
     };
     //console.log(takePhoto);
     //addListenr: function ()
@@ -121,7 +136,7 @@ function enableCamera(vid, canvas, takeButton, redoButton, source, onTakePic) {
     
 }
 
-function disableCamera(vid, takeButton, redoButton) {
+function disableCamera(vid, takeButton, redoButton, uploadInput) {
     if (window.stream) {
         vid.pause();
         vid.src = "";
@@ -134,17 +149,24 @@ function disableCamera(vid, takeButton, redoButton) {
     }
     takeButton.removeEventListener("click", takePhoto);
     redoButton.removeEventListener("click", reTake);
+    uploadInput.removeEventListener("change", imageUp);
     
 }
-
+function UrlExists(url)
+{
+    var http = new XMLHttpRequest();
+    http.open('HEAD', url, false);
+    http.send();
+    return http.status!=404;
+}
 function enableImageUpload(vid, canvas, takeButton, redoButton, uploadInput) {
-    uploadInput.addEventListener('change', handleImageUpload, false);
 
     var context = canvas.getContext("2d");
 
-    function handleImageUpload(e) {
+    imageUp = function handleImageUpload(e) {
         var reader = new FileReader();
         reader.onload = function (event) {
+            //console.log("In Load");
             var img = new Image();
             img.onload = function () {
                 var canvasWidth = canvas.width;
@@ -166,6 +188,7 @@ function enableImageUpload(vid, canvas, takeButton, redoButton, uploadInput) {
         };
         reader.readAsDataURL(e.target.files[0]);
     }
+    uploadInput.addEventListener('change', imageUp, false);
 }
 
 function enableCameraImage(vid, canvas, takeButton, redoButton, uploadInput, source, onTakePic) {
