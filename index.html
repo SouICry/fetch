@@ -143,18 +143,19 @@
         notificationCount: 0,
         chatCount: 0,
         chat: {},
-        appendChat: function (id, arr) {
+        notificationSound: new Audio('/notify.mp3'),
+        appendChat: function (id, arr, name) {
             if (!loader.chat.hasOwnProperty(id)) {
                 loader.chat[id] = {
                     messages: [],
                     isOpen: false,
-                    name: arr[0]
+                    name: name
                 };
                 var u = loader.chat[id];
-                for (var i = 1; i < arr.length; i++) {
-                    u.messages.push(arr[i]);
-                }
-                loader.openChat(id, arr[0])
+//                for (var i = 1; i < arr.length; i++) {
+//                    u.messages.push(arr[i]);
+//                }
+//                loader.openChat(id, arr[0])
             }
             else if (!loader.chat[id].isOpen) {
                 var u = loader.chat[id];
@@ -168,16 +169,20 @@
                 var chat = $(document.getElementById('chatForm' + id).parentNode.parentNode).find('.window');
                 for (var i = 0; i < arr.length; i++) {
                     u.messages.push(arr[i]);
-                    chat.append("<div>" + arr[i] + "</div>");
+                    console.log(arr[i]);
+                    chat.append(arr[i]);
                 }
+
+                $('#chatWindow' + id).scrollTop(100000);
             }
+            loader.notificationSound.play();
         },
         openChat: function (id, name) {
             if (!loader.chat.hasOwnProperty(id)) {
                 loader.chat[id] = {
                     messages: [],
                     isOpen: false,
-                    name: "name"
+                    name: name
                 };
             }
 
@@ -208,7 +213,8 @@
                     if (message.length > 0) {
 
                         var parent = $(this).parent();
-                        $(parent).parent().find('.window').append('<div class="ours"><div>' + message + '</div></div>');
+                        var content = '<div class="ours"><div>' + message + '</div></div>';
+                        $(parent).parent().find('.window').append(content);
                         $.ajax({
                             type: "POST",
                             url: "/chat",
@@ -219,9 +225,6 @@
                                 message: message
                             })
                         });
-                        var w = $(parent).find(".window");
-                        var content  = "<div>" + message + "</div>";
-                        w.append(content);
                         c.messages.push(content);
                         test = w;
                         $('#chatWindow' + id).scrollTop(100000);
@@ -234,9 +237,11 @@
                 var w = $(e).find('.window');
                 var m = c.messages;
                 for (var i = 0; i < m.length; i++) {
-                    $(w).append("<div>" + m[i] + "</div>");
+                    $(w).append(m[i]);
                 }
+
                 $('#chats').append(e);
+                $('#chatWindow' + id).scrollTop(100000);
             }
 
         },
@@ -328,6 +333,7 @@
             document.getElementById("notifications").appendChild(e);
             setTimeout(function () {
                 $(e).css("transform", "translateX(-400px)")
+                loader.notificationSound.play();
             }, 100);
             setTimeout(function () {
                 e.firstChild.dataset.changepage = "false";
@@ -385,7 +391,7 @@
                         }
                         var c = data.chat;
                         for (var user in c) {
-                            loader.appendChat(user, c[user]); //If new, first element in array should be username
+                            loader.appendChat(user, c[user], c[0]); //If new, first element in array should be username
                         }
 
                         if (data.isInactive) {
@@ -422,7 +428,6 @@
             document.cookie = "user=" + data.userId + ";expires=" + d.toUTCString();
             console.log(data.isLoggedIn);
             if (!data.isLoggedIn) {
-                console.log("just logged in first time");
                 loader.userId = data.userId;
                 loader.isLoggedIn = true;
                 loader.isDriver = false;

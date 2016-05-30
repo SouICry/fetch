@@ -17,7 +17,7 @@ var test_data = {
             return packData;
         },
         onPageLoad: function() {
-            assholes61323355();
+            assholes666();
         },
         loadData: function (data) {
             //populate driver list
@@ -28,10 +28,10 @@ var test_data = {
 
             fullName = data.full_name;
             array = data.items;
-            var name = data.full_name.split(" ");
+            var name = data.full_name;
 
             //create the contact info(where should I got this, is there a flied relates to contact?
-            document.getElementById("listName_driverList").innerHTML = name[0] + "'s Shopping List";
+            document.getElementById("listName_driverList").innerHTML = name + "'s Shopping List";
             document.getElementById("phone").innerHTML = "Phone: " + data.contact;
 
             for (var i = 0; i < array.length; i++) {
@@ -110,14 +110,14 @@ var test_data = {
         }
 
         if (arr.length === count || flag === true) {
-            assholes666();
+            assholes61323355();
             goToPage("_congrats_driver_finish_shopping");
         }
     });
 
-    assholes61323355();
+    assholes666();
 
-    // Used to get data from db
+    // Used after click submit, update the grocery ticket for the users
     function assholes61323355() {
         var info_to_send = {};
         info_to_send.ticketId = loader._driverList.data;
@@ -131,8 +131,9 @@ var test_data = {
             dataType: "json",
             data: null,
             success: function (data) {
+                alert('success!!!!!');
                 //data is the object sent back on success (could also just be string)
-                loader._driverList.loadData(data);
+                //loader._driverList.loadData(data);
             },
             error: function (data) {
                 //data is the object send back on fail (could also just be string)
@@ -140,21 +141,22 @@ var test_data = {
         });
     }
 
-    // Used after click submit, update the grocery ticket for the users
+    // Used to get data from db
     function assholes666() {
         var info_to_send = {};
         info_to_send.ticketId = loader._driverList.data;
         //alert(info_to_send.ticketId);
-        info_to_send.type = 'get';
+        info_to_send.type = 'send';
 
         $.ajax({
             type: "POST",
             url: "/driverListUpdate",
             contentType: "application/json",
             dataType: "json",
-            data: null,
+            data: JSON.stringify(info_to_send),
             success: function (data) {
                 //data is the object sent back on success (could also just be string)
+                loader._driverList.loadData(data);
             },
             error: function (data) {
                 //data is the object send back on fail (could also just be string)

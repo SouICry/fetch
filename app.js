@@ -877,10 +877,10 @@ app.post('/chat', function(req,res){
         masters[userId].chat[req.body.userIdToChat] = {
             messages: []
         };
-        masters[userId].chat[req.body.userIdToChat].messages.push(req.body.message);
+        masters[userId].chat[req.body.userIdToChat].messages.push("<div class='ours'><div>" + req.body.message + "</div></div>");
     }
-    
-    if (!masters.hasOwnProperty(req.body.userIdToChat)) {
+
+    if (!masters.hasOwnProperty(req.body.userIdToChat) ) {
         masters[req.body.userIdToChat] = {
             isDriver: false,
             isLoggedIn: true,
@@ -893,16 +893,17 @@ app.post('/chat', function(req,res){
             checkoutVersion: 0,
             currentPage: "_homePage"
         };
-        if(!masters[req.body.userIdToChat].chat.hasOwnProperty(userId)){
-            masters[req.body.userIdToChat].chat[userId] = {
-                messages: []
-            };
-            masters[req.body.userIdToChat].chat[userId].messages.push(req.body.message);
-        }
+
+    }
+    if(!masters[req.body.userIdToChat].chat.hasOwnProperty(userId)){
+        masters[req.body.userIdToChat].chat[userId] = {
+            messages: []
+        };
+        masters[req.body.userIdToChat].chat[userId].messages.push("<div class='theirs'><div>" + req.body.message + "</div></div>");
     }
     else{
-        masters[userId].chat[req.body.userIdToChat].messages.push(req.body.message);
-        masters[req.body.userIdToChat].chat[userId].messages.push(req.body.message);
+        masters[userId].chat[req.body.userIdToChat].messages.push("<div class='ours'><div>" + req.body.message + "</div></div>");
+        masters[req.body.userIdToChat].chat[userId].messages.push("<div class='theirs'><div>" + req.body.message + "</div></div>");
     }
 
     res.send("");
@@ -926,21 +927,26 @@ app.post('/getUpdates', function (req, res, next) {
         for (var personToChat in masters[userId].chat) {
             if (masters[userId].chat.hasOwnProperty(personToChat)) {
                 if(masters[userId].chat[personToChat].messages != null) {
-                    if (chatRecieve[personToChat] != null ||
-                        masters[userId].chat[personToChat].messages.length > chatRecieve[personToChat]) {
-                        for (var k = chatRecieve[personToChat]; k < masters[userId].chat[personToChat].messages.length; k++) {
-                            chat[personToChat].push(masters[userId].chat[personToChat].messages[k]);
+                    if (chatRecieve[personToChat] != null){
+
+                        if (masters[userId].chat[personToChat].messages.length > chatRecieve[personToChat]) {
+                            chat[personToChat] = [];
+                            for (var k = chatRecieve[personToChat]; k < masters[userId].chat[personToChat].messages.length; k++) {
+                                chat[personToChat].push(masters[userId].chat[personToChat].messages[k]);
+                            }
                         }
                     }
                     else {
-                        chat[0] = masters[userId].full_name;
+                        chat[0] = masters[personToChat].full_name;
+                        console.log("User full name is ", chat[0], "user Id is"  , personToChat );
                         chat[personToChat] = masters[userId].chat[personToChat].messages;
+                        console.log("Chat messages are ", chat[personToChat] );
                     }
                 }
             }
 
         }
-
+    console.log(chat);
 
         //send notification back if masters has new notification
         if (masters[userId].notification.length > lengthRecieve) {
@@ -1376,29 +1382,28 @@ app.post('_homePage', function (req, res, next) {
     
 });
 
-app.post('/driverListUpdate', function(req, res, next) {
+app.post('/driverListUpdate', function (req, res) {
+
     var ticketId = req.body.ticketId;
 
     if (!ticketId) {
         console.log('In driverListUpdate err');
         res.status(500);
         res.send('');
-    }
-    else {
-        db.collection('users').findOne({'grocery_list._id': ticketId}, function(err, user) {
+
+    } else {
+        db.collection('users').findOne({'grocery_list._id': ticketId}, function (err, user) {
+
             if (err) {
                 console.log('Err in driverListUpdate: ' + err);
                 res.status(500);
                 res.send('');
-            }
-            else if (!user) {
+            } else if (!user) {
                 console.log('User cannot be found in driverListUpdate: ' + user);
                 res.status(500);
                 res.send('');
-            }
-            else {
+            } else {
                 var index = -1;
-
                 for (var i = 0; i < user.grocery_list.length; i++) {
                     if (user.grocery_list[i]._id == ticketId) {
                         index = i;
@@ -1410,8 +1415,9 @@ app.post('/driverListUpdate', function(req, res, next) {
                     console.log('could not find ticket with id: ' + ticketId + ' in driverListUpdate');
                     res.status(500);
                     res.send('');
-                }
-                else {
+
+                } else {
+
                     res.setHeader('Content-Type', 'application/json');
                     res.send(JSON.stringify({
                         full_name: user.grocery_list[i].shopper.full_name,
@@ -1447,31 +1453,12 @@ app.post('/_driverList', function (req, res, next) {
             },
             {
                 multi: true
-            }, function(err, user) {
+            }, function(err) {
                 if (err) {
                     console.log('Error in _driverList: ' + err);
                     res.status(500);
                     res.send('');
-                    return;
                 }
-
-            // if (!user) {
-            //     console.log('Error cannot find user in _driverList with id: ' + userId);
-            //     res.status(500);
-            //     res.send('');
-            // }
-            // else {
-            //     console.log('found user in driverList: ' + user);
-            //     res.setHeader('Content-Type', 'application/json');
-            //     var index;
-            //
-            //     for (var i = 0; i < user.grocery_list.length; i++) {
-            //         if (user.grocery_list[i]._id == ticketId) {
-            //             index = i;
-            //             break;
-            //         }
-            //     }
-            // }
         });
         console.log('Successfully updated tickets in user db');
         res.send('');
