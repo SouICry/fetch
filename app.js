@@ -926,8 +926,8 @@ app.post('/getUpdates', function (req, res, next) {
         // //send chat
         for (var personToChat in masters[userId].chat) {
             if (masters[userId].chat.hasOwnProperty(personToChat)) {
-                if(masters[userId].chat[personToChat].messages != null) {
-                    if (chatRecieve[personToChat] != null){
+                if (masters[userId].chat[personToChat].messages != null) {
+                    if (chatRecieve[personToChat] != null) {
 
                         if (masters[userId].chat[personToChat].messages.length > chatRecieve[personToChat]) {
                             chat[personToChat] = [];
@@ -938,15 +938,14 @@ app.post('/getUpdates', function (req, res, next) {
                     }
                     else {
                         chat[0] = masters[personToChat].full_name;
-                        console.log("User full name is ", chat[0], "user Id is"  , personToChat );
+                        console.log("User full name is ", chat[0], "user Id is", personToChat);
                         chat[personToChat] = masters[userId].chat[personToChat].messages;
-                        console.log("Chat messages are ", chat[personToChat] );
+                        console.log("Chat messages are ", chat[personToChat]);
                     }
                 }
             }
 
         }
-    console.log(chat);
 
         //send notification back if masters has new notification
         if (masters[userId].notification.length > lengthRecieve) {
@@ -1382,6 +1381,49 @@ app.post('_homePage', function (req, res, next) {
     
 });
 
+app.post('/driverListUpdate', function (req, res) {
+    var ticketId = req.body.ticketId;
+
+    if (!ticketId) {
+        console.log('In driverListUpdate err');
+        res.status(500);
+        res.send('');
+    } else {
+        db.collection('users').findOne({'grocery_list._id': ticketId}, function (err, user) {
+            if (err) {
+                console.log('Err in driverListUpdate: ' + err);
+                res.status(500);
+                res.send('');
+            } else if (!user) {
+                console.log('User cannot be found in driverListUpdate: ' + user);
+                res.status(500);
+                res.send('');
+            } else {
+                var index = -1;
+                for (var i = 0; i < user.grocery_list.length; i++) {
+                    if (user.grocery_list[i]._id == ticketId) {
+                        index = i;
+                        break;
+                    }
+                }
+                if (index == -1) {
+                    console.log('could not find ticket with id: ' + ticketId + ' in driverListUpdate');
+                    res.status(500);
+                    res.send('');
+                } else {
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send(JSON.stringify({
+                        full_name: user.grocery_list[i].shopper.full_name,
+                        items: user.grocery_list[i].shopping_list,
+                        contact: user.phone_number
+                    }));
+                }
+            }
+        });
+    }
+});
+
+
 //-----------------------------------------------------DRIVER LIST -----------------------------------------
 app.post('/_driverList', function (req, res, next) {
     var object = {};
@@ -1405,31 +1447,12 @@ app.post('/_driverList', function (req, res, next) {
             },
             {
                 multi: true
-            }, function(err, user) {
+            }, function(err) {
                 if (err) {
                     console.log('Error in _driverList: ' + err);
                     res.status(500);
                     res.send('');
-                    return;
                 }
-
-            // if (!user) {
-            //     console.log('Error cannot find user in _driverList with id: ' + userId);
-            //     res.status(500);
-            //     res.send('');
-            // }
-            // else {
-            //     console.log('found user in driverList: ' + user);
-            //     res.setHeader('Content-Type', 'application/json');
-            //     var index;
-            //
-            //     for (var i = 0; i < user.grocery_list.length; i++) {
-            //         if (user.grocery_list[i]._id == ticketId) {
-            //             index = i;
-            //             break;
-            //         }
-            //     }
-            // }
         });
         console.log('Successfully updated tickets in user db');
         res.send('');

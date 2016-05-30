@@ -154,8 +154,9 @@
 
             $('li.yourOrders1').each(function () {
                 $(this).click(function () {
-                    alert($(this).data("id"));
-                    loader.getTicket($(this).data("id"), $(this).data("state"))
+                    
+                    // alert($(this).data("id"));
+                    // loader.getTicket($(this).data("id"), $(this).data("state"));
                 });
             });
         }
@@ -164,7 +165,7 @@
     $('li.yourOrders1').each(function () {
         $(this).click(function () {
             alert($(this).data("id"));
-            loader.getTicket($(this).data("id"), $(this).data("state"))
+            loader.getTicket($(this).data("id"), $(this).data("state"));
         });
     });
 
