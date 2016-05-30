@@ -8,9 +8,6 @@ $fetchOrange: #f36100;
   color: black;
 }
 
-:not(.box, .footerBars) {
-  overflow: hidden;
-}
 
 body, html {
   overflow: visible;
@@ -37,7 +34,12 @@ ul {
 li {
 
 }
-
+.container {
+  padding: 0;
+  .row {
+    margin: 0;
+  }
+}
 .btn-primary {
   background: $fetchOrange;
   border: none;
@@ -89,23 +91,17 @@ h6 {
   text-shadow: 1px 1px rgba(119, 119, 119, 0.36);
 }
 
-// this is for the box's around the shopping and driver list
+
 .box {
-  padding: 0;
-  margin: auto;
-  margin-top:30px;
+  padding: 0 0 15px 0;
   text-align: center;
   opacity: .9;
   background-color: white;
-
-  width: 100%;
-
+  width: calc(100% - 30px);
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
   0 25px 50px 0 rgba(0, 0, 0, 0.1);
+  margin:15px 15px 0 15px;
 
-  @media screen and (max-width: 500px){
-    margin-top:10px;
-  }
 
   .input {
 
@@ -169,7 +165,7 @@ h6 {
     text-indent: 7%;
   }
 
-  .todo-footer, .driver-footer, .shoppingStatus-footer, .cancelTicket-footer{
+ .driver-footer, .shoppingStatus-footer, .cancelTicket-footer{
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
     0 25px 50px 0 rgba(0, 0, 0, 0.1);
     margin: auto;
@@ -192,8 +188,8 @@ h6 {
 }
 
 .footerBars {
-
-  margin-bottom: 2%;
+  width: calc(100% - 30px);
+  margin: 0 15px 15px 15px;
   opacity: .9;
   .footer2 {
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
@@ -246,28 +242,10 @@ h6 {
   }
 }
 
-.container {
-  padding: 0;
-  .row {
-    margin: 0;
-  }
-}
+
 
 .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-4-offset-4, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
   padding: 0;
   min-height: 0;
 }
 
-.box2 {
-  margin-top: 30px;
-
-  @media screen and(max-width: 550px) {
-    width: 90%;
-    margin-top: 10px;
-  }
-
-  background-color: rgba(255, 255, 255, .9);
-  width: 60%;
-  border: solid 1px lightgray;
-  padding: 2%;
-}

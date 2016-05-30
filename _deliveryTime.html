@@ -1,7 +1,12 @@
 <style>
+
+    #select-delivery-time {
+        margin-bottom: 10px;
+    }
     .calendar {
         width: 100%;
         border: none;
+        border-bottom: 1px solid rgb(200, 200, 200);
     }
 
     .calendar td {
@@ -14,34 +19,53 @@
         text-align: center;
     }
 
-    .calendar1, .calendar3 {
-        background-color: lightpink;
+    .calendar0 {
+        border-top: 1px solid rgb(200, 200, 200);
+
     }
 
-    .calendar2 {
-        background-color: lightpink;
+    .calendar0.calendar td {
+        font-size: 12px;
+
     }
+
+    .calendar1, .calendar4 {
+        background: url("/resources/images/am.png") space center;
+        background-size: auto 100%;
+    }
+
+    .calendar2, .calendar3 {
+        background: url("/resources/images/pm.png")  space center;
+        background-size: auto 100%;
+    }
+
 
     .calendar tbody td {
         cursor: pointer;
     }
 
     .calendar tbody td.highlighted {
-        background-color: lawngreen;
-    }
+        background-color: rgba(127,255,0, 0.5);
+
+
+
 </style>
-<div class="container text-center">
+<div class="container text-center box">
     <div class="row">
         <div class="col-xs-12">
             <h2>Select Available Delivery Times</h2>
         </div>
         <div class="col-xs-12">
-            <div class="select-delivery-time">
-                <table class="calendar calendar1" cellpadding="0" cellspacing="0">
+            <div id="select-delivery-time">
+                <table class="calendar calendar0 ">
                     <thead>
-                    <tr class="calendar-head">
+                    <tr class="calendar-head"  cellpadding="0" cellspacing="0">
                     </tr>
                     </thead>
+                </table>
+                <table class="calendar calendar1" cellpadding="0" cellspacing="0">
+
+
                     <tbody>
 
                     <tr>
@@ -156,6 +180,10 @@
                         <td>5</td>
                         <td>5</td>
                     </tr>
+                    </tbody>
+                </table>
+                <table class="calendar calendar3">
+                    <tbody>
                     <tr>
                         <td>6</td>
                         <td>6</td>
@@ -212,7 +240,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <table class="calendar calendar3">
+                <table class="calendar calendar4">
                     <tbody>
                     <tr>
                         <td>12</td>
@@ -278,6 +306,10 @@
         </div>
     </div>
 </div>
+<div class ="footerBars">
+    <div class="footer2"></div>
+    <div class="footer3"></div>
+</div>
 <script>
 
     (function () {
@@ -290,14 +322,14 @@
                     row += "<td>" + (date.getMonth() + 1) + "/" + date.getDate() + "</td>";
                 }
 
-                $(".calendar-head").append(row);
+                $("#select-delivery-time .calendar-head").append(row);
             },
             getData: function () {
                 return $('#select-delivery-time').html();
             },
             loadData: function (data) {
                 if (data == null) {
-                    $('.calendar .highlighted').removeClass('highlighted');
+                    $('#select-delivery-time .highlighted').removeClass('highlighted');
                 }
                 else {
                     $('#select-delivery-time').html(data);
@@ -311,7 +343,7 @@
 
             var isMouseDown = false,
                     isHighlighted;
-            $(".calendar td").on("mousedown touchstart", function () {
+            $("#select-delivery-time td").on("mousedown touchstart", function () {
                 isMouseDown = true;
                 $(this).toggleClass("highlighted");
                 isHighlighted = $(this).hasClass("highlighted");
