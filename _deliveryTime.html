@@ -1,4 +1,4 @@
-<style>
+.<style>
 
     #select-delivery-time {
         margin-bottom: 10px;
@@ -367,5 +367,24 @@
             });
         }
         load();
+
+        $('#delivery-time-submit').click(function() {
+            $.ajax({
+                type: "POST",
+                url: "/_deliveryTime",
+                contentType: "application/json",
+                dataType: "json",
+                data: {
+                    available_time: JSON.stringify(loader._deliveryTime.getData()),
+                    type: 'send'
+                },
+                success: function (data) {
+                    //data is the object sent back on success (could also just be string)
+                },
+                error: function (data) {
+                    //data is the object send back on fail (could also just be string)
+                }
+            });
+        });
     })();
 </script>

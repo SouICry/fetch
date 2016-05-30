@@ -95,7 +95,7 @@ var userSchema = new mongoose.Schema(
         delivery_history: {type: [], required: false, unique: false},
         is_driver: {type: Boolean, required: false, unique: false},
         resetPasswordToken: String,
-        resetPasswordExpires: Date,
+        resetPasswordExpires: Date
         // TODO: add image (research how to do it)
     }
 );
@@ -1226,6 +1226,56 @@ app.post('/_accSetting', function (req, res) {
 //TODO ------------------------------------------------------------------------------------------------------------------
 
 
+// ---------------------------- DELIVERY TIME ------------------------------
+app.post('/_deliveryTime', function(req, res) {
+    var userId = req.session.userId;
+    var ticketId = masters[userId].ticketId;
+    
+    if (!userId) {
+        console.log('err in _DeliverTime, no user');
+        res.status(500);
+        res.send('');
+    }
+    else if (!ticketId) {
+        console.log('err in _DeliverTime, no ticketId');
+        res.status(500);
+        res.send('');
+    }
+    else {
+        db.collection('users').update({'grocery_list._id': ticketId},
+            {
+                $set: {
+                    'available_time': req.body.available_time
+                }
+            },
+            {multi: true},
+            function(err) {
+                if (err) {
+                        console.log('error updating db in _deliveryTime: ' + err);
+                        res.status(500);
+                        res.send('');
+                    }
+                    else {
+                        db.collection('grocery_queue').update({_id: ticketId},
+                            {
+                                $set: {
+                                    available_time: req.body.available_time
+                                }
+                            }, function(err) {
+                                if (err) {
+                                    console.log('Error updating db in _deliveryTime: ' + err);
+                                    res.status(500);
+                                    res.send('');
+                                }
+                            });
+                    }
+            }
+        );
+    }
+    res.send('success');
+});
+// -----------------------------------------------------------------------
+
 // ---------------------------------------------------- SHOPPING/SAVE GROCERY LIST ----------------------------------
 
 // Saves user's grocery list to session
@@ -1374,8 +1424,10 @@ app.post('/_checkout', function (req, res, next) {
             time_accepted: '',
             // Why are these from ['_accSetting'] ?
             special_options: req.body.options.checkout_notes,
+            // May not use start/end time
             available_time_start: req.body.options.checkout_range1,
             available_time_end: req.body.options.checkout_range2,
+            available_time: null,
             state: 'pending',
             price: '',
             geolocation: {
