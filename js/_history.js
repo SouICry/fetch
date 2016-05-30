@@ -38,7 +38,9 @@
             $("#yourOrders_shopped_tickets").empty();
             $("#yourOrders_delivered_tickets").empty();
 
-            if (data == "none" || data.user_history.length == 0 || data.pending_list.length == 0) {
+
+            if (data == "none" || (data.user_history.length == 0 && data.pending_list.length == 0)) {
+
                 $("#yourOrders_pending_tickets").append('<li class = "ticket"' +
                     '>No orders</li>');
                 $("#yourOrders_accepted_tickets").append('<li class = "ticket"' +
@@ -58,7 +60,7 @@
             var extra = [];
 
             for (var i = 0; i < tickets.user_history.length; i++) {
-                alert(tickets.user_history[i]);
+                //alert(JSON.stringify(tickets.user_history[i]));
 
                 if (tickets.user_history[i].state == 'pending') {
                     pending_tickets.push(tickets.user_history[i]);
@@ -78,7 +80,7 @@
             }
 
             for (var i = 0; i < tickets.pending_list.length; i++) {
-                alert(tickets.pending_list[i]);
+                //alert(JSON.stringify(tickets.pending_list[i]));
                 if (tickets.pending_list[i].state == 'pending') {
                     pending_tickets.push(tickets.pending_list[i]);
                 }
@@ -135,26 +137,25 @@
                     '</div></li>');
             }
 
-            if (delivered_tickets.length = 0) {
+            if (pending_tickets.length == 0) {
                 $("#yourOrders_pending_tickets").append('<li class = "ticket"' +
                     '>No orders</li>');
             }
-            if (delivered_tickets.length = 0) {
+            if (accepted_tickets.length == 0) {
                 $("#yourOrders_accepted_tickets").append('<li class = "ticket"' +
                     '>No orders</li>');
             }
-            if (delivered_tickets.length = 0) {
+            if (shopped_tickets.length == 0) {
                 $("#yourOrders_shopped_tickets").append('<li class = "ticket"' +
                     '>No orders</li>');
             }
-            if (delivered_tickets.length = 0) {
-                $("#yourOrders_completed_tickets").append('<li class = "ticket"' +
+            if (delivered_tickets.length == 0) {
+                $("#yourOrders_delivered_tickets").append('<li class = "ticket"' +
                     '>No orders</li>');
             }
 
             $('li.yourOrders1').each(function () {
                 $(this).click(function () {
-                    
                     // alert($(this).data("id"));
                     // loader.getTicket($(this).data("id"), $(this).data("state"));
                 });
@@ -164,8 +165,8 @@
 
     $('li.yourOrders1').each(function () {
         $(this).click(function () {
-            alert($(this).data("id"));
-            loader.getTicket($(this).data("id"), $(this).data("state"));
+            // alert($(this).data("id"));
+            // loader.getTicket($(this).data("id"), $(this).data("state"));
         });
     });
 

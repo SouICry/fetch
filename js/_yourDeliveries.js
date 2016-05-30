@@ -99,15 +99,15 @@
                     '</div></li>');
             }
 
-            if (accepted_tickets.length = 0) {
+            if (accepted_tickets.length == 0) {
                 $("#yourDeliveries_accepted_tickets").append('<li class = "ticket"' +
                     '>No deliveries</li>');
             }
-            if (shopped_tickets.length = 0) {
+            if (shopped_tickets.length == 0) {
                 $("#yourDeliveries_shopped_tickets").append('<li class = "ticket"' +
                     '>No deliveries</li>');
             }
-            if (delivered_tickets.length = 0) {
+            if (delivered_tickets.length == 0) {
                 $("#yourDeliveries_delivered_tickets").append('<li class = "ticket"' +
                     '>No deliveries</li>');
             }
