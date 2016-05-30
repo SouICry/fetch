@@ -152,7 +152,13 @@ function disableCamera(vid, takeButton, redoButton, uploadInput) {
     uploadInput.removeEventListener("change", imageUp);
     
 }
-
+function UrlExists(url)
+{
+    var http = new XMLHttpRequest();
+    http.open('HEAD', url, false);
+    http.send();
+    return http.status!=404;
+}
 function enableImageUpload(vid, canvas, takeButton, redoButton, uploadInput) {
 
     var context = canvas.getContext("2d");
