@@ -112,12 +112,14 @@ var test_data = {
         }
 
         if (arr.length === count || flag === true) {
+            assholes666();
             goToPage("_congrats_driver_finish_shopping");
         }
     });
 
     assholes61323355();
-    
+
+    // Used to get data from db
     function assholes61323355() {
         var info_to_send = {};
         info_to_send.ticketId = loader._driverList.data;
@@ -133,6 +135,28 @@ var test_data = {
             success: function (data) {
                 //data is the object sent back on success (could also just be string)
                 loader._driverList.loadData(data);
+            },
+            error: function (data) {
+                //data is the object send back on fail (could also just be string)
+            }
+        });
+    }
+
+    // Used after click submit, update the grocery ticket for the users
+    function assholes666() {
+        var info_to_send = {};
+        info_to_send.ticketId = loader._driverList.data;
+        //alert(info_to_send.ticketId);
+        info_to_send.type = 'get';
+
+        $.ajax({
+            type: "POST",
+            url: "/driverListUpdate",
+            contentType: "application/json",
+            dataType: "json",
+            data: null,
+            success: function (data) {
+                //data is the object sent back on success (could also just be string)
             },
             error: function (data) {
                 //data is the object send back on fail (could also just be string)
