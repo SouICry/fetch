@@ -1687,6 +1687,15 @@ app.post('/_contact', function (req, res) {
         }
     });
 });
+app.post('/_map', function (req, res) {
+    
+        
+    
+});
+
+//------------------------------ MAP --------------------------------------------
+
+
 
 
 MongoClient.connect(mongodb_url, function (err, database) {
