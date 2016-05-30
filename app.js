@@ -1659,7 +1659,7 @@ app.get('/complete-payment', function (req, res) {
 
 
     // Update user to hold grocery list submitted
-    db.collection('users').updateOne({_id: req.session.passport.user}, {$push: {grocery_list: gticket}},
+    db.collection('users').updateOne({_id: req.session.userId}, {$push: {grocery_list: gticket}},
         function (err) {
             if (err) {
                 console.log('error updating user grocery list');
