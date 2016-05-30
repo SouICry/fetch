@@ -169,7 +169,8 @@ app.post("/_shopping", function (req, res) {
         res.send(JSON.stringify({
             //version: masters[userId].version,
             list: masters[userId].list,
-            shoppingVersion: masters[userId].shoppingVersion
+            shoppingVersion: masters[userId].shoppingVersion,
+            currentPage: masters[userId].currentPage
         }));
     }
     else if (masters[userId].checkoutVersion < req.body.checkoutVersion) {
@@ -183,7 +184,8 @@ app.post("/_shopping", function (req, res) {
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify({
             checkout: masters[userId].checkout,
-            checkoutVersion: masters[userId].checkoutVersion
+            checkoutVersion: masters[userId].checkoutVersion,
+            currentPage: masters[userId].currentPage
         }));
     }
     else {
@@ -1437,32 +1439,34 @@ app.post('/driverListUpdate', function (req, res) {
 //-----------------------------------------------------DRIVER LIST -----------------------------------------
 app.post('/_driverList', function (req, res, next) {
     var object = {};
-    var ticketId = req.session.ticketId;
+    var ticketId = req.body.ticketId;
+    console.log('ticketId = ' + ticketId);
 
     if (ticketId) {
-        object.notes = masters[userId]["_checkout"].data.special_options;
-        object.items = masters[userId]["_"].data.items;   //TODO where is items located?
-        object.name = masters[userId].name;
-        object.contact = masters[userId].phone;
-        res.send(object);
+        // object.notes = masters[userId]["_checkout"].data.special_options;
+        // object.items = masters[userId]["_"].data.items;   //TODO where is items located?
+        // object.name = masters[userId].name;
+        // object.contact = masters[userId].phone;
+        //res.send(object);
 
         db.collection('users').update({
                 'grocery_list._id': ticketId
             },
             {
                 $set: {
-                    'grocery_list.$.state': 'Purchased'
+                    'grocery_list.$.state': 'purchased'
                 }
             },
             {
                 multi: true
 
-            }, function (err, user) {
+            }, function (err) {
 
                 if (err) {
                     console.log('Error in _driverList: ' + err);
                     res.status(500);
                     res.send('');
+                    return;
                 }
 
 
@@ -1488,7 +1492,6 @@ app.post('/_driverList', function (req, res, next) {
         console.log('Successfully updated tickets in user db');
         res.send('');
     }
-    res.send('Fail');
 });
 
 
@@ -1535,6 +1538,7 @@ app.post('/_history', function (req, res, next) {
 
 // ---------------------------- YOUR DELIVERIES -------------------------------
 app.post('/_yourDeliveries', function (req, res) {
+    console.log(req.url);
     var userId = req.session.userId;
 
     if (!userId) {
