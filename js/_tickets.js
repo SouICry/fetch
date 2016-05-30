@@ -26,17 +26,20 @@
         },
         loadData: function (data) {
 
+
             $("#tickets_content").empty();
             alert("reload");
             if (data == null || data.length == 0) {
-                $("#tickets_content").append('<li id="ticket_not" class = "ticket"' +
-                    '>No tickets available</li>');
+                $("#ticket_not_available").removeClass("hidden");
+                $("#ticket_not_available").addClass("show");
             }
             else {
+
 
                 $("#tickets_content").append('<li id="ticket_not" class = "ticket"' +
                     '>No tickets available</li>');
                 $("#ticket_not").addClass("hidden");
+
 
                 function toName(nameString) {
                     var name = {};

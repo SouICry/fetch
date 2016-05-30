@@ -1,19 +1,20 @@
-
 <div id="accSetting">
 
     <div class="container box2" style="text-align: center">
-        <div class="row">
+        <div class="row" style="height: 100%;">
 
-            <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="position: relative; height: 442px;">
                 <!--<h2>Account Information</h2>-->
-                <div id="user-image-content">
-                    <img  class="img-circle" id="accSettingAbove-img" src="placeholder/person5.png">
+                <div id="user-image-content" style="width: 100%;position: absolute; top: 50%; left: 50%;
+                transform: translate(-50%, -50%)">
+                    <img style="width: 80%; margin: 10%" class="img-circle" id="accSettingAbove-img"
+                         src="placeholder/person5.png">
 
 
                 </div>
-                <br>
+            </div>
 
-            <div class="col-xs-4-offset-4 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 ">
                 <!--<h2>Account Information</h2>-->
 
                 <div id="accProfile">
@@ -55,18 +56,22 @@
                             <label for="accsetting_zip">ZIP Code:</label>
                             <input type="number" class="form-control" id="accsetting_zip">
                         </div>
-                        <div class="row input-filed">
-                            <div class="alert alert-danger fade in" id="accsetting_warning">
-                                <strong>Danger!</strong> There are some empty fields!
-                            </div>
-                            <div class="btn waves-effects orange" id="accsetting_submit_info" type="submit"
-                                 style="margin-bottom: 10%">Update
-                            </div>
-                        </div>
+
                     </form>
                 </div>
             </div>
+
         </div>
+        <div class="row input-filed">
+            <div class="col-xs-12">
+                <div class="alert alert-danger fade in" id="accsetting_warning">
+                    <strong>Danger!</strong> There are some empty fields!
+                </div>
+                <div class="btn waves-effects orange" id="accsetting_submit_info" type="submit">Update
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 <script type="text/javascript" src="/js/_accSetting.js"></script>
