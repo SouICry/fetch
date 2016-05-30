@@ -39,6 +39,7 @@
                     //data is the object sent back on success (could also just be string)
                     index_login();
                     loader.login(data);
+                    
                     //alert('data after login: ' + data.full_name);
                 },
                 error: function (data) {
