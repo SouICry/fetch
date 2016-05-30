@@ -39,7 +39,8 @@
             $("#yourOrders_delivered_tickets").empty();
 
 
-            if (data == "none" || data.user_history.length == 0 || data.pending_lists.length == 0) {
+            if (data == "none" || data.user_history.length == 0 || data.pending_list.length == 0) {
+
                 $("#yourOrders_pending_tickets").append('<li class = "ticket"' +
                     '>No orders</li>');
                 $("#yourOrders_accepted_tickets").append('<li class = "ticket"' +
