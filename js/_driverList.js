@@ -126,14 +126,12 @@ var test_data = {
         var info_to_send = {};
         info_to_send.ticketId = loader._driverList.data;
         //alert(info_to_send.ticketId);
-        info_to_send.type = 'get';
+        info_to_send.type = 'send';
 
         $.ajax({
             type: "POST",
             url: "/_driverList",
-            contentType: "application/json",
-            dataType: "json",
-            data: null,
+            data: info_to_send,
             success: function (data) {
                 alert('success!!!!!');
                 //data is the object sent back on success (could also just be string)
