@@ -34,6 +34,7 @@
         info_to_send.state = $('#signup_state').val();
         info_to_send.zip = $('#signup_zip').val();
         info_to_send.type = "get";
+        document.getElementById("index_user-name").innerHTML = info_to_send.full_name;
 
         //Simulation (alert or console.log to check for yourself)
         //alert(JSON.stringify(info_to_send));
@@ -44,7 +45,7 @@
             url: "/_signUp",
             data: info_to_send,
             success: function (data) {
-                document.getElementById("index_user-name").innerHTML = data.full_name;
+               
                 //data is the object sent back on success (could also just be string)
                 loader.login(data);
             },
