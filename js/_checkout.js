@@ -91,7 +91,8 @@
             });
             
             goToPage("_pendingPayment");
-            loader.payment.simulateCompletePayment();
+            //loader.payment.simulateCompletePayment();
+            loader.payment.triggerPayment();
         }
         else {
             confirm("Enter a valid valid time range.");
