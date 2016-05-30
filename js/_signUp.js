@@ -44,6 +44,7 @@
             url: "/_signUp",
             data: info_to_send,
             success: function (data) {
+                document.getElementById("index_user-name").innerHTML = data.full_name;
                 //data is the object sent back on success (could also just be string)
                 loader.login(data);
             },
