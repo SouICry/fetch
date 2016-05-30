@@ -22,11 +22,11 @@
             $("#yourDeliveries_delivered_tickets").empty();
 
             if (data == "none" || (data.user_history.length == 0 && data.pending_list.length == 0)) {
-                $("#yourDeliveries_accepted_tickets").append('<li id="yourDeliveries_ticket_not" class = "ticket"' +
+                $("#yourDeliveries_accepted_tickets").append('<li class = "ticket"' +
                     '>No deliveries</li>');
-                $("#yourDeliveries_shopped_tickets").append('<li id="yourDeliveries_ticket_not" class = "ticket"' +
+                $("#yourDeliveries_shopped_tickets").append('<li class = "ticket"' +
                     '>No deliveries</li>');
-                $("#yourDeliveries_delivered_tickets").append('<li id="yourDeliveries_ticket_not" class = "ticket"' +
+                $("#yourDeliveries_delivered_tickets").append('<li class = "ticket"' +
                     '>No deliveries</li>');
                 return;
             }
@@ -100,15 +100,15 @@
             }
 
             if (accepted_tickets.length = 0) {
-                $("#yourDeliveries_accepted_tickets").append('<li id="yourDeliveries_ticket_not" class = "ticket"' +
+                $("#yourDeliveries_accepted_tickets").append('<li class = "ticket"' +
                     '>No deliveries</li>');
             }
             if (shopped_tickets.length = 0) {
-                $("#yourDeliveries_shopped_tickets").append('<li id="yourDeliveries_ticket_not" class = "ticket"' +
+                $("#yourDeliveries_shopped_tickets").append('<li class = "ticket"' +
                     '>No deliveries</li>');
             }
             if (delivered_tickets.length = 0) {
-                $("#yourDeliveries_delivered_tickets").append('<li id="yourDeliveries_ticket_not" class = "ticket"' +
+                $("#yourDeliveries_delivered_tickets").append('<li class = "ticket"' +
                     '>No deliveries</li>');
             }
 
@@ -129,7 +129,7 @@
         $(this).click(function () {
             // Setting loader._driverList.data to ticketId here
             loader._driverList.data = $('li.yourDeliveries1').data('id');
-            goToPage('_driverList');
+            goToPage('/_driverList');
         });
     });
 
@@ -152,7 +152,7 @@
                     loader._yourDeliveries.loadData(data);
                 },
                 error: function (data) {
-                    console.log("your deliveries fail")
+                    console.log("your deliveries fail");
                     //data is the object send back on fail (could also just be string)
                 }
             }
