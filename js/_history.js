@@ -40,13 +40,13 @@
 
             if (data == "none" || data.user_history.length == 0 || data.pending_lists.length == 0) {
                 $("#yourOrders_pending_tickets").append('<li id="ticket_not" class = "ticket"' +
-                    '>No deliveries</li>');
+                    '>No orders</li>');
                 $("#yourOrders_accepted_tickets").append('<li id="ticket_not" class = "ticket"' +
-                    '>No deliveries</li>');
+                    '>No orders</li>');
                 $("#yourOrders_shopped_tickets").append('<li id="ticket_not" class = "ticket"' +
-                    '>No deliveries</li>');
+                    '>No orders</li>');
                 $("#yourOrders_delivered_tickets").append('<li id="ticket_not" class = "ticket"' +
-                    '>No deliveries</li>');
+                    '>No orders</li>');
                 return;
             }
 
@@ -134,19 +134,19 @@
 
             if (delivered_tickets.length = 0) {
                 $("#yourOrders_pending_tickets").append('<li id="ticket_not" class = "ticket"' +
-                    '>No deliveries</li>');
+                    '>No orders</li>');
             }
             if (delivered_tickets.length = 0) {
                 $("#yourOrders_accepted_tickets").append('<li id="ticket_not" class = "ticket"' +
-                    '>No deliveries</li>');
+                    '>No orders</li>');
             }
             if (delivered_tickets.length = 0) {
                 $("#yourOrders_shopped_tickets").append('<li id="ticket_not" class = "ticket"' +
-                    '>No deliveries</li>');
+                    '>No orders</li>');
             }
             if (delivered_tickets.length = 0) {
                 $("#yourOrders_completed_tickets").append('<li id="ticket_not" class = "ticket"' +
-                    '>No deliveries</li>');
+                    '>No orders</li>');
             }
 
             $('li.yourOrders1').each(function () {
