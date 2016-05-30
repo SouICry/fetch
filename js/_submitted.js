@@ -21,7 +21,7 @@
     };
 
     $('#submit_submitted').click(function () {
-        goToPage("_congrats");
+        goToPage("_history");
     });
 
 })();
