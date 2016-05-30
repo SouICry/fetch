@@ -3,7 +3,9 @@ $fetchOrange: #f36100;
   box-sizing: border-box;
   transition: all 0.5s;
 }
-
+::-webkit-input-placeholder {
+  color: black;
+}
 
 :not(.box, .footerBars) {
   overflow: hidden;
