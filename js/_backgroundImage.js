@@ -4,7 +4,6 @@
 
 (function () {
     var images = [], x = 0;
-    $('body').css('background', 'url('+ images[5] + ') no-repeat center');
     images[0] = "/resources/images/lemons.jpg";
     images[1] = "/resources/images/carrot-on-pink.jpg";
     images[2] = "/resources/images/cabbage-on-yellow.jpg";
@@ -24,5 +23,5 @@
         window.setInterval(func, interval);
     }
 
-    run(30000); //milliseconds, frames
+    run(3000); //milliseconds, frames
 })();
