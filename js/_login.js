@@ -38,8 +38,10 @@
                 success: function (data) {
                     //data is the object sent back on success (could also just be string)
                     index_login();
+                    loadAccountData();
                     loader.login(data);
-                    document.getElementById("index_user-name").innerHTML = data.full_name;
+                    
+                    
                     
                     //alert('data after login: ' + data.full_name);
                 },
