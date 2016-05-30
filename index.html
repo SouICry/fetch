@@ -322,6 +322,9 @@
                         loader._checkout.loadData(data.checkout);
                         loader._checkout.version = data.checkoutVersion;
                     }
+                    if (data.currentPage != loader.currentPage) {
+                        loader.setCurrentPage(data.currentPage, whatever);
+                    }
                 }
             });
         },
@@ -518,7 +521,7 @@
                 var whichid = allPages[j][i];
                 loadPage(whichid, j, i);
                 var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
-                $("#Butt").append("<div " + clickVal + " >" + whichid + "</div>");
+              //  $("#Butt").append("<div " + clickVal + " >" + whichid + "</div>");
             }
         }
 
