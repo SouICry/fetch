@@ -37,8 +37,8 @@ var masters = {};
 
 function createNotification(userId, text, page, icon) {
     var onClick = "loader.closeNotification('" + page + "', this);";
-    
-    masters[userId].notification.push( '<div class="notification-inner" data-changePage="true" onclick="' + onClick + '"><div class="icon"><i class="material-icons">'
+
+    masters[userId].notification.push('<div class="notification-inner" data-changePage="true" onclick="' + onClick + '"><div class="icon"><i class="material-icons">'
         + icon + '</i></div><div class="text">' + text + '</div></div>');
 }
 
@@ -95,7 +95,8 @@ var userSchema = new mongoose.Schema(
         delivery_history: {type: [], required: false, unique: false},
         is_driver: {type: Boolean, required: false, unique: false},
         resetPasswordToken: String,
-        resetPasswordExpires: Date
+        resetPasswordExpires: Date,
+        // TODO: add image (research how to do it)
     }
 );
 
@@ -360,13 +361,13 @@ app.post('/savePhoto', function (req, res) {
 
     var buf = new Buffer(data, 'base64');
     //noinspection JSUnresolvedFunction
-    if(req.session.userId === 'undefined')
+    if (req.session.userId === 'undefined')
         fs.writeFile('images/profiles/image.png', buf);
     else
         fs.writeFile('images/profiles/' + req.session.userId + '.png', buf);
     //console.log(img);
     //console.log(typeof(img));
-    console.log("Photo Saved: " + data.substring(0,10));
+    console.log("Photo Saved: " + data.substring(0, 10));
     /*fs.writeFile("images/profiles/" + req.session.userId + ".png", req.body.image,"base64", function (err, data ) {
      if (err) {
      return console.log("Error");
@@ -667,7 +668,7 @@ app.post('/_passwordRecovery', function (req, res, next) {
         //res.redirect('/forgot');
     });
 });
-app.post('/_passwordReset', function(req, res) {
+app.post('/_passwordReset', function (req, res) {
     var userId = req.session.userId;
 
     if (userId == null) {
@@ -870,17 +871,17 @@ app.post('/switchRole', function (req, res) {
 });
 
 
-app.post('/chat', function(req,res){
+app.post('/chat', function (req, res) {
     var userId = req.session.userId;
 
-    if(!masters[userId].chat.hasOwnProperty(req.body.userIdToChat)) {
+    if (!masters[userId].chat.hasOwnProperty(req.body.userIdToChat)) {
         masters[userId].chat[req.body.userIdToChat] = {
             messages: []
         };
         masters[userId].chat[req.body.userIdToChat].messages.push("<div class='ours'><div>" + req.body.message + "</div></div>");
     }
 
-    if (!masters.hasOwnProperty(req.body.userIdToChat) ) {
+    if (!masters.hasOwnProperty(req.body.userIdToChat)) {
         masters[req.body.userIdToChat] = {
             isDriver: false,
             isLoggedIn: true,
@@ -895,13 +896,13 @@ app.post('/chat', function(req,res){
         };
 
     }
-    if(!masters[req.body.userIdToChat].chat.hasOwnProperty(userId)){
+    if (!masters[req.body.userIdToChat].chat.hasOwnProperty(userId)) {
         masters[req.body.userIdToChat].chat[userId] = {
             messages: []
         };
         masters[req.body.userIdToChat].chat[userId].messages.push("<div class='theirs'><div>" + req.body.message + "</div></div>");
     }
-    else{
+    else {
         masters[userId].chat[req.body.userIdToChat].messages.push("<div class='ours'><div>" + req.body.message + "</div></div>");
         masters[req.body.userIdToChat].chat[userId].messages.push("<div class='theirs'><div>" + req.body.message + "</div></div>");
     }
@@ -946,6 +947,7 @@ app.post('/getUpdates', function (req, res, next) {
             }
 
         }
+
 
         //send notification back if masters has new notification
         if (masters[userId].notification.length > lengthRecieve) {
@@ -1309,7 +1311,7 @@ app.post('/_accSetting', function (req, res) {
 app.post('/_checkout', function (req, res, next) {
     var date = new Date();
     var userId = req.session.userId;
-     
+
     db.collection('users').findOne({_id: userId}, function (err, user) {
         // Model for grocery list
         if (err) {
@@ -1378,7 +1380,7 @@ app.post('/_checkout', function (req, res, next) {
 //TODO -------------------------------------------------------------------------
 
 app.post('_homePage', function (req, res, next) {
-    
+
 });
 
 app.post('/driverListUpdate', function (req, res) {
@@ -1441,8 +1443,7 @@ app.post('/_driverList', function (req, res, next) {
         object.contact = masters[userId].phone;
         res.send(object);
 
-        db.collection('users').update(
-            {
+        db.collection('users').update({
                 'grocery_list._id': ticketId
             },
             {
@@ -1452,13 +1453,35 @@ app.post('/_driverList', function (req, res, next) {
             },
             {
                 multi: true
-            }, function(err) {
+
+            }, function (err, user) {
+
                 if (err) {
                     console.log('Error in _driverList: ' + err);
                     res.status(500);
                     res.send('');
                 }
-        });
+
+
+                // if (!user) {
+                //     console.log('Error cannot find user in _driverList with id: ' + userId);
+                //     res.status(500);
+                //     res.send('');
+                // }
+                // else {
+                //     console.log('found user in driverList: ' + user);
+                //     res.setHeader('Content-Type', 'application/json');
+                //     var index;
+                //
+                //     for (var i = 0; i < user.grocery_list.length; i++) {
+                //         if (user.grocery_list[i]._id == ticketId) {
+                //             index = i;
+                //             break;
+                //         }
+                //     }
+                // }
+            });
+
         console.log('Successfully updated tickets in user db');
         res.send('');
     }
@@ -1496,7 +1519,7 @@ app.post('/_history', function (req, res, next) {
                 res.send('');
             }
             else {
-                res.setHeader('Content-Type', 'application/json');
+                //res.setHeader('Content-Type', 'application/json');
                 res.send(JSON.stringify({
                     user_history: doc.user_history,
                     pending_list: doc.grocery_list
@@ -1640,38 +1663,31 @@ app.get('/complete-payment', function (req, res) {
         return;
     }
 
-    // Check that user is logged in
-    if (!req.session.passport || !req.session.passport.user) {
-        console.log('user is not logged in');
-        res.status(500);
-        res.setHeader('Content-Type', 'application/json');
-        res.send({message: 'user is not logged in'});
-    }
-    else {
-        // Update user to hold grocery list submitted
-        db.collection('users').updateOne({_id: req.session.passport.user}, {$push: {grocery_list: gticket}},
-            function (err) {
+
+    // Update user to hold grocery list submitted
+    db.collection('users').updateOne({_id: req.session.userId}, {$push: {grocery_list: gticket}},
+        function (err) {
+            if (err) {
+                console.log('error updating user grocery list');
+                res.status(500);
+                res.setHeader('Content-Type', 'application/json');
+                res.send(err);
+                return;
+            }
+
+            // If grocery list successfully added to user's grocery list, add list to queue
+            db.collection('grocery_queue').insert(gticket, function (err) {
                 if (err) {
-                    console.log('error updating user grocery list');
+                    console.log('error adding list to queue: ' + err);
                     res.status(500);
                     res.setHeader('Content-Type', 'application/json');
                     res.send(err);
                     return;
                 }
+            });
+        }
+    );
 
-                // If grocery list successfully added to user's grocery list, add list to queue
-                db.collection('grocery_queue').insert(gticket, function (err) {
-                    if (err) {
-                        console.log('error adding list to queue: ' + err);
-                        res.status(500);
-                        res.setHeader('Content-Type', 'application/json');
-                        res.send(err);
-                        return;
-                    }
-                });
-            }
-        );
-    }
 
     res.redirect('/submittedRedirect.html');
 });
@@ -1704,12 +1720,12 @@ app.post('/_receiptPictureEnterPrice', function (req, res) {
 
     var buf = new Buffer(data, 'base64');
     //noinspection JSUnresolvedFunction
-    if(req.session.userId === 'undefined')
+    if (req.session.userId === 'undefined')
         fs.writeFile('images/receipts/image.png', buf);
     else
         fs.writeFile('images/receipts/' + ticketId + '.png', buf);
 
-    console.log("Photo Saved: " + data.substring(0,10));
+    console.log("Photo Saved: " + data.substring(0, 10));
     /*fs.writeFile("images/profiles/" + req.session.userId + ".png", req.body.image,"base64", function (err, data ) {
      if (err) {
      return console.log("Error");
