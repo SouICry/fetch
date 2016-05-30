@@ -422,6 +422,7 @@
             document.cookie = "user=" + data.userId + ";expires=" + d.toUTCString();
             console.log(data.isLoggedIn);
             if (!data.isLoggedIn) {
+                console.log("just logged in first time");
                 loader.userId = data.userId;
                 loader.isLoggedIn = true;
                 loader.isDriver = false;

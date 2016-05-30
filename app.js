@@ -1034,6 +1034,7 @@ app.post('/init', function (req, res) {
             userId: userId,
             isLoggedIn: false
         }));
+        return;
     }
     else {
         res.setHeader('Content-Type', 'application/json');
@@ -1044,6 +1045,7 @@ app.post('/init', function (req, res) {
             ticketId: masters[userId].ticketId,
             isDriver: masters[userId].isDriver
         }));
+        return;
     }
 });
 // var userId = req.body.userId;
