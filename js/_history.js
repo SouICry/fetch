@@ -38,7 +38,9 @@
             $("#yourOrders_shopped_tickets").empty();
             $("#yourOrders_delivered_tickets").empty();
 
-            if (data == "none" || data.user_history.length == 0 || data.pending_list.length == 0) {
+
+            if (data == "none" || (data.user_history.length == 0 && data.pending_list.length == 0)) {
+
                 $("#yourOrders_pending_tickets").append('<li class = "ticket"' +
                     '>No orders</li>');
                 $("#yourOrders_accepted_tickets").append('<li class = "ticket"' +
@@ -58,7 +60,7 @@
             var extra = [];
 
             for (var i = 0; i < tickets.user_history.length; i++) {
-                alert(tickets.user_history[i]);
+                //alert(JSON.stringify(tickets.user_history[i]));
 
                 if (tickets.user_history[i].state == 'pending') {
                     pending_tickets.push(tickets.user_history[i]);
@@ -66,7 +68,7 @@
                 else if (tickets.user_history[i].state == 'accepted') {
                     accepted_tickets.push(tickets.user_history[i]);
                 }
-                else if (tickets.user_history[i].state == 'shopped') {
+                else if (tickets.user_history[i].state == 'purchased') {
                     shopped_tickets.push(tickets.user_history[i]);
                 }
                 else if (tickets.user_history[i].state == 'delivered') {
@@ -78,14 +80,14 @@
             }
 
             for (var i = 0; i < tickets.pending_list.length; i++) {
-                alert(tickets.pending_list[i]);
+                //alert(JSON.stringify(tickets.pending_list[i]));
                 if (tickets.pending_list[i].state == 'pending') {
                     pending_tickets.push(tickets.pending_list[i]);
                 }
                 else if (tickets.pending_list[i].state == 'accepted') {
                     accepted_tickets.push(tickets.pending_list[i]);
                 }
-                else if (tickets.pending_list[i].state == 'shopped') {
+                else if (tickets.pending_list[i].state == 'purchased') {
                     shopped_tickets.push(tickets.pending_list[i]);
                 }
                 else if (tickets.pending_list[i].state == 'delivered') {
@@ -109,7 +111,7 @@
             var ticket;
             for (var i = 0; i < pending_tickets.length; i++) {
                 ticket = pending_tickets[i];
-                $("#yourOrders_pending_tickets").append('<li  data-id="' + ticket._id + '" class = "yourOrders1 ' + ticket.store_name + ' ticket" ' + ' ><div  >'
+                $("#yourOrders_pending_tickets").append('<li  data-id="' + ticket._id + '" class = "yourOrders ' + ticket.store_name + ' ticket" ' + ' ><div  >'
                     + toName(ticket.store_name) + ' <br> Estimate Deliver Time: ' + ticket.time_created +
                     '</div></li>');
             }
@@ -135,28 +137,36 @@
                     '</div></li>');
             }
 
-            if (delivered_tickets.length = 0) {
+            if (pending_tickets.length == 0) {
                 $("#yourOrders_pending_tickets").append('<li class = "ticket"' +
                     '>No orders</li>');
             }
-            if (delivered_tickets.length = 0) {
+            if (accepted_tickets.length == 0) {
                 $("#yourOrders_accepted_tickets").append('<li class = "ticket"' +
                     '>No orders</li>');
             }
-            if (delivered_tickets.length = 0) {
+            if (shopped_tickets.length == 0) {
                 $("#yourOrders_shopped_tickets").append('<li class = "ticket"' +
                     '>No orders</li>');
             }
-            if (delivered_tickets.length = 0) {
-                $("#yourOrders_completed_tickets").append('<li class = "ticket"' +
+            if (delivered_tickets.length == 0) {
+                $("#yourOrders_delivered_tickets").append('<li class = "ticket"' +
                     '>No orders</li>');
             }
 
             $('li.yourOrders1').each(function () {
                 $(this).click(function () {
-                    
                     // alert($(this).data("id"));
                     // loader.getTicket($(this).data("id"), $(this).data("state"));
+                    goToPage("_shoppingStatus");
+                });
+            });
+
+            $('li.yourOrders').each(function () {
+                $(this).click(function () {
+                    // alert($(this).data("id"));
+                    // loader.getTicket($(this).data("id"), $(this).data("state"));
+                    goToPage("_cancelTicket");
                 });
             });
         }
@@ -164,8 +174,8 @@
 
     $('li.yourOrders1').each(function () {
         $(this).click(function () {
-            alert($(this).data("id"));
-            loader.getTicket($(this).data("id"), $(this).data("state"));
+            // alert($(this).data("id"));
+            // loader.getTicket($(this).data("id"), $(this).data("state"));
         });
     });
 

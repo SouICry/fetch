@@ -1,7 +1,8 @@
 var test_data = {
     full_name: "Donkey Punch",
     items: ["aa", "bb", "cc", "dd"],
-    contact: 1234567890
+    contact: 1234567890,
+    special_note: "cheap"
 };
 
 (function () {
@@ -11,7 +12,8 @@ var test_data = {
             var packData = {
                 contact: $("#phone").substring(8),
                 full_name: fullName,
-                items: array
+                items: array,
+                //special_note: data.special_note
             };
 
             return packData;
@@ -25,6 +27,7 @@ var test_data = {
             $("#phone").text(" ");
             $("ul").empty();
             $("#_driver_numItems").text(" ");
+            $("#driver_note").val(" ");
 
             fullName = data.full_name;
             array = data.items;
@@ -33,6 +36,7 @@ var test_data = {
             //create the contact info(where should I got this, is there a flied relates to contact?
             document.getElementById("listName_driverList").innerHTML = name + "'s Shopping List";
             document.getElementById("phone").innerHTML = "Phone: " + data.contact;
+            $("#driver_note").val(data.special_note).siblings().addClass("active");
 
             for (var i = 0; i < array.length; i++) {
                 // item count
@@ -122,14 +126,12 @@ var test_data = {
         var info_to_send = {};
         info_to_send.ticketId = loader._driverList.data;
         //alert(info_to_send.ticketId);
-        info_to_send.type = 'get';
+        info_to_send.type = 'send';
 
         $.ajax({
             type: "POST",
             url: "/_driverList",
-            contentType: "application/json",
-            dataType: "json",
-            data: null,
+            data: info_to_send,
             success: function (data) {
                 alert('success!!!!!');
                 //data is the object sent back on success (could also just be string)

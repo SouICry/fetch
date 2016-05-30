@@ -1,19 +1,39 @@
-<div id="_shoppingStatus" class="container  box2 text-center">
-    <h2>Shopping Status</h2>
-    <p>At this moment, <span class=shoppingStatus_driver_name></span> is shopping for your items.</p>
+<div id="_shoppingStatus" class="container box text-center">
+    <div class="col-xs-4-offset-4">
+        <div>
+            <h2 id="listName_shoppingStatus"></h2>
+            <h3 id="phone_shoppingStatus"></h3>
+        </div>
+    </div>
+
+    <div class="row" >
+        <div class="col-xs-4-offset-4">
+            <ul id="_shoppingStatus_list"></ul>
+        </div>
+    </div>
+
     <div class="row">
-        <div class="col-lg-offset-3 col-lg-6 col-sm-offset-3 col-sm-6">
-            <div class="card hovercard">
-                <div class="card-background"></div>
-                <div class="useravatar"></div>
-                <div class="card-info">
-                    <span class="card-title shoppingStatus_driver_name"></span>
+        <div class="col-xs-4-offset-4">
+            <div class="input-field">
+                <label for="shoppingstatus_note">Special Note:</label>
+                <input disabled type="text" class="form-control bfh-phone" data-country="US"
+                       id="shoppingstatus_note">
+            </div>
+        </div>
+    </div>
+
+    <div class = "row">
+        <div class="col-xs-4-offset-4">
+            <div class="driver-footer">
+                <div class = "row" id="_shoppingStatus_footerInfo">
+                 <div class="col-xs-4" id="_shoppingStatus_numItems"></div>
+                    <a id="shoppingStatus_list_btn" type="button" class="btn waves-effect orange">
+                        Close
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-    <a id="shoppingStatus_list_btn" type="button" class="btn waves-effect orange">
-        Accepted Grocery List
-    </a>
+
 </div>
 <script src="js/_shoppingStatus.js"></script>
