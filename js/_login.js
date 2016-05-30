@@ -37,6 +37,7 @@
                 data: info_to_send,
                 success: function (data) {
                     //data is the object sent back on success (could also just be string)
+                    index_login();
                     loader.login(data);
                     //alert('data after login: ' + data.full_name);
                 },
