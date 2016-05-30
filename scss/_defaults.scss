@@ -262,9 +262,11 @@ h6 {
 }
 
 .box2{
+  margin-top: 30px;
 
   @media screen and(max-width: 550px) {
     width: 90%;
+    margin-top:10px;
   }
 
   background-color: rgba(255,255,255,.9);
