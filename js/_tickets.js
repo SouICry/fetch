@@ -5,7 +5,7 @@
          {name: "tjs", time: "6:00 pm", id: "653"}, {name: "ralphs", time: "7:00 pm", id: "098"},
          {name: "vons", time: "7:00 pm", id: "897"}]*/,
         version: 0,
-        onPageLoad: function() {
+        onPageLoad: function () {
             $.ajax({
                 type: "POST",
                 url: "/_tickets",
@@ -26,16 +26,15 @@
         },
         loadData: function (data) {
             $("#tickets_content").empty();
+            $("#tickets_content").append('<li id="ticket_not_available" class = "ticket hidden"' +
+                '>No tickets available</li>');
 
             if (data == null || data.length == 0) {
-                $("#tickets_content").append('<li id="ticket_not" class = "ticket"' +
-                    '>No tickets available</li>');
+                $("#ticket_not_available").removeClass("hidden");
+                $("#ticket_not_available").addClass("show");
             }
 
             else {
-                $("#tickets_content").append('<li id="ticket_not" class = "ticket"' +
-                    '>No tickets available</li>');
-                $("#ticket_not").addClass("hidden");
 
                 function toName(nameString) {
                     var name = {};
@@ -71,6 +70,7 @@
                 });
             }
 
+
             $(".store").each(function () {
                 $(this).click(function () {
                     for (var x in selected) {
@@ -85,9 +85,13 @@
                     }
 
                     $('.store.selected').each(function () {
-                        
+
                         selected[$(this).data("name")] = true;
                     });
+
+                    if ($('#ticket_not_available').hasClass("show")) {
+                        $('#ticket_not_available').removeClass("show");
+                    }
 
                     for (var x in selected) {
                         var a = "." + x;
@@ -107,21 +111,37 @@
                     }
 
                     var no_ticket = true;
-                    $( "#tickets_content li" ).each(function() {
-                      if ($(this).hasClass("show")){
-                          no_ticket = false;
-                      }
-                      else {
-                          no_ticket = true;
-                      }
+
+                    $("#tickets_content .wholeFoods").each(function () {
+                        if ($(this).hasClass("show")) {
+                            no_ticket = false;
+                        }
+                    });
+                    $("#tickets_content .tjs").each(function () {
+                        if ($(this).hasClass("show")) {
+                            no_ticket = false;
+                        }
+                    });
+                    $("#tickets_content .vons").each(function () {
+                        if ($(this).hasClass("show")) {
+                            no_ticket = false;
+                        }
+                    });
+                    $("#tickets_content .ralphs").each(function () {
+                        if ($(this).hasClass("show")) {
+                            no_ticket = false;
+                        }
                     });
 
-                    $("#ticket_not").show();
-                    if (no_ticket = true) {
-                        $("#ticket_not").show();
+                    if (no_ticket == true) {
+                        if ($('#ticket_not_available').hasClass("hidden")) {
+                            $('#ticket_not_available').removeClass("hidden");
+                        }
+
+                        $('#ticket_not_available').addClass("show");
                     }
                     else {
-                        $("#ticket_not").hide();
+                        $("#ticket_not_available").addClass("hidden");
                     }
                 });
             });

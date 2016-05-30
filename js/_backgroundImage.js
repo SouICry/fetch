@@ -4,7 +4,7 @@
 
 (function () {
     var images = [], x = 0;
-    images[0] = "/resources/images/lemon-on-blue.jpg";
+    images[0] = "/resources/images/lemons.jpg";
     images[1] = "/resources/images/carrot-on-pink.jpg";
     images[2] = "/resources/images/cabbage-on-yellow.jpg";
     images[3] = "/resources/images/peppers.jpg";
