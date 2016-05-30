@@ -4,11 +4,6 @@ var test_data = {
     contact: 1234567890
 };
 
-<<<<<<< HEAD
-=======
-//var arrayCheckedOff = ['dd','cc'];
->>>>>>> 593b141b9b48c0f67bcb5a901473278f805e9bc4
-
 (function () {
     loader._driverList = {
         version: 0,

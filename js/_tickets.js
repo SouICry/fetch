@@ -28,7 +28,6 @@
 
 
             $("#tickets_content").empty();
-            alert("reload");
             if (data == null || data.length == 0) {
                 $("#ticket_not_available").removeClass("hidden");
                 $("#ticket_not_available").addClass("show");
