@@ -26,13 +26,13 @@
         },
         loadData: function (data) {
 
-
             $("#tickets_content").empty();
             if (data == null || data.length == 0) {
-                $("#ticket_not").addClass("hide_ticket_not");
+                $("#tickets_content").append('<li id="ticket_not " class = "ticket"' +
+                    '>No tickets available</li>');
+
             }
             else {
-
                 function toName(nameString) {
                     var name = {};
                     name['wholeFoods'] = "WholeFoods";
@@ -76,7 +76,6 @@
 
         }
     };
-
     var selected = {
         ralphs: true,
         wholeFoods: true,
@@ -113,8 +112,6 @@
                 }
             }
 
-            alert($("#tickets_content li").length)
-            alert($("#tickets_content li.hidden").length)
             if ($("#tickets_content li").length-1 == $("#tickets_content li.hidden").length) {
                 $("#ticket_not").removeClass("hide_ticket_not");
             }
