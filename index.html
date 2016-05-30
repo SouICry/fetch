@@ -56,7 +56,7 @@
             <div class="container-name">
                 <div class="div1" onclick="goToPage('_accSetting')"><img class="img-circle" id="index-image-user"
                                                                          src="placeholder/person4.png"></div>
-                <div class="div2" id="index_user-name">hell</div>
+                <div class="div2" id="index_user-name"></div>
                 <div>
                     <span id="toggling">Shopper</span>
                     <span id="toggleButton" onclick="toggles();" class="toggle-button">
@@ -529,8 +529,6 @@
     });
 
     function pageInit() {
-        var textToShow = ['Hello', 'Hi']
-        document.getElementById("index_user-name").innerHTML = textToShow[Math.floor(Math.random()*textToShow.length)];
 
         if (document.cookie.length > 5) {
             loader.userId = document.cookie.substring(5);

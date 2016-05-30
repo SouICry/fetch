@@ -1792,9 +1792,17 @@ app.post('/_receiptPictureEnterPrice', function (req, res) {
     var buf = new Buffer(data, 'base64');
     //noinspection JSUnresolvedFunction
     if (req.session.userId === 'undefined')
-        fs.writeFile('images/receipts/image.png', buf);
+        fs.writeFile('images/receipts/image.png', buf, function(err) {
+            if (err)
+                throw err;
+            console.log("Photo saved");
+        });
     else
-        fs.writeFile('images/receipts/' + ticketId + '.png', buf);
+        fs.writeFile('images/receipts/' + ticketId + '.png', buf, function(err) {
+            if (err)
+                throw err;
+            console.log("Photo saved");
+        });
 
     console.log("Photo Saved: " + data.substring(0, 10));
     /*fs.writeFile("images/profiles/" + req.session.userId + ".png", req.body.image,"base64", function (err, data ) {
