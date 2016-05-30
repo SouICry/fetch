@@ -13,9 +13,9 @@
         {name: "vons", time: "9:00 pm", id: "864", state: "delivered"},
         {name: "vons", time: "10:00 pm", id: "864", state: "draft"}],*/ // may not have draft state
         version: 0,
-        onPageLoad: function() {
-            assholes135();
-        },
+        // onPageLoad: function() {
+        //     assholes135();
+        // },
         loadData: function (data) {
             $("#yourDeliveries__accepted_tickets").empty();
             $("#yourDeliveries_shopped_tickets").empty();
@@ -54,6 +54,7 @@
 
             for (var i = 0; i < tickets.pending_list.length; i++) {
                 if (tickets.pending_list[i].state == 'accepted') {
+                    //alert('added ticket: ' + tickets.pending_list[i].store_name);
                     accepted_tickets.push(tickets.pending_list[i]);
                 }
                 else if (tickets.pending_list[i].state == 'purchased') {
@@ -101,11 +102,11 @@
 
             if (accepted_tickets.length == 0) {
                 $("#yourDeliveries_accepted_tickets").append('<li class = "ticket"' +
-                    '>No deliveries</li>');
+                    '>No accepted tickets</li>');
             }
             if (shopped_tickets.length == 0) {
                 $("#yourDeliveries_shopped_tickets").append('<li class = "ticket"' +
-                    '>No deliveries</li>');
+                    '>No purchased tickets</li>');
             }
             if (delivered_tickets.length == 0) {
                 $("#yourDeliveries_delivered_tickets").append('<li class = "ticket"' +

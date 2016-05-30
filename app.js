@@ -1533,6 +1533,7 @@ app.post('/_history', function (req, res, next) {
 
 // ---------------------------- YOUR DELIVERIES -------------------------------
 app.post('/_yourDeliveries', function (req, res) {
+    console.log(req.url);
     var userId = req.session.userId;
 
     if (!userId) {
