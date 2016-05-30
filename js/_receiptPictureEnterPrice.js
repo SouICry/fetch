@@ -32,7 +32,7 @@
     // });
 
     $('#uploadReceiptButton1').click(function(){
-        uploadFromCanvas();
+        uploadPriceReceipt();
         goToPage("_congrats_driver_finish_shopping");
     });
 
@@ -53,19 +53,23 @@
     //     $('#uploadReceiptButton1').prop('disabled', false);
     // }
 
-    function uploadFromCanvas(){
+    function uploadPriceReceipt(){
         var data_to_send = {
             image: canvas.toDataURL("image/png"),
             price: $("enter_price").val,
             ticket: loader.ticketId
         }
+        alert(JSON.stringify(data_to_send));
         $.ajax({
             type: "POST",
             url: "/_receiptPictureEnterPrice",
-            data: data_to_send,
+            data: JSON.stringify(data_to_send),
             success: function(){
                 alert("uploader");
-            }
+            },
+            error: function (data) {
+            //data is the object send back on fail (could also just be string)
+        }
         });
     }
 })();
