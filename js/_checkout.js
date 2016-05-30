@@ -91,7 +91,7 @@
             });
             
             goToPage("_pendingPayment");
-            //loader.payment.simulateCompletePayment();
+            loader.payment.simulateCompletePayment();
         }
         else {
             confirm("Enter a valid valid time range.");
@@ -99,7 +99,7 @@
         // go to paypal to set up payment
         // on successful payment, goes to _submitted
         // unsuccessful goes to _cancelled
-        loader.payment.triggerPayment();
+        //loader.payment.triggerPayment();
     });
 
 

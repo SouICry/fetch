@@ -322,6 +322,9 @@
                         loader._checkout.loadData(data.checkout);
                         loader._checkout.version = data.checkoutVersion;
                     }
+                    if (data.currentPage != loader.currentPage) {
+                        loader.setCurrentPage(data.currentPage, whatever);
+                    }
                 }
             });
         },

@@ -169,7 +169,8 @@ app.post("/_shopping", function (req, res) {
         res.send(JSON.stringify({
             //version: masters[userId].version,
             list: masters[userId].list,
-            shoppingVersion: masters[userId].shoppingVersion
+            shoppingVersion: masters[userId].shoppingVersion,
+            currentPage: masters[userId].currentPage
         }));
     }
     else if (masters[userId].checkoutVersion < req.body.checkoutVersion) {
@@ -183,7 +184,8 @@ app.post("/_shopping", function (req, res) {
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify({
             checkout: masters[userId].checkout,
-            checkoutVersion: masters[userId].checkoutVersion
+            checkoutVersion: masters[userId].checkoutVersion,
+            currentPage: masters[userId].currentPage
         }));
     }
     else {
