@@ -131,7 +131,7 @@ h6 {
     margin: 0;
   }
 
-  .item, .driverItem, .viewTicketItem {
+  .item, .driverItem, .viewTicketItem, .shoppingStatusItem, .cancelTicketItem{
     @media screen and(max-width: 500px) {
       font-size: 1em;
     }
@@ -154,7 +154,7 @@ h6 {
     opacity: .3;
   }
 
-  #shopping_numItems, #driver_numItems, #_viewTicket_numItems {
+  #shopping_numItems, #driver_numItems, #_viewTicket_numItems, #_shoppingStatus_numItems, #_cancelTicket_numItems {
     float: left;
     width: 33%;
     //display: inline;
@@ -169,7 +169,7 @@ h6 {
     text-indent: 7%;
   }
 
-  .todo-footer, .driver-footer {
+  .todo-footer, .driver-footer, .shoppingStatus-footer, .cancelTicket-footer{
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
     0 25px 50px 0 rgba(0, 0, 0, 0.1);
     margin: auto;
@@ -180,7 +180,7 @@ h6 {
     line-height: 2;
   }
 
-  #shopping_submit_list, #_driver_submit_list, #_viewTicket_submit_list {
+  #shopping_submit_list, #_driver_submit_list, #_viewTicket_submit_list #shoppingStatus_list, #cancelTicket_list{
     text-align: center;
     width: 33%;
     color: $fetchOrange;

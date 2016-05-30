@@ -111,7 +111,7 @@
             var ticket;
             for (var i = 0; i < pending_tickets.length; i++) {
                 ticket = pending_tickets[i];
-                $("#yourOrders_pending_tickets").append('<li  data-id="' + ticket._id + '" class = "yourOrders1 ' + ticket.store_name + ' ticket" ' + ' ><div  >'
+                $("#yourOrders_pending_tickets").append('<li  data-id="' + ticket._id + '" class = "yourOrders ' + ticket.store_name + ' ticket" ' + ' ><div  >'
                     + toName(ticket.store_name) + ' <br> Estimate Deliver Time: ' + ticket.time_created +
                     '</div></li>');
             }
@@ -158,6 +158,15 @@
                 $(this).click(function () {
                     // alert($(this).data("id"));
                     // loader.getTicket($(this).data("id"), $(this).data("state"));
+                    goToPage("_shoppingStatus");
+                });
+            });
+
+            $('li.yourOrders').each(function () {
+                $(this).click(function () {
+                    // alert($(this).data("id"));
+                    // loader.getTicket($(this).data("id"), $(this).data("state"));
+                    goToPage("_cancelTicket");
                 });
             });
         }

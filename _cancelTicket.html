@@ -1,13 +1,42 @@
-<div id="cancelTicket" class="container text-center box2">
+<div id="_cancelTicket" class="container box text-center">
+    <div class="col-xs-4-offset-4">
+        <div>
+            <h2 id="listName_cancelTicket"></h2>
+            <h3 id="phone_cancelTicket"></h3>
+        </div>
+    </div>
+
+    <div class="row" >
+        <div class="col-xs-4-offset-4">
+            <ul id="_cancelTicket_list"></ul>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-xs-4-offset-4">
-
-            <h2>Cancel pending order.</h2>
-
-            <div class="row">
-                <a id="submit_cancelTicket" type="button" class="btn waves-effects orange">Confirm</a>
+            <div class="input-field">
+                <label for="cancelTicket_note">Special Note:</label>
+                <input disabled type="text" class="form-control bfh-phone" data-country="US"
+                       id="cancelTicket_note">
             </div>
         </div>
     </div>
+
+    <div class = "row">
+        <div class="col-xs-4-offset-4">
+            <div class="driver-footer">
+                <div class = "row" id="_cancelTicket_footerInfo">
+                    <div class="col-xs-4" id="_cancelTicket_numItems"></div>
+                    <a id="cancelTicket_list_btn" type="button" class="btn-flat waves-effect orange">
+                        Close
+                    </a>
+                    <a id="cancelTicket_cancel_btn" type="button" class="btn-flat waves-effect orange">
+                        Cancel ticket
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
-<script src="/js/_cancelTicket.js"></script>
+<script src="js/_cancelTicket.js"></script>
