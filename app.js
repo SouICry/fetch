@@ -877,10 +877,10 @@ app.post('/chat', function(req,res){
         masters[userId].chat[req.body.userIdToChat] = {
             messages: []
         };
-        masters[userId].chat[req.body.userIdToChat].messages.push(req.body.message);
+        masters[userId].chat[req.body.userIdToChat].messages.push("<div class='ours'><div>" + req.body.message + "</div></div>");
     }
-    
-    if (!masters.hasOwnProperty(req.body.userIdToChat)) {
+
+    if (!masters.hasOwnProperty(req.body.userIdToChat) ) {
         masters[req.body.userIdToChat] = {
             isDriver: false,
             isLoggedIn: true,
@@ -893,16 +893,17 @@ app.post('/chat', function(req,res){
             checkoutVersion: 0,
             currentPage: "_homePage"
         };
-        if(!masters[req.body.userIdToChat].chat.hasOwnProperty(userId)){
-            masters[req.body.userIdToChat].chat[userId] = {
-                messages: []
-            };
-            masters[req.body.userIdToChat].chat[userId].messages.push(req.body.message);
-        }
+
+    }
+    if(!masters[req.body.userIdToChat].chat.hasOwnProperty(userId)){
+        masters[req.body.userIdToChat].chat[userId] = {
+            messages: []
+        };
+        masters[req.body.userIdToChat].chat[userId].messages.push("<div class='theirs'><div>" + req.body.message + "</div></div>");
     }
     else{
-        masters[userId].chat[req.body.userIdToChat].messages.push(req.body.message);
-        masters[req.body.userIdToChat].chat[userId].messages.push(req.body.message);
+        masters[userId].chat[req.body.userIdToChat].messages.push("<div class='ours'><div>" + req.body.message + "</div></div>");
+        masters[req.body.userIdToChat].chat[userId].messages.push("<div class='theirs'><div>" + req.body.message + "</div></div>");
     }
 
     res.send("");
@@ -926,21 +927,26 @@ app.post('/getUpdates', function (req, res, next) {
         for (var personToChat in masters[userId].chat) {
             if (masters[userId].chat.hasOwnProperty(personToChat)) {
                 if(masters[userId].chat[personToChat].messages != null) {
-                    if (chatRecieve[personToChat] != null ||
-                        masters[userId].chat[personToChat].messages.length > chatRecieve[personToChat]) {
-                        for (var k = chatRecieve[personToChat]; k < masters[userId].chat[personToChat].messages.length; k++) {
-                            chat[personToChat].push(masters[userId].chat[personToChat].messages[k]);
+                    if (chatRecieve[personToChat] != null){
+
+                        if (masters[userId].chat[personToChat].messages.length > chatRecieve[personToChat]) {
+                            chat[personToChat] = [];
+                            for (var k = chatRecieve[personToChat]; k < masters[userId].chat[personToChat].messages.length; k++) {
+                                chat[personToChat].push(masters[userId].chat[personToChat].messages[k]);
+                            }
                         }
                     }
                     else {
-                        chat[0] = masters[userId].full_name;
+                        chat[0] = masters[personToChat].full_name;
+                        console.log("User full name is ", chat[0], "user Id is"  , personToChat );
                         chat[personToChat] = masters[userId].chat[personToChat].messages;
+                        console.log("Chat messages are ", chat[personToChat] );
                     }
                 }
             }
 
         }
-
+    console.log(chat);
 
         //send notification back if masters has new notification
         if (masters[userId].notification.length > lengthRecieve) {
