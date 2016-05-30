@@ -1,0 +1,18 @@
+<div class="container text-center box">
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>Select Delivery Location</h2>
+        </div>
+        <div class="col-xs-12">
+            <div id="map-select-loc"></div>
+            <div id="centerMarker-select-loc"></div>
+            <script type="text/javascript" src="js/_deliveryLocation.js"></script>
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBmhEjZ6m4l05dajXYQ0fbMPdm2-wg9-U&callback=loader._deliveryLocation.loadData"
+                    async defer></script>
+        </div>
+        <div class="col-xs-12">
+            <a id="delivery-location-back" type="button" class="btn waves-effects orange"><- Back</a>
+            <a id="delivery-location-submit" type="button" class="btn waves-effects orange">Select -></a>
+        </div>
+    </div>
+</div>
