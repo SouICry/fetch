@@ -4,6 +4,8 @@ var test_data = {
     contact: 1234567890
 };
 
+//var arrayCheckedOff = ['dd','cc'];
+
 (function () {
     loader._driverList = {
         version: 0,
@@ -28,10 +30,10 @@ var test_data = {
 
             fullName = data.full_name;
             array = data.items;
-            var name = data.full_name;
+            var name = data.full_name.split(" ");
 
             //create the contact info(where should I got this, is there a flied relates to contact?
-            document.getElementById("listName_driverList").innerHTML = name + "'s Shopping List";
+            document.getElementById("listName_driverList").innerHTML = name[0] + "'s Shopping List";
             document.getElementById("phone").innerHTML = "Phone: " + data.contact;
 
             for (var i = 0; i < array.length; i++) {
@@ -42,6 +44,7 @@ var test_data = {
                 var newItem = document.createElement('li');
                 newItem.innerHTML = array[i];
                 newItem.className = 'driverItem';
+                //newItem.id = array[i];
                 $('#_driverList2_list').prepend(newItem);
 
                 if (count == 1) {
@@ -58,27 +61,35 @@ var test_data = {
                     $("#_driver_footerInfo,.footerBars").hide();
                 }
             }
+
+            for(var j = 0; j < arrayCheckedOff.length; j++){
+                var selector =  "#" + arrayCheckedOff[j];
+                $(selector).toggleClass("selected");
+            }
         }
     };
+
     var count = 0;
+    //var count = data.items.length - arrayCheckedOff.length;
     var fullName = "";
     var array = [];
-    
 
     $(document).on('click', '.driverItem',function () {
 
         $(this).toggleClass("selected");
 
         var arr = [];
+        //arrayCheckedOff = [];
         $('.driverItem.selected').each(function () {
             arr.push($(this).text());
+            //arrayCheckedOff.push($(this).text());
         });
 
         if ((count - arr.length) === 1) {
             $("#_driver_numItems").text("1 item left");
         }
         else {
-            $("#_driver_numItems").text((count - arr.length) + " items left");
+            $("#_driver_numItems").text((array.length - arr.length) + " items left");
         }
     });
 
