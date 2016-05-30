@@ -39,13 +39,13 @@
             $("#yourOrders_delivered_tickets").empty();
 
             if (data == "none" || data.user_history.length == 0 || data.pending_lists.length == 0) {
-                $("#yourOrders_pending_tickets").append('<li id="ticket_not" class = "ticket"' +
+                $("#yourOrders_pending_tickets").append('<li class = "ticket"' +
                     '>No orders</li>');
-                $("#yourOrders_accepted_tickets").append('<li id="ticket_not" class = "ticket"' +
+                $("#yourOrders_accepted_tickets").append('<li class = "ticket"' +
                     '>No orders</li>');
-                $("#yourOrders_shopped_tickets").append('<li id="ticket_not" class = "ticket"' +
+                $("#yourOrders_shopped_tickets").append('<li class = "ticket"' +
                     '>No orders</li>');
-                $("#yourOrders_delivered_tickets").append('<li id="ticket_not" class = "ticket"' +
+                $("#yourOrders_delivered_tickets").append('<li class = "ticket"' +
                     '>No orders</li>');
                 return;
             }
@@ -133,19 +133,19 @@
             }
 
             if (delivered_tickets.length = 0) {
-                $("#yourOrders_pending_tickets").append('<li id="ticket_not" class = "ticket"' +
+                $("#yourOrders_pending_tickets").append('<li class = "ticket"' +
                     '>No orders</li>');
             }
             if (delivered_tickets.length = 0) {
-                $("#yourOrders_accepted_tickets").append('<li id="ticket_not" class = "ticket"' +
+                $("#yourOrders_accepted_tickets").append('<li class = "ticket"' +
                     '>No orders</li>');
             }
             if (delivered_tickets.length = 0) {
-                $("#yourOrders_shopped_tickets").append('<li id="ticket_not" class = "ticket"' +
+                $("#yourOrders_shopped_tickets").append('<li class = "ticket"' +
                     '>No orders</li>');
             }
             if (delivered_tickets.length = 0) {
-                $("#yourOrders_completed_tickets").append('<li id="ticket_not" class = "ticket"' +
+                $("#yourOrders_completed_tickets").append('<li class = "ticket"' +
                     '>No orders</li>');
             }
 
