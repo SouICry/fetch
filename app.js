@@ -1429,32 +1429,34 @@ app.post('/driverListUpdate', function (req, res) {
 //-----------------------------------------------------DRIVER LIST -----------------------------------------
 app.post('/_driverList', function (req, res, next) {
     var object = {};
-    var ticketId = req.session.ticketId;
+    var ticketId = req.body.ticketId;
+    console.log('ticketId = ' + ticketId);
 
     if (ticketId) {
-        object.notes = masters[userId]["_checkout"].data.special_options;
-        object.items = masters[userId]["_"].data.items;   //TODO where is items located?
-        object.name = masters[userId].name;
-        object.contact = masters[userId].phone;
-        res.send(object);
+        // object.notes = masters[userId]["_checkout"].data.special_options;
+        // object.items = masters[userId]["_"].data.items;   //TODO where is items located?
+        // object.name = masters[userId].name;
+        // object.contact = masters[userId].phone;
+        //res.send(object);
 
         db.collection('users').update({
                 'grocery_list._id': ticketId
             },
             {
                 $set: {
-                    'grocery_list.$.state': 'Purchased'
+                    'grocery_list.$.state': 'purchased'
                 }
             },
             {
                 multi: true
 
-            }, function (err, user) {
+            }, function (err) {
 
                 if (err) {
                     console.log('Error in _driverList: ' + err);
                     res.status(500);
                     res.send('');
+                    return;
                 }
 
 
@@ -1480,7 +1482,6 @@ app.post('/_driverList', function (req, res, next) {
         console.log('Successfully updated tickets in user db');
         res.send('');
     }
-    res.send('Fail');
 });
 
 

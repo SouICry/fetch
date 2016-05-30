@@ -41,7 +41,7 @@
                 if (tickets.user_history[i].state == 'accepted') {
                     accepted_tickets.push(tickets.user_history[i]);
                 }
-                else if (tickets.user_history[i].state == 'shopped') {
+                else if (tickets.user_history[i].state == 'purchased') {
                     shopped_tickets.push(tickets.user_history[i]);
                 }
                 else if (tickets.user_history[i].state == 'delivered') {
@@ -56,7 +56,7 @@
                 if (tickets.pending_list[i].state == 'accepted') {
                     accepted_tickets.push(tickets.pending_list[i]);
                 }
-                else if (tickets.pending_list[i].state == 'shopped') {
+                else if (tickets.pending_list[i].state == 'purchased') {
                     shopped_tickets.push(tickets.pending_list[i]);
                 }
                 else if (tickets.pending_list[i].state == 'delivered') {
