@@ -437,6 +437,34 @@ app.post('/_signUp', function (req, res, next) {
                                 checkoutVersion: 0,
                                 currentPage: ""
                             };
+                            db.collection('users').findOne({_id: userId},
+                                function (err, user) {
+                                    if (err) {
+                                        console.log('Error in accSetting: ' + err);
+                                        res.status(500);
+                                        res.setHeader('Content-Type', 'application/json');
+                                        res.send({message: 'cannot access collection to find user '})
+                                        return;
+                                    }
+                                    //console.log('user = ' + JSON.stringify(user));
+                                    if (user == null) {
+                                        console.log('Could not find user with userId ' + userId + ' in _accSetting');
+                                        console.log(JSON.stringify(user));
+                                        res.status(500);
+                                        res.send('');
+                                        return;
+                                    }
+                                    if (user.full_name == null) {
+                                        console.log('Could not find users fullname in _accSetting');
+                                        res.status(500);
+                                        res.send('');
+                                        return;
+                                    }
+                                    else {
+                                        console.log(JSON.stringify(user));
+                                        masters[userId].full_name = user.full_name;
+                                    }
+                                });
                             masters[userId].userId = userId;
                             // res.setHeader('Content-Type', 'application/json');
 
@@ -506,9 +534,37 @@ app.post('/_login', function (req, res, next) {
                     shoppingVersion: 0,
                     checkoutVersion: 0,
                     currentPage: ""
+
                 };
+                db.collection('users').findOne({_id: userId},
+                    function (err, user) {
+                        if (err) {
+                            console.log('Error in accSetting: ' + err);
+                            res.status(500);
+                            res.setHeader('Content-Type', 'application/json');
+                            res.send({message: 'cannot access collection to find user '})
+                            return;
+                        }
+                        //console.log('user = ' + JSON.stringify(user));
+                        if (user == null) {
+                            console.log('Could not find user with userId ' + userId + ' in _accSetting');
+                            console.log(JSON.stringify(user));
+                            res.status(500);
+                            res.send('');
+                            return;
+                        }
+                        if (user.full_name == null) {
+                            console.log('Could not find users fullname in _accSetting');
+                            res.status(500);
+                            res.send('');
+                            return;
+                        }
+                        else {
+                            console.log(JSON.stringify(user));
+                            masters[userId].full_name = user.full_name;
+                        }
+                    });
                 masters[userId].userId = userId;
-                // res.setHeader('Content-Type', 'application/json');
 
                 console.log(userId);
                 console.log(JSON.stringify({
@@ -859,16 +915,30 @@ app.post('/getUpdates', function (req, res, next) {
     // var object = {};
     //send back JSON object to update current Page once the user is login on another device
     var userId = req.session.userId;
-    var chatToSendBack = [];
+    var chatRecieve = req.body.chat;
+    var chat = {};
     var notificationToSendBack = [];
     var lengthRecieve = req.body.notification;
+
     if (masters.hasOwnProperty(userId) && masters[userId] != null) {
 
         // //send chat
-        // if (masters[userId].chat[req.body.userIdToChat].length > req.body.count){
-        //     console.log(masters[userId].chat[req.body.userIdToChat].length);
-        //     chatToSendBack = masters[userId].chat[req.body.userIdToChat];
-        // }
+        for (var personToChat in masters[userId].chat) {
+            if (masters[userId].chat.hasOwnProperty(personToChat)) {
+                if(chatRecieve[personToChat] != null ||
+                    masters[userId].chat[personToChat].messages.length > chatRecieve[personToChat] ){
+                    for (var k = chatRecieve[personToChat]; k < masters[userId].chat[personToChat].messages.length; k++) {
+                        chat[personToChat].push(masters[userId].chat[personToChat].messages[k]);
+                    }
+                }
+                else{
+                    chat[0] = masters[userId].full_name;
+                    chat[personToChat] = masters[userId].chat[personToChat].messages;
+                }
+            }
+
+        }
+
 
         //send notification back if masters has new notification
         if (masters[userId].notification.length > lengthRecieve) {
@@ -888,20 +958,16 @@ app.post('/getUpdates', function (req, res, next) {
                 ticketId: masters[userId].ticketId,
                 isLoggedIn: masters[userId].isLoggedIn,
                 isDriver: masters[userId].isDriver,
+                chat: chat,
                 notification: notificationToSendBack
-                // chat: {
-                //     chatMessages: chatToSendBack,
-                //     count: masters[userId].chat[req.body.userIdToChat].length
-                // }
+
             }));
         } else {
             res.send(JSON.stringify({
                 isInactive: req.body.isInactive,
+                chat: chat,
                 notification: notificationToSendBack
-                // chat: {
-                //     chatMessages: chatToSendBack,
-                //     count: masters[userId].chat[req.body.userIdToChat].length
-                // }
+
             }));
 
         }
@@ -934,6 +1000,34 @@ app.post('/init', function (req, res) {
             checkoutVersion: 0,
             currentPage: "_homePage"
         };
+        db.collection('users').findOne({_id: userId},
+            function (err, user) {
+                if (err) {
+                    console.log('Error in accSetting: ' + err);
+                    res.status(500);
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send({message: 'cannot access collection to find user '})
+                    return;
+                }
+                //console.log('user = ' + JSON.stringify(user));
+                if (user == null) {
+                    console.log('Could not find user with userId ' + userId + ' in _accSetting');
+                    console.log(JSON.stringify(user));
+                    res.status(500);
+                    res.send('');
+                    return;
+                }
+                if (user.full_name == null) {
+                    console.log('Could not find users fullname in _accSetting');
+                    res.status(500);
+                    res.send('');
+                    return;
+                }
+                else {
+                    console.log(JSON.stringify(user));
+                    masters[userId].full_name = user.full_name;
+                }
+            });
         masters[userId].userId = userId;
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify({
@@ -1472,9 +1566,8 @@ app.post('/_tickets', function (req, res) {
 app.get('/complete-payment', function (req, res) {
     var userId = req.query.user;
     //TODO: send to database masters[userId].ticket;
-    //var userId = req.session.userId;
+    console.log(userId);
 
-    //
     // var gticket = masters[userId].ticket;
     // // Check that empty list was not sent
     // if (gticket.shopping_list.length === 0) {
@@ -1519,8 +1612,6 @@ app.get('/complete-payment', function (req, res) {
     //     );
     // }
 
-    console.log("submitted");
-    console.log(userId);
     res.redirect('/submittedRedirect.html');
 });
 

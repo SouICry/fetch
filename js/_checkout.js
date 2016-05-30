@@ -90,7 +90,10 @@
                     //data is the object send back on fail (could also just be string)
                 }
             });
+            
             goToPage("_pendingPayment");
+            
+           // loader.payment.simulateCompletePayment();
         }
         else {
             confirm("Enter a valid valid time range.");
@@ -98,12 +101,12 @@
         // go to paypal to set up payment
         // on successful payment, goes to _submitted
         // unsuccessful goes to _cancelled
-
-        loader.payment.simulateCompletePayment();
+        loader.payment.triggerPayment();
     });
 
 
     $('#checkout_close').click(function () {
+      //  loader.payment.simulateCancelPayment();
         goToPage("_homePage");
     });
     

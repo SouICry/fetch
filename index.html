@@ -35,15 +35,12 @@
     <div class="container">
         <div class="row">
             <div id="Glyph" class="col-xs-3">
-                <div id="open-menu-drawer"><span
-                        class="glyphicon glyphicon-menu-hamburger"></span></div>
+                <div id="open-menu-drawer"><span class="glyphicon glyphicon-menu-hamburger"></span></div>
             </div>
-
             <div id="Fetch" class=" text-center col-xs-6">
                 <div id="title">Fetch</div>
             </div>
             <div class="col-xs-3"></div>
-
         </div>
     </div>
 </div>
@@ -126,6 +123,15 @@
         }
     };
 
+
+    var chatProto = {
+        username: {
+            messages: [""],
+            isOpen: false,
+            name: ""
+        },
+        username1: []
+    }
     var loader = {
         activeCyclesLeft: 20,
         isDriver: false,
@@ -137,66 +143,109 @@
         notificationCount: 0,
         chatCount: 0,
         chat: {},
+        appendChat: function (id, arr) {
+            if (!loader.chat.hasOwnProperty(id)) {
+                loader.chat[id] = {
+                    messages: [],
+                    isOpen: false,
+                    name: arr[0]
+                };
+                var u = loader.chat[id];
+                for (var i = 1; i < arr.length; i++) {
+                    u.messages.push(arr[i]);
+                }
+                loader.openChat(id, arr[0])
+            }
+            else if (!loader.chat[id].isOpen) {
+                var u = loader.chat[id];
+                for (var i = 0; i < arr.length; i++) {
+                    u.messages.push(arr[i]);
+                }
+                loader.openChat(id, u.name);
+            }
+            else {
+                var u = loader.chat[id];
+                var chat = $(document.getElementById('chatForm' + id).parentNode.parentNode).find('.window');
+                for (var i = 0; i < arr.length; i++) {
+                    u.messages.push(arr[i]);
+                    chat.append("<div>" + arr[i] + "</div>");
+                }
+            }
+        },
         openChat: function (id, name) {
             if (!loader.chat.hasOwnProperty(id)) {
-                loader.chat[id] = 0;
+                loader.chat[id] = {
+                    messages: [],
+                    isOpen: false,
+                    name: "name"
+                };
             }
-            var e = document.createElement('div');
-            e.className = "chat";
-            var min = 'onclick="loader.minimizeChat(this.parentNode.parentNode);"';
-            var onClick = "loader.closeChat(this.parentNode.parentNode);";
-            e.innerHTML = '<div class="chat-head"  data-closed="false" >' +
-                    '<div class="chat-profile" '+min+'>' + '<span class="glyphicon medium glyphicon-user"></span>' + '</div>' +
-                    '<div class="chat-name" '+min+'>' + name + '</div>' +
-                    '<div class="chat-close" onclick="'+ onClick+'"><span class="glyphicon medium glyphicon-remove"></span></div></div>' +
-                    '<div class="window"></div>' +
-                    '<div class="input">' +
-                    '<div class="photo"><span class="glyphicon medium glyphicon-picture"></span></div>' +
-                    '<form class="chatForm" id="chatForm' + id +'"  data-userid="' + id + '">' +
-                    '<input autocomplete="off" name="message" type="text" id="enter_price" placeholder="Enter a message...">' +
-                    '</form></div>';
 
-            $(e).find('.chatForm').submit(function (event) {
-                event.preventDefault();
+            var c = loader.chat[id];
+            if (!c.isOpen) {
+                c.isOpen = true;
+                //TODO: otherwise open and load existing array
+                var e = document.createElement('div');
+                e.className = "chat";
+                var min = 'onclick="loader.minimizeChat(this.parentNode.parentNode);"';
+                var onClick = "loader.closeChat(this.parentNode.parentNode);";
+                e.innerHTML = '<div class="chat-head"  data-closed="false" >' +
+                        '<div class="chat-profile" ' + min + '>' + '<span class="glyphicon medium glyphicon-user"></span>' + '</div>' +
+                        '<div class="chat-name" ' + min + '>' + name + '</div>' +
+                        '<div class="chat-close" onclick="' + onClick + '"><span class="glyphicon medium glyphicon-remove"></span></div></div>' +
+                        '<div class="window" id="chatWindow' + id + '"></div>' +
+                        '<div class="input">' +
+                        '<div class="photo"><span class="glyphicon medium glyphicon-picture"></span></div>' +
+                        '<form class="chatForm" id="chatForm' + id + '"  data-userid="' + id + '">' +
+                        '<input autocomplete="off" name="message" type="text" id="enter_price" placeholder="Enter a message...">' +
+                        '</form></div>';
 
-                var input = $(this).find('input');
-                var message = $(input).val();
-                if (message.length > 0) {
+                $(e).find('.chatForm').submit(function (event) {
+                    event.preventDefault();
 
-                    var parent = $(this).parent();
-                    $(parent).parent().find('.window').append('<div class="ours"><div>' +message +'</div></div>');
-                    console.log({
-                        userIdToChat: $(this).data('userid'),
-                        message: message
-                    });
-                    $.ajax({
-                        type: "POST",
-                        url: "/chat",
-                        contentType: "application/json",
-                        dataType: "json",
-                        data: JSON.stringify({
-                            userIdToChat: $(this).data('userid'),
-                            message: message
-                        })
-                    });
-                    var w = $(parent).find(".window");
-                    w.append("<div>" + message + "</div>");
-                    $(w).scrollTop(20000);
-                    $(input).val("");
+                    var input = $(this).find('input');
+                    var message = $(input).val();
+                    if (message.length > 0) {
+
+                        var parent = $(this).parent();
+                        $(parent).parent().find('.window').append('<div class="ours"><div>' + message + '</div></div>');
+                        $.ajax({
+                            type: "POST",
+                            url: "/chat",
+                            contentType: "application/json",
+                            dataType: "json",
+                            data: JSON.stringify({
+                                userIdToChat: $(this).data('userid'),
+                                message: message
+                            })
+                        });
+                        var w = $(parent).find(".window");
+                        var content  = "<div>" + message + "</div>";
+                        w.append(content);
+                        c.messages.push(content);
+                        test = w;
+                        $('#chatWindow' + id).scrollTop(100000);
+                        $(input).val("");
+                    }
+                    return false;
+                });
+
+
+                var w = $(e).find('.window');
+                var m = c.messages;
+                for (var i = 0; i < m.length; i++) {
+                    $(w).append("<div>" + m[i] + "</div>");
                 }
-                return false;
-            });
-            $('#chats').append(e);
+                $('#chats').append(e);
+            }
 
         },
-        minimizeChat: function(parent){
+        minimizeChat: function (parent) {
             $(parent).toggleClass("min");
         },
         closeChat: function (parent) {
             var id = $(parent).find('.chatForm').data('userid');
-            if (loader.chat.hasOwnProperty(id)) {
-                delete loader.chat[id];
-            }
+            loader.chat[id].isOpen = false;
             $(parent).remove();
         },
         currentPageObject: {
@@ -310,11 +359,20 @@
                     loader.activeCyclesLeft--;
                 }
 
+                //Get all chat lengths
+                var chats = {};
+                var c = loader.chat;
+                for (var user in c) {
+                    chats[user] = c[user].messages.length;
+                }
+
+
                 $.ajax({
                     type: "POST",
                     contentType: "application/json",
                     dataType: "json",
                     data: JSON.stringify({
+                        chat: chats,
                         isInactive: loader.activeCyclesLeft <= 0,
                         notification: loader.notificationCount
                     }),
@@ -325,6 +383,11 @@
                             loader.notificationCount += data.notification.length;
                             data.notification.forEach(loader.addNotification);
                         }
+                        var c = data.chat;
+                        for (var user in c) {
+                            loader.appendChat(user, c[user]); //If new, first element in array should be username
+                        }
+
                         if (data.isInactive) {
                             loader.ticketId = data.ticketId;
                             if (!data.isLoggedIn) {
@@ -341,12 +404,10 @@
                                     return;
                                 }
                             }
-
                             if (data.currentPage != loader.currentPage) {
                                 goToPage(data.currentPage)
                             }
                         }
-
                     }
                 });
 
