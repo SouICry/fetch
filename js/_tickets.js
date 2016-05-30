@@ -29,16 +29,9 @@
 
             $("#tickets_content").empty();
             if (data == null || data.length == 0) {
-                $("#ticket_not_available").removeClass("hidden");
-                $("#ticket_not_available").addClass("show");
+                $("#ticket_not").addClass("hide_ticket_not");
             }
             else {
-
-
-                $("#tickets_content").append('<li id="ticket_not" class = "ticket"' +
-                    '>No tickets available</li>');
-                $("#ticket_not").addClass("hidden");
-
 
                 function toName(nameString) {
                     var name = {};
@@ -50,6 +43,9 @@
                     return name[nameString];
                 }
 
+                $("#tickets_content").append('<li id="ticket_not" class = "ticket"' +
+                    '>No tickets available</li>');
+
                 for (var i = 0; i < data.length; i++) {
                     $("#tickets_content").append('<li data-ticketId="' + data[i]._id +
                         '" class = "' + data[i].store_name + ' ticket" ' +
@@ -57,7 +53,7 @@
                         ' <br> Estimate Deliver Time: ' + (data[i].time_created) + '</div></li>'); // TODO: UPDATE TO ESTIMATED TIME
                 }
                 if (data.length > 0) {
-                    $('#ticket_not').addClass("hidden");
+                    $('#ticket_not').addClass("hide_ticket_not");
                 }
 
                 $('#tickets_content li').click(function () {
@@ -81,9 +77,6 @@
         }
     };
 
-
-//    $("#ticket_not").hide();
-
     var selected = {
         ralphs: true,
         wholeFoods: true,
@@ -91,9 +84,10 @@
         vons: true
     };
 
-
     $(".store").each(function () {
+
         $(this).off('click').click(function () {
+
             for (var x in selected) {
                 selected[x] = false;
             }
@@ -112,21 +106,25 @@
             for (var x in selected) {
                 var a = "." + x;
                 if (selected[x] == false) {
-                    $(a).removeClass("hidden");
+                    $(a).addClass("hidden");
                 }
                 else {
-                    $(a).addClass("hidden");
+                    $(a).removeClass("hidden");
                 }
             }
 
-            if (!$("#tickets_content li").not(".hidden").length) {
-                $("#ticket_not").removeClass("hidden");
+            alert($("#tickets_content li").length)
+            alert($("#tickets_content li.hidden").length)
+            if ($("#tickets_content li").length-1 == $("#tickets_content li.hidden").length) {
+                $("#ticket_not").removeClass("hide_ticket_not");
             }
             else {
-                $("#ticket_not").addClass("hidden");
+                $("#ticket_not").addClass("hide_ticket_not");
             }
         });
+
     });
+
     $.ajax({
         type: "POST",
         url: "/_tickets",

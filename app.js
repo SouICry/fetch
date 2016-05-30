@@ -1384,14 +1384,17 @@ app.post('_homePage', function (req, res, next) {
 });
 
 app.post('/driverListUpdate', function (req, res) {
+
     var ticketId = req.body.ticketId;
 
     if (!ticketId) {
         console.log('In driverListUpdate err');
         res.status(500);
         res.send('');
+
     } else {
         db.collection('users').findOne({'grocery_list._id': ticketId}, function (err, user) {
+
             if (err) {
                 console.log('Err in driverListUpdate: ' + err);
                 res.status(500);
@@ -1408,11 +1411,14 @@ app.post('/driverListUpdate', function (req, res) {
                         break;
                     }
                 }
+
                 if (index == -1) {
                     console.log('could not find ticket with id: ' + ticketId + ' in driverListUpdate');
                     res.status(500);
                     res.send('');
+
                 } else {
+
                     res.setHeader('Content-Type', 'application/json');
                     res.send(JSON.stringify({
                         full_name: user.grocery_list[i].shopper.full_name,
@@ -1424,7 +1430,6 @@ app.post('/driverListUpdate', function (req, res) {
         });
     }
 });
-
 
 //-----------------------------------------------------DRIVER LIST -----------------------------------------
 app.post('/_driverList', function (req, res, next) {
@@ -1758,6 +1763,15 @@ app.post('/_contact', function (req, res) {
         }
     });
 });
+app.post('/_map', function (req, res) {
+    
+        
+    
+});
+
+//------------------------------ MAP --------------------------------------------
+
+
 
 
 MongoClient.connect(mongodb_url, function (err, database) {
