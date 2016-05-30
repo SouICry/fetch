@@ -100,7 +100,7 @@ h6 {
   width: calc(100% - 30px);
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
   0 25px 50px 0 rgba(0, 0, 0, 0.1);
-  margin:15px 15px 0 15px;
+  margin-top: 15px;
 
 
   .input {
@@ -165,17 +165,6 @@ h6 {
     text-indent: 7%;
   }
 
- .driver-footer, .shoppingStatus-footer, .cancelTicket-footer{
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
-    0 25px 50px 0 rgba(0, 0, 0, 0.1);
-    margin: auto;
-    text-align: left;
-    border: 1px solid #ededed;
-    padding: 8px;
-    background: #fff;
-    line-height: 2;
-  }
-
   #shopping_submit_list, #_driver_submit_list, #_viewTicket_submit_list #shoppingStatus_list, #cancelTicket_list{
     text-align: center;
     width: 33%;
@@ -188,8 +177,7 @@ h6 {
 }
 
 .footerBars {
-  width: calc(100% - 30px);
-  margin: 0 15px 15px 15px;
+  margin-bottom: 15px;
   opacity: .9;
   .footer2 {
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
