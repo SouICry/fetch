@@ -535,7 +535,6 @@ app.post('/_login', function (req, res, next) {
                     shoppingVersion: 0,
                     checkoutVersion: 0,
                     currentPage: ""
-
                 };
                 db.collection('users').findOne({_id: userId},
                     function (err, user) {
@@ -1368,7 +1367,11 @@ app.post('/_checkout', function (req, res, next) {
             available_time_start: req.body.options.checkout_range1,
             available_time_end: req.body.options.checkout_range2,
             state: 'pending',
-            price: ''
+            price: '',
+            geolocation: {
+                lat: '',
+                lng: ''
+            }
         };
 
         masters[userId].ticket = gticket;
@@ -1762,15 +1765,61 @@ app.post('/_contact', function (req, res) {
         }
     });
 });
-app.post('/_map', function (req, res) {
-    
-        
-    
-});
+
 
 //------------------------------ MAP --------------------------------------------
+app.post('/_map', function (req, res) {
+    if (!req.body) {
+        console.log('geoloc was not sent');
+        res.status(500);
+        return;
+    }
+    var lat = req.body.lat;
+    var lng = req.body.lng;
 
+    var ticketId = req.body.ticket;
 
+    db.collection('users').updateOne({'grocery_list._id': ticketId},
+        {
+            $set: {
+                'geolocation.lng': lng,
+                'geolocation.lat': lat
+            }
+        },
+        function (err) {
+            if (err) return err;
+        }
+    );
+});
+
+app.post('/_driverMap', function (req, res) {
+    var geolocation = {};
+    db.collection('users').findOne({'grocery_list._id': ticketId},
+        function (err, ticket) {
+            if (err) {
+                console.log('Error in accSetting: ' + err);
+                res.status(500);
+                res.setHeader('Content-Type', 'application/json');
+                res.send({message: 'cannot access collection to find user '})
+                return;
+            }
+            //console.log('user = ' + JSON.stringify(user));
+            if (ticket == null) {
+                console.log('Could not find user with userId ' + userId + ' in _accSetting');
+                console.log(JSON.stringify(ticket));
+                res.status(500);
+                res.send('');
+                return;
+            }
+            else {
+                geolocation.lat = ticket.geolocation.lat;
+                geolocation.lng = ticket.geolocation.lng;
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify(geolocation));
+            }
+        }
+    );
+});
 
 
 MongoClient.connect(mongodb_url, function (err, database) {
