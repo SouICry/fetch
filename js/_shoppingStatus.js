@@ -29,7 +29,7 @@
                 $("ul").empty();
                 numItems(" ");
                 $("#shoppingstatus_note").val(" ");
-                
+
                 var array = data.items;
                 var count = 0;
 
