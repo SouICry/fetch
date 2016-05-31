@@ -24,11 +24,11 @@
             }
 
             else {
-                var numItems = $("#_cancelTicket_numItems").text;
+                var numItems = $("#_cancelTicket_numItems");
                 loader.loadMap("cancelTicketMap",{lat:32, lng:-150});
                 // $("#listName_cancelTicket").text(" ");
                 $("#_cancelTicket ul").html("");
-                numItems(" ");
+                numItems.text(" ");
                 $("#cancelTicket_note").val(" ");
 
                 var fullName = data.full_name;
@@ -53,10 +53,10 @@
                     $('#_cancelTicket_list').prepend(newItem);
 
                     if (count == 1) {
-                        numItems("1 item");
+                        numItems.text("1 item");
                     }
                     else {
-                        numItems(count + " items");
+                        numItems.text(count + " items");
                     }
 
                     if (count != 0) {
