@@ -95,7 +95,7 @@ var userSchema = new mongoose.Schema(
         delivery_history: {type: [], required: false, unique: false},
         is_driver: {type: Boolean, required: false, unique: false},
         resetPasswordToken: String,
-        resetPasswordExpires: Date,
+        resetPasswordExpires: Date
         // TODO: add image (research how to do it)
     }
 );
@@ -1227,6 +1227,57 @@ app.post('/_accSetting', function (req, res) {
 //TODO ------------------------------------------------------------------------------------------------------------------
 
 
+// ---------------------------- DELIVERY TIME ------------------------------
+// app.post('/_deliveryTime', function(req, res) {
+//     var userId = req.session.userId;
+//     var ticketId = masters[userId].ticketId;
+//     console.log('IN DELIVERY TIME: ' + req.body.available_time);
+//
+//     if (!userId) {
+//         console.log('err in _DeliverTime, no user');
+//         res.status(500);
+//         res.send('');
+//     }
+//     else if (!ticketId) {
+//         console.log('err in _DeliverTime, no ticketId');
+//         res.status(500);
+//         res.send('');
+//     }
+//     else {
+//         db.collection('users').update({'grocery_list._id': ticketId},
+//             {
+//                 $set: {
+//                     'available_time': req.body.available_time
+//                 }
+//             },
+//             {multi: true},
+//             function(err) {
+//                 if (err) {
+//                         console.log('error updating db in _deliveryTime: ' + err);
+//                         res.status(500);
+//                         res.send('');
+//                     }
+//                     else {
+//                         db.collection('grocery_queue').update({_id: ticketId},
+//                             {
+//                                 $set: {
+//                                     available_time: req.body.available_time
+//                                 }
+//                             }, function(err) {
+//                                 if (err) {
+//                                     console.log('Error updating db in _deliveryTime: ' + err);
+//                                     res.status(500);
+//                                     res.send('');
+//                                 }
+//                             });
+//                     }
+//             }
+//         );
+//     }
+//     res.send('success');
+// });
+// -----------------------------------------------------------------------
+
 // ---------------------------------------------------- SHOPPING/SAVE GROCERY LIST ----------------------------------
 
 // Saves user's grocery list to session
@@ -1375,13 +1426,15 @@ app.post('/_checkout', function (req, res, next) {
             time_accepted: '',
             // Why are these from ['_accSetting'] ?
             special_options: req.body.options.checkout_notes,
+            // May not use start/end time
             available_time_start: req.body.options.checkout_range1,
             available_time_end: req.body.options.checkout_range2,
+            available_time: req.body.available_time,
             state: 'pending',
             price: '',
             geolocation: {
-                lat: '',
-                lng: ''
+                lat: req.body.geo_location.lat,
+                lng: req.body.geo_location.lng
             }
         };
 
@@ -1666,46 +1719,48 @@ app.post('/_tickets', function (req, res) {
 //------------------------------ PAYMENT ------------------------------------
 app.get('/complete-payment', function (req, res) {
     var userId = req.query.user;
-    //TODO: send to database masters[userId].ticket;
     console.log(userId);
     //
     var gticket = masters[userId].ticket;
+    
+    for (var i = 0; i < gticket.shopping_list.length; i++) {
+        console.log(gticket.shopping_list[i]);
+    }
+    console.log('GTICKET = ' + gticket);
     // Check that empty list was not sent
-    if (gticket.shopping_list.length === 0) {
+    if (gticket.shopping_list.length == 0) {
         console.log('Grocery ticket submitted has no items');
         res.status(500);
-        res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({message: 'Submitted empty list'}));
+        res.send('');
         return;
     }
 
 
     // Update user to hold grocery list submitted
-    db.collection('users').updateOne({_id: req.session.userId}, {$push: {grocery_list: gticket}},
+    db.collection('users').updateOne({_id: userId}, {$push: {'grocery_list': gticket}},
         function (err) {
             if (err) {
-                console.log('error updating user grocery list');
+                console.log('error updating user grocery list: ' + err);
                 res.status(500);
-                res.setHeader('Content-Type', 'application/json');
-                res.send(err);
-                return;
+                //res.setHeader('Content-Type', 'application/json');
+                res.send('');
             }
-
-            // If grocery list successfully added to user's grocery list, add list to queue
-            db.collection('grocery_queue').insert(gticket, function (err) {
-                if (err) {
-                    console.log('error adding list to queue: ' + err);
-                    res.status(500);
-                    res.setHeader('Content-Type', 'application/json');
-                    res.send(err);
-                    return;
-                }
-            });
+            else {
+                // If grocery list successfully added to user's grocery list, add list to queue
+                db.collection('grocery_queue').insert(gticket, function (err) {
+                    if (err) {
+                        console.log('error adding list to queue: ' + err);
+                        res.status(500);
+                        //res.setHeader('Content-Type', 'application/json');
+                        res.send('');
+                    }
+                    else {
+                        res.redirect('/submittedRedirect.html');
+                    }
+                });
+            }
         }
     );
-
-
-    res.redirect('/submittedRedirect.html');
 });
 
 app.get('/cancel-payment', function (req, res) {
@@ -1737,9 +1792,17 @@ app.post('/_receiptPictureEnterPrice', function (req, res) {
     var buf = new Buffer(data, 'base64');
     //noinspection JSUnresolvedFunction
     if (req.session.userId === 'undefined')
-        fs.writeFile('images/receipts/image.png', buf);
+        fs.writeFile('images/receipts/image.png', buf, function(err) {
+            if (err)
+                throw err;
+            console.log("Photo saved");
+        });
     else
-        fs.writeFile('images/receipts/' + ticketId + '.png', buf);
+        fs.writeFile('images/receipts/' + ticketId + '.png', buf, function(err) {
+            if (err)
+                throw err;
+            console.log("Photo saved");
+        });
 
     console.log("Photo Saved: " + data.substring(0, 10));
     /*fs.writeFile("images/profiles/" + req.session.userId + ".png", req.body.image,"base64", function (err, data ) {

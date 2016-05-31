@@ -180,9 +180,13 @@ function enableImageUpload(vid, canvas, takeButton, redoButton, uploadInput) {
                 var heightOffset = (imgHeight - canvasHeight) / 2;
                 context.drawImage(img, -widthOffset, -heightOffset, imgWidth, imgHeight);
                 canvas.style.display = "block";
-                vid.style.display = "none";
-                takeButton.style.display = "none";
-                redoButton.style.display = "block";
+                if (vid) {
+                    vid.style.display = "none";
+                }
+                if (takeButton && redoButton) {
+                    takeButton.style.display = "none";
+                    redoButton.style.display = "block";
+                }
             };
             img.src = event.target.result;
         };
@@ -194,4 +198,8 @@ function enableImageUpload(vid, canvas, takeButton, redoButton, uploadInput) {
 function enableCameraImage(vid, canvas, takeButton, redoButton, uploadInput, source, onTakePic) {
     enableImageUpload(vid, canvas, takeButton, redoButton, uploadInput, onTakePic);
     enableCamera(vid, canvas, takeButton, redoButton, source, onTakePic);
+}
+
+function disableImageUpload(uploadInput) {
+    uploadInput.removeEventListener("change", imageUp);
 }

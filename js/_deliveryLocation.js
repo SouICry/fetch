@@ -35,6 +35,10 @@
         }
     };
 
+    $('#delivery-location-submit').click(function() {
+        goToPage('_checkout');
+    });
+
 
     function sendGeolocation() {
 
@@ -45,7 +49,7 @@
         var geo = {
             lat: center.lat(),
             lng: center.lng()
-        }
+        };
 
         $.ajax({
             type: "POST",
