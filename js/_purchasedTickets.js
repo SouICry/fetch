@@ -1,3 +1,6 @@
+/**
+ * Created by allenord on 5/30/16.
+ */
 var test_data = {
     full_name: "Donkey Punch",
     items: ["aa", "bb", "cc", "dd"],
@@ -6,14 +9,14 @@ var test_data = {
 };
 
 (function () {
-    loader._driverList = {
+    loader._purchasedTickets = {
         version: 0,
         getData: function () {
             var packData = {
                 contact: $("#phone").substring(8),
                 full_name: fullName,
                 items: array,
-                special_note: data.special_note
+                //special_note: data.special_note
             };
 
             return packData;
@@ -26,18 +29,17 @@ var test_data = {
             $("#listName").text(" ");
             $("#phone").text(" ");
             $("ul").empty();
-            $("#_driver_numItems").text(" ");
-            $("#driver_note").val(" ");
+            $("#purchasedTickets_numItems").text(" ");
+            $("#purchasedTickets_note").val(" ");
 
             fullName = data.full_name;
             array = data.items;
             var name = data.full_name;
 
             //create the contact info(where should I got this, is there a flied relates to contact?
-            document.getElementById("listName_driverList").innerHTML = name + "'s Shopping List";
+            document.getElementById("listName_purchasedTickets").innerHTML = name + "'s Shopping List";
             document.getElementById("phone").innerHTML = "Phone: " + data.contact;
-            alert(data.special_note);
-            $("#driver_note").text("Special Note: " + data.special_note);
+            $("#purchasedTickets_note").val(data.special_note).siblings().addClass("active");
 
             for (var i = 0; i < array.length; i++) {
                 // item count
@@ -48,20 +50,20 @@ var test_data = {
                 newItem.innerHTML = array[i];
                 newItem.className = 'driverItem';
                 //newItem.id = array[i];
-                $('#_driverList2_list').prepend(newItem);
+                $('#purchasedTickets_list').prepend(newItem);
 
                 if (count == 1) {
-                    $("#_driver_numItems").text("1 item left");
+                    $("#purchasedTickets_numItems").text("1 item left");
                 }
                 else {
-                    $("#_driver_numItems").text(count + " items left");
+                    $("#purchasedTickets_numItems").text(count + " items left");
                 }
 
                 if (count != 0) {
-                    $("#_driver_footerInfo").show();
+                    $("#purchasedTickets_footerInfo").show();
                 }
                 else {
-                    $("#_driver_footerInfo").hide();
+                    $("#purchasedTickets_footerInfo").hide();
                 }
             }
 
@@ -77,28 +79,28 @@ var test_data = {
     var fullName = "";
     var array = [];
 
-    $(document).on('click', '.driverItem',function () {
+    $(document).on('click', '.purchasedTicketsItem',function () {
 
         $(this).toggleClass("selected");
 
         var arr = [];
         //arrayCheckedOff = [];
-        $('.driverItem.selected').each(function () {
+        $('.purchasedTicketsItem.selected').each(function () {
             arr.push($(this).text());
             //arrayCheckedOff.push($(this).text());
         });
 
         if ((count - arr.length) === 1) {
-            $("#_driver_numItems").text("1 item left");
+            $("#purchasedTickets_numItems").text("1 item left");
         }
         else {
-            $("#_driver_numItems").text((array.length - arr.length) + " items left");
+            $("#purchasedTickets_numItems").text((array.length - arr.length) + " items left");
         }
     });
 
-    $("#_driver_submit_list").click(function () {
+    $("#purchasedTickets_submit_list").click(function () {
         var arr = [];
-        $('.driverItem.selected').each(function () {
+        $('.purchasedTicketsItem.selected').each(function () {
             arr.push($(this).text());
         });
 
@@ -116,7 +118,7 @@ var test_data = {
 
         if (arr.length === count || flag === true) {
             assholes61323355();
-            goToPage("_congrats_driver_finish_shopping");
+            goToPage("_congratsTicketClosed");
         }
     });
 
@@ -125,13 +127,13 @@ var test_data = {
     // Used after click submit, update the grocery ticket for the users
     function assholes61323355() {
         var info_to_send = {};
-        info_to_send.ticketId = loader._driverList.data;
+        info_to_send.ticketId = loader._purchasedTickets.data;
         //alert(info_to_send.ticketId);
         info_to_send.type = 'send';
 
         $.ajax({
             type: "POST",
-            url: "/_driverList",
+            url: "/_purchasedTickets",
             data: info_to_send,
             success: function (data) {
                 alert('success!!!!!');
@@ -147,19 +149,19 @@ var test_data = {
     // Used to get data from db
     function assholes666() {
         var info_to_send = {};
-        info_to_send.ticketId = loader._driverList.data;
+        info_to_send.ticketId = loader._purchasedTickets.data;
         //alert(info_to_send.ticketId);
         info_to_send.type = 'send';
 
         $.ajax({
             type: "POST",
-            url: "/driverListUpdate",
+            url: "/purchasedTicketsUpdate",
             contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(info_to_send),
             success: function (data) {
                 //data is the object sent back on success (could also just be string)
-                loader._driverList.loadData(data);
+                loader._purchasedTickets.loadData(data);
             },
             error: function (data) {
                 //data is the object send back on fail (could also just be string)

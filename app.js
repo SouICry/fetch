@@ -1389,7 +1389,6 @@ app.post('/_checkout', function (req, res, next) {
         }
 
         console.log('USER ID = ' + user._id);
-
         var listId = user._id + date.getTime();
         console.log('Setting masters[userId].ticketId!');
         masters[userId].ticketId = listId;
@@ -1429,7 +1428,7 @@ app.post('/_checkout', function (req, res, next) {
             // May not use start/end time
             available_time_start: req.body.options.checkout_range1,
             available_time_end: req.body.options.checkout_range2,
-            available_time: req.body.available_time,
+            available_time: "req.body.available_time",
             state: 'pending',
             price: '',
             geolocation: {
@@ -1483,14 +1482,14 @@ app.post('/driverListUpdate', function (req, res) {
                     console.log('could not find ticket with id: ' + ticketId + ' in driverListUpdate');
                     res.status(500);
                     res.send('');
-
-                } else {
-
+                }
+                else {
                     res.setHeader('Content-Type', 'application/json');
                     res.send(JSON.stringify({
                         full_name: user.grocery_list[i].shopper.full_name,
                         items: user.grocery_list[i].shopping_list,
-                        contact: user.phone_number
+                        contact: user.phone_number,
+                        special_notes: user.grocery_list[i].special_notes
                     }));
                 }
             }
@@ -1726,7 +1725,7 @@ app.get('/complete-payment', function (req, res) {
     for (var i = 0; i < gticket.shopping_list.length; i++) {
         console.log(gticket.shopping_list[i]);
     }
-    console.log('GTICKET = ' + gticket);
+    console.log('GTICKET = ' + JSON.stringify(gticket));
     // Check that empty list was not sent
     if (gticket.shopping_list.length == 0) {
         console.log('Grocery ticket submitted has no items');
