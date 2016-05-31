@@ -3,23 +3,24 @@
         data: "", //Optional
         version: 0, //Must be 0
         getData:null,
-        loadData: null,
+        loadData: null
     };
     var data;
-    var errMessage = $("#message").html;
-
-    $('#login_butt').prop('disabled', true);
+    var errMessage = $("#message");
+    var loginButt = $('#login_butt');
+    console.log(errMessage);
+    loginButt.prop('disabled', true);
     $('#login_user_email, #login_user_pass').keyup(function () {
-        errMessage('');
+        errMessage.html('');
         if ($('#login_user_email').val() && $('#login_user_pass').val()) {
-            $('#login_butt').prop('disabled', false);
+            loginButt.prop('disabled', false);
         }
         else {
-            $('#login_butt').prop('disabled', true);
+            loginButt.prop('disabled', true);
         }
     });
 
-    $('#login_butt').click(function () {
+    loginButt.click(function () {
         assholes();
     });
 
@@ -41,14 +42,12 @@
                     //data is the object sent back on success (could also just be string)
 
                     loader.login(data);
-                    
-                    
-                    
+
                     //alert('data after login: ' + data.full_name);
                 },
                 error: function (data) {
                     //$(".input-field").effect("shake");
-                    errMessage('***Invalid email or password***');
+                    errMessage.html("***Invalid email or password***");
                     console.log("login failed");
                     //data is the object send back on fail (could also just be string)
                 }
