@@ -1822,10 +1822,10 @@ app.post('/_cancelTicket', function(req, res) {
 app.post('/_shoppingStatus', function(req,res) {
     var ticketId = req.body.ticketId;
     var object = {};
-    if (userId == null) {
+    if (ticketId == null) {
         res.status(420);
         console.log('ERROR IS HERE');
-        console.log(userId)
+        console.log(ticketId)
         res.setHeader('Content-Type', 'application/json');
         res.send({message: 'no user logged in'});
     }
@@ -1837,10 +1837,9 @@ app.post('/_shoppingStatus', function(req,res) {
                     console.log('Error in : ' + err);
                     res.status(500);
                     res.setHeader('Content-Type', 'application/json');
-                    res.send({message: 'cannot access collection to find user '})
+                    res.send({message: 'cannot access collection to find ticket '})
                     return;
                 }
-                //console.log('user = ' + JSON.stringify(user));
                 if (ticket == null) {
                     console.log('Could not find user with ticket ' + ticketId + ' in _shoppingStatus');
                     console.log(JSON.stringify(ticket));
@@ -1860,7 +1859,6 @@ app.post('/_shoppingStatus', function(req,res) {
                     res.send(JSON.stringify(object));
                 }
             });
-    }
 });
 
 
