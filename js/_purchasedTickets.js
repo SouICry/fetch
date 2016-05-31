@@ -66,10 +66,8 @@ var test_data = {
     var array = [];
 
     $("#purchasedTickets_submit_list").click(function () {
-        confirm("Are you sure you want to close ticket?");
+        confirm("Are you sure you want to close the ticket?");
         assholes6155();
-        goToPage("_receiptPictureEnterPrice");
-
     });
 
     $("#purchasedTickets-back").click(function() {
@@ -79,7 +77,7 @@ var test_data = {
     // Used after click submit, update the grocery ticket for the users
     function assholes6155() {
         var info_to_send = {};
-        info_to_send.ticketId = loader._purchasedTickets.data;
+        info_to_send.ticketId = loader.ticketId;
         //alert(info_to_send.ticketId);
         info_to_send.type = 'send';
 
@@ -88,9 +86,8 @@ var test_data = {
             url: "/_purchasedTickets",
             data: info_to_send,
             success: function (data) {
+                goToPage("/_confirmCompletion");
                 //alert('success!!!!!');
-                //data is the object sent back on success (could also just be string)
-                //loader._driverList.loadData(data);
             },
             error: function (data) {
                 //data is the object send back on fail (could also just be string)
@@ -101,7 +98,7 @@ var test_data = {
     // Used to get data from db
     function assholes666() {
         var info_to_send = {};
-        info_to_send.ticketId = loader._purchasedTickets.data;
+        info_to_send.ticketId = loader.ticketId;
         //alert(info_to_send.ticketId);
         info_to_send.type = 'send';
 

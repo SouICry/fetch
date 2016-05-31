@@ -26,7 +26,7 @@
             $("#yourDeliveries_shopped_tickets").html("");
             $("#yourDeliveries_delivered_tickets").html("");
 
-            if (data == "none" || (data.user_history.length == 0 && data.pending_list.length == 0)) {
+            if (data == "none" || (data.delivery_history.length == 0 && data.pending_deliveries.length == 0)) {
                 $("#yourDeliveries_accepted_tickets").append('<li class = "ticket"' +
                     '>No deliveries</li>');
                 $("#yourDeliveries_shopped_tickets").append('<li class = "ticket"' +
@@ -42,34 +42,33 @@
             var delivered_tickets = [];
             var extra = [];
 
-            for (var i = 0; i < tickets.user_history.length; i++) {
-                if (tickets.user_history[i].state == 'accepted') {
-                    accepted_tickets.push(tickets.user_history[i]);
+            for (var i = 0; i < tickets.delivery_history.length; i++) {
+                if (tickets.delivery_history[i].state == 'accepted') {
+                    accepted_tickets.push(tickets.delivery_history[i]);
                 }
-                else if (tickets.user_history[i].state == 'purchased') {
-                    shopped_tickets.push(tickets.user_history[i]);
+                else if (tickets.delivery_history[i].state == 'purchased') {
+                    shopped_tickets.push(tickets.delivery_history[i]);
                 }
-                else if (tickets.user_history[i].state == 'delivered') {
-                    delivered_tickets.push(tickets.user_history[i]);
+                else if (tickets.delivery_history[i].state == 'delivered') {
+                    delivered_tickets.push(tickets.delivery_history[i]);
                 }
                 else {
-                    extra.push(tickets.user_history[i]);
+                    extra.push(tickets.delivery_history[i]);
                 }
             }
 
-            for (var i = 0; i < tickets.pending_list.length; i++) {
-                if (tickets.pending_list[i].state == 'accepted') {
-                    //alert('added ticket: ' + tickets.pending_list[i].store_name);
-                    accepted_tickets.push(tickets.pending_list[i]);
+            for (var i = 0; i < tickets.pending_deliveries.length; i++) {
+                if (tickets.pending_deliveries[i].state == 'accepted') {
+                    accepted_tickets.push(tickets.pending_deliveries[i]);
                 }
-                else if (tickets.pending_list[i].state == 'purchased') {
-                    shopped_tickets.push(tickets.pending_list[i]);
+                else if (tickets.pending_deliveries[i].state == 'purchased') {
+                    shopped_tickets.push(tickets.pending_deliveries[i]);
                 }
-                else if (tickets.pending_list[i].state == 'delivered') {
-                    delivered_tickets.push(tickets.pending_list[i]);
+                else if (tickets.pending_deliveries[i].state == 'delivered') {
+                    delivered_tickets.push(tickets.pending_deliveries[i]);
                 }
                 else {
-                    extra.push(tickets.pending_list[i]);
+                    extra.push(tickets.pending_deliveries[i]);
                 }
             }
 
