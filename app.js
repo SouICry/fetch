@@ -1532,27 +1532,7 @@ app.post('/_driverList', function (req, res, next) {
                     console.log('Error in _driverList: ' + err);
                     res.status(500);
                     res.send('');
-                    return;
                 }
-
-
-                // if (!user) {
-                //     console.log('Error cannot find user in _driverList with id: ' + userId);
-                //     res.status(500);
-                //     res.send('');
-                // }
-                // else {
-                //     console.log('found user in driverList: ' + user);
-                //     res.setHeader('Content-Type', 'application/json');
-                //     var index;
-                //
-                //     for (var i = 0; i < user.grocery_list.length; i++) {
-                //         if (user.grocery_list[i]._id == ticketId) {
-                //             index = i;
-                //             break;
-                //         }
-                //     }
-                // }
             });
 
         console.log('Successfully updated tickets in user db');
