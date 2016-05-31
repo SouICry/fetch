@@ -1599,7 +1599,6 @@ app.post('/_history', function (req, res, next) {
 
 // ---------------------------- YOUR DELIVERIES -------------------------------
 app.post('/_yourDeliveries', function (req, res) {
-    console.log(req.url);
     var userId = req.session.userId;
 
     if (!userId) {
@@ -1624,7 +1623,7 @@ app.post('/_yourDeliveries', function (req, res) {
                 res.setHeader('Content-Type', 'application/json');
                 res.send(JSON.stringify({
                     user_history: doc.user_history,
-                    pending_list: doc.grocery_list
+                    pending_list: doc.delivery_list
                 }));
             }
         });
@@ -1637,7 +1636,10 @@ app.post('/_yourDeliveries', function (req, res) {
 // ---------------------------- VIEW TICKET -------------------------------
 // Update status of ticket
 app.post('/_viewTicket', function (req, res) {
+    // This is the driver
     var userId = req.session.userId;
+
+    // Id of the ticket
     var ticketId = req.body.ticketId;
 
     if (!userId) {
@@ -1651,38 +1653,102 @@ app.post('/_viewTicket', function (req, res) {
         res.send('');
     }
     else {
+        // db.collection('users').findOne({'grocery_list._id': ticketId}, function(err, user) {
+        //     if (err) {
+        //         console.log('In _viewTicket: userId is null');
+        //         res.status(500);
+        //         res.send('');
+        //     }
+        //     else if (!user) {
+        //         console.log('In _viewTicket: user not found');
+        //         res.status(500);
+        //         res.send('');
+        //     }
+        //     else {
+        //         var ticketToSend = null;
+        //         for (var i = 0; i < user.grocery_list.length; i++) {
+        //             if (user.grocery_list[i]._id == ticketId) {
+        //                 ticketToSend = user.grocery_list[i];
+        //                 break;
+        //             }
+        //         }
+        //
+        //         if (ticketToSend == null) {
+        //             console.log('In _viewTicket: ticket not found');
+        //             res.status(500);
+        //             res.send('');
+        //         }
+        //         else {
+        //             db.collection('users').updateOne({_id: userId}, {$push: {'delivery_list': ticketToSend}}, function(err) {
+        //                 if (err) {
+        //                     console.log('In _viewTicket: userId is null');
+        //                     res.status(500);
+        //                     res.send('');
+        //                 }
+        //             });
+        //         }
+        //     }
+        // });
+
         db.collection('users').update(
             {
-                //_id: userId,
+                _id: userId,
                 'grocery_list._id': ticketId
             },
             {
                 $set: {
                     'grocery_list.$.state': 'accepted'
                 }
-            },
-            {
-                multi: true
-            }, function (err, result) {
+            }, function (err) {
                 // Get the user that we just modified
-                db.collection('users').findOne({_id: userId}, function (err, user) {
-                    if (!user) {
+                db.collection('users').findOne({'grocery_list._id': ticketId}, function (err, user) {
+                    if (err) {
+                        console.log('error');
+                        res.status(500);
+                        res.send('');
+                    }
+                    else if (!user) {
                         console.log('In _viewTicket: could not find user with corresponding ticketId: ' + ticketId);
                         res.status(500);
                         res.send('');
-                        return;
                     }
+                    else {
+                        var ticketToSend = null;
 
-                    db.collection('grocery_queue').remove({_id: ticketId}, function (err) {
-                        if (err) {
-                            console.log('In _viewTicket: could not remove ticket from queue: ' + ticketId);
+                        for (var i = 0; i < user.grocery_list.length; i++) {
+                            if (user.grocery_list[i]._id == ticketId) {
+                                ticketToSend = user.grocery_list[i];
+                                break;
+                            }
+                        }
+
+                        if (ticketToSend == null) {
+                            console.log('In _viewTicket: could not find user with corresponding ticketId: ' + ticketId);
                             res.status(500);
                             res.send('');
                             return;
                         }
 
-                        console.log('Successfully removed ticket from queue with id: ' + ticketId);
-                    });
+                        db.collection('users').update({_id: userId}, {$push:{'delivery_list': ticketToSend}}, function(err) {
+                            if (err) {
+                                console.log('error');
+                                res.status(500);
+                                res.send('');
+                            }
+                            else {
+                                db.collection('grocery_queue').remove({_id: ticketId}, function (err) {
+                                    if (err) {
+                                        console.log('In _viewTicket: could not remove ticket from queue: ' + ticketId);
+                                        res.status(500);
+                                        res.send('');
+                                        return;
+                                    }
+
+                                    console.log('Successfully removed ticket from queue with id: ' + ticketId);
+                                });
+                            }
+                        });
+                    }
                 });
             }
         );
