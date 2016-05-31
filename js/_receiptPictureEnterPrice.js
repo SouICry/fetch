@@ -5,6 +5,7 @@
     loader._receiptPictureEnterPrice = {
 
         onPageLoad: function(){
+            upload.style.display = "none";
             enableImageUpload(null, canvas, null, null, document.getElementById('uploadReceipt1'));
         },
         onPageLeave: function(){
@@ -16,7 +17,6 @@
     var canvas = document.getElementById("receipt_canvas1");
 
     var upload = document.getElementById('submitReceiptButton1');
-    upload.style.display = "none";
     $('#uploadReceipt1').click(function(){
         upload.style.display = "block";
     });
