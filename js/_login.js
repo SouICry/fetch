@@ -37,7 +37,7 @@
                 data: info_to_send,
                 success: function (data) {
                     //data is the object sent back on success (could also just be string)
-                   
+
                     loader.login(data);
                     
                     
@@ -45,6 +45,8 @@
                     //alert('data after login: ' + data.full_name);
                 },
                 error: function (data) {
+                    //$(".input-field").effect("shake");
+                    $("#message").html('***Invalid email or password***');
                     console.log("login failed");
                     //data is the object send back on fail (could also just be string)
                 }
