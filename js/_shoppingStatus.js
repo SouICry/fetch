@@ -76,3 +76,24 @@
 
 })();
 
+function loadShoppingStatus() {
+    $.ajax({
+        type: "POST",
+        url: "/_shoppingStatus",
+        data: {ticket: loader.ticketId},
+        success: function (data) {
+            //data is the object sent back on success (could also just be string)
+            loader._shoppingStatus.loadData(data);
+
+            // var str= data.email;
+            // var nameParts = str.split("@");
+            // var name = nameParts.length==2 ? nameParts[0] : null;
+            // if(UrlExists('images/profiles/' + name + '.png'))
+            //     document.getElementById("accSettingAbove-img").src = 'images/profiles/' + name + '.png';
+            // else
+            //     document.getElementById("accSettingAbove-img").src = 'placeholder/person4.png';
+        },
+        error: function (data) {
+            //data is the object send back on fail (could also just be string)
+        }
+    });
