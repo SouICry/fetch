@@ -5,16 +5,12 @@
         getData: function () { //must be null if not needed
             _checkout.checkout_notes = $('input[name="specialnotes"]:checked', '#checkout_notes').val();
             _checkout.checkout_id = $('#checkout_notes :checked').attr("id");
-            //alert($('#checkout_notes :checked').attr("id"));
-            _checkout.checkout_range1 = $("#checkout_time1").val();
-            _checkout.checkout_range2 = $("#checkout_time2").val();
+
             return _checkout;
         },
         loadData: function (data) {
             if (data == null) {
                 $('input[name="specialnotes"]:checked', '#checkout_notes').val("");
-                $("#checkout_time1").val("");
-                $("#checkout_time2").val("");
             }
             else {
 
@@ -27,8 +23,6 @@
                 $('input[name="specialnotes"]:checked', '#checkout_notes').val(data.checkout_notes);
                 document.getElementById(data.checkout_id).click();
 
-                $("#checkout_time1").val(data.checkout_range1);
-                $("#checkout_time2").val(data.checkout_range2);
             }
 
         }
@@ -37,22 +31,14 @@
 
     var _checkout = {
         checkout_id: "",
-        checkout_notes: "",
-        checkout_range1: "",
-        checkout_range2: ""
+        checkout_notes: ""
     };
 
     //loader._checkout.loadData(_checkout);
 
     $('#checkout_submitcheckout').click(function () {
 
-        var valid = false;
-
-        _checkout.checkout_notes = $('input[name="specialnotes"]:checked', '#checkout_notes').val();
-        _checkout.checkout_range1 = $("#checkout_time1").val();
-        _checkout.checkout_range2 = $("#checkout_time2").val();
-
-        index1 = $("#checkout_time1").prop('selectedIndex');
+        _checkout.checkout_notes = $('input[name="special_notes"]:checked', '#checkout_notes').val();
 
             // var info_to_send = {};
             // info_to_send.ticketId: _checkout.checkout_range;
@@ -103,12 +89,6 @@
     });
 
     $('#checkout_notes').click(function (event) {
-        loader._checkout.version++;
-    });
-    $('#checkout_time1').click(function(){
-        loader._checkout.version++;
-    });
-    $('#checkout_time2').click(function(){
         loader._checkout.version++;
     });
 
