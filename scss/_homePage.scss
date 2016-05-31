@@ -24,6 +24,11 @@
   /* needed to overwrite bootstraps margins*/
   h2 {
     margin: 0;
+
+    @media screen and (max-width: 570px) {
+      font-size: 23px;
+      margin-bottom:0;
+    }
   }
 
   h1 {
