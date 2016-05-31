@@ -77,6 +77,8 @@
     $("#driver_confirm_button").click(function(){
         status = "completed";
         changeTicketState();
+
+        // TODO: FIX THIS. CURRENTLY DOESN'T GO TO RATEUSER FOR SOME REASON?
         goToPage("/_rateUser");
     });
 
