@@ -2,7 +2,7 @@
  * Created by zeusn_000 on 5/21/2016.
  */
 (function () {
-  
+
     var PanelLogin
     var all = ["_accSetting", "_contact", "_history", "_passwordRecovery", "_homePage", "_shopping", "_checkout", "_login",
         "_rating", "_passwordReset", "_signUp", "_tickets", "_driverList2", '_congrats', "_yourDeliveries"];
@@ -16,7 +16,7 @@
         "Rating", "Password Reset", "Sign Up", "Tickets", "Driver List", 'Congrats', "Your Deliveries"];
 
 
-    
+
 
 
     // $(document).ready(function () {
@@ -103,7 +103,7 @@ function index_login(){
     // $("#Butt").append("<div class='panel-divs'id='index-Tickets' onclick=goToPage('_tickets'); > <span class= ''></span> Tickets </div>");
     // $("#Butt").append("<div class='panel-divs'id='index-DeliverList' onclick=goToPage('_driverList'); > <span class= ''></span> Dirver List </div>");
     // $("#Butt").append("<div class='panel-divs'id='index-CheckOut' onclick=goToPage('_checkout'); > <span class= 'glyphicon glyphicon-check'></span> Checkout </div>");
-    $("#Butt").append("<div class='panel-divs'id='index-Contact' onclick=goToPage('_contact'); > <span class= 'glyphicon glyphicon-equalizer'></span> Contact </div>");
+    $("#Butt").append("<div class='panel-divs'id='index-Contact' onclick=goToPage('_contact'); > <span class= 'glyphicon glyphicon-equalizer'></span> Contact us </div>");
     $("#Butt").append("<div class='panel-divs'id='index-Setting' onclick=goToPage('_accSetting'); > <span class= 'glyphicon glyphicon-cog'></span> Setting</div>");
     // $("#Butt").append("<div class='panel-divs'id='index-Shopping' onclick=goToPage('_shopping'); > <span class= ''></span> Shopping </div>");
     // $("#Butt").append("<div class='panel-divs'id='' onclick=goToPage('_congrats'); > <span class= 'glyphicon glyphicon-off'></span> Shopping </div>");
