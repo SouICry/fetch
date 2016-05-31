@@ -25,7 +25,7 @@
 
             else {
                 loader.loadMap("cancelTicketMap",{lat:32, lng:-150});
-                $("#listName_cancelTicket").text(" ");
+                // $("#listName_cancelTicket").text(" ");
                 $("ul").empty();
                 $("#_cancelTicket_numItems").text(" ");
                 $("#cancelTicket_note").val(" ");
@@ -34,8 +34,8 @@
                 var array = data.items;
 
                 //create the contact info(where should I got this, is there a flied relates to contact?
-                document.getElementById("cancelTicket-img").src = "images/profiles/" + data.driverId + ".png";
-                document.getElementById("listName_cancelTicket").innerHTML = data.driver_full_name + " took your ticket";
+                // document.getElementById("cancelTicket-img").src = "images/profiles/" + data.driverId + ".png";
+                // document.getElementById("listName_cancelTicket").innerHTML = data.driver_full_name + " took your ticket";
                 document.getElementById("cancelTicket_note").innerHTML = "Special Notes: " + data.special_note;
                 $("#cancelTicket_location").text("Delivery Location: " + data.shopping_location);
                 $("#cancelTicketCalendar").append(data.time);
