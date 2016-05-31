@@ -104,7 +104,7 @@
             }
         });
 
-        $('#Butt div').click(function () {
+        $('#Butt').find('div').click(function () {
             if($(this).data("link") == "/_homePage.html"){
                 var info_to_send = {logoff: true};
                 $.ajax({

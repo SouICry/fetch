@@ -4,7 +4,7 @@
         version: 0, //Must be 0
         getData: function () { //must be null if not needed
             _checkout.checkout_notes = $('input[name="specialnotes"]:checked', '#checkout_notes').val();
-            _checkout.checkout_id = $('#checkout_notes :checked').attr("id");
+            _checkout.checkout_id = $('#checkout_notes').find(':checked').attr("id");
 
             return _checkout;
         },

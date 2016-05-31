@@ -52,8 +52,12 @@
     // when user clicks, sends data and takes user to homepage
     // if any field is empty, warning shows up
     $("#accsetting_submit_info").click(function () {
-
-        if (($('#accsetting_full_name').val() == '') || ($('#accsetting_email').val() == '') || ($('#accsetting_phone').val() == '')
+        var fullName = $('#accsetting_full_name').val();
+        /*var email = $('#accsetting_email').val();
+        var phone = $('#accsetting_phone').val();
+        var street = $('#accsetting_street').val();
+        var city =$('#accsetting_city').val() ;*/
+        if ((fullName == '') || ($('#accsetting_email').val() == '') || ($('#accsetting_phone').val() == '')
             || ($('#accsetting_street').val() == '') || ($('#accsetting_city').val() == '') || ($('#accsetting_state').val() == '')
             || ($('#accsetting_zip').val() == '')){
             $("#accsetting_warning").show();

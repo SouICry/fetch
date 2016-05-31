@@ -336,7 +336,7 @@
 
                 }
 
-                $("#select-delivery-time .calendar-head").append(row);
+                $("#select-delivery-time").find(".calendar-head").append(row);
             },
             getData: function () {
                 return $('#select-delivery-time').html();
@@ -358,7 +358,7 @@
             $("#delivery-time_warning").hide();
             var isMouseDown = false,
                     isHighlighted;
-            $("#select-delivery-time td").on("mousedown touchstart", function () {
+            $("#select-delivery-time").find("td").on("mousedown touchstart", function () {
                 isMouseDown = true;
                 $(this).toggleClass("highlighted");
                 isHighlighted = $(this).hasClass("highlighted");

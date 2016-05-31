@@ -10,9 +10,9 @@
             return dataSendBack;
         },
         loadData: function (data) {
-
+            var drImage = $('#driver-image').data;
             $("#driver-name_rateDriver").empty();
-            $('#driver-image').data('src', "/placeholder/person.png");
+            drImage('src', "/placeholder/person.png");
 
             var separatedNames = data.driver_full_name;
             document.getElementById("driver-name_rateUser").innerHTML = separatedNames;
@@ -21,7 +21,7 @@
             var imageSrc = "Images/users/" + data.driverId + ".png";
 
             if (imageSrc !== null) {
-                $('#driver-image').data('src', imageSrc);
+                drImage('src', imageSrc);
             }
         }
     };

@@ -1036,13 +1036,13 @@ app.post('/init', function (req, res) {
                     console.log('Could not find user with userId ' + userId + ' in _init');
                     console.log(JSON.stringify(user));
                     res.status(500);
-                    res.send('');
+                    //res.send('');
                     return;
                 }
                 if (user.full_name == null) {
                     console.log('Could not find users fullname in _init');
                     res.status(500);
-                    res.send('');
+                    //res.send('');
                     return;
                 }
                 else {
