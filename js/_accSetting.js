@@ -128,7 +128,6 @@ function sendAccountData() {
     info_to_send.type = "send";
 
     //Simulation (alert or console.log to check for yourself)
-    alert(JSON.stringify(info_to_send));
 
     //Actual
     $.ajax({
