@@ -6,9 +6,9 @@
         loadData: null
     };
     var data;
-    var errMessage = $("#message");
+    var errMessage = $("#login_message");
     var loginButt = $('#login_butt');
-    console.log(errMessage);
+
     loginButt.prop('disabled', true);
     $('#login_user_email, #login_user_pass').keyup(function () {
         errMessage.html('');

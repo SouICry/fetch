@@ -5,9 +5,10 @@
         getData:null,
         loadData: null,
     };
+    var errMessage = $("#signup_message");
     $('#signup_butt').prop('disabled', true);
     $('#signup_user_email,#signup_user_name,#signup_phone,#signup_user_pass,#signup_re_pass,#signup_street,#signup_city,#signup_state,#signup_zip').keyup(function () {
-        if ($('#signup_user_name').val() && $('#signup_user_email').val() && $('#signup_re_pass').val() && $('#signup_phone').val() 
+        if ($('#signup_user_name').val() && $('#signup_user_email').val() && $('#signup_re_pass').val() && $('#signup_phone').val()
             && ($('#signup_user_pass').val() == $('#signup_re_pass').val()) && $('#signup_street').val()
             && $('#signup_city').val()
             && $('#signup_state').val() && $('#signup_zip').val())
@@ -51,7 +52,9 @@
                 loader.login(data);
             },
             error: function (data) {
-                alert('error');
+                //alert('error');
+                //console.log(data.responseText);
+                errMessage.html(data.responseText);
                 //data is the object send back on fail (could also just be string)
             }
         });
