@@ -1807,35 +1807,63 @@ app.post('/_cancelTicket', function (req, res) {
         res.send({message: 'no ticket ID!'});
     }
 
-
-    console.log('LOADING ACCOUNT');
-    db.collection('users').findOne({"grocery_list._id": ticketId},
-        function (err, ticket) {
-            if (err) {
-                console.log('Error in : ' + err);
-                res.status(500);
-                res.setHeader('Content-Type', 'application/json');
-                res.send({message: 'cannot access collection to find ticket '});
-                return;
+    else if(req.body.type == 'cancel') {
+        db.collection('users').updateOne({"grocery_list._id": ticketId},
+            {
+                $set: {
+                    state: 'cancelled'
+                }
+            }, 
+            function(err) {
+                if (err) {
+                    console.log('In _cancelTicket: could not update ticket to cancelled: ' + ticketId);
+                    res.status(500);
+                    res.send('');
+                    return;
+                }
             }
-            if (ticket == null) {
-                console.log('Could not find user with ticket ' + ticketId + ' in _shoppingStatus');
-                console.log(JSON.stringify(ticket));
+
+        );
+        db.collection('grocery_queue').remove({_id: ticketId}, function (err) {
+            if (err) {
+                console.log('In _cancelTicket: could not remove ticket from queue: ' + ticketId);
                 res.status(500);
                 res.send('');
+                return;
             }
-            else {
-                //console.log(JSON.stringify(ticket));
-                object.items = ticket.shopping_list;
-                object.driverId = ticket.driver._id;
-                object.driver_full_name = ticket.driver.full_name;
-                object.special_note = ticket.special_options;
-                object.time = ticket.available_time;
 
-                res.setHeader('Content-Type', 'application/json');
-                res.send(JSON.stringify(object));
-            }
+            console.log('Successfully removed ticket from queue with id: ' + ticketId);
         });
+    }
+    else {
+        console.log('LOADING ACCOUNT');
+        db.collection('users').findOne({"grocery_list._id": ticketId},
+            function (err, ticket) {
+                if (err) {
+                    console.log('Error in : ' + err);
+                    res.status(500);
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send({message: 'cannot access collection to find ticket '});
+                    return;
+                }
+                if (ticket == null) {
+                    console.log('Could not find user with ticket ' + ticketId + ' in _shoppingStatus');
+                    console.log(JSON.stringify(ticket));
+                    res.status(500);
+                    res.send('');
+                }
+                else {
+                    //console.log(JSON.stringify(ticket));
+                    object.items = ticket.shopping_list;
+                    object.special_note = ticket.special_options;
+                    object.time = ticket.available_time;
+                    object.shopping_location = ticket.geolocation;
+
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send(JSON.stringify(object));
+                }
+            });
+    }
 });
 
 
@@ -1875,6 +1903,7 @@ app.post('/_shoppingStatus', function (req, res) {
                 object.driver_full_name = ticket.driver.full_name;
                 object.special_note = ticket.special_options;
                 object.time = ticket.available_time;
+                object.shopping_location = ticket.geolocation;
 
                 res.setHeader('Content-Type', 'application/json');
                 res.send(JSON.stringify(object));
