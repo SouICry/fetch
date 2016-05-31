@@ -97,3 +97,4 @@ function loadShoppingStatus() {
             //data is the object send back on fail (could also just be string)
         }
     });
+}
