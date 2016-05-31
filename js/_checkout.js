@@ -53,7 +53,6 @@
         _checkout.checkout_range2 = $("#checkout_time2").val();
 
         index1 = $("#checkout_time1").prop('selectedIndex');
-
             // var info_to_send = {};
             // info_to_send.ticketId: _checkout.checkout_range;
             // info_to_send.available_time_end: _checkout.checkout_range1;

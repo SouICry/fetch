@@ -63,26 +63,28 @@ function whenLogedIn(){
     $("#Butt").append("<div class='panel-divs'id='index-Deliveries' onclick=goToPage('_yourDeliveries'); > <span class= ''></span> Your Deliveries </div>");
     $("#Butt").append("<div class='panel-divs'id='index-LogOut' onclick=loader.logout(); > <span class= 'glyphicon glyphicon-off'></span> Log Out </div>");
 }
-$(document).ready(function (){
-   
+(function () {
+    // Wait for everything to load, then check loader.isLoggedIn
+    setTimeout(function() {
         if(loader.isLoggedIn) {
             $("#index_login_top").hide();
             $("#User-Info").show();
             $("#open-menu-drawer").show();
         }
-        else{ 
+        else{
             $("#open-menu-drawer").hide();
             $("#index-menu-drawer").show();
             $("#Butt").append("<div class='panel-divs'id='index-Login'onclick=goToPage('_login'); > <span class= 'glyphicon glyphicon-log-in'></span> Login</div>");
             $("#Butt").append("<div class='panel-divs'id='index-SignUp'onclick=goToPage('_signUp'); > <span class= 'glyphicon glyphicon-plus-sign'></span> Sign Up </div>");
         }
-
-});
+    }, 100);
+})();
 $("#open-menu-drawer").on('click',function(event){
-    if(loader.isLoggedIn == true) {
+    if(loader.isLoggedIn) {
         $("#toggleButton").show();
         $("#index-Login").remove();
         $("#index-SignUp").remove();
+        loadAccountData();
         index_login();
     }
 
