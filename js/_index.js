@@ -126,7 +126,7 @@ function toggleShopper(){
     $("#index-Tickets").remove();
 
     $("#Butt").append("<div class='panel-divs'id='index-History' onclick=goToPage('_history'); > <span class= ''></span> Your Orders </div>");
-
+    loader.switchToShopper();
 
   
 
@@ -139,7 +139,7 @@ function toggleDriver(){
 
     $("#Butt").append("<div class='panel-divs'id='index-Tickets' onclick=goToPage('_tickets'); > <span class= ''></span> Tickets </div>");
     $("#Butt").append("<div class='panel-divs'id='index-Deliveries' onclick=goToPage('_yourDeliveries'); > <span class= ''></span> Your Deliveries </div>");
-
+    loader.switchToDriver();
    
 
 

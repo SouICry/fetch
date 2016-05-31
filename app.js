@@ -159,7 +159,7 @@ app.post("/_shopping", function (req, res) {
     var list = req.body.list;
     var checkout = req.body.checkout;
     //TODO initialize verion in login, init, sign up
-    if (!masters.hasOwnProperty(userId) || masters[userId].shoppingVersion == 'undefined') {
+    if(!masters.hasOwnProperty(userId) || masters[userId].shoppingVersion == 'undefined'){
         res.send("");
     }
     else if (masters[userId].shoppingVersion < req.body.shoppingVersion) {
@@ -367,14 +367,14 @@ app.post('/savePhoto', function (req, res) {
     var buf = new Buffer(data, 'base64');
     //noinspection JSUnresolvedFunction
     if (req.session.userId === 'undefined')
-        fs.writeFile('images/profiles/image.png', buf, function (err) {
-            if (err)
+        fs.writeFile('images/profiles/image.png', buf, function(err) {
+            if(err)
                 throw err;
             console.log("Photo saved");
         });
     else
-        fs.writeFile('images/profiles/' + req.session.userId + '.png', buf, function (err) {
-            if (err)
+        fs.writeFile('images/profiles/' + req.session.userId + '.png', buf, function(err) {
+            if(err)
                 throw err;
             console.log("Photo saved");
         });
@@ -1057,7 +1057,7 @@ app.post('/init', function (req, res) {
                     return;
                 }
             });
-
+       
     }
     else {
         res.setHeader('Content-Type', 'application/json');
@@ -1746,7 +1746,7 @@ app.get('/complete-payment', function (req, res) {
     console.log(userId);
     //
     var gticket = masters[userId].ticket;
-
+    
     for (var i = 0; i < gticket.shopping_list.length; i++) {
         console.log(gticket.shopping_list[i]);
     }
@@ -1792,24 +1792,93 @@ app.get('/cancel-payment', function (req, res) {
     res.redirect('/cancelRedirect.html');
 });
 
-//---------------------------- Cancel Ticket ----------------------------------
-app.post('/_cancelTicket', function (req, res) {
 
+
+
+//---------------------------- Cancel Ticket ----------------------------------
+
+app.post('/_cancelTicket', function (req, res) {
+    var ticketId = req.body.ticketId;
+    var object = {};
+    if (ticketId == null) {
+        res.status(420);
+        console.log('ERROR IS HERE');
+        console.log(ticketId);
+        res.setHeader('Content-Type', 'application/json');
+        res.send({message: 'no ticket ID!'});
+    }
+
+    else if(req.body.type == 'cancel') {
+        db.collection('users').updateOne({"grocery_list._id": ticketId},
+            {
+                $set: {
+                    state: 'cancelled'
+                }
+            }, 
+            function(err) {
+                if (err) {
+                    console.log('In _cancelTicket: could not update ticket to cancelled: ' + ticketId);
+                    res.status(500);
+                    res.send('');
+                    return;
+                }
+            }
+
+        );
+        db.collection('grocery_queue').remove({_id: ticketId}, function (err) {
+            if (err) {
+                console.log('In _cancelTicket: could not remove ticket from queue: ' + ticketId);
+                res.status(500);
+                res.send('');
+                return;
+            }
+
+            console.log('Successfully removed ticket from queue with id: ' + ticketId);
+        });
+    }
+    else {
+        console.log('LOADING ACCOUNT');
+        db.collection('users').findOne({"grocery_list._id": ticketId},
+            function (err, ticket) {
+                if (err) {
+                    console.log('Error in : ' + err);
+                    res.status(500);
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send({message: 'cannot access collection to find ticket '});
+                    return;
+                }
+                if (ticket == null) {
+                    console.log('Could not find user with ticket ' + ticketId + ' in _shoppingStatus');
+                    console.log(JSON.stringify(ticket));
+                    res.status(500);
+                    res.send('');
+                }
+                else {
+                    //console.log(JSON.stringify(ticket));
+                    object.items = ticket.shopping_list;
+                    object.special_note = ticket.special_options;
+                    object.time = ticket.available_time;
+                    object.shopping_location = ticket.geolocation;
+
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send(JSON.stringify(object));
+                }
+            });
+    }
 });
 
 
 //---------------------------- shopping status ---------------------------------
-app.post('/_shoppingStatus', function (req, res) {
+app.post('/_shoppingStatus', function(req,res) {
     var ticketId = req.body.ticketId;
     var object = {};
-    if (userId == null) {
+    if (ticketId == null) {
         res.status(420);
         console.log('ERROR IS HERE');
-        console.log(userId)
+        console.log(ticketId);
         res.setHeader('Content-Type', 'application/json');
         res.send({message: 'no user logged in'});
     }
-
 
     console.log('LOADING ACCOUNT');
     db.collection('users').findOne({"grocery_list._id": ticketId},
@@ -1818,7 +1887,7 @@ app.post('/_shoppingStatus', function (req, res) {
                 console.log('Error in : ' + err);
                 res.status(500);
                 res.setHeader('Content-Type', 'application/json');
-                res.send({message: 'cannot access collection to find ticket '})
+                res.send({message: 'cannot access collection to find ticket '});
                 return;
             }
             if (ticket == null) {
@@ -1834,14 +1903,14 @@ app.post('/_shoppingStatus', function (req, res) {
                 object.driver_full_name = ticket.driver.full_name;
                 object.special_note = ticket.special_options;
                 object.time = ticket.available_time;
+                object.shopping_location = ticket.geolocation;
 
                 res.setHeader('Content-Type', 'application/json');
                 res.send(JSON.stringify(object));
             }
-        });
-
+        }
+    );
 });
-
 
 //---------------------------- Price and Receipt Photo ------------------------
 app.post('/_receiptPictureEnterPrice', function (req, res) {
@@ -1866,13 +1935,13 @@ app.post('/_receiptPictureEnterPrice', function (req, res) {
     var buf = new Buffer(data, 'base64');
     //noinspection JSUnresolvedFunction
     if (req.session.userId === 'undefined')
-        fs.writeFile('images/receipts/image.png', buf, function (err) {
+        fs.writeFile('images/receipts/image.png', buf, function(err) {
             if (err)
                 throw err;
             console.log("Photo saved");
         });
     else
-        fs.writeFile('images/receipts/' + ticketId + '.png', buf, function (err) {
+        fs.writeFile('images/receipts/' + ticketId + '.png', buf, function(err) {
             if (err)
                 throw err;
             console.log("Photo saved");
