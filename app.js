@@ -1770,6 +1770,23 @@ app.get('/cancel-payment', function (req, res) {
     res.redirect('/cancelRedirect.html');
 });
 
+//---------------------------- Cancel Ticket ----------------------------------
+app.post('/_cancelTicket', function(req, res) {
+    
+});
+
+
+//---------------------------- shopping status ---------------------------------
+app.post('/_shoppingStatus', function(req,res) {
+    
+});
+
+
+
+
+
+
+
 
 //---------------------------- Price and Receipt Photo ------------------------
 app.post('/_receiptPictureEnterPrice', function (req, res) {
