@@ -1532,27 +1532,7 @@ app.post('/_driverList', function (req, res, next) {
                     console.log('Error in _driverList: ' + err);
                     res.status(500);
                     res.send('');
-                    return;
                 }
-
-
-                // if (!user) {
-                //     console.log('Error cannot find user in _driverList with id: ' + userId);
-                //     res.status(500);
-                //     res.send('');
-                // }
-                // else {
-                //     console.log('found user in driverList: ' + user);
-                //     res.setHeader('Content-Type', 'application/json');
-                //     var index;
-                //
-                //     for (var i = 0; i < user.grocery_list.length; i++) {
-                //         if (user.grocery_list[i]._id == ticketId) {
-                //             index = i;
-                //             break;
-                //         }
-                //     }
-                // }
             });
 
         console.log('Successfully updated tickets in user db');
@@ -1822,13 +1802,14 @@ app.post('/_cancelTicket', function (req, res) {
 app.post('/_shoppingStatus', function (req, res) {
     var ticketId = req.body.ticketId;
     var object = {};
-    if (ticketId == null) {
+    if (userId == null) {
         res.status(420);
         console.log('ERROR IS HERE');
-        console.log(ticketId);
+        console.log(userId)
         res.setHeader('Content-Type', 'application/json');
         res.send({message: 'no user logged in'});
     }
+
 
     console.log('LOADING ACCOUNT');
     db.collection('users').findOne({"grocery_list._id": ticketId},
@@ -1858,6 +1839,7 @@ app.post('/_shoppingStatus', function (req, res) {
                 res.send(JSON.stringify(object));
             }
         });
+
 });
 
 
