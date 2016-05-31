@@ -66,6 +66,7 @@
             var newItem = document.createElement('li');
             newItem.innerHTML = shoppping_toAdd;
             newItem.className = 'item';
+            //newItem.append "<button>delete</button>";
             $('#shopping_list').prepend(newItem);
             shopping_count++;
             loader._shopping.version++;

@@ -15,6 +15,15 @@
     var vid = document.getElementById("receipt_video1");
     var canvas = document.getElementById("receipt_canvas1");
 
+    var upload = document.getElementById('uploadButton1');
+    upload.style.display = "none";
+    $('#takeButton1').click(function(){
+        upload.style.display = "block";
+    });
+    $('#uploadImage1').click(function(){
+        upload.style.display = "block";
+    });
+    
     // jQuery.fn.extend({
     //     disable: function(state) {
     //         return this.each(function() {
@@ -26,6 +35,13 @@
     $('#submitReceiptButton1').click(function(){
         uploadPriceReceipt();
         goToPage("_congrats_driver_finish_shopping");
+    });
+    $('#cancelButton1').click(function(){
+        disableCamera(vid,
+            document.getElementById("takeButton1"),
+            document.getElementById("redoButton1"),
+            document.getElementById('uploadImage1'));
+        goToPreviousPage();
     });
 
     $("#enter_price_receipt").keyup(function(){
