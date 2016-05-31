@@ -31,8 +31,9 @@
         uploadPriceReceipt();
         goToPage("_congrats_driver_finish_shopping");
     });
+
     $('#cancelRecButton1').click(function(){
-        goToPage("_congrats_driver_finish_shopping");
+        goToPage('_driverList');
     });
 
     $("#enter_price_receipt").keyup(function(){
