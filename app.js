@@ -1838,6 +1838,52 @@ app.post('/_viewTicket', function (req, res) {
 // --------------------------------------------------------------------------
 
 
+// --------------------------- PURCHASED TICKETS ----------------------------
+app.post('/_loadPurchasedTickets.js', function(req, res) {
+
+    var ticketId = req.body.ticketId;
+    var object = {};
+
+    console.log('LOADING ACCOUNT');
+    db.collection('users').findOne({"grocery_list._id": ticketId},
+        function (err, ticket) {
+            if (err) {
+                console.log('Error in : ' + err);
+                res.status(500);
+                res.setHeader('Content-Type', 'application/json');
+                res.send({message: 'cannot access collection to find ticket '});
+                return;
+            }
+            if (ticket == null) {
+                console.log('Could not find user with ticket ' + ticketId + ' in _shoppingStatus');
+                console.log(JSON.stringify(ticket));
+                res.status(500);
+                res.send('');
+            }
+            else {
+                //console.log(JSON.stringify(ticket));
+                object.full_name = ticket.shopper.full_name;
+                object.phone = ticket.shopper.phone_number;
+                object.shopperId = ticket.shopper._id;
+                object.items = ticket.shopping_list;
+                object.special_note = ticket.special_options;
+                object.time = ticket.available_time;
+                object.shopping_location = ticket.geolocation;
+
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify(object));
+            }
+        });
+});
+
+
+
+
+
+
+
+
+
 // ---------------------------- TICKETS/QUEUE -------------------------------
 // Queue page
 app.post('/_tickets', function (req, res) {

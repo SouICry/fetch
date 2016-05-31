@@ -114,7 +114,7 @@ var test_data = {
 
         $.ajax({
             type: "POST",
-            url: "/purchasedTicketsUpdate",
+            url: "/_loadPurchasedTickets",
             contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(info_to_send),
