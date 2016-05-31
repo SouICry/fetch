@@ -366,7 +366,7 @@
             },
             loadData: function (data) {
                 if (data == null) {
-                    $('#select-delivery-time .highlighted').removeClass('highlighted');
+                    $('#select-delivery-time').find('.highlighted').removeClass('highlighted');
                     $("#delivery-time_warning").hide();
                 }
                 else {
@@ -413,7 +413,7 @@
 
         $('#delivery-time-submit').click(function() {
             //addDeliveryTime();
-            if ($('#select-delivery-time .highlighted').length == 0){
+            if ($('#select-delivery-time').find('.highlighted').length == 0){
                 $("#delivery-time_warning").show();
             }
             else {

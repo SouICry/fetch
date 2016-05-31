@@ -24,6 +24,8 @@
   /* needed to overwrite bootstraps margins*/
   h2 {
     margin: 0;
+
+
   }
 
   h1 {
@@ -33,11 +35,13 @@
 
   .name {
     position: absolute;
-    font-size: 3em;
+    //font-size: 3em;
     width: 100%;
     top: 50%;
     transform: translateY(-50%);
-  }
+    }
+
+
 
 
   figure {
