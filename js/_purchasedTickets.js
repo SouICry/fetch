@@ -5,30 +5,28 @@ var test_data = {
     full_name: "Donkey Punch",
     items: ["aa", "bb", "cc", "dd"],
     contact: 1234567890,
-    special_note: "cheap"
+    special_note: "cheap",
+    time: "<table class='calendar calendar0'> <thead> <tr class='calendar-head'  cellpadding='0' cellspacing='0'> </tr> </thead> </table> <table class='calendar calendar1' cellpadding='0' cellspacing='0'> <tbody> <tr><td>6</td> <td>6</td> <td>6</td> <td>6</td> <td>6</td> <td>6</td> <td>6</td> </tr> <tr> <td>7</td> <td>7</td> <td>7</td> <td>7</td> <td>7</td> <td>7</td> <td>7</td> </tr> <tr> <td>8</td> <td>8</td> <td>8</td> <td>8</td> <td>8</td> <td>8</td> <td>8</td> </tr> <tr> <td>9</td> <td>9</td> <td>9</td> <td>9</td> <td>9</td> <td>9</td> <td>9</td> </tr> <tr> <td>10</td> <td>10</td> <td>10</td> <td>10</td> <td>10</td> <td>10</td> <td>10</td> </tr> <tr> <td>11</td> <td>11</td> <td>11</td> <td>11</td> <td>11</td> <td>11</td> <td>11</td> </tr> </tbody> </table> <table class='calendar calendar2'> <tbody> <tr> <td>12</td> <td>12</td> <td>12</td> <td>12</td> <td>12</td> <td>12</td> <td>12</td> </tr> <tr> <td>1</td> <td>1</td> <td>1</td> <td>1</td> <td>1</td> <td>1</td> <td>1</td> </tr> <tr> <td>2</td> <td>2</td> <td>2</td> <td>2</td> <td>2</td> <td>2</td> <td>2</td> </tr> <tr> <td>3</td> <td>3</td> <td>3</td> <td>3</td> <td>3</td> <td>3</td> <td>3</td> </tr> <tr> <td>4</td> <td>4</td> <td>4</td> <td>4</td> <td>4</td> <td>4</td> <td>4</td> </tr> <tr> <td>5</td> <td>5</td> <td>5</td> <td>5</td> <td>5</td> <td>5</td> </tr> </tbody> </table> <table class='calendar calendar3'> <tbody> <tr> <td>6</td> <td>6</td> <td>6</td> <td>6</td> <td>6</td> <td>6</td> <td>6</td> </tr> <tr> <td>7</td> <td>7</td> <td>7</td> <td>7</td> <td>7</td> <td>7</td> <td>7</td> </tr> <tr> <td>8</td> <td>8</td> <td>8</td> <td>8</td> <td>8</td> <td>8</td> <td>8</td> </tr> <tr> <td>9</td> <td>9</td> <td>9</td> <td>9</td> <td>9</td> <td>9</td> </tr> <tr> <td>10</td> <td>10</td> <td>10</td> <td>10</td> <td>10</td> <td>10</td> <td>10</td> </tr> <tr> <td>11</td> <td>11</td> <td>11</td> <td>11</td> <td>11</td> <td>11</td> <td>11</td> </tr> </tbody> </table> <table class='calendar calendar4'> <tbody> <tr> <td>12</td> <td>12</td> <td>12</td> <td>12</td> <td>12</td> <td>12</td> <td>12</td> </tr> <tr> <td>1</td> <td>1</td> <td>1</td> <td>1</td> <td>1</td> <td>1</td> <td>1</td> </tr> <tr> <td>2</td> <td>2</td> <td>2</td> <td>2</td> <td>2</td> <td>2</td> <td>2</td> </tr> <tr> <td>3</td> <td>3</td> <td>3</td> <td>3</td> <td>3</td> <td>3</td> <td>3</td> </tr> <tr> <td>4</td> <td>4</td> <td>4</td> <td>4</td> <td>4</td> <td>4</td> <td>4</td> </tr> <tr> <td>5</td> <td>5</td> <td>5</td> <td>5</td> <td>5</td> <td>5</td> <td>5</td> </tr> </tbody> </table>",
+    pos: {lat:32, lng:-150},
+    shopperId: "firstpartofemail"
 };
 
 (function () {
     loader._purchasedTickets = {
         version: 0,
-        getData: function () {
-            var packData = {
-                contact: $("#phone").substring(8),
-                full_name: fullName,
-                items: array,
-                //special_note: data.special_note
-            };
+        getData: function () { //NOT SURE WHAT TO SEND -JEN
+            var packData = null;
 
             return packData;
         },
-        onPageLoad: function() {
+        onPageLoad: function () {
             assholes666();
         },
         loadData: function (data) {
             //populate driver list
-            $("#listName").text(" ");
-            $("#phone").text(" ");
-            $("ul").empty();
+            $("#listName_purchasedTickets").text(" ");
+            $("#phone_purchasedTickets").text(" ");
+            $("#_purchasedTickets ul").empty();
             $("#purchasedTickets_numItems").text(" ");
             $("#purchasedTickets_note").val(" ");
 
@@ -38,8 +36,11 @@ var test_data = {
 
             //create the contact info(where should I got this, is there a flied relates to contact?
             document.getElementById("listName_purchasedTickets").innerHTML = name + "'s Shopping List";
-            document.getElementById("phone").innerHTML = "Phone: " + data.contact;
+            document.getElementById("phone_purchasedTickets").innerHTML = "Phone: " + data.contact;
             $("#purchasedTickets_note").val(data.special_note).siblings().addClass("active");
+            document.getElementById("purchasedTickets-img").src = "images/profiles/" + data.shopperId + ".png";
+            $("#purchasedTickets_location").text("Delivery Location: " + data.shopping_location);
+            $("#purchasedTicketsCalendar").append(data.time);
 
             for (var i = 0; i < array.length; i++) {
                 // item count
@@ -53,24 +54,12 @@ var test_data = {
                 $('#purchasedTickets_list').prepend(newItem);
 
                 if (count == 1) {
-                    $("#purchasedTickets_numItems").text("1 item left");
+                    $("#purchasedTickets_numItems").text("1 item");
                 }
                 else {
-                    $("#purchasedTickets_numItems").text(count + " items left");
-                }
-
-                if (count != 0) {
-                    $("#purchasedTickets_footerInfo").show();
-                }
-                else {
-                    $("#purchasedTickets_footerInfo").hide();
+                    $("#purchasedTickets_numItems").text(count + " items");
                 }
             }
-
-            // for(var j = 0; j < arrayCheckedOff.length; j++){
-            //     var selector =  "#" + arrayCheckedOff[j];
-            //     $(selector).toggleClass("selected");
-            // }
         }
     };
 
@@ -79,47 +68,17 @@ var test_data = {
     var fullName = "";
     var array = [];
 
-    $(document).on('click', '.purchasedTicketsItem',function () {
+    $("#purchasedTickets_submit_list").click(function () {
 
-        $(this).toggleClass("selected");
+        confirm("Are you sure you want to close ticket?");
 
-        var arr = [];
-        //arrayCheckedOff = [];
-        $('.purchasedTicketsItem.selected').each(function () {
-            arr.push($(this).text());
-            //arrayCheckedOff.push($(this).text());
-        });
+        assholes61323355();
+        goToPage("_receiptPictureEnterPrice");
 
-        if ((count - arr.length) === 1) {
-            $("#purchasedTickets_numItems").text("1 item left");
-        }
-        else {
-            $("#purchasedTickets_numItems").text((array.length - arr.length) + " items left");
-        }
     });
 
-    $("#purchasedTickets_submit_list").click(function () {
-        var arr = [];
-        $('.purchasedTicketsItem.selected').each(function () {
-            arr.push($(this).text());
-        });
-
-        var flag;
-        if (arr.length != count) {
-            if ((count - arr.length) === 1) {
-                flag = confirm("You still have " + (count - arr.length) + " item left in the" +
-                    " shopping list, Are you sure to finish shopping now?");
-            }
-            else {
-                flag = confirm("You still have " + (count - arr.length) + " items left in the" +
-                    " shopping list, Are you sure to finish shopping now?");
-            }
-        }
-
-        if (arr.length === count || flag === true) {
-            assholes61323355();
-            goToPage("_congratsTicketClosed");
-        }
+    $("#purchasedTickets-back").click(function() {
+        goToPage("_yourDeliveries");
     });
 
     assholes666();

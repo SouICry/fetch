@@ -27,7 +27,7 @@
                 var numItems = $("#_cancelTicket_numItems").text;
                 loader.loadMap("cancelTicketMap",{lat:32, lng:-150});
                 // $("#listName_cancelTicket").text(" ");
-                $("ul").empty();
+                $("#_cancelTicket ul").empty();
                 numItems(" ");
                 $("#cancelTicket_note").val(" ");
 

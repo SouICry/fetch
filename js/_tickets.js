@@ -9,15 +9,14 @@
             getQueueTickets();
         },
         getData: function () {
-            return selected;
+
         },
         loadData: function (data) {
-            
+
             $("#tickets_content").empty();
             if (data == null || data.length == 0) {
                 $("#tickets_content").append('<li id="ticket_not " class = "ticket"' +
                     '>No tickets available</li>');
-
             }
             else {
                 function toName(nameString) {
@@ -59,8 +58,6 @@
                     }
                 });
             }
-
-
         }
     };
     var selected = {
@@ -70,62 +67,61 @@
         vons: true
     };
 
-    $(".store").each(function () {
+    var selectedCount = 0;
 
-        $(this).off('click').click(function () {
 
-            for (var x in selected) {
-                selected[x] = false;
-            }
-
-            if ($(this).hasClass("selected")) {
-                $(this).removeClass("selected");
-            }
-            else {
-                $(this).addClass("selected");
-            }
-
-            $('.store.selected').each(function () {
-                selected[$(this).data("name")] = true;
-            });
-
-            for (var x in selected) {
-                var a = "." + x;
-                if (selected[x] == false) {
-                    $(a).addClass("hidden");
-                }
-                else {
-                    $(a).removeClass("hidden");
-                }
-            }
-
-            if ($("#tickets_content li").length-1 == $("#tickets_content li.hidden").length) {
-                $("#ticket_not").removeClass("hide_ticket_not");
+    $(".ticket-check").off('click').click(function () {
+        if ($(this).parent().hasClass("selected")) {
+            $(this).parent().removeClass("selected");
+            selectedCount--;
+            console.log(selectedCount);
+            if (selectedCount == 0){
+                $('#tickets li').removeClass("hidden");
             }
             else {
-                $("#ticket_not").addClass("hide_ticket_not");
+                $('.' + $(this).data("name")).each(function(){
+                    $(this).addClass("hidden");
+                })
             }
-        });
-
+        }
+        else {
+            $(this).parent().addClass("selected");
+            selectedCount++;
+            console.log(selectedCount);
+            if (selectedCount == 1) {
+                $('#tickets li').addClass("hidden");
+                $('.' + $(this).data("name")).each(function(){
+                    $(this).removeClass("hidden");
+                })
+            }
+            else {
+                $('.' + $(this).data("name")).each(function(){
+                    $(this).removeClass("hidden");
+                })
+            }
+        }
     });
 
-    function getQueueTickets() {
-        $.ajax({
-            type: "POST",
-            url: "/_tickets",
-            contentType: "application/json",
-            dataType: "json",
-            data: null,
-            success: function (data) {
-                //data is the object sent back on success (could also just be string)
-                loader._tickets.loadData(data);
-            },
-            error: function (data) {
-                //data is the object send back on fail (could also just be string)
-            }
-        });
-    }
-    getQueueTickets();
-})();
+
+
+function getQueueTickets() {
+    $.ajax({
+        type: "POST",
+        url: "/_tickets",
+        contentType: "application/json",
+        dataType: "json",
+        data: null,
+        success: function (data) {
+            //data is the object sent back on success (could also just be string)
+            loader._tickets.loadData(data);
+        },
+        error: function (data) {
+            //data is the object send back on fail (could also just be string)
+        }
+    });
+}
+getQueueTickets();
+})
+();
 
 

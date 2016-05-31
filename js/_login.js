@@ -6,9 +6,11 @@
         loadData: null,
     };
     var data;
+    var errMessage = $("#message").html;
 
     $('#login_butt').prop('disabled', true);
     $('#login_user_email, #login_user_pass').keyup(function () {
+        errMessage('');
         if ($('#login_user_email').val() && $('#login_user_pass').val()) {
             $('#login_butt').prop('disabled', false);
         }
@@ -37,7 +39,7 @@
                 data: info_to_send,
                 success: function (data) {
                     //data is the object sent back on success (could also just be string)
-                   
+
                     loader.login(data);
                     
                     
@@ -45,6 +47,8 @@
                     //alert('data after login: ' + data.full_name);
                 },
                 error: function (data) {
+                    //$(".input-field").effect("shake");
+                    errMessage('***Invalid email or password***');
                     console.log("login failed");
                     //data is the object send back on fail (could also just be string)
                 }
