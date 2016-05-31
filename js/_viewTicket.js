@@ -1,14 +1,14 @@
 (function () {
     loader._viewTicket = {
-        data: /*{full_name: "Jen", items:["green eggs", "ham"], id: 3054}*/'',
+        data: null,
         version: 0,
         getData: null,
         loadData: function (data) {
+            ticketId = data._id;
             //populate driver list
             $("#listName").text(" ");
             $("ul").empty();
             $("#_viewTicket_numItems").text(" ");
-            alert(JSON.stringify(data));
             var array = data.shopping_list;
             var separatedNames = data.shopper.full_name;
 
@@ -33,23 +33,26 @@
                 }
 
                 if (count != 0) {
-                    $("#_viewTicket_footerInfo, .footerBars").show();
+                    $("#_viewTicket_footerInfo").show();
                 }
                 else {
-                    $("#_viewTicket_footerInfo,.footerBars").hide();
+                    $("#_viewTicket_footerInfo").hide();
                 }
             }
         }
     };
 
+    var ticketId = null;
+
     $('#_viewTicket_submit_list').click(function () {
-        goToPage("_yourDeliveries");
         assholes39();
+        goToPage("_yourDeliveries");
     });
 
     function assholes39() {
         var info_to_send = {};
         info_to_send.id = $('#user-name').data('id');
+        info_to_send.ticketId = ticketId;
         info_to_send.type = "get";
 
         //Actual
@@ -62,7 +65,7 @@
                     //loader._viewTicket.loadData(data);
                 },
                 error: function (data) {
-                    alert("fail");
+                    console.log("view ticket failed");
                     //data is the object send back on fail (could also just be string)
                 }
             }

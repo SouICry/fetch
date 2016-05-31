@@ -3,42 +3,74 @@
  */
 (function() {
     loader._receiptPictureEnterPrice = {
+
         onPageLoad: function(){
-            function beforeTake() {
-                canvas.height = vid.offsetHeight;
-                canvas.width = canvas.height;
-            }
-            enableCameraImage(vid, canvas,
-                document.getElementById("takeReceiptButton1"),
-                document.getElementById("redoReceiptButton1"),
-                document.getElementById('uploadReceipt1'),
-                0, beforeTake); //0 front cam, 1 back cam if available
-
-
+            upload.style.display = "none";
+            enableImageUpload(null, canvas, null, null, document.getElementById('uploadReceipt1'));
         },
         onPageLeave: function(){
-            disableCamera(vid);
+            disableImageUpload(document.getElementById('uploadReceipt1'));
         }
     };
 
     var vid = document.getElementById("receipt_video1");
     var canvas = document.getElementById("receipt_canvas1");
 
-    $('#uploadReceiptButton1').click(function(){
-        disableCamera(vid);
-        //uploadFromCanvas();
+    var upload = document.getElementById('submitReceiptButton1');
+    $('#uploadReceipt1').click(function(){
+        upload.style.display = "block";
+    });
+    
+    // jQuery.fn.extend({
+    //     disable: function(state) {
+    //         return this.each(function() {
+    //             this.disabled = state;
+    //         });
+    //     }
+    // });
+
+    $('#submitReceiptButton1').click(function(){
+        uploadPriceReceipt();
+        goToPage("_congrats_driver_finish_shopping");
+    });
+    $('#cancelRecButton1').click(function(){
         goToPage("_congrats_driver_finish_shopping");
     });
 
+    $("#enter_price_receipt").keyup(function(){
 
-    function uploadFromCanvas(){
+        if(!isNaN($("#enter_price_receipt").val()) && $("#enter_price_receipt").val() != "" ){
+
+            if($("#submitReceiptButton1").hasClass('disabled')) {
+                $("#submitReceiptButton1").removeClass("disabled");
+            }
+        }
+        else{
+            $("#submitReceiptButton1").addClass('disabled');
+        }
+    });
+    // if(!isNAN($("#enter_price_receipt").val()) ){
+    //
+    //     $('#submitReceiptButton1').prop('disabled', false);
+    // }
+
+    function uploadPriceReceipt(){
+        var data_to_send = {
+            image: canvas.toDataURL("image/png"),
+            price: $("enter_price").val,
+            ticket: loader.ticketId
+        }
+        alert(JSON.stringify(data_to_send));
         $.ajax({
             type: "POST",
-            url: "/savePhoto",
-            data: canvas.toDataURL("image/png"),
+            url: "/_receiptPictureEnterPrice",
+            data: JSON.stringify(data_to_send),
             success: function(){
                 alert("uploader");
-            }
+            },
+            error: function (data) {
+            //data is the object send back on fail (could also just be string)
+        }
         });
     }
 })();

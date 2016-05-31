@@ -2,7 +2,12 @@
     loader._shopping = {
        // data: "none",
         data: ["greenEggs", "ham"],
-        version: 0, //Must be 0 
+        version: 0,
+        // TODO: clear everything in the queue then reload the tickets
+        onPageLoad: function() {
+            // TODO: get rid of onpageload here. do this after submission of ticket
+            loader._shopping.loadData(null);
+        },//Must be 0 
         getData: function () { //must be null if not needed 
             return list_shopping;
         },
@@ -10,12 +15,13 @@
             if (data == null || data == "none" || data.length == 0) {
                 data = [];
                 list_shopping.splice(0, list_shopping.length);
-                $("#footerInfo, .footerBars").hide();
+                $("#footerInfo").hide();
             }
 
             shopping_count = 0;
             list_shopping.splice(0, list_shopping.length);
             $("#shopping_list").empty();
+            $("#shoppingCheckListItem").val("");
 
             for (var i = 0; i < data.length; i++) {
                 shoppping_toAdd = data[i];
@@ -34,10 +40,10 @@
                 }
 
                 if (shopping_count != 0) {
-                    $("#footerInfo, .footerBars, #shopping_submit_list").show();
+                    $("#footerInfo, #shopping_submit_list").show();
                 }
                 else {
-                    $("#footerInfo, .footerBars").hide();
+                    $("#footerInfo").hide();
                 }
             }
         }
@@ -50,7 +56,7 @@
     $("#shopping_submit_list").hide();
     $('#shopping_submit_list').click(function () {
         if (list_shopping.length > 0) {
-            goToPage("_checkout");
+            goToPage("_deliveryTime");
         }
     });
 
@@ -62,6 +68,7 @@
             var newItem = document.createElement('li');
             newItem.innerHTML = shoppping_toAdd;
             newItem.className = 'item';
+            //newItem.append "<button>delete</button>";
             $('#shopping_list').prepend(newItem);
             shopping_count++;
             loader._shopping.version++; //Trivi add this
@@ -73,17 +80,15 @@
             }
 
             if (shopping_count != 0) {
-                $("#footerInfo, .footerBars, #shopping_submit_list").show();
+                $("#footerInfo, #shopping_submit_list").show();
             }
             else {
-                $("#footerInfo, .footerBars").hide();
+                $("#footerInfo").hide();
             }
             event.preventDefault();
             $('#shoppingCheckListItem').val('');
 
             list_shopping.push(shoppping_toAdd);
-
-
         }
         else {
             event.preventDefault();
@@ -107,13 +112,12 @@
         }
 
         if (shopping_count != 0) {
-            $("#shopping_submit_list, #footerInfo, .footerBars").show();
+            $("#shopping_submit_list, #footerInfo").show();
         }
 
         var index = list_shopping.indexOf($(this).text());
         if (index > -1) {
             list_shopping.splice(index, 1);
         }
-
     });
 })();   

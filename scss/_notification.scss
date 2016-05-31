@@ -1,0 +1,58 @@
+
+* {
+  box-sizing: border-box;
+}
+
+#notifications {
+  position: fixed;
+  z-index: 2000;
+  margin-top: 50px;
+  right: -400px;
+  width: 400px;
+  max-width: 100vw;
+  pointer-events: none;
+}
+
+.notification {
+  cursor: pointer;
+  background-color: orange;
+  pointer-events: auto;
+  float: right;
+  margin: 10px 10px 0 10px;
+  width: calc(100% - 20px);
+  min-height: 80px;
+  vertical-align: center;
+  position: relative;
+  overflow: hidden;
+  transform: translateX(0px);
+  @include emphasis-shadow;
+  .notification-inner {
+    width: 100%;
+    height: 80px;
+    position: relative;
+  }
+  .text {
+    position: absolute;
+    width: calc(100% - 115px);
+    top: 50%;
+    left: calc(50% + 25px);
+    transform: translate(-50%, -50%)
+  }
+
+   .icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80px;
+    height: 80px;
+  }
+   .icon i.material-icons {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 80px;
+    line-height: 80px;
+    font-size: 50px;
+  }
+}

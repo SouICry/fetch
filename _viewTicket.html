@@ -1,38 +1,33 @@
-<div class="container text-center" id="_viewTicket">
+<div class="container box text-center" id="_viewTicket">
 
-    <div class="col-xs-12">
-        <h2 id="listName"></h2>
-    </div>
-
-    <div class="container box">
-        <div class="row" >
-            <div class="col-xs-12">
-                <ul id="_viewTicket_list"></ul>
-            </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <h2 id="listName"></h2>
         </div>
-
-        <div class = "row">
-            <div class="col-xs-12">
-                <div class="driver-footer">
-                    <div id="_viewTicket_footerInfo">
-                        <div id="_viewTicket_numItems"></div>
-                        <div class="text-center">
-                            <button id="_viewTicket_submit_list" type="button" class="btn btn-link">
-                                Accept Ticket
-                            </button>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <ul id="_viewTicket_list"></ul>
         </div>
     </div>
 
-    <div class ="footerBars">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="row" id="_viewTicket_footerInfo">
+                <div class="col-xs-4" id="_viewTicket_numItems"></div>
+                <a id="_viewTicket_submit_list" type="button"
+                   class="col-xs-4 text-center btn waves-effect waves-teal">
+                    Accept Ticket
+                </a>
+            </div>
+        </div>
     </div>
-
 </div>
+
+<div class="footerBars container">
+    <div class="footer2"></div>
+    <div class="footer3"></div>
+</div>
+
 
 <script src="js/_viewTicket.js"></script>

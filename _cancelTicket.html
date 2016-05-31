@@ -1,13 +1,41 @@
-<div id="cancelTicket" class="container" style="text-align: center">
+<div id="_cancelTicket" class="container box text-center">
     <div class="row">
         <div class="col-xs-12">
+            <img class="img-circle" id="cancelTicket-img" src="placeholder/person5.png">
+            <h2 id="listName_cancelTicket"></h2>
+        </div>
 
-            <h2>Cancel pending order.</h2>
 
-            <div class="row">
-                <button id="submit_cancelTicket" type="button" class="btn btn-primary" style="margin-bottom: 10%">Confirm</button>
+        <div class="col-xs-12">
+            <ul id="_cancelTicket_list"></ul>
+            <div class="text-left"  id="_cancelTicket_numItems"></div>
+        </div>
+
+        <div class="col-xs-12">
+            <div class="text-left" id="cancelTicket_note"></div>
+            <div class="text-left" id="cancelTicket_location"></div>
+            <div id="cancelTicketMap" class="map"></div>
+        </div>
+
+        <div id="cancelTicketCalendarPart" class="col-xs-12">
+            <div class="text-left" id="cancelTicketCalendarHeader">Delivery time:</div>
+            <div id="cancelTicketCalendar"></div>
+        </div>
+
+        <div class="col-xs-12">
+            <div class="row" id="_cancelTicket_footerInfo">
+                <a id="cancelTicket_list_btn" type="button" class="btn waves-effect">
+                    Close
+                </a>
+                <a id="cancelTicket_cancel_btn" type="button" class="btn waves-effect">
+                    Cancel ticket
+                </a>
+
             </div>
         </div>
-    </div>
 </div>
-<script src="/js/_cancelTicket.js"></script>
+<div class="footerBars container">
+    <div class="footer2"></div>
+    <div class="footer3"></div>
+</div>
+<script src="js/_cancelTicket.js"></script>

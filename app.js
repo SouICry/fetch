@@ -24,14 +24,23 @@ var app = express();
 app.use(favicon());
 app.use(logger('dev'));
 app.use(flash());
-app.use(bodyParser({limit: '2mb'}));
-app.use(bodyParser.json());
+//app.use(bodyParser());
+app.use(bodyParser.json({limit: '2mb'}));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(session({resave: true, saveUninitialized: true, secret: 'williamiscool'}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname));
+
+var masters = {};
+
+function createNotification(userId, text, page, icon) {
+    var onClick = "loader.closeNotification('" + page + "', this);";
+
+    masters[userId].notification.push('<div class="notification-inner" data-changePage="true" onclick="' + onClick + '"><div class="icon"><i class="material-icons">'
+        + icon + '</i></div><div class="text">' + text + '</div></div>');
+}
 
 
 app.post('/loadPage', function (req, res) {
@@ -87,13 +96,14 @@ var userSchema = new mongoose.Schema(
         is_driver: {type: Boolean, required: false, unique: false},
         resetPasswordToken: String,
         resetPasswordExpires: Date
+        // TODO: add image (research how to do it)
     }
 );
 
 // Hash password prior to saving user to db
 userSchema.pre('save', function (next) {
     var user = this;
-    var SALT_FACTOR = 15;
+    var SALT_FACTOR = 8;
 
     if (!user.isModified('password')) return next();
 
@@ -143,68 +153,46 @@ ViewController.prototype = {
 };
 
 
-app.post("/_shopping", function(req, res){
+app.post("/_shopping", function (req, res) {
     //use pageCount or version
     var userId = req.session.userId;
     var list = req.body.list;
     var checkout = req.body.checkout;
     //TODO initialize verion in login, init, sign up
-
     if (masters[userId].shoppingVersion < req.body.shoppingVersion) {
         masters[userId].shoppingVersion = req.body.shoppingVersion;
         masters[userId].list = list;
-        //masters[userId].ticketId = req.body.ticketId;
-
+        res.send("");
     }
-        // else if (masters[userId].shoppingVersion > req.body.version) {
-        //     res.setHeader('Content-Type', 'application/json');
-        //     res.send(JSON.stringify({
-        //         //version: masters[userId].version,
-        //         list: masters[userId].list,
-        //         version: masters[userId].version
-        //     }));
-        // }
-    if (masters[userId].checkoutVersion < req.body.checkoutVersion) {
+    else if (masters[userId].shoppingVersion > req.body.shoppingVersion) {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({
+            //version: masters[userId].version,
+            list: masters[userId].list,
+            shoppingVersion: masters[userId].shoppingVersion,
+            currentPage: masters[userId].currentPage
+        }));
+    }
+    else if (masters[userId].checkoutVersion < req.body.checkoutVersion) {
         console.log("version update");
-
         masters[userId].checkoutVersion = req.body.checkoutVersion;
         masters[userId].checkout = checkout;
-
+        res.send("");
     }
-        // else if (masters[userId].checkoutVersion > req.body.checkoutVersion) {
-        //     res.setHeader('Content-Type', 'application/json');
-        //     res.send(JSON.stringify({
-        //         //version: masters[userId].version,
-        //         checkout: masters[userId].checkout,
-        //         checkoutVersion: masters[userId].checkoutVersion
-        //     }));
-        // }
-        // else {
-        //     res.setHeader('Content-Type', 'application/json');
-        //     res.send(JSON.stringify({"":""}));
-        // }
-    res.send("");
-    //if(checkout){
-    //     if(masters[userId].checkoutVersion < req.body.checkoutVersion){
-    //         masters[userId].checkoutVersion = req.body.checkoutVersion;
-    //         masters[userId].checkout = checkout;
-    //         res.send("");
-    //     }
-    //     else if(masters[userId].checkoutVersion > req.body.checkoutVersion){
-    //         res.setHeader('Content-Type', 'application/json');
-    //         res.send(JSON.stringify({
-    //             //version: masters[userId].version,
-    //             checkout: masters[userId].checkout,
-    //             checkoutVersion: masters[userId].checkoutVersion
-    //         }));
-    //     }
-    //     else {
-    //         res.setHeader('Content-Type', 'application/json');
-    //         res.send(JSON.stringify({"":""}));
-    //     }
-    // }
-});
+    else if (masters[userId].checkoutVersion > req.body.checkoutVersion) {
+        console.log("send back data");
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({
+            checkout: masters[userId].checkout,
+            checkoutVersion: masters[userId].checkoutVersion,
+            currentPage: masters[userId].currentPage
+        }));
+    }
+    else {
+        res.send("");
+    }
 
+});
 // app.get('/_shopping', function (req, res){
 //     console.log('LIne 456, list in session is', req.session.list);
 //     if(req.session.passport && req.session.passport.user) {
@@ -328,13 +316,12 @@ passport.use('signup', new LocalStrategy(
                         email: email,
                         password: password,
                         phone_number: req.body.phone_number,
-                        address:
-                        {
-                             street: req.body.street,
-                             city: req.body.city,
-                             state: req.body.state,
-                             zip: req.body.zip
-                         },
+                        address: {
+                            street: req.body.street,
+                            city: req.body.city,
+                            state: req.body.state,
+                            zip: req.body.zip
+                        },
                         payment_info: {
                             card_holder_name: '',
                             card_number: '',
@@ -369,23 +356,34 @@ passport.use('signup', new LocalStrategy(
 ));
 
 //Save profile picture to server
-app.post('/savePhoto',function(req,res){
+app.post('/savePhoto', function (req, res) {
 
     var img = (req.body.image);
     var data = img.replace(/^data:image\/\w+;base64,/, "");
 
     var buf = new Buffer(data, 'base64');
     //noinspection JSUnresolvedFunction
-    fs.writeFile('images/profiles/image.png', buf);
+    if (req.session.userId === 'undefined')
+        fs.writeFile('images/profiles/image.png', buf, function(err) {
+            if(err)
+                throw err;
+            console.log("Photo saved");
+        });
+    else
+        fs.writeFile('images/profiles/' + req.session.userId + '.png', buf, function(err) {
+            if(err)
+                throw err;
+            console.log("Photo saved");
+        });
     //console.log(img);
     //console.log(typeof(img));
-    console.log("Photo Saved");
+    console.log("Photo Saved: " + data.substring(0, 10));
     /*fs.writeFile("images/profiles/" + req.session.userId + ".png", req.body.image,"base64", function (err, data ) {
-        if (err) {
-            return console.log("Error");
-        }
-        console.log("Photo saved. Success!");}
-    );*/
+     if (err) {
+     return console.log("Error");
+     }
+     console.log("Photo saved. Success!");}
+     );*/
     res.send("");
 });
 
@@ -437,15 +435,48 @@ app.post('/_signUp', function (req, res, next) {
                     }
                     else {
                         var userId = req.session.passport.user;
-                        if (!masters.hasOwnProperty(userId)){
+                        req.session.userId = userId;
+                        if (!masters.hasOwnProperty(userId)) {
                             masters[userId] = {
                                 isDriver: false,
                                 isLoggedIn: true,
                                 userId: userId,
+                                notification: [],
+                                chat: {
+                                    messages: []
+                                },
                                 shoppingVersion: 0,
                                 checkoutVersion: 0,
                                 currentPage: ""
                             };
+                            db.collection('users').findOne({_id: userId},
+                                function (err, user) {
+                                    if (err) {
+                                        console.log('Error in accSetting: ' + err);
+                                        res.status(500);
+                                        res.setHeader('Content-Type', 'application/json');
+                                        res.send({message: 'cannot access collection to find user '})
+                                        return;
+                                    }
+                                    //console.log('user = ' + JSON.stringify(user));
+                                    if (user == null) {
+                                        console.log('Could not find user with userId ' + userId + ' in _accSetting');
+                                        console.log(JSON.stringify(user));
+                                        res.status(500);
+                                        res.send('');
+                                        return;
+                                    }
+                                    if (user.full_name == null) {
+                                        console.log('Could not find users fullname in _accSetting');
+                                        res.status(500);
+                                        res.send('');
+                                        return;
+                                    }
+                                    else {
+                                        console.log(JSON.stringify(user));
+                                        masters[userId].full_name = user.full_name;
+                                    }
+                                });
                             masters[userId].userId = userId;
                             // res.setHeader('Content-Type', 'application/json');
 
@@ -508,12 +539,43 @@ app.post('/_login', function (req, res, next) {
                     isDriver: false,
                     isLoggedIn: true,
                     userId: userId,
+                    notification: [],
+                    chat: {
+                        messages: []
+                    },
                     shoppingVersion: 0,
                     checkoutVersion: 0,
                     currentPage: ""
                 };
+                db.collection('users').findOne({_id: userId},
+                    function (err, user) {
+                        if (err) {
+                            console.log('Error in accSetting: ' + err);
+                            res.status(500);
+                            res.setHeader('Content-Type', 'application/json');
+                            res.send({message: 'cannot access collection to find user '})
+                            return;
+                        }
+                        //console.log('user = ' + JSON.stringify(user));
+                        if (user == null) {
+                            console.log('Could not find user with userId ' + userId + ' in _accSetting');
+                            console.log(JSON.stringify(user));
+                            res.status(500);
+                            res.send('');
+                            return;
+                        }
+                        if (user.full_name == null) {
+                            console.log('Could not find users fullname in _accSetting');
+                            res.status(500);
+                            res.send('');
+                            return;
+                        }
+                        else {
+                            console.log(JSON.stringify(user));
+                            masters[userId].full_name = user.full_name;
+                        }
+                    });
                 masters[userId].userId = userId;
-                // res.setHeader('Content-Type', 'application/json');
 
                 console.log(userId);
                 console.log(JSON.stringify({
@@ -555,14 +617,13 @@ app.post('/_passwordRecovery', function (req, res, next) {
 
     if (!validEmail(email)) {
         console.log("invalid email format");
-        req.flash('error', 'Invalid email format your_ucsd_email@ucsd.edu');
         res.status(500);
         return;
     }
 
     async.waterfall([
         function (done) {
-            crypto.randomBytes(20, function (err, buf) {
+            crypto.randomBytes(6, function (err, buf) {
                 var token = buf.toString('hex');
                 done(err, token);
             });
@@ -570,13 +631,13 @@ app.post('/_passwordRecovery', function (req, res, next) {
         function (token, done) {
             User.findOne({email: req.body.email}, function (err, user) {
                 if (!user) {
-                    req.flash('error', 'No account with that email address exists.');
+                    console.log('error', 'No account with that email address exists.');
                     res.status(500);
                     return;
                 }
 
-                user.resetPasswordToken = token;
-                user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+                user.password = token;
+
 
                 user.save(function (err) {
                     done(err, token, user);
@@ -596,19 +657,19 @@ app.post('/_passwordRecovery', function (req, res, next) {
                 from: 'fetchtestuser@gmail.com',
                 subject: 'Node.js Password Reset',
                 text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
-                'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-                'http://' + req.headers.host + '/reset/' + token + '\n\n' +
-                'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+                'Your password has been changed to the following:\n\n' +
+                token + '\n\n' +
+                'Please log-in with the changed password now.\n'
             };
             console.log('Sending Mail');
             Transport.sendMail(mailOptions, function (err, info) {
                 if (err) {
-                    console.log('Error occurred');
+                    console.log('Error occurred while sending mail');
                     console.log(err.message);
                     res.status(500);
                     return;
                 }
-                req.flash('info', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
+                console.log('info', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
                 done(err, 'done');
             });
         }
@@ -617,62 +678,91 @@ app.post('/_passwordRecovery', function (req, res, next) {
         //res.redirect('/forgot');
     });
 });
+app.post('/_passwordReset', function (req, res) {
+    var userId = req.session.userId;
 
-app.post('/reset/:token', function (req, res) {
-    async.waterfall([
-        function (done) {
-            User.findOne({
-                resetPasswordToken: req.params.token,
-                resetPasswordExpires: {$gt: Date.now()}
-            }, function (err, user) {
-                if (!user) {
-                    req.flash('error', 'Password reset token is invalid or has expired.');
-                    res.status(500);
-                    return;
-                    //return res.redirect('back');
-                }
-
-                user.password = req.body.password;
-                user.resetPasswordToken = undefined;
-                user.resetPasswordExpires = undefined;
-
-                user.save(function (err) {
-                    req.login(user, function (err) {
-                        done(err, user);
-                    });
-                });
-            });
-        },
-        function (user, done) {
-            var Transport = nodemailer.createTransport({
-                service: 'Gmail',
-                auth: {
-                    user: 'fetchtestuser',
-                    pass: 'insanelycreatives'
-                }
-            });
-            var mailOptions = {
-                to: user.email,
-                from: 'passwordreset@demo.com',
-                subject: 'Your password has been changed',
-                text: 'Hello,\n\n' +
-                'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
-            };
-            Transport.sendMail(mailOptions, function (err, info) {
+    if (userId == null) {
+        res.status();
+        console.log('ERROR IS HERE');
+        console.log(userId)
+        res.setHeader('Content-Type', 'application/json');
+        res.send({message: 'no user logged in'});
+    }
+    else {
+        User.findOne({_id: userId}, function (err, user) {
+            if (!user) {
+                console.log('error', 'No account with ID ' + userId + ' exists.');
+                res.status(500);
+                return;
+            }
+            user.password = req.body.password;
+            user.save(function (err) {
                 if (err) {
-                    console.log('Error occurred');
-                    console.log(err.message);
+                    console.log('Could not save new password to db in passwordReset');
                     res.status(500);
-                    return;
                 }
-                req.flash('success', 'Success! Your password has been changed.');
-                done(err);
             });
-        }
-    ], function (err) {
-        res.status(500);
-    });
+            console.log('New password saved!');
+        });
+    }
 });
+
+
+// app.post('/reset/:token', function (req, res) {
+//     async.waterfall([
+//         function (done) {
+//             User.findOne({
+//                 resetPasswordToken: req.params.token,
+//                 resetPasswordExpires: {$gt: Date.now()}
+//             }, function (err, user) {
+//                 if (!user) {
+//                     req.flash('error', 'Password reset token is invalid or has expired.');
+//                     res.status(500);
+//                     return;
+//                     //return res.redirect('back');
+//                 }
+//
+//                 user.password = req.body.password;
+//                 user.resetPasswordToken = undefined;
+//                 user.resetPasswordExpires = undefined;
+//
+//                 user.save(function (err) {
+//                     req.login(user, function (err) {
+//                         done(err, user);
+//                     });
+//                 });
+//             });
+//         },
+//         function (user, done) {
+//             var Transport = nodemailer.createTransport({
+//                 service: 'Gmail',
+//                 auth: {
+//                     user: 'fetchtestuser',
+//                     pass: 'insanelycreatives'
+//                 }
+//             });
+//             var mailOptions = {
+//                 to: user.email,
+//                 from: 'passwordreset@demo.com',
+//                 subject: 'Your password has been changed',
+//                 text: 'Hello,\n\n' +
+//                 'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
+//             };
+//             Transport.sendMail(mailOptions, function (err, info) {
+//                 if (err) {
+//                     console.log('Error occurred');
+//                     console.log(err.message);
+//                     res.status(500);
+//                     return;
+//                 }
+//                 req.flash('success', 'Success! Your password has been changed.');
+//                 done(err);
+//             });
+//         }
+//     ], function (err) {
+//         res.status(500);
+//     });
+// });
 
 //userId =req.session.userId
 //masters[userId]["_homepage"].data
@@ -685,7 +775,6 @@ var defaultO = {
 
 };
 
-var masters = {};
 
 //TODO -------------------------------------------------------------------------
 
@@ -726,10 +815,12 @@ app.post('/loadData', function (req, res, next) {
 
 
 app.post('/changePage', function (req, res) {
-    if(!req.session.hasOwnProperty("userId"))
+    if (!req.session.hasOwnProperty("userId"))
         res.send("");
     else {
         var newPage = req.body.newPage;
+
+        //createNotification(req.session.userId, "Change Page "+ newPage, "_homePage", "add_alert");
         //save it to master current page field
         var userId = req.session.userId;
         masters[userId].currentPage = newPage;
@@ -744,12 +835,12 @@ app.post('/getTicket', function (req, res) {
     var store = req.body.store;
     var userId = req.session.userId;
 
-    var user = db.collection('grocery_queue').findOne({_id: ticketId}, function(err) {
+    var user = db.collection('grocery_queue').findOne({_id: ticketId}, function (err) {
         if (err)
             res.send(err);
     });
 
-    if(user) {
+    if (user) {
         masters[userId]["_driverList"].data = user;
 
     }
@@ -781,13 +872,54 @@ app.post('/getTicket', function (req, res) {
 
 
 //----------------------------------getTicket----------------------------------------------------------------
-app.post('/switchRole', function(req, res) {
-    if(masters.hasOwnProperty(userId) && masters[userId] != null) {
+app.post('/switchRole', function (req, res) {
+    if (masters.hasOwnProperty(userId) && masters[userId] != null) {
         var userId = req.session.userId;
         masters[userId].isDriver = req.body.isDriver;
         res.send();
     }
 });
+
+
+app.post('/chat', function (req, res) {
+    var userId = req.session.userId;
+
+    if (!masters[userId].chat.hasOwnProperty(req.body.userIdToChat)) {
+        masters[userId].chat[req.body.userIdToChat] = {
+            messages: []
+        };
+        masters[userId].chat[req.body.userIdToChat].messages.push("<div class='ours'><div>" + req.body.message + "</div></div>");
+    }
+
+    if (!masters.hasOwnProperty(req.body.userIdToChat)) {
+        masters[req.body.userIdToChat] = {
+            isDriver: false,
+            isLoggedIn: true,
+            userId: req.body.userIdToChat,
+            notification: [],
+            chat: {
+                messages: []
+            },
+            shoppingVersion: 0,
+            checkoutVersion: 0,
+            currentPage: "_homePage"
+        };
+
+    }
+    if (!masters[req.body.userIdToChat].chat.hasOwnProperty(userId)) {
+        masters[req.body.userIdToChat].chat[userId] = {
+            messages: []
+        };
+        masters[req.body.userIdToChat].chat[userId].messages.push("<div class='theirs'><div>" + req.body.message + "</div></div>");
+    }
+    else {
+        masters[userId].chat[req.body.userIdToChat].messages.push("<div class='ours'><div>" + req.body.message + "</div></div>");
+        masters[req.body.userIdToChat].chat[userId].messages.push("<div class='theirs'><div>" + req.body.message + "</div></div>");
+    }
+
+    res.send("");
+});
+
 
 //----------------------------------getUpdate--------------------------------------------------------------------------
 //run every second
@@ -795,38 +927,68 @@ app.post('/getUpdates', function (req, res, next) {
     // var object = {};
     //send back JSON object to update current Page once the user is login on another device
     var userId = req.session.userId;
+    var chatRecieve = req.body.chat;
+    var chat = {};
+    var notificationToSendBack = [];
+    var lengthRecieve = req.body.notification;
 
-    if(masters.hasOwnProperty(userId) && masters[userId] != null) {
-        if(masters[userId].shoppingVersion > req.body.shoppingVersion){
-            res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify({
-                list: masters[userId].list,
-                shoppingVersion: masters[userId].shoppingVersion,
-                currentPage: masters[userId].currentPage,
-                ticketId: masters[userId].ticketId,
-                isLoggedIn: masters[userId].isLoggedIn,
-                isDriver: masters[userId].isDriver
-            }));
+    if (masters.hasOwnProperty(userId) && masters[userId] != null) {
+
+        // //send chat
+        for (var personToChat in masters[userId].chat) {
+            if (masters[userId].chat.hasOwnProperty(personToChat)) {
+                if (masters[userId].chat[personToChat].messages != null) {
+                    if (chatRecieve[personToChat] != null) {
+
+                        if (masters[userId].chat[personToChat].messages.length > chatRecieve[personToChat]) {
+                            chat[personToChat] = [];
+                            for (var k = chatRecieve[personToChat]; k < masters[userId].chat[personToChat].messages.length; k++) {
+                                chat[personToChat].push(masters[userId].chat[personToChat].messages[k]);
+                            }
+                        }
+                    }
+                    else {
+                        chat[0] = masters[personToChat].full_name;
+                        console.log("User full name is ", chat[0], "user Id is", personToChat);
+                        chat[personToChat] = masters[userId].chat[personToChat].messages;
+                        console.log("Chat messages are ", chat[personToChat]);
+                    }
+                }
+            }
+
         }
-        else if (masters[userId].checkoutVersion > req.body.checkoutVersion){
-            res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify({
-                checkout: masters[userId].checkout,
-                checkoutVersion: masters[userId].checkoutVersion,
-                currentPage: masters[userId].currentPage,
-                ticketId: masters[userId].ticketId,
-                isLoggedIn: masters[userId].isLoggedIn,
-                isDriver: masters[userId].isDriver
-            }));
+
+
+        //send notification back if masters has new notification
+        if (masters[userId].notification.length > lengthRecieve) {
+            for (var i = lengthRecieve; i < masters[userId].notification.length; i++) {
+                notificationToSendBack.push(masters[userId].notification[i]);
+            }
+
         }
-        else {
-            res.setHeader('Content-Type', 'application/json');
+
+        res.setHeader('Content-Type', 'application/json');
+
+        //send all to update when inactive
+        if (req.body.isInactive) {
             res.send(JSON.stringify({
+                isInactive: req.body.isInactive,
                 currentPage: masters[userId].currentPage,
                 ticketId: masters[userId].ticketId,
                 isLoggedIn: masters[userId].isLoggedIn,
-                isDriver: masters[userId].isDriver
+                isDriver: masters[userId].isDriver,
+                chat: chat,
+                notification: notificationToSendBack
+
             }));
+        } else {
+            res.send(JSON.stringify({
+                isInactive: req.body.isInactive,
+                chat: chat,
+                notification: notificationToSendBack
+
+            }));
+
         }
     }
     else {
@@ -849,16 +1011,49 @@ app.post('/init', function (req, res) {
             isDriver: false,
             isLoggedIn: true,
             userId: userId,
+            notification: [],
+            chat: {
+                messages: []
+            },
             shoppingVersion: 0,
             checkoutVersion: 0,
             currentPage: "_homePage"
         };
+        db.collection('users').findOne({_id: userId},
+            function (err, user) {
+                if (err) {
+                    console.log('Error in init: ' + err);
+                    res.status(500);
+                    //res.setHeader('Content-Type', 'application/json');
+                    res.send('cannot access collection to find user ');
+                    return;
+                }
+                //console.log('user = ' + JSON.stringify(user));
+                if (user == null) {
+                    console.log('Could not find user with userId ' + userId + ' in _init');
+                    console.log(JSON.stringify(user));
+                    res.status(500);
+                    res.send('');
+                    return;
+                }
+                if (user.full_name == null) {
+                    console.log('Could not find users fullname in _init');
+                    res.status(500);
+                    res.send('');
+                    return;
+                }
+                else {
+                    console.log(JSON.stringify(user));
+                    masters[userId].full_name = user.full_name;
+                }
+            });
         masters[userId].userId = userId;
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify({
             userId: userId,
             isLoggedIn: false
         }));
+        return;
     }
     else {
         res.setHeader('Content-Type', 'application/json');
@@ -869,6 +1064,7 @@ app.post('/init', function (req, res) {
             ticketId: masters[userId].ticketId,
             isDriver: masters[userId].isDriver
         }));
+        return;
     }
 });
 // var userId = req.body.userId;
@@ -947,63 +1143,58 @@ app.post('/_accSetting', function (req, res) {
     // if (!req.session.passport || !res.session.passport.user) {
     var userId = req.session.userId;
     var object = {};
-    if (!req.session.userId) {
-        res.status(500);
+
+    if (userId == null) {
+        res.status(420);
+        console.log('ERROR IS HERE');
+        console.log(userId)
         res.setHeader('Content-Type', 'application/json');
         res.send({message: 'no user logged in'});
     }
 
     else if (req.body.type === "loadAccSetting") {
         console.log('LOADING ACCOUNT');
-        MongoClient.connect(mongodb_url, function (err, db) {
-            if (err) {
-                console.log('Error in accSetting: ' + err);
-                res.status(500);
-                res.send({message: 'cannot connect to database'});
-            }
-            else {
-                db.collection('users').findOne({_id: userId},
-                    function (err, user) {
-                        if (err) {
-                            console.log('Error in accSetting: ' + err);
-                            res.status(500);
-                            res.setHeader('Content-Type', 'application/json');
-                            res.send({message: 'cannot access collection to find user '})
-                            return;
-                        }
-                        //console.log('user = ' + JSON.stringify(user));
-                        if (!user) {
-                            console.log('Could not find user with userId ' + userId + ' in _accSetting');
-                            res.status(500);
-                            res.send('');
-                            return;
-                        }
-                        if (!user.full_name) {
-                            console.log('Could not find users fullname in _accSetting');
-                            res.status(500);
-                            res.send('');
-                            return;
-                        }
-                        else {
-                            console.log(JSON.stringify(user));
-                            object.full_name = user.full_name;
-                            object.email = user.email;
-                            object.phone = user.phone_number;
-                            object.street = user.address.street;
-                            object.city = user.address.city;
-                            object.state = user.address.state;
-                            object.zip = user.address.zip;
+        db.collection('users').findOne({_id: userId},
+            function (err, user) {
+                if (err) {
+                    console.log('Error in accSetting: ' + err);
+                    res.status(500);
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send({message: 'cannot access collection to find user '})
+                    return;
+                }
+                //console.log('user = ' + JSON.stringify(user));
+                if (user == null) {
+                    console.log('Could not find user with userId ' + userId + ' in _accSetting');
+                    console.log(JSON.stringify(user));
+                    res.status(500);
+                    res.send('');
+                    return;
+                }
+                if (user.full_name == null) {
+                    console.log('Could not find users fullname in _accSetting');
+                    res.status(500);
+                    res.send('');
+                    return;
+                }
+                else {
+                    console.log(JSON.stringify(user));
+                    object.full_name = user.full_name;
+                    object.email = user.email;
+                    object.phone = user.phone_number;
+                    object.street = user.address.street;
+                    object.city = user.address.city;
+                    object.state = user.address.state;
+                    object.zip = user.address.zip;
 
-                            res.setHeader('Content-Type', 'application/json');
-                            res.send(JSON.stringify(object));
-                        }
-                    });
-            }
-        });
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send(JSON.stringify(object));
+                }
+            });
     }
 
     else {
-        if(!req.body){
+        if (!req.body) {
             console.log('user didnt transfer');
             res.send();
             return '';
@@ -1015,32 +1206,77 @@ app.post('/_accSetting', function (req, res) {
             return '';
         }
         // Update user document from users collection with the new info
-        MongoClient.connect(mongodb_url, function (err, db) {
-            if (err) {
-                console.log('Error: ' + err);
-                res.send(err);
-            }
-            else {
-                db.collection('users').updateOne({_id: userId},
-                    {$set: {
-                            full_name: userData.full_name,
-                            email: userData.email,
-                            phone_number: userData.phone,
-                            "address.street": userData.street,
-                            "address.city": userData.city,
-                            "address.state": userData.state,
-                            "address.zip": userData.zip
-                    }},
-                    function (err) {
-                        if (err) return err;
-                    });
-            }
-        });
-
+        db.collection('users').updateOne({_id: userId},
+            {
+                $set: {
+                    full_name: userData.full_name,
+                    email: userData.email,
+                    phone_number: userData.phone,
+                    "address.street": userData.street,
+                    "address.city": userData.city,
+                    "address.state": userData.state,
+                    "address.zip": userData.zip
+                }
+            },
+            function (err) {
+                if (err) return err;
+            });
     }
+
 });
 //TODO ------------------------------------------------------------------------------------------------------------------
 
+
+// ---------------------------- DELIVERY TIME ------------------------------
+// app.post('/_deliveryTime', function(req, res) {
+//     var userId = req.session.userId;
+//     var ticketId = masters[userId].ticketId;
+//     console.log('IN DELIVERY TIME: ' + req.body.available_time);
+//
+//     if (!userId) {
+//         console.log('err in _DeliverTime, no user');
+//         res.status(500);
+//         res.send('');
+//     }
+//     else if (!ticketId) {
+//         console.log('err in _DeliverTime, no ticketId');
+//         res.status(500);
+//         res.send('');
+//     }
+//     else {
+//         db.collection('users').update({'grocery_list._id': ticketId},
+//             {
+//                 $set: {
+//                     'available_time': req.body.available_time
+//                 }
+//             },
+//             {multi: true},
+//             function(err) {
+//                 if (err) {
+//                         console.log('error updating db in _deliveryTime: ' + err);
+//                         res.status(500);
+//                         res.send('');
+//                     }
+//                     else {
+//                         db.collection('grocery_queue').update({_id: ticketId},
+//                             {
+//                                 $set: {
+//                                     available_time: req.body.available_time
+//                                 }
+//                             }, function(err) {
+//                                 if (err) {
+//                                     console.log('Error updating db in _deliveryTime: ' + err);
+//                                     res.status(500);
+//                                     res.send('');
+//                                 }
+//                             });
+//                     }
+//             }
+//         );
+//     }
+//     res.send('success');
+// });
+// -----------------------------------------------------------------------
 
 // ---------------------------------------------------- SHOPPING/SAVE GROCERY LIST ----------------------------------
 
@@ -1131,19 +1367,13 @@ app.post('/_accSetting', function (req, res) {
 //TODO -------------------------------------------------------------------------
 
 
-
 //------------------------------------------------------------checkout---------------------------------------------
 //may be update database in checkout,???
 app.post('/_checkout', function (req, res, next) {
     var date = new Date();
     var userId = req.session.userId;
 
-    // if (req.body.notesTime) {
-    //     masters[userId]["_checkout"].data.list_id = req.body.notesTime.id;
-    //     masters[userId]["_checkout"].data.special_options = req.body.notesTime.notes;
-    //     masters[userId]["_checkout"].data.available_time_start = req.body.notesTime.range1;
-    //     masters[userId]["_checkout"].data.available_time_end = req.body.notesTime.range2;
-    db.collection('users').findOne({_id: userId}, function(err, user) {
+    db.collection('users').findOne({_id: userId}, function (err, user) {
         // Model for grocery list
         if (err) {
             console.log('Err in _checkout: ' + err);
@@ -1159,10 +1389,15 @@ app.post('/_checkout', function (req, res, next) {
         }
 
         console.log('USER ID = ' + user._id);
-
         var listId = user._id + date.getTime();
         console.log('Setting masters[userId].ticketId!');
         masters[userId].ticketId = listId;
+
+        var shoppingcart = req.body.list;
+        var checkofflist = {};
+
+        for (var i = 0; i < shoppingcart; i++)
+            checkofflist[shoppingcart[i]] = false;
 
         var gticket = {
             _id: listId,
@@ -1184,62 +1419,29 @@ app.post('/_checkout', function (req, res, next) {
                 phone_number: ''
             },
             store_name: req.body.store_name,
-            shopping_list: req.body.list,
+            shopping_list: shoppingcart,
+            /*checkoff_list: checkofflist,*/
             time_created: date.toLocaleDateString() + ' ' + date.toLocaleTimeString(),
             time_accepted: '',
             // Why are these from ['_accSetting'] ?
             special_options: req.body.options.checkout_notes,
+            // May not use start/end time
             available_time_start: req.body.options.checkout_range1,
             available_time_end: req.body.options.checkout_range2,
-            state: 'pending'
+            available_time: "req.body.available_time",
+            state: 'pending',
+            price: '',
+            geolocation: {
+                lat: req.body.geo_location.lat,
+                lng: req.body.geo_location.lng
+            }
         };
 
-        // Check that empty list was not sent
-        if (gticket.shopping_list.length === 0) {
-            console.log('Grocery ticket submitted has no items');
-            res.status(500);
-            res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify({message: 'Submitted empty list'}));
-            return;
-        }
-
-        // Check that user is logged in
-        if (!req.session.passport || !req.session.passport.user) {
-            console.log('user is not logged in');
-            res.status(500);
-            res.setHeader('Content-Type', 'application/json');
-            res.send({message: 'user is not logged in'});
-        }
-        else {
-            // Update user to hold grocery list submitted
-            db.collection('users').updateOne({_id: req.session.passport.user}, {$push: {grocery_list: gticket}},
-                function (err) {
-                    if (err) {
-                        console.log('error updating user grocery list');
-                        res.status(500);
-                        res.setHeader('Content-Type', 'application/json');
-                        res.send(err);
-                        return;
-                    }
-
-                    // If grocery list successfully added to user's grocery list, add list to queue
-                    db.collection('grocery_queue').insert(gticket, function (err) {
-                        if (err) {
-                            console.log('error adding list to queue: ' + err);
-                            res.status(500);
-                            res.setHeader('Content-Type', 'application/json');
-                            res.send(err);
-                        }
-                    });
-                    res.setHeader('Content-Type', 'application/json');
-                    res.send("Successful");
-                }
-            );
-        }
+        masters[userId].ticket = gticket;
+        //res.setHeader('Content-Type', 'application/json');
+        res.send("Successful");
     });
 
-    // }
-    //res.send("Fail");
 });
 //TODO -------------------------------------------------------------------------
 
@@ -1247,24 +1449,110 @@ app.post('_homePage', function (req, res, next) {
 
 });
 
-// TODO: Update ticket in users and grocery_queue collection to update status of item (bought or not) - low priority
+app.post('/driverListUpdate', function (req, res) {
+
+    var ticketId = req.body.ticketId;
+
+    if (!ticketId) {
+        console.log('In driverListUpdate err');
+        res.status(500);
+        res.send('');
+
+    } else {
+        db.collection('users').findOne({'grocery_list._id': ticketId}, function (err, user) {
+
+            if (err) {
+                console.log('Err in driverListUpdate: ' + err);
+                res.status(500);
+                res.send('');
+            } else if (!user) {
+                console.log('User cannot be found in driverListUpdate: ' + user);
+                res.status(500);
+                res.send('');
+            } else {
+                var index = -1;
+                for (var i = 0; i < user.grocery_list.length; i++) {
+                    if (user.grocery_list[i]._id == ticketId) {
+                        index = i;
+                        break;
+                    }
+                }
+
+                if (index == -1) {
+                    console.log('could not find ticket with id: ' + ticketId + ' in driverListUpdate');
+                    res.status(500);
+                    res.send('');
+                }
+                else {
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send(JSON.stringify({
+                        full_name: user.grocery_list[i].shopper.full_name,
+                        items: user.grocery_list[i].shopping_list,
+                        contact: user.phone_number,
+                        special_notes: user.grocery_list[i].special_notes
+                    }));
+                }
+            }
+        });
+    }
+});
+
 //-----------------------------------------------------DRIVER LIST -----------------------------------------
 app.post('/_driverList', function (req, res, next) {
     var object = {};
-    var userId = req.session.userId;
+    var ticketId = req.body.ticketId;
+    console.log('ticketId = ' + ticketId);
 
-    if (userId) {
-        object.notes = masters[userId]["_checkout"].data.special_options;
-        object.items = masters[userId]["_"].data.items;   //TODO where is items located?
-        object.name = masters[userId].name;
-        object.contact = masters[userId].phone;
-        res.send(object);
+    if (ticketId) {
+        // object.notes = masters[userId]["_checkout"].data.special_options;
+        // object.items = masters[userId]["_"].data.items;   //TODO where is items located?
+        // object.name = masters[userId].name;
+        // object.contact = masters[userId].phone;
+        //res.send(object);
 
-        //TODO maybe get from database or from session
+        db.collection('users').update({
+                'grocery_list._id': ticketId
+            },
+            {
+                $set: {
+                    'grocery_list.$.state': 'purchased'
+                }
+            },
+            {
+                multi: true
+
+            }, function (err) {
+
+                if (err) {
+                    console.log('Error in _driverList: ' + err);
+                    res.status(500);
+                    res.send('');
+                    return;
+                }
+
+
+                // if (!user) {
+                //     console.log('Error cannot find user in _driverList with id: ' + userId);
+                //     res.status(500);
+                //     res.send('');
+                // }
+                // else {
+                //     console.log('found user in driverList: ' + user);
+                //     res.setHeader('Content-Type', 'application/json');
+                //     var index;
+                //
+                //     for (var i = 0; i < user.grocery_list.length; i++) {
+                //         if (user.grocery_list[i]._id == ticketId) {
+                //             index = i;
+                //             break;
+                //         }
+                //     }
+                // }
+            });
+
+        console.log('Successfully updated tickets in user db');
+        res.send('');
     }
-
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify({message: 'Fail, not login'}));
 });
 
 
@@ -1298,40 +1586,20 @@ app.post('/_history', function (req, res, next) {
                 res.send('');
             }
             else {
-                var i;
-                var shopping_hist = doc.user_history;
-                var pending_shopping_list = doc.grocery_list;
-                var user_data = [];
-
-                for (i = 0; i < shopping_hist.length; i++) {
-                    user_data.push({
-                        id: shopping_hist[i]._id,
-                        name: shopping_hist[i].store_name,
-                        time: shopping_hist[i].time_created,
-                        state: 'delivered'              // TODO: need to update status on database
-                    });
-                }
-
-                for (; i < pending_shopping_list.length; i++) {
-                    user_data.push({
-                        id: pending_shopping_list[i]._id,
-                        name: pending_shopping_list[i].store_name,
-                        time: pending_shopping_list[i].time_created,
-                        state: 'pending'
-                    });
-                }
-
-                res.setHeader('Content-Type', 'application/json');
-                res.send(JSON.stringify({data: user_data}));
+                //res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify({
+                    user_history: doc.user_history,
+                    pending_list: doc.grocery_list
+                }));
             }
         });
     }
 });
 
 
-
 // ---------------------------- YOUR DELIVERIES -------------------------------
-app.post('_yourDeliveries', function(req, res) {
+app.post('/_yourDeliveries', function (req, res) {
+    console.log(req.url);
     var userId = req.session.userId;
 
     if (!userId) {
@@ -1346,36 +1614,18 @@ app.post('_yourDeliveries', function(req, res) {
                 res.status(500);
                 res.send('');
             }
-            else if (!doc) {
+            else if (doc == null) {
                 console.log('Could not find user with userId: ' + userId + ' in _yourDeliveries');
                 res.status(500);
                 res.send('');
             }
             else {
-                var i;
-                var delivery_history = doc.delivery_history;
-                var pending_delivery_list = doc.delivery_list;
-                var user_data = [];
-
-                for (i = 0; i < delivery_history.length; i++) {
-                    user_data.push({
-                        id: delivery_history[i]._id,
-                        name: delivery_history[i].store_name,
-                        time: delivery_history[i].time_created,
-                        state: 'delivered'
-                    });
-                }
-                for (; i < pending_delivery_list.length; i++) {
-                    user_data.push({
-                        id: pending_delivery_list[i]._id,
-                        name: pending_delivery_list[i].store_name,
-                        time: pending_delivery_list[i].time_created,
-                        state: 'pending'
-                    });
-                }
-
+                console.log('Sending data back to _yourDeliveries.js');
                 res.setHeader('Content-Type', 'application/json');
-                res.send(JSON.stringify({data: user_data}));
+                res.send(JSON.stringify({
+                    user_history: doc.user_history,
+                    pending_list: doc.grocery_list
+                }));
             }
         });
     }
@@ -1386,67 +1636,56 @@ app.post('_yourDeliveries', function(req, res) {
 
 // ---------------------------- VIEW TICKET -------------------------------
 // Update status of ticket
-app.post('/_viewTicket', function(req, res) {
+app.post('/_viewTicket', function (req, res) {
     var userId = req.session.userId;
-    var ticketId;
+    var ticketId = req.body.ticketId;
 
     if (!userId) {
         console.log('In _viewTicket: userId is null');
         res.status(500);
         res.send('');
     }
-    else if (!masters[userId].ticketId){
+    else if (!ticketId) {
         console.log('In _viewTicket: masters[userId].ticketId is null');
         res.status(500);
         res.send('');
     }
     else {
-        ticketId = masters[userId].ticketId;
-
         db.collection('users').update(
             {
-                _id: userId,
+                //_id: userId,
                 'grocery_list._id': ticketId
             },
             {
                 $set: {
                     'grocery_list.$.state': 'accepted'
                 }
-            }, function(err, result) {
-                    // Get the user that we just modified
-                    db.collection('users').findOne({_id: userId}, function(err, user) {
-                        if (!user) {
-                            console.log('In _viewTicket: could not find user with corresponding ticketId: ' + ticketId);
+            },
+            {
+                multi: true
+            }, function (err, result) {
+                // Get the user that we just modified
+                db.collection('users').findOne({_id: userId}, function (err, user) {
+                    if (!user) {
+                        console.log('In _viewTicket: could not find user with corresponding ticketId: ' + ticketId);
+                        res.status(500);
+                        res.send('');
+                        return;
+                    }
+
+                    db.collection('grocery_queue').remove({_id: ticketId}, function (err) {
+                        if (err) {
+                            console.log('In _viewTicket: could not remove ticket from queue: ' + ticketId);
                             res.status(500);
                             res.send('');
                             return;
                         }
 
-                        db.collection('grocery_queue').remove({_id: ticketId}, function(err) {
-                            if (err) {
-                                console.log('In _viewTicket: could not remove ticket from queue: ' + ticketId);
-                                res.status(500);
-                                res.send('');
-                                return;
-                            }
-
-                            var list_of_items;
-                            console.log(user);
-                            for (var i = 0; i < user.shopping_list.length; i++) {
-                                if (user.shopping_list[i]._id === ticketId) {
-                                    list_of_items = user.shopping_list[i].shopping_list;
-                                    break;
-                                }
-                            }
-                            res.setHeader('Content-Type', 'application/json');
-                            res.send(JSON.stringify({
-                                id: ticketId,
-                                full_name: user.full_name,
-                                items: list_of_items
-                            }));
-                        });
+                        console.log('Successfully removed ticket from queue with id: ' + ticketId);
                     });
-            });
+                });
+            }
+        );
     }
 });
 
@@ -1455,7 +1694,7 @@ app.post('/_viewTicket', function(req, res) {
 
 // ---------------------------- TICKETS/QUEUE -------------------------------
 // Queue page
-app.post('/_tickets', function(req, res) {
+app.post('/_tickets', function (req, res) {
     var userId = req.session.userId;
 
     if (!userId) {
@@ -1464,8 +1703,8 @@ app.post('/_tickets', function(req, res) {
         res.send('');
     }
     else {
-        db.collection('grocery_queue').find().toArray(function(err, docs) {
-            if (err){
+        db.collection('grocery_queue').find().toArray(function (err, docs) {
+            if (err) {
                 console.log('Error in _tickets: ' + err);
                 res.status(500);
                 res.send('');
@@ -1479,21 +1718,189 @@ app.post('/_tickets', function(req, res) {
 // --------------------------------------------------------------------------
 
 
-
 //------------------------------ PAYMENT ------------------------------------
-app.get('/complete-payment', function(req, res) {
+app.get('/complete-payment', function (req, res) {
     var userId = req.query.user;
-    //TODO: send to database masters[userId].ticket;
+    console.log(userId);
+    //
+    var gticket = masters[userId].ticket;
+    
+    for (var i = 0; i < gticket.shopping_list.length; i++) {
+        console.log(gticket.shopping_list[i]);
+    }
+    console.log('GTICKET = ' + JSON.stringify(gticket));
+    // Check that empty list was not sent
+    if (gticket.shopping_list.length == 0) {
+        console.log('Grocery ticket submitted has no items');
+        res.status(500);
+        res.send('');
+        return;
+    }
 
-    //actually submit and redirect to fetchgrocery.com#_submitted
+
+    // Update user to hold grocery list submitted
+    db.collection('users').updateOne({_id: userId}, {$push: {'grocery_list': gticket}},
+        function (err) {
+            if (err) {
+                console.log('error updating user grocery list: ' + err);
+                res.status(500);
+                //res.setHeader('Content-Type', 'application/json');
+                res.send('');
+            }
+            else {
+                // If grocery list successfully added to user's grocery list, add list to queue
+                db.collection('grocery_queue').insert(gticket, function (err) {
+                    if (err) {
+                        console.log('error adding list to queue: ' + err);
+                        res.status(500);
+                        //res.setHeader('Content-Type', 'application/json');
+                        res.send('');
+                    }
+                    else {
+                        res.redirect('/submittedRedirect.html');
+                    }
+                });
+            }
+        }
+    );
 });
 
-app.get('/cancel-payment', function(req, res) {
+app.get('/cancel-payment', function (req, res) {
     var userId = req.query.user;
-    //actually submit and redirect to fetchgrocery.com#_cancelled
+    res.redirect('/cancelRedirect.html');
 });
 
-MongoClient.connect(mongodb_url, function(err, database) {
+
+//---------------------------- Price and Receipt Photo ------------------------
+app.post('/_receiptPictureEnterPrice', function (req, res) {
+    //send price and receipt to the database
+    var price = req.body.price;
+    var ticketId = req.body.ticket;
+    //update shopper's grocery list
+    db.collection('users').updateOne({'grocery_list._id': ticketId},
+        {
+            $set: {
+                price: price
+            }
+        },
+        function (err) {
+            if (err) return err;
+        }
+    );
+
+    var img = (req.body.image);
+    var data = img.replace(/^data:image\/\w+;base64,/, "");
+
+    var buf = new Buffer(data, 'base64');
+    //noinspection JSUnresolvedFunction
+    if (req.session.userId === 'undefined')
+        fs.writeFile('images/receipts/image.png', buf, function(err) {
+            if (err)
+                throw err;
+            console.log("Photo saved");
+        });
+    else
+        fs.writeFile('images/receipts/' + ticketId + '.png', buf, function(err) {
+            if (err)
+                throw err;
+            console.log("Photo saved");
+        });
+
+    console.log("Photo Saved: " + data.substring(0, 10));
+    /*fs.writeFile("images/profiles/" + req.session.userId + ".png", req.body.image,"base64", function (err, data ) {
+     if (err) {
+     return console.log("Error");
+     }
+     console.log("Photo saved. Success!");}
+     );*/
+    res.send("");
+
+});
+
+
+//-------------------------- Contact -----------------------------------
+app.post('/_contact', function (req, res) {
+    var Transport = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: 'fetchtestuser',
+            pass: 'insanelycreatives'
+        }
+    });
+    var mailOptions = {
+        to: 'allen@fetchgrocery.com',
+        from: 'fetchtestuser@gmail.com',
+        subject: 'User Contact from ' + req.body.email + ', ' + req.body.name,
+        text: req.body.comment
+    };
+    console.log('Sending Mail');
+    Transport.sendMail(mailOptions, function (err, info) {
+        if (err) {
+            console.log('Error occurred');
+            console.log(err.message);
+            res.status(500);
+            return;
+        }
+    });
+});
+
+
+//------------------------------ MAP --------------------------------------------
+app.post('/_map', function (req, res) {
+    if (!req.body) {
+        console.log('geoloc was not sent');
+        res.status(500);
+        return;
+    }
+    var lat = req.body.lat;
+    var lng = req.body.lng;
+
+    var ticketId = req.body.ticket;
+
+    db.collection('users').updateOne({'grocery_list._id': ticketId},
+        {
+            $set: {
+                'geolocation.lng': lng,
+                'geolocation.lat': lat
+            }
+        },
+        function (err) {
+            if (err) return err;
+        }
+    );
+});
+
+app.post('/_driverMap', function (req, res) {
+    var geolocation = {};
+    db.collection('users').findOne({'grocery_list._id': ticketId},
+        function (err, ticket) {
+            if (err) {
+                console.log('Error in accSetting: ' + err);
+                res.status(500);
+                res.setHeader('Content-Type', 'application/json');
+                res.send({message: 'cannot access collection to find user '})
+                return;
+            }
+            //console.log('user = ' + JSON.stringify(user));
+            if (ticket == null) {
+                console.log('Could not find user with userId ' + userId + ' in _accSetting');
+                console.log(JSON.stringify(ticket));
+                res.status(500);
+                res.send('');
+                return;
+            }
+            else {
+                geolocation.lat = ticket.geolocation.lat;
+                geolocation.lng = ticket.geolocation.lng;
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify(geolocation));
+            }
+        }
+    );
+});
+
+
+MongoClient.connect(mongodb_url, function (err, database) {
     if (err)
         throw err;
     mongoose.connect(mongodb_url);

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Fetch</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -14,27 +15,35 @@
 
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
-
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
 
     <script src="js/underscore.js"></script>
     <script src="js/loader.js"></script>
+
+    <script src="js/map.js"></script>
+    <!-- changes background every 30 seconds -->
+    <script src="js/_backgroundImage.js"></script>
+
 </head>
 <body style="overflow: hidden; position: relative;">
+<div id="notifications">
 
+</div>
+<div id="chats">
+
+</div>
 <div id="User">
-    <div class="container">
+    <div class="jumbotron text-center">
         <div class="row">
-            <div id="Glyph" class="col-xs-3">
-                <div id="open-menu-drawer"><span
-                        class="glyphicon glyphicon-menu-hamburger"></span></div>
+            <div id="Glyph" class="col-xs-1 col-xs-offset-1">
+                <div id="index_login_top"><a style="text-decoration:none"onclick="goToPage('_login')"><h4>LOGIN</h4></a> </div>
+                <div id="open-menu-drawer"><span class="glyphicon glyphicon-menu-hamburger"></span></div>
             </div>
-
-            <div id="Fetch" class=" text-center col-xs-6">
+            <div id="Fetch" class=" text-center col-xs-8">
                 <div id="title">Fetch</div>
             </div>
             <div class="col-xs-3"></div>
-
         </div>
     </div>
 </div>
@@ -46,13 +55,19 @@
 <div id="menu-drawer" class="cd-panel from-left" style="z-index: 3000">
     <div class="cd-panel-container">
         <div id="panel-Header" class="">
-            <div class="container-name">
+            <div class="container-name" id="User-Info">
                 <div class="div1" onclick="goToPage('_accSetting')"><img class="img-circle" id="index-image-user"
                                                                          src="placeholder/person4.png"></div>
-                <div class="div2" id="index_user-name">hell</div>
+                <div class="div2" id="index_user-name"></div>
                 <div>
                     <span id="toggling">Shopper</span>
-                    <span id="toggleButton" onclick="toggles();" class="toggle-button">
+                    <span style="top:10px" id="toggleButton" class="switch">
+                        <label>
+                            <input type="checkbox"onclick="toggles();">
+                            <span class="lever" style="top:15px"></span>
+                        </label>
+                    </span>
+                    <!--<span id="toggleButton" onclick="toggles();" class="toggle-button">-->
                         <button></button>
                     </span>
                 </div>
@@ -85,8 +100,15 @@
             }
         }
     }
+
     function goToPreviousPage() {
         goToPage(loader.previousPage, true);
+    }
+
+    function createNotification(text, page, icon) {
+        var onClick = "loader.closeNotification('" + page + "', this);";
+        return '<div class="notification-inner" data-changePage="true" onclick="' + onClick + '"><div class="icon"><i class="material-icons">'
+                + icon + '</i></div><div class="text">' + text + '</div></div>';
     }
 
     var ticketPrototype = {
@@ -109,6 +131,16 @@
             checkoff: []
         }
     };
+
+
+    var chatProto = {
+        username: {
+            messages: [""],
+            isOpen: false,
+            name: ""
+        },
+        username1: []
+    }
     var loader = {
         activeCyclesLeft: 20,
         isDriver: false,
@@ -117,6 +149,126 @@
         pageCount: 0,
         previousPage: "_homePage",
         currentPage: "_homePage",
+        notificationCount: 0,
+        chatCount: 0,
+        chat: {},
+        notificationSound: new Audio('/notify.mp3'),
+        appendChat: function (id, arr, name) {
+            if (!loader.chat.hasOwnProperty(id)) {
+                loader.chat[id] = {
+                    messages: [],
+                    isOpen: false,
+                    name: name
+                };
+                var u = loader.chat[id];
+//                for (var i = 1; i < arr.length; i++) {
+//                    u.messages.push(arr[i]);
+//                }
+//                loader.openChat(id, arr[0])
+            }
+            else if (!loader.chat[id].isOpen) {
+                var u = loader.chat[id];
+                for (var i = 0; i < arr.length; i++) {
+                    u.messages.push(arr[i]);
+                }
+                loader.openChat(id, u.name);
+            }
+            else {
+                var u = loader.chat[id];
+                var chat = $(document.getElementById('chatForm' + id).parentNode.parentNode).find('.window');
+                for (var i = 0; i < arr.length; i++) {
+                    u.messages.push(arr[i]);
+                    console.log(arr[i]);
+                    chat.append(arr[i]);
+                }
+
+                $('#chatWindow' + id).scrollTop(100000);
+            }
+            loader.notificationSound.play();
+        },
+        openChat: function (id, name) {
+            if (!loader.chat.hasOwnProperty(id)) {
+                loader.chat[id] = {
+                    messages: [],
+                    isOpen: false,
+                    name: name
+                };
+            }
+
+            var c = loader.chat[id];
+            if (!c.isOpen) {
+                c.isOpen = true;
+                //TODO: otherwise open and load existing array
+                var e = document.createElement('div');
+                e.className = "chat";
+                var min = 'onclick="loader.minimizeChat(this.parentNode.parentNode);"';
+                var onClick = "loader.closeChat(this.parentNode.parentNode);";
+                e.innerHTML = '<div class="chat-head"  data-closed="false" >' +
+                        '<div class="chat-profile" ' + min + '>' + '<span class="glyphicon medium glyphicon-user"></span>' + '</div>' +
+                        '<div class="chat-name" ' + min + '>' + name + '</div>' +
+                        '<div class="chat-close" onclick="' + onClick + '"><span class="glyphicon medium glyphicon-remove"></span></div></div>' +
+                        '<div class="window" id="chatWindow' + id + '"></div>' +
+                        '<div class="input">' +
+                        '<div class="photo"><span class="glyphicon medium glyphicon-picture"></span></div>' +
+                        '<form class="chatForm" id="chatForm' + id + '"  data-userid="' + id + '">' +
+                        '<input autocomplete="off" name="message" type="text" id="enter_price" placeholder="Enter a message...">' +
+                        '</form></div>';
+
+                $(e).find('.chatForm').submit(function (event) {
+                    event.preventDefault();
+
+                    var input = $(this).find('input');
+                    var message = $(input).val();
+                    if (message.length > 0) {
+
+                        var parent = $(this).parent();
+                        var content = '<div class="ours"><div>' + message + '</div></div>';
+                        $(parent).parent().find('.window').append(content);
+                        $.ajax({
+                            type: "POST",
+                            url: "/chat",
+                            contentType: "application/json",
+                            dataType: "json",
+                            data: JSON.stringify({
+                                userIdToChat: $(this).data('userid'),
+                                message: message
+                            })
+                        });
+                        c.messages.push(content);
+                        test = w;
+                        $('#chatWindow' + id).scrollTop(100000);
+                        $(input).val("");
+                    }
+                    return false;
+                });
+
+
+                var w = $(e).find('.window');
+                var m = c.messages;
+                for (var i = 0; i < m.length; i++) {
+                    $(w).append(m[i]);
+                }
+
+                $('#chats').append(e);
+                $('#chatWindow' + id).scrollTop(100000);
+            }
+
+        },
+        minimizeChat: function (parent) {
+            $(parent).toggleClass("min");
+        },
+        closeChat: function (parent) {
+            var id = $(parent).find('.chatForm').data('userid');
+            loader.chat[id].isOpen = false;
+            $(parent).remove();
+        },
+        loadMap: function (mapId, loc) {
+            loader.map = document.getElementById(mapId);
+            loader.loc = loc;
+            $(loader.map).append('<script async defer ' +
+                    ' src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBmhEjZ6m4l05dajXYQ0fbMPdm2-wg9-U&callback=initializeMap" >' +
+                    '<\/script>')
+        },
         currentPageObject: {
             getData: null,
             loadData: null,
@@ -162,114 +314,62 @@
                 loader.goToPage(page);
             }
         },
-//        updateShopping: function(){
-//        //    if (loader.currentPage == "_shopping") {
-//
-//                $.ajax({
-//                    type: "POST",
-//                    contentType: "application/json",
-//                    dataType: "json",
-//                    url: "/_shopping",
-//                    data: JSON.stringify({
-//                        version: loader._shopping.version,
-//                        list: loader._shopping.getData(),
-//                        checkoutVersion: loader._checkout.version,
-//                        checkout: loader._checkout.getData()
-//                    }),
-//                    success: function (data) {
-//                        if (data && data.list) {
-//                            loader._shopping.loadData(data.list);
-//                            loader._shopping.version = data.version;
-//                        }
-//                        if(data && data.checkout){
-//                            loader._checkout.loadData(data.checkout);
-//                            loader._checkout.version = data.checkoutVersion;
-//                        }
-//                    }
-//                });
+        updateShopping: function () {
 
-//            if(loader.currentPage == "_checkout"){
-//               console.log(loader._checkout.getData().checkout_notes);
-//                $.ajax({
-//                    type: "POST",
-//                    contentType: "application/json",
-//                    dataType: "json",
-//                    url: "/_shopping",
-//                    data: JSON.stringify({
-////                        version: loader._shopping.version,
-////                        list: loader._shopping.getData(),
-//                        checkoutVersion: loader._checkout.version,
-//                        checkout: loader._checkout.getData()
-//                    }),
-//                    success: function (data) {
-//                        if (data.checkout) {
-//                            loader._checkout.loadData(JSON.parse(data.checkout));
-//                            loader._checkout.version = data.checkoutVersion;
-//                            //loader._shopping.version = data.version;
-//                        }
-//                    }
-//                });
-//            }
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                url: "/_shopping",
+                data: JSON.stringify({
+                    shoppingVersion: loader._shopping.version,
+                    list: loader._shopping.getData(),
+                    checkoutVersion: loader._checkout.version,
+                    checkout: loader._checkout.getData()
+                }),
+                success: function (data) {
+                    if (data.list) {
+                        loader._shopping.loadData(data.list);
+                        loader._shopping.version = data.shoppingVersion;
+                        //loader._shopping.version = data.version;
+                    }
+                    if (data.checkout) {
+                        loader._checkout.loadData(data.checkout);
+                        loader._checkout.version = data.checkoutVersion;
+                    }
+                    if (data.currentPage != loader.currentPage) {
+                        loader.setCurrentPage(data.currentPage, whatever);
+                    }
+                }
+            });
+        },
 
-        //},
-        //Saves current active ticket (if any), then fetches new one and loads page data corresponding to ticket status in back end store
-//        sendData: function () { //Gets data from page and sends to server for update. Server will send back version num
-//            if (loader.currentPageObject.getData != null) {
-//                loader.currentPageObject.data = loader.currentPageObject.getData();
-//                $.ajax({
-//                    type: "POST",
-//                    contentType: "application/json",
-//                    dataType: "json",
-//                    url: "/sendData",
-//                    data: JSON.stringify({
-//                        name: loader.currentPage,
-//                        data: loader.currentPageObject.data,
-//                        version: loader.currentPageObject.version
-//                    }), success: function (resp) {
-//                        if (loader.currentPageObject.version < resp) {
-//                            loader.currentPageObject.version = resp;
-//                        }
-//                    }
-//                });
-//            }
-//        },
-//        loadData: function () { //Gets data from server to load page with
-//            if (loader.currentPageObject.loadData != null) {
-//                $.ajax({
-//                    type: "POST",
-//                    contentType: "application/json",
-//                    dataType: "json",
-//                    url: "/loadData",
-//                    data: JSON.stringify({
-//                        name: loader.currentPage,
-//                        version: loader.currentPageObject.version
-//                    }),
-//                    success: function (resp) {
-//                        if (resp != "none") {
-//                            loader.currentPageObject.data = resp.data;
-//                            loader.currentPageObject.version = resp.version;
-//                            loader.currentPageObject.loadData();
-//                        }
-//                    }
-//                });
-//            }
-//        },
-        currentPageChanged: function(){
-            if(loader.currentPage == "_shopping" || loader.currentPage == "_checkout"){
-                //alert ("alert");
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json",
-                    dataType: "json",
-                    url: "/_shopping",
-                    data: JSON.stringify({
-                        shoppingVersion: loader._shopping.version,
-                        list: loader._shopping.getData(),
-                        checkoutVersion: loader._checkout.version,
-                        checkout: loader._checkout.getData()
-                    })
-                });
+        currentPageChanged: null,
+        addNotification: function (notification) {
+            var e = document.createElement('div');
+            e.className = "notification";
+            e.innerHTML = notification;
+            document.getElementById("notifications").appendChild(e);
+            setTimeout(function () {
+                $(e).css("transform", "translateX(-400px)")
+                loader.notificationSound.play();
+            }, 100);
+            setTimeout(function () {
+                e.firstChild.dataset.changepage = "false";
+                $(e).children().trigger("click");
+            }, 10000);
+        },
+
+        closeNotification: function (page, element) {
+
+            var p = element.parentNode;
+            p.style.transform = "translateX(0)";
+            if (element.dataset.changepage == "true") {
+                goToPage(page);
             }
+            setTimeout(function () {
+                p.parentNode.removeChild(p);
+            }, 600);
         },
         //set to run every second elsewhere
         getUpdates: function () {
@@ -277,31 +377,43 @@
             //Only update if not active
             if (loader.isLoggedIn && loader.userId.length > 1) {
                 //keep updating no matter what
-                loader.currentPageChanged();
+                if (loader.currentPage == "_shopping" || loader.currentPage == "_checkout") {
+                    loader.updateShopping();
+                }
                 if (loader.activeCyclesLeft > 0) {
                     loader.activeCyclesLeft--;
                 }
-                else {
-                    $.ajax({
-                        type: "POST",
-                        contentType: "application/json",
-                        dataType: "json",
-                        url: "/getUpdates",
-                        data: JSON.stringify({
-                            shoppingVersion : loader._shopping.version,
-                            checkoutVersion: loader._checkout.version
-                        }),
-                        success: function (data) {
-                            alert(JSON.stringify(data.list));
-                            if(data.list != null){
-                                loader._shopping.version = data.shoppingVersion;
-                                loader._shopping.loadData(data.list);
-                            }
-                            if(data.checkout != null){
-                                loader._checkout.loadData(data.checkout);
-                                loader._checkout.version = data.checkoutVersion
-                            }
 
+                //Get all chat lengths
+                var chats = {};
+                var c = loader.chat;
+                for (var user in c) {
+                    chats[user] = c[user].messages.length;
+                }
+
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        chat: chats,
+                        isInactive: loader.activeCyclesLeft <= 0,
+                        notification: loader.notificationCount
+                    }),
+                    url: "/getUpdates",
+                    success: function (data) {
+                        //Notifications
+                        if (data.notification != null) {
+                            loader.notificationCount += data.notification.length;
+                            data.notification.forEach(loader.addNotification);
+                        }
+                        var c = data.chat;
+                        for (var user in c) {
+                            loader.appendChat(user, c[user], c[0]); //If new, first element in array should be username
+                        }
+
+                        if (data.isInactive) {
                             loader.ticketId = data.ticketId;
                             if (!data.isLoggedIn) {
                                 loader.logout();
@@ -317,20 +429,19 @@
                                     return;
                                 }
                             }
-
                             if (data.currentPage != loader.currentPage) {
                                 goToPage(data.currentPage)
                             }
-
                         }
-                    });
-                }
+                    }
+                });
+
             }
         },
         login: function (data) { //Called after successful login, passing the returned data
+
             console.log("login");
             console.log(data);
-
             var d = new Date();
             d.setTime(d.getTime() + (1000 * 24 * 60 * 60 * 1000));
             document.cookie = "user=" + data.userId + ";expires=" + d.toUTCString();
@@ -341,7 +452,12 @@
                 loader.isDriver = false;
                 loader.ticketId = "";
                 //goToPage("_homePage");
-                goToPage(loader.previousPage);
+                if(loader.previousPage != "_login" || loader.previousPage != "_signUp"){
+                    goToPage(loader.previousPage);
+                }
+                else{
+                    goToPage("_homePage");
+                }
             }
             else {
                 loader.userId = data.userId;
@@ -364,12 +480,12 @@
                         goToPage("_history");
                         break;
                     default:
-                        goToPage(data.currentPage);
+                        goToPage("_homePage");//data.currentPage);
                 }
 
             }
 
-            window.setInterval(loader.getUpdates, 251);
+            window.setInterval(loader.getUpdates, 501);
 
 
         },
@@ -415,7 +531,57 @@
     //loader.currentPageChanged = _.throttle(loader.sendData, 501);
 
 
-    $("document").ready(function () {
+    function initializeMap() {
+//        var directionsService = new google.maps.DirectionsService();
+//        var directionsDisplay = new google.maps.DirectionsRenderer();
+        var geocoder = new google.maps.Geocoder;
+        var infowindow = new google.maps.InfoWindow;
+
+        var latLng = {lat: loader.loc.lat, lng: loader.loc.lng};
+        var mapOptions = {
+            zoom: 17,
+            center: latLng
+        };
+        var map = new google.maps.Map(loader.map, mapOptions);
+//        directionsDisplay.setMap(map);
+        geocoder.geocode({'location': latLng}, function(results, status) {
+            if (status === google.maps.GeocoderStatus.OK) {
+                if (results[1]) {
+                    map.setZoom(17);
+                    var marker = new google.maps.Marker({
+                        position: latLng,
+                        map: map,
+                        title: 'Hello World!'
+                    });
+                    infowindow.setContent(results[1].formatted_address);
+                    infowindow.open(map, marker);
+                }
+            }
+        });
+
+        setTimeout(function () {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var start = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                    //var end = new google.maps.LatLng(data.lat, data.lng);
+                    var end = new google.maps.LatLng(loader.loc.lat, loader.loc.lng);
+                    var request = {
+                        origin: start,
+                        destination: end,
+                        travelMode: google.maps.TravelMode.DRIVING
+                    };
+//                    directionsService.route(request, function (result, status) {
+//                        if (status == google.maps.DirectionsStatus.OK) {
+//                            directionsDisplay.setDirections(result);
+//                        }
+//                    });
+                });
+            }
+        }, 500);
+
+
+    }
+    $(document).ready(function () {
         $(document).on('click mousemove focus keypress', loader.setActive);
 
         pageInit();
@@ -451,6 +617,7 @@
                     console.log("init exists");
                     console.log(data);
                     if (!data.isLoggedIn) {
+
                         loader.userId = data.userId;
                         loader.isLoggedIn = true;
                         loader.isDriver = false;
@@ -458,13 +625,19 @@
                         loader.currentPage = "_homePage";
                     }
                     else {
+                        if (UrlExists('images/profiles/' + data.userId + '.png'))
+                            document.getElementById("index-image-user").src = 'images/profiles/' + data.userId + '.png';
+                        else
+                            document.getElementById("index-image-user").src = 'placeholder/person4.png';
+
+
                         loader.userId = data.userId;
                         loader.isLoggedIn = true;
                         loader.isDriver = data.isDriver;
                         loader.ticketId = data.ticketId;
                         if (window.location.hash.length > 5) {
                             //submit or cancel ticket
-                            goToPage(window.location.hash);
+                            goToPage(window.location.hash.substring(1));
                             window.location.hash = "";
                         }
                         else {
@@ -525,7 +698,7 @@
             }
         });
 
-        $(document).on('click', function (event) {
+        $("#Butt, #User, #page-content").on('click', function (event) {
             if (menuIsVisible) {
                 menuIsVisible = false;
                 $(menuDrawer).removeClass('is-visible');

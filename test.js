@@ -22,6 +22,12 @@ req.session.pages.data //array of data of each page, key is page name
 
  */
 
+app.post('',function(req,res){
+    fs.writeFile("images/profile/" + req.session.userId + ".png", req.body.data, function (err) {
+        if (err) return console.log(err)}
+        ,function(){})
+});
+
 app.post('/loadPage', function (req, res) {
     try {
         fs.readFile(__dirname + "/" + req.body.name +

@@ -1,19 +1,42 @@
-<div id="_shoppingStatus" class="container" style="text-align: center">
-    <h2>Shopping Status</h2>
-    <p>At this moment, <span class = shoppingStatus_driver_name></span> is shopping for your items.</p>
+<div id="_shoppingStatus" class="container box text-center">
     <div class="row">
-        <div class="col-lg-offset-3 col-lg-6 col-sm-offset-3 col-sm-6">
-            <div class="card hovercard">
-                <div class="card-background"></div>
-                <div class="useravatar"></div>
-                <div class="card-info">
-                    <span class="card-title shoppingStatus_driver_name"></span>
-                </div>
+        <div class="col-xs-12">
+            <img class="img-circle" id="shoppingStatus-img" src="placeholder/person5.png">
+            <h2 id="listName_shoppingStatus"></h2>
+        </div>
+
+        <div class="col-xs-12">
+            <ul id="_shoppingStatus_list"></ul>
+            <div class="text-left"  id="_shoppingStatus_numItems"></div>
+        </div>
+
+        <div class="col-xs-12">
+                <div class="text-left" id="shoppingstatus_note"></div>
+                <div class="text-left" id="shoppingstatus_location"></div>
+                <div id="shoppingStatusMap" class="map"></div>
+        </div>
+
+        <div id="shoppingStatusCalendarPart" class="col-xs-12">
+            <div class="text-left" id="shoppingStatusCalendarHeader">Delivery time:</div>
+            <div id="shoppingStatusCalendar"></div>
+        </div>
+
+        <div class="col-xs-12">
+            <div class="row" id="_shoppingStatus_footerInfo">
+
+                <a id="shoppingStatus_list_btn" type="button" class="btn waves-effect orange">
+                    Close
+                </a>
             </div>
         </div>
+
+
+
     </div>
-    <button id="shoppingStatus_list_btn" type="button" class="btn btn-primary">
-        Accepted Grocery List
-    </button>
+
+</div>
+<div class="footerBars container">
+    <div class="footer2"></div>
+    <div class="footer3"></div>
 </div>
 <script src="js/_shoppingStatus.js"></script>
