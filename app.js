@@ -1572,7 +1572,7 @@ app.post('/_driverList', function (req, res, next) {
 
 
 // --------------------------------------- UPDATE TO DELIVERED ------------------------------------------------
-app.post('/updatePurchasedTickets', function (req, res, next) {
+app.post('/_purchasedTickets', function (req, res, next) {
     var userId = req.session.userId;
     var ticketId = req.body.ticketId;
     console.log('ticketId = ' + ticketId);
@@ -1602,7 +1602,7 @@ app.post('/updatePurchasedTickets', function (req, res, next) {
             }
             else {
                 var ticketToRemove = null;
-
+                console.log('IN UPDATEDPURCHASEDTICKETS = ' + ticketId);
                 // Find the ticket to remove from the driver's delivery_list and move to delivery_history
                 for (var i = 0; i < user.delivery_list.length; i++) {
                     if (user.delivery_list[i]._id == ticketId) {
@@ -1712,6 +1712,7 @@ app.post('/_history', function (req, res, next) {
 // ---------------------------- YOUR DELIVERIES -------------------------------
 app.post('/_yourDeliveries', function (req, res) {
     var userId = req.session.userId;
+    console.log('Userid in yourDeliveries: ' + userId);
 
     if (!userId) {
         console.log('In _yourDeliveries: User is not logged in.');
@@ -1987,7 +1988,7 @@ app.post('/_cancelTicket', function (req, res) {
     }
 
     else if(req.body.type == 'cancel') {
-        db.collection('users').updateOne({"grocery_list._id": ticketId},
+        db.collection('users').updateOne({'grocery_list._id': ticketId},
             {
                 $set: {
                     state: 'cancelled'
@@ -2035,7 +2036,7 @@ app.post('/_cancelTicket', function (req, res) {
                     //console.log(JSON.stringify(ticket));
                     object.items = ticket.shopping_list;
                     object.special_note = ticket.special_options;
-                    object.time = ticket.available_time;
+                    object.calendar = ticket.available_time;
                     object.shopping_location = ticket.geolocation;
 
                     res.setHeader('Content-Type', 'application/json');
@@ -2059,7 +2060,7 @@ app.post('/_shoppingStatus', function(req,res) {
     }
     else {
         console.log('LOADING ACCOUNT');
-        db.collection('users').findOne({"grocery_list._id": ticketId},
+        db.collection('users').findOne({'grocery_list._id': ticketId},
             function (err, ticket) {
                 if (err) {
                     console.log('Error in : ' + err);

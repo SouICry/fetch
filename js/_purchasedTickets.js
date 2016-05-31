@@ -66,10 +66,8 @@ var test_data = {
     var array = [];
 
     $("#purchasedTickets_submit_list").click(function () {
-
         confirm("Are you sure you want to close ticket?");
-
-        assholes61323355();
+        assholes6155();
         goToPage("_receiptPictureEnterPrice");
 
     });
@@ -78,10 +76,8 @@ var test_data = {
         goToPage("_yourDeliveries");
     });
 
-    assholes666();
-
     // Used after click submit, update the grocery ticket for the users
-    function assholes61323355() {
+    function assholes6155() {
         var info_to_send = {};
         info_to_send.ticketId = loader._purchasedTickets.data;
         //alert(info_to_send.ticketId);
@@ -92,7 +88,7 @@ var test_data = {
             url: "/_purchasedTickets",
             data: info_to_send,
             success: function (data) {
-                alert('success!!!!!');
+                //alert('success!!!!!');
                 //data is the object sent back on success (could also just be string)
                 //loader._driverList.loadData(data);
             },

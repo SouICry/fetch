@@ -162,7 +162,7 @@
                     isOpen: false,
                     name: name
                 };
-                var u = loader.chat[id];
+//                var u = loader.chat[id];
 //                for (var i = 1; i < arr.length; i++) {
 //                    u.messages.push(arr[i]);
 //                }
@@ -183,13 +183,34 @@
                     console.log(arr[i]);
                     chat.append(arr[i]);
                 }
-
+                $(u).removeClass('min');
                 $('#chatWindow' + id).scrollTop(100000);
             }
             loader.notificationSound.play();
+
+            $('.materialboxed').materialbox();
         },
-        uploadChatImage: function (e, parent) {
-            alert();
+        uploadChatImage: function (input) {
+            console.log(new Date().getTime());
+            var name = new Date().getTime() + ".png";
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                url: "/saveChatImage",
+                data: JSON.stringify({
+                    image: input.files[0],
+                    name: name
+                }),
+                success: function(){
+                    var chat = $(input.parentNode.parentNode.parentNode).find('.chatForm');
+                    chat.find("input").val("<img class='materialboxed' src='/images/chat/" + name +"'/>");
+                    chat.submit();
+                }
+            });
+            var chat = $(input.parentNode.parentNode.parentNode).find('.chatForm');
+            chat.find("input").val("<img class='materialboxed' src='/images/profiles/a.png'/>");
+            chat.submit();
         },
         openChat: function (id, name) {
             if (!loader.chat.hasOwnProperty(id)) {
@@ -208,18 +229,19 @@
                 e.className = "chat";
                 var min = 'onclick="loader.minimizeChat(this.parentNode.parentNode);"';
                 var onClick = "loader.closeChat(this.parentNode.parentNode);";
-                var photo = 'onchange="loader.uploadChatImage(e, this.parentNode.parentNode);"';
+                var photo = 'onchange="loader.uploadChatImage(this);"';
                 e.innerHTML = '<div class="chat-head"  data-closed="false" >' +
-                        '<div class="chat-profile" ' + min + '>' + '<span class="glyphicon medium glyphicon-user"></span>' + '</div>' +
+                        '<div class="chat-profile" ' + min + '>' + '<span class="glyphicon medium glyphicon-user"></span></div>' +
                         '<div class="chat-name" ' + min + '>' + name + '</div>' +
                         '<div class="chat-close" onclick="' + onClick + '"><span class="glyphicon medium glyphicon-remove"></span></div></div>' +
                         '<div class="window" id="chatWindow' + id + '"></div>' +
                         '<div class="input">' +
                         '<div class="photo"> ' +
-                        '<input class="hidden" type="file"' + photo+ '  class="uploadChat" name="imageLoader"/> ' +
-                        '<span class="glyphicon medium glyphicon-picture"></span></div>' +
+                        '<label class="chatUploader" for="chatUpload' + id + '"><span class="glyphicon glyphicon-picture"></span></label>' +
+                        '<input class="hidden" type="file" ' + photo + ' id="chatUpload' + id + '"  class="uploadChat"/> ' +
+                        '</div>' +
                         '<form class="chatForm" id="chatForm' + id + '"  data-userid="' + id + '">' +
-                        '<input autocomplete="off" name="message" type="text" id="enter_price" placeholder="Enter a message...">' +
+                        '<input autocomplete="off" name="message" type="text"  placeholder="Enter a message...">' +
                         '</form></div>';
 
                 $(e).find('.chatForm').submit(function (event) {
@@ -246,6 +268,8 @@
                         test = w;
                         $('#chatWindow' + id).scrollTop(100000);
                         $(input).val("");
+
+                        $('.materialboxed').materialbox();
                     }
                     return false;
                 });
@@ -260,7 +284,7 @@
                 $('#chats').append(e);
                 $('#chatWindow' + id).scrollTop(100000);
             }
-
+            $('.materialboxed').materialbox();
         },
         minimizeChat: function (parent) {
             $(parent).toggleClass("min");
