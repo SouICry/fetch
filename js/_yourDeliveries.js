@@ -1,4 +1,5 @@
 (function () {
+    var interval;
     loader._yourDeliveries = {
         data: null,
         /*[{name: "wholeFoods", time: "12:00 pm", id: "123", state: "accepted"},
@@ -15,6 +16,10 @@
         version: 0,
         onPageLoad: function() {
             assholes135();
+            interval = setInterval(assholes135, 1000);
+        },
+        onPageLeave: function(){
+            clearInterval(interval);
         },
         loadData: function (data) {
             $("#yourDeliveries_accepted_tickets").html("");
@@ -157,7 +162,6 @@
             }
         );
     }
-    assholes135();
 
 })();
 

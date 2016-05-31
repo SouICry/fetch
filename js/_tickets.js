@@ -1,4 +1,5 @@
 (function () {
+    var interval;
     loader._tickets = {
         data: ''/*[
          {name: "wholeFoods", time: "12:00 pm", id: "123"}, {name: "ralphs", time: "5:00 pm", id: "344"},
@@ -7,6 +8,10 @@
         version: 0,
         onPageLoad: function () {
             getQueueTickets();
+            interval = setInterval(getQueueTickets, 1000);
+        },
+        onPageLeave: function(){
+            clearInterval(interval);
         },
         getData: function () {
 
@@ -75,11 +80,11 @@
             $(this).parent().removeClass("selected");
             selectedCount--;
             console.log(selectedCount);
-            if (selectedCount == 0){
+            if (selectedCount == 0) {
                 $('#tickets li').removeClass("hidden");
             }
             else {
-                $('.' + $(this).data("name")).each(function(){
+                $('.' + $(this).data("name")).each(function () {
                     $(this).addClass("hidden");
                 })
             }
@@ -90,12 +95,12 @@
             console.log(selectedCount);
             if (selectedCount == 1) {
                 $('#tickets li').addClass("hidden");
-                $('.' + $(this).data("name")).each(function(){
+                $('.' + $(this).data("name")).each(function () {
                     $(this).removeClass("hidden");
                 })
             }
             else {
-                $('.' + $(this).data("name")).each(function(){
+                $('.' + $(this).data("name")).each(function () {
                     $(this).removeClass("hidden");
                 })
             }
@@ -103,24 +108,22 @@
     });
 
 
-
-function getQueueTickets() {
-    $.ajax({
-        type: "POST",
-        url: "/_tickets",
-        contentType: "application/json",
-        dataType: "json",
-        data: null,
-        success: function (data) {
-            //data is the object sent back on success (could also just be string)
-            loader._tickets.loadData(data);
-        },
-        error: function (data) {
-            //data is the object send back on fail (could also just be string)
-        }
-    });
-}
-getQueueTickets();
+    function getQueueTickets() {
+        $.ajax({
+            type: "POST",
+            url: "/_tickets",
+            contentType: "application/json",
+            dataType: "json",
+            data: null,
+            success: function (data) {
+                //data is the object sent back on success (could also just be string)
+                loader._tickets.loadData(data);
+            },
+            error: function (data) {
+                //data is the object send back on fail (could also just be string)
+            }
+        });
+    }
 })
 ();
 
