@@ -10,7 +10,7 @@
             disableImageUpload(document.getElementById('uploadReceipt1'));
         }
     };
-
+    
     //var vid = document.getElementById("receipt_video1");
     var canvas = document.getElementById("receipt_canvas1");
 
@@ -89,7 +89,7 @@
 
         $.ajax({
             type: "POST",
-            url: "/_driverList",
+            url: "/updatePurchasedTickets",
             data: info_to_send,
             success: function (data) {
                 //data is the object sent back on success (could also just be string)
