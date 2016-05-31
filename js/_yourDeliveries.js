@@ -93,14 +93,14 @@
 
             for (var i = 0; i < shopped_tickets.length; i++) {
                 ticket = shopped_tickets[i];
-                $("#yourDeliveries_shopped_tickets").append('<li  data-id="' + ticket._id + '" class = "yourDeliveries1 ' + ticket.store_name + ' ticket" ' + ' ><div  >'
+                $("#yourDeliveries_shopped_tickets").append('<li  data-id="' + ticket._id + '" class = "yourDeliveries2 ' + ticket.store_name + ' ticket" ' + ' ><div  >'
                     + toName(ticket.store_name) + ' <br> Estimate Deliver Time: ' + ticket.time_created +
                     '</div></li>');
             }
 
             for (var i = 0; i < delivered_tickets.length; i++) {
                 ticket = delivered_tickets[i];
-                $("#yourDeliveries_delivered_tickets").append('<li  data-id="' + ticket._id + '" class = "yourDeliveries1 ' + ticket.store_name + ' ticket" ' + ' ><div  >'
+                $("#yourDeliveries_delivered_tickets").append('<li  data-id="' + ticket._id + '" class = "yourDeliveries3 ' + ticket.store_name + ' ticket" ' + ' ><div  >'
                     + toName(ticket.store_name) + ' <br> Estimate Deliver Time: ' + ticket.time_created +
                     '</div></li>');
             }
@@ -120,27 +120,30 @@
 
             $('li.yourDeliveries1').each(function () {
                 $(this).click(function () {
-                    //alert($('li.yourDeliveries1').data('id'));
                     loader.ticketId = $(this).data('id');
                     loader._driverList.data = $('li.yourDeliveries1').data('id');
                     goToPage('_driverList');
-                    //loader._driverList.loadData($('li.yourDeliveries1').data('id'));
-                    //goToPage('_driverList');
-                    //loader.getTicket($(this).data("id"), $(this).data("state"))
+                });
+            });
+
+            $('li.yourDeliveries2').each(function () {
+                $(this).click(function () {
+                    loader.ticketId = $(this).data('id');
+                    loader._driverList.data = $('li.yourDeliveries1').data('id');
+                    goToPage('_purchasedTickets');
                 });
             });
         }
     };
-
-    $('li.yourDeliveries1').each(function () {
-        $(this).click(function () {
-
-            loader.ticketId = $(this).data('id');
-            // Setting loader._driverList.data to ticketId here
-            loader._driverList.data = $('li.yourDeliveries1').data('id');
-            goToPage('/_driverList');
-        });
-    });
+    //
+    // $('li.yourDeliveries1').each(function () {
+    //     $(this).click(function () {
+    //         // TODO: Need to know which ticket is sent
+    //         loader.ticketId = $(this).data('id');
+    //         loader._driverList.data = $('li.yourDeliveries1').data('id');
+    //         goToPage('/_driverList');
+    //     });
+    // });
 
     // $('#_viewTicket_submit_list').click(function () {
     //     assholes40();

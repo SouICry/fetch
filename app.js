@@ -1560,7 +1560,7 @@ app.post('/_driverList', function (req, res, next) {
 
 
 // --------------------------------------- UPDATE TO DELIVERED ------------------------------------------------
-app.post('/updatePurchasedTickets', function (req, res, next) {
+app.post('/_purchasedTickets', function (req, res, next) {
     var userId = req.session.userId;
     var ticketId = req.body.ticketId;
     console.log('ticketId = ' + ticketId);
@@ -1590,7 +1590,7 @@ app.post('/updatePurchasedTickets', function (req, res, next) {
             }
             else {
                 var ticketToRemove = null;
-
+                console.log('IN UPDATEDPURCHASEDTICKETS = ' + ticketId);
                 // Find the ticket to remove from the driver's delivery_list and move to delivery_history
                 for (var i = 0; i < user.delivery_list.length; i++) {
                     if (user.delivery_list[i]._id == ticketId) {
@@ -1700,6 +1700,7 @@ app.post('/_history', function (req, res, next) {
 // ---------------------------- YOUR DELIVERIES -------------------------------
 app.post('/_yourDeliveries', function (req, res) {
     var userId = req.session.userId;
+    console.log('Userid in yourDeliveries: ' + userId);
 
     if (!userId) {
         console.log('In _yourDeliveries: User is not logged in.');
