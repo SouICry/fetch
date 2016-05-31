@@ -10,7 +10,7 @@
             return dataSendBack;
         },
         loadData: function (data) {
-            var usImage = $('#user-image');
+            var usImage = $('#user-image').data;
             $("#user-name_rateUser").empty();
             usImage('src', "/placeholder/person.png");
 
