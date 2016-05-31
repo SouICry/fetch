@@ -16,7 +16,7 @@
         loadData: function (data) {
             $("#shopper_icon").empty();
             $("#shopperName").empty();
-            $("ul").empty();
+            $("#_confirmCompletion ul").empty();
             $("#_confirm_numItems").empty();
             $("#_confirm_price").empty();
             $("#receipt").empty();
