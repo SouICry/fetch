@@ -23,7 +23,7 @@ var test_data = {
             //populate driver list
             $("#listName_deliveredTickets").text(" ");
             $("#phone_deliveredTickets").text(" ");
-            $("ul").empty();
+            $("#_deliveredTickets ul").empty();
             $("#deliveredTickets_numItems").text(" ");
             $("#deliveredTickets_note").val(" ");
 
