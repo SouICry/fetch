@@ -1825,7 +1825,7 @@ app.post('/_shoppingStatus', function(req,res) {
     if (ticketId == null) {
         res.status(420);
         console.log('ERROR IS HERE');
-        console.log(ticketId)
+        console.log(ticketId);
         res.setHeader('Content-Type', 'application/json');
         res.send({message: 'no user logged in'});
     }
@@ -1845,7 +1845,6 @@ app.post('/_shoppingStatus', function(req,res) {
                     console.log(JSON.stringify(ticket));
                     res.status(500);
                     res.send('');
-                    return;
                 }
                 else {
                     //console.log(JSON.stringify(ticket));
