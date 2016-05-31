@@ -64,7 +64,8 @@ function whenLogedIn(){
     $("#Butt").append("<div class='panel-divs'id='index-LogOut' onclick=loader.logout(); > <span class= 'glyphicon glyphicon-off'></span> Log Out </div>");
 }
 $(document).ready(function (){
-        
+    $("#open-menu-drawer").hide();
+    $("#open-menu-drawer").show();
         if(loader.isLoggedIn == false) {
             $("#index_login_top").hide();
             $("#User-Info").hide();
