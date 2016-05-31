@@ -1043,7 +1043,6 @@ app.post('/init', function (req, res) {
                     console.log('Could not find users fullname in _init');
                     res.status(500);
                     //res.send('');
-                    return;
                 }
                 else {
                     console.log(JSON.stringify(user));
@@ -1054,7 +1053,6 @@ app.post('/init', function (req, res) {
                         userId: userId,
                         isLoggedIn: false
                     }));
-                    return;
                 }
             });
        
@@ -1068,7 +1066,6 @@ app.post('/init', function (req, res) {
             ticketId: masters[userId].ticketId,
             isDriver: masters[userId].isDriver
         }));
-        return;
     }
 });
 // var userId = req.body.userId;
@@ -1151,7 +1148,7 @@ app.post('/_accSetting', function (req, res) {
     if (userId == null) {
         res.status(420);
         console.log('ERROR IS HERE');
-        console.log(userId)
+        console.log(userId);
         res.setHeader('Content-Type', 'application/json');
         res.send({message: 'no user logged in'});
     }
@@ -1564,7 +1561,7 @@ app.post('/_driverList', function (req, res, next) {
 
 
 // --------------------------------------- UPDATE TO DELIVERED ------------------------------------------------
-app.post('/_deliveredTickets', function (req, res, next) {
+app.post('/updatePurchasedTickets', function (req, res, next) {
     var userId = req.session.userId;
     var ticketId = req.body.ticketId;
     console.log('ticketId = ' + ticketId);

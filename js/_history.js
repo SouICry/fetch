@@ -1,4 +1,5 @@
 (function () {
+    var interval;
     loader._history = {
         data:
             [/*{name: "wholeFoods", time: "12:00 pm", id: "222", state: "pending"},
@@ -18,6 +19,10 @@
         version: 0,
         onPageLoad: function() {
             updateHistoryPage();
+            interval = setInterval(updateHistoryPage, 1000);
+        },
+        onPageLeave: function(){
+            clearInterval(interval);
         },
         loadData: function (data) {
             $("#yourOrders_pending_tickets").html("");
