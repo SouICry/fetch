@@ -26,6 +26,15 @@
 
     var vid = document.getElementById("video1");
     var canvas = document.getElementById("canvas1");
+    
+    var upload = document.getElementById('uploadButton1');
+    upload.style.display = "none";
+    $('#takeButton1').click(function(){
+        upload.style.display = "block";
+    });
+    $('#uploadImage1').click(function(){
+        upload.style.display = "block";
+    });
 
     $('#uploadButton1').click(function(){
         uploadFromCanvas();
@@ -33,8 +42,16 @@
             document.getElementById("takeButton1"),
             document.getElementById("redoButton1"),
             document.getElementById('uploadImage1'));
-        goToPage("_signUp");
+        goToPreviousPage();
     });
+    $('#cancelButton1').click(function(){
+        disableCamera(vid,
+            document.getElementById("takeButton1"),
+            document.getElementById("redoButton1"),
+            document.getElementById('uploadImage1'));
+        goToPreviousPage();
+    });
+    
 
 
     function uploadFromCanvas(){

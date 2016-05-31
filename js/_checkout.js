@@ -79,7 +79,9 @@
                 data: JSON.stringify({
                     list: loader._shopping.getData(),
                     store_name: loader.store,
-                    options: loader._checkout.getData()
+                    options: loader._checkout.getData(),
+                    available_time: loader._deliveryTime.getData(),
+                    geo_location: loader._deliveryLocation.getData()
                 }),
                 success: function (data) {
                     //data is the object sent back on success (could also just be string)
@@ -92,7 +94,7 @@
             
             goToPage("_pendingPayment");
             //loader.payment.simulateCompletePayment();
-            loader.payment.triggerPayment();
+            //loader.payment.triggerPayment();
         }
         else {
             confirm("Enter a valid valid time range.");
