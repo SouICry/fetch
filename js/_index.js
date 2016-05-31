@@ -64,9 +64,11 @@ function whenLogedIn(){
     $("#Butt").append("<div class='panel-divs'id='index-LogOut' onclick=loader.logout(); > <span class= 'glyphicon glyphicon-off'></span> Log Out </div>");
 }
 $(document).ready(function (){
-        if(!loader.isLoggedIn) {
+        
+        if(loader.isLoggedIn == false) {
+            $("#index_login_top").hide();
             $("#User-Info").hide();
-            $("#open-menu-drawer").hide();
+            $("#open-menu-drawer").show();
             $("#Butt").append("<div class='panel-divs'id='index-Login'onclick=goToPage('_login'); > <span class= 'glyphicon glyphicon-log-in'></span> Login</div>");
             $("#Butt").append("<div class='panel-divs'id='index-SignUp'onclick=goToPage('_signUp'); > <span class= 'glyphicon glyphicon-plus-sign'></span> Sign Up </div>");
         }
