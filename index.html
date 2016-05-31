@@ -452,7 +452,12 @@
                 loader.isDriver = false;
                 loader.ticketId = "";
                 //goToPage("_homePage");
-                goToPage(loader.previousPage);
+                if(loader.previousPage != "_login" || loader.previousPage != "_signUp"){
+                    goToPage(loader.previousPage);
+                }
+                else{
+                    goToPage("_homePage");
+                }
             }
             else {
                 loader.userId = data.userId;
