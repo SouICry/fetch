@@ -1045,15 +1045,16 @@ app.post('/init', function (req, res) {
                 else {
                     console.log(JSON.stringify(user));
                     masters[userId].full_name = user.full_name;
+                    masters[userId].userId = userId;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send(JSON.stringify({
+                        userId: userId,
+                        isLoggedIn: false
+                    }));
+                    return;
                 }
             });
-        masters[userId].userId = userId;
-        res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({
-            userId: userId,
-            isLoggedIn: false
-        }));
-        return;
+       
     }
     else {
         res.setHeader('Content-Type', 'application/json');
@@ -1769,6 +1770,23 @@ app.get('/cancel-payment', function (req, res) {
     var userId = req.query.user;
     res.redirect('/cancelRedirect.html');
 });
+
+//---------------------------- Cancel Ticket ----------------------------------
+app.post('/_cancelTicket', function(req, res) {
+    
+});
+
+
+//---------------------------- shopping status ---------------------------------
+app.post('/_shoppingStatus', function(req,res) {
+    
+});
+
+
+
+
+
+
 
 
 //---------------------------- Price and Receipt Photo ------------------------
