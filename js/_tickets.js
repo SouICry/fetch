@@ -11,7 +11,7 @@
             // interval = setInterval(getQueueTickets, 1000);
         },
         onPageLeave: function(){
-            clearInterval(interval);
+            //clearInterval(interval);
         },
         getData: function () {
 
