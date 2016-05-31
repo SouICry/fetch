@@ -159,7 +159,10 @@ app.post("/_shopping", function (req, res) {
     var list = req.body.list;
     var checkout = req.body.checkout;
     //TODO initialize verion in login, init, sign up
-    if (masters[userId].shoppingVersion < req.body.shoppingVersion) {
+    if(!masters.hasOwnProperty(userId) || masters[userId].shoppingVersion == 'undefined'){
+        res.send("");
+    }
+    else if (masters[userId].shoppingVersion < req.body.shoppingVersion) {
         masters[userId].shoppingVersion = req.body.shoppingVersion;
         masters[userId].list = list;
         res.send("");
@@ -1033,13 +1036,13 @@ app.post('/init', function (req, res) {
                     console.log('Could not find user with userId ' + userId + ' in _init');
                     console.log(JSON.stringify(user));
                     res.status(500);
-                    res.send('');
+                    //res.send('');
                     return;
                 }
                 if (user.full_name == null) {
                     console.log('Could not find users fullname in _init');
                     res.status(500);
-                    res.send('');
+                    //res.send('');
                     return;
                 }
                 else {
@@ -1601,7 +1604,6 @@ app.post('/_history', function (req, res, next) {
 
 // ---------------------------- YOUR DELIVERIES -------------------------------
 app.post('/_yourDeliveries', function (req, res) {
-    console.log(req.url);
     var userId = req.session.userId;
 
     if (!userId) {
@@ -1626,7 +1628,7 @@ app.post('/_yourDeliveries', function (req, res) {
                 res.setHeader('Content-Type', 'application/json');
                 res.send(JSON.stringify({
                     user_history: doc.user_history,
-                    pending_list: doc.grocery_list
+                    pending_list: doc.delivery_list
                 }));
             }
         });
@@ -1639,7 +1641,10 @@ app.post('/_yourDeliveries', function (req, res) {
 // ---------------------------- VIEW TICKET -------------------------------
 // Update status of ticket
 app.post('/_viewTicket', function (req, res) {
+    // This is the driver
     var userId = req.session.userId;
+
+    // Id of the ticket
     var ticketId = req.body.ticketId;
 
     if (!userId) {
@@ -1655,37 +1660,72 @@ app.post('/_viewTicket', function (req, res) {
     else {
         db.collection('users').update(
             {
-                //_id: userId,
                 'grocery_list._id': ticketId
             },
             {
                 $set: {
                     'grocery_list.$.state': 'accepted'
                 }
-            },
-            {
-                multi: true
-            }, function (err, result) {
-                // Get the user that we just modified
-                db.collection('users').findOne({_id: userId}, function (err, user) {
-                    if (!user) {
-                        console.log('In _viewTicket: could not find user with corresponding ticketId: ' + ticketId);
-                        res.status(500);
-                        res.send('');
-                        return;
-                    }
-
-                    db.collection('grocery_queue').remove({_id: ticketId}, function (err) {
+            }, function (err) {
+                if (err) {
+                    console.log('Error: ' + err);
+                    res.status(500);
+                    res.send('');
+                }
+                else {
+                    // Get the user that we just modified
+                    db.collection('users').findOne({'grocery_list._id': ticketId}, function (err, user) {
                         if (err) {
-                            console.log('In _viewTicket: could not remove ticket from queue: ' + ticketId);
+                            console.log('error');
                             res.status(500);
                             res.send('');
-                            return;
                         }
+                        else if (!user) {
+                            console.log('In _viewTicket: could not find user with corresponding ticketId: ' + ticketId);
+                            res.status(500);
+                            res.send('');
+                        }
+                        else {
+                            var ticketToSend = null;
 
-                        console.log('Successfully removed ticket from queue with id: ' + ticketId);
+                            for (var i = 0; i < user.grocery_list.length; i++) {
+                                if (user.grocery_list[i]._id == ticketId) {
+                                    ticketToSend = user.grocery_list[i];
+                                    break;
+                                }
+                            }
+
+                            if (ticketToSend == null) {
+                                console.log('In _viewTicket: could not find user with corresponding ticketId: ' + ticketId);
+                                res.status(500);
+                                res.send('');
+                                return;
+                            }
+
+                            console.log('Updated ticket state: ' + ticketToSend.state);
+
+                            db.collection('users').update({_id: userId}, {$push: {'delivery_list': ticketToSend}}, function (err) {
+                                if (err) {
+                                    console.log('error');
+                                    res.status(500);
+                                    res.send('');
+                                }
+                                else {
+                                    db.collection('grocery_queue').remove({_id: ticketId}, function (err) {
+                                        if (err) {
+                                            console.log('In _viewTicket: could not remove ticket from queue: ' + ticketId);
+                                            res.status(500);
+                                            res.send('');
+                                            return;
+                                        }
+
+                                        console.log('Successfully removed ticket from queue with id: ' + ticketId);
+                                    });
+                                }
+                            });
+                        }
                     });
-                });
+                }
             }
         );
     }

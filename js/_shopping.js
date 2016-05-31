@@ -6,7 +6,6 @@
         // TODO: clear everything in the queue then reload the tickets
         onPageLoad: function() {
             // TODO: get rid of onpageload here. do this after submission of ticket
-            loader._shopping.loadData(null);
         },//Must be 0 
         getData: function () { //must be null if not needed 
             return list_shopping;

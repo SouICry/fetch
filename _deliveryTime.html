@@ -305,6 +305,11 @@
                 </table>
             </div>
         </div>
+        <div class ="col-xs-12">
+            <div class="alert alert-danger fade in" id="delivery-time_warning">
+                <strong>Danger!</strong> You must select a time range for drop-off!
+            </div>
+        </div>
         <div class="col-xs-12">
             <a id="delivery-time-back" type="button" class="btn waves-effects orange"><- Back</a>
             <a id="delivery-time-submit" type="button" class="btn waves-effects orange">Select -></a>
@@ -331,7 +336,7 @@
 
                 }
 
-                $("#select-delivery-time .calendar-head").append(row);
+                $("#select-delivery-time").find(".calendar-head").append(row);
             },
             getData: function () {
                 return $('#select-delivery-time').html();
@@ -339,6 +344,7 @@
             loadData: function (data) {
                 if (data == null) {
                     $('#select-delivery-time .highlighted').removeClass('highlighted');
+                    $("#delivery-time_warning").hide();
                 }
                 else {
                     $('#select-delivery-time').html(data);
@@ -349,10 +355,10 @@
         };
         function load() {
 
-
+            $("#delivery-time_warning").hide();
             var isMouseDown = false,
                     isHighlighted;
-            $("#select-delivery-time td").on("mousedown touchstart", function () {
+            $("#select-delivery-time").find("td").on("mousedown touchstart", function () {
                 isMouseDown = true;
                 $(this).toggleClass("highlighted");
                 isHighlighted = $(this).hasClass("highlighted");
@@ -377,9 +383,20 @@
         }
         load();
 
+        $('#delivery-time-back').click(function() {
+            $("#delivery-time_warning").hide();
+            goToPage('_shopping');
+        });
+
         $('#delivery-time-submit').click(function() {
             //addDeliveryTime();
-            goToPage('_deliveryLocation');
+            if ($('#select-delivery-time .highlighted').length == 0){
+                $("#delivery-time_warning").show();
+            }
+            else {
+                $("#delivery-time_warning").hide();
+                goToPage('_deliveryLocation');
+            }
         });
     })();
 </script>

@@ -31,6 +31,10 @@
         }
     };
 
+    $('#delivery-location-back').click(function() {
+        goToPage('_deliveryTime');
+    });
+
     $('#delivery-location-submit').click(function() {
         goToPage('_checkout');
     });

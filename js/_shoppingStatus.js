@@ -24,10 +24,10 @@
 
             else {
                 loader.loadMap("shoppingStatusMap",{lat:32, lng:-150});
-
+                var numItems = $("#_shoppingStatus_numItems").text;
                 $("#listName_shoppingStatus").text(" ");
                 $("ul").empty();
-                $("#_shoppingStatus_numItems").text(" ");
+                numItems(" ");
                 $("#shoppingstatus_note").val(" ");
                 
                 var array = data.items;
@@ -52,10 +52,10 @@
                     $('#_shoppingStatus_list').prepend(newItem);
 
                     if (count == 1) {
-                        $("#_shoppingStatus_numItems").text("1 item");
+                        numItems("1 item");
                     }
                     else {
-                        $("#_shoppingStatus_numItems").text(count + " items");
+                        numItems(count + " items");
                     }
 
                     if (count != 0) {
