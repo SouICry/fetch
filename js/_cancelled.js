@@ -16,7 +16,7 @@
     };
 
     $('#submit_cancelled').click(function () {
-        goToPage("_shopping");
+        goToPage("_homePage");
     });
 
 })();
