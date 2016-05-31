@@ -1515,23 +1515,45 @@ app.post('/_driverList', function (req, res, next) {
         // object.contact = masters[userId].phone;
         //res.send(object);
 
+        // Driver's delivery list ticket updated to purchased status
         db.collection('users').update({
-                'grocery_list._id': ticketId
+                'delivery_list._id': ticketId
             },
             {
                 $set: {
-                    'grocery_list.$.state': 'purchased'
+                    'delivery_list.$.state': 'purchased'
                 }
             },
             {
                 multi: true
 
             }, function (err) {
-
                 if (err) {
                     console.log('Error in _driverList: ' + err);
                     res.status(500);
                     res.send('');
+                }
+                else {
+                    // Shopper's grocery list ticket updated to purchased status
+                    db.collection('users').update({
+                            'grocery_list._id': ticketId
+                        },
+                        {
+                            $set: {
+                                'grocery_list.$.state': 'purchased'
+                            }
+                        },
+                        {
+                            multi: true
+
+                        }, function (err) {
+
+                            if (err) {
+                                console.log('Error in _driverList: ' + err);
+                                res.status(500);
+                                res.send('');
+                            }
+                        });
                 }
             });
 
