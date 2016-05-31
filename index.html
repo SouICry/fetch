@@ -439,7 +439,7 @@
             }
         },
         login: function (data) { //Called after successful login, passing the returned data
-
+            index_login();
             console.log("login");
             console.log(data);
             var d = new Date();
@@ -452,7 +452,13 @@
                 loader.isDriver = false;
                 loader.ticketId = "";
                 //goToPage("_homePage");
-                goToPage(loader.previousPage);
+
+                if(loader.previousPage == "_checkout"){
+                    goToPage(loader.previousPage);
+                }
+                else{
+                    goToPage('_homePage');
+                }
             }
             else {
                 loader.userId = data.userId;
