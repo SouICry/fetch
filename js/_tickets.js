@@ -57,7 +57,7 @@
                                 break;
                             }
                         }
-
+                        loader.ticketId = $(this).data('ticketId');
                         loader._viewTicket.loadData(ticket);
                         goToPage('_viewTicket');
                     }

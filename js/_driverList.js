@@ -57,12 +57,7 @@ var test_data = {
                     $("#_driver_numItems").text(count + " items left");
                 }
 
-                if (count != 0) {
-                    $("#_driver_footerInfo").show();
-                }
-                else {
-                    $("#_driver_footerInfo").hide();
-                }
+
             }
 
             // for(var j = 0; j < arrayCheckedOff.length; j++){
