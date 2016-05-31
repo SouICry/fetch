@@ -1,7 +1,7 @@
 (function () {
     loader._shoppingStatus = {
         data: {driver_full_name: "Bob Yay",
-               driverId: 123,
+               driverId: "firstpartofemail",
                pos: {lat:32, lng:-150},
                items: ["aa","bb","cc","dd"],
                special_note: "cheap",
@@ -36,8 +36,8 @@
                 var count = 0;
 
                 //create the contact info(where should I got this, is there a flied relates to contact?
-                document.getElementById("shoppingstatus-img").src = "images/profiles/" + data.driverId + ".png";
-                document.getElementById("listName_shoppingStatus").innerHTML = data.driver_full_name + "took your ticket";
+                document.getElementById("shoppingStatus-img").src = "images/profiles/" + data.driverId + ".png";
+                document.getElementById("listName_shoppingStatus").innerHTML = data.driver_full_name + " took your ticket";
                 //document.getElementById("phone_shoppingStatus").innerHTML = "Phone: " + data.contact;
                 document.getElementById("shoppingstatus_note").innerHTML = "Special Notes: " + data.special_note;
                 //$("#shoppingstatus_note").text("Special Notes: " + data.special_note);
