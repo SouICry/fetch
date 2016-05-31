@@ -17,7 +17,7 @@
             var numItems = $("#_confirm_numItems");
             $("#driver_icon").empty();
             $("#driverName").empty();
-            $("ul").empty();
+            $("#_confirmTicket ul").empty();
             numItems.empty();
             $("#_confirm_price").empty();
             $("#receipt").empty();

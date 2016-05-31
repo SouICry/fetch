@@ -1563,6 +1563,103 @@ app.post('/_driverList', function (req, res, next) {
 });
 
 
+// --------------------------------------- UPDATE TO DELIVERED ------------------------------------------------
+app.post('/_deliveredTickets', function (req, res, next) {
+    var userId = req.session.userId;
+    var ticketId = req.body.ticketId;
+    console.log('ticketId = ' + ticketId);
+
+    if (!userId) {
+        console.log('userId is null in _purchasedTickets');
+        res.status(500);
+        res.send('');
+    }
+    else if (!ticketId) {
+        console.log('ticketId is null in _purchasedTickets');
+        res.status(500);
+        res.send('');
+    }
+    else {
+        // Driver's delivery list ticket updated to purchased status
+        db.collection('users').findOne({_id: userId}, function(err, user) {
+            if (err) {
+                console.log('Error: ' + err);
+                res.status(500);
+                res.send('');
+            }
+            else if (!user) {
+                console.log('Could not find user with id in _deliveredTickets: ' + userId);
+                res.status(500);
+                res.send('');
+            }
+            else {
+                var ticketToRemove = null;
+
+                // Find the ticket to remove from the driver's delivery_list and move to delivery_history
+                for (var i = 0; i < user.delivery_list.length; i++) {
+                    if (user.delivery_list[i]._id == ticketId) {
+                        ticketToRemove = user.delivery_list[i];
+                        break;
+                    }
+                }
+
+                if (!ticketToRemove) {
+                    console.log('ticket to remove is null');
+                    res.status(500);
+                    res.send('');
+                    return;
+                }
+
+                ticketToRemove.state = 'delivered';
+
+                // Remove the ticket from the driver's delivery_list and add to delivery_history
+                db.collection('users').update(
+                    {
+                        'delivery_list._id': ticketId
+                    },
+                    {
+                        $pull: {'delivery_list': {_id: ticketId}},
+                        $push: {'delivery_history': ticketToRemove}
+                    },
+                    function(err) {
+                        if (err) {
+                            console.log('Error: ' + err);
+                            res.status(500);
+                            res.send('');
+                        }
+                        else {
+                            // Update shopper's ticket in grocery_list and add to user_history.
+                            // Change ticket state to delivered
+                            db.collection('users').update(
+                                {
+                                    'grocery_list._id': ticketId
+                                },
+                                {
+                                    $pull: {'grocery_list': {_id: ticketId}},
+                                    $push: {'user_history': ticketToRemove}
+                                },
+                                function(err) {
+                                    if (err) {
+                                        console.log('Error: ' + err);
+                                        res.status(500);
+                                        res.send('');
+                                    }
+                                }
+                            );
+                        }
+                    }
+                );
+            }
+        });
+
+        console.log('Successfully updated tickets in user db');
+        res.send('');
+    }
+});
+
+// ------------------------------------------------------------------------------------------------
+
+
 //--------------------------DRIVER LIST 2---------------------
 app.post('/_DriverList2', function (req, res, next) {
 
@@ -1660,6 +1757,7 @@ app.post('/_viewTicket', function (req, res) {
         res.send('');
     }
     else {
+        // Update the shopper's ticket in the db
         db.collection('users').update(
             {
                 'grocery_list._id': ticketId
@@ -1705,7 +1803,11 @@ app.post('/_viewTicket', function (req, res) {
                             }
 
                             console.log('Updated ticket state: ' + ticketToSend.state);
+                            ticketToSend.driver._id = userId;
+                            ticketToSend.driver.full_name = user.full_name;
+                            ticketToSend.driver.phone_number = user.contact.phone_number;
 
+                            // Update the driver's db to have the ticket in delivery_list
                             db.collection('users').update({_id: userId}, {$push: {'delivery_list': ticketToSend}}, function (err) {
                                 if (err) {
                                     console.log('error');
@@ -1901,37 +2003,40 @@ app.post('/_shoppingStatus', function(req,res) {
         res.setHeader('Content-Type', 'application/json');
         res.send({message: 'no user logged in'});
     }
+    else {
+        console.log('LOADING ACCOUNT');
+        db.collection('users').findOne({"grocery_list._id": ticketId},
+            function (err, ticket) {
+                if (err) {
+                    console.log('Error in : ' + err);
+                    res.status(500);
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send({message: 'cannot access collection to find ticket '});
+                    return;
+                }
+                else {
+                    if (ticket == null) {
+                        console.log('Could not find user with ticket ' + ticketId + ' in _shoppingStatus');
+                        console.log(JSON.stringify(ticket));
+                        res.status(500);
+                        res.send('');
+                    }
+                    else {
+                        //console.log(JSON.stringify(ticket));
+                        object.items = ticket.shopping_list;
+                        object.driverId = ticket.driver._id;
+                        object.driver_full_name = ticket.driver.full_name;
+                        object.special_note = ticket.special_options;
+                        object.time = ticket.available_time;
+                        object.shopping_location = ticket.geolocation;
 
-    console.log('LOADING ACCOUNT');
-    db.collection('users').findOne({"grocery_list._id": ticketId},
-        function (err, ticket) {
-            if (err) {
-                console.log('Error in : ' + err);
-                res.status(500);
-                res.setHeader('Content-Type', 'application/json');
-                res.send({message: 'cannot access collection to find ticket '});
-                return;
+                        res.setHeader('Content-Type', 'application/json');
+                        res.send(JSON.stringify(object));
+                    }
+                }
             }
-            if (ticket == null) {
-                console.log('Could not find user with ticket ' + ticketId + ' in _shoppingStatus');
-                console.log(JSON.stringify(ticket));
-                res.status(500);
-                res.send('');
-            }
-            else {
-                //console.log(JSON.stringify(ticket));
-                object.items = ticket.shopping_list;
-                object.driverId = ticket.driver._id;
-                object.driver_full_name = ticket.driver.full_name;
-                object.special_note = ticket.special_options;
-                object.time = ticket.available_time;
-                object.shopping_location = ticket.geolocation;
-
-                res.setHeader('Content-Type', 'application/json');
-                res.send(JSON.stringify(object));
-            }
-        }
-    );
+        );
+    }
 });
 
 //---------------------------- Price and Receipt Photo ------------------------

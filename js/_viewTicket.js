@@ -8,7 +8,7 @@
             //populate driver list
             var numItems = $("#_viewTicket_numItems").text;
             $("#listName").text(" ");
-            $("ul").empty();
+            $("#_viewTicket ul").empty();
             numItems(" ");
             var array = data.shopping_list;
             var separatedNames = data.shopper.full_name;

@@ -26,7 +26,7 @@ var test_data = {
             //populate driver list
             $("#listName_purchasedTickets").text(" ");
             $("#phone_purchasedTickets").text(" ");
-            $("ul").empty();
+            $("#_purchasedTickets ul").empty();
             $("#purchasedTickets_numItems").text(" ");
             $("#purchasedTickets_note").val(" ");
 
@@ -73,8 +73,12 @@ var test_data = {
         confirm("Are you sure you want to close ticket?");
 
         assholes61323355();
-        goToPage("_congratsTicketClosed");
+        goToPage("_receiptPictureEnterPrice");
 
+    });
+
+    $("#purchasedTickets-back").click(function() {
+        goToPage("_yourDeliveries");
     });
 
     assholes666();
