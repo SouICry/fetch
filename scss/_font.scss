@@ -4,12 +4,30 @@
   src: url(/resources/fonts/aery.ttf);
 }
 
-@font-face{
-  font-family: Glamour;
-  src:url(/resources/fonts/Glamor-BoldExtended.ttf);
+//@font-face{
+//  font-family: Glamour;
+//  src:url(/resources/fonts/Glamor-BoldExtended.ttf);
+//}
+//
+//@font-face{
+//  font-family: Brandon;
+//  src:url(/resources/fonts/Brandon_light.otf);
 }
 
 @font-face{
-  font-family: Brandon;
-  src:url(/resources/fonts/Brandon_light.otf);
+  font-family: Hell_Neue;
+  src:url(/resources/fonts/HelveticaNeue-UltraLight.otf);
+  font-weight:100;
+}
+
+@font-face{
+  font-family: Hell_Neue;
+  src:url(/resources/fonts/HelveticaNeue-light.otf);
+  font-weight:200;
+}
+
+@font-face{
+  font-family: Hell_Neue;
+  src:url(/resources/fonts/HelveticaNeue-Medium.otf);
+  font-weight:300;
 }
