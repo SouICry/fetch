@@ -5,22 +5,9 @@
          {name: "tjs", time: "6:00 pm", id: "653"}, {name: "ralphs", time: "7:00 pm", id: "098"},
          {name: "vons", time: "7:00 pm", id: "897"}]*/,
         version: 0,
-        // onPageLoad: function () {
-        //     $.ajax({
-        //         type: "POST",
-        //         url: "/_tickets",
-        //         contentType: "application/json",
-        //         dataType: "json",
-        //         data: null,
-        //         success: function (data) {
-        //             //data is the object sent back on success (could also just be string)
-        //             loader._tickets.loadData(data);
-        //         },
-        //         error: function (data) {
-        //             //data is the object send back on fail (could also just be string)
-        //         }
-        //     });
-        // },
+        onPageLoad: function () {
+            getQueueTickets();
+        },
         getData: function () {
             return selected;
         },
@@ -122,20 +109,23 @@
 
     });
 
-    $.ajax({
-        type: "POST",
-        url: "/_tickets",
-        contentType: "application/json",
-        dataType: "json",
-        data: null,
-        success: function (data) {
-            //data is the object sent back on success (could also just be string)
-            loader._tickets.loadData(data);
-        },
-        error: function (data) {
-            //data is the object send back on fail (could also just be string)
-        }
-    });
+    function getQueueTickets() {
+        $.ajax({
+            type: "POST",
+            url: "/_tickets",
+            contentType: "application/json",
+            dataType: "json",
+            data: null,
+            success: function (data) {
+                //data is the object sent back on success (could also just be string)
+                loader._tickets.loadData(data);
+            },
+            error: function (data) {
+                //data is the object send back on fail (could also just be string)
+            }
+        });
+    }
+    getQueueTickets();
 })();
 
 
