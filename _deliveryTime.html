@@ -1,8 +1,10 @@
-.<style>
+.
+<style>
 
-    #select-delivery-time {
+    .calendar-outer {
         margin-bottom: 10px;
     }
+
     .calendar {
         width: 100%;
         border: none;
@@ -43,7 +45,6 @@
         background-color: #FECD7E;*/
     }
 
-
     .calendar tbody td {
         cursor: pointer;
     }
@@ -61,18 +62,15 @@
             <h2>Select Available Delivery Times</h2>
         </div>
         <div class="col-xs-12">
-            <div id="select-delivery-time">
+            <div id="select-delivery-time" class="calendar-outer">
                 <table class="calendar calendar0 ">
                     <thead>
-                    <tr class="calendar-head"  cellpadding="0" cellspacing="0">
+                    <tr class="calendar-head" cellpadding="0" cellspacing="0">
                     </tr>
                     </thead>
                 </table>
                 <table class="calendar calendar1" cellpadding="0" cellspacing="0">
-
-
                     <tbody>
-
                     <tr>
                         <td>6:00</td>
                         <td>6:00</td>
@@ -305,7 +303,7 @@
                 </table>
             </div>
         </div>
-        <div class ="col-xs-12">
+        <div class="col-xs-12">
             <div class="alert alert-danger fade in" id="delivery-time_warning">
                 <strong>Danger!</strong> You must select a time range for drop-off!
             </div>
@@ -316,17 +314,31 @@
         </div>
     </div>
 </div>
-<div class ="footerBars container">
+<div class="footerBars container">
     <div class="footer2"></div>
     <div class="footer3"></div>
 </div>
 <script>
 
     (function () {
+        loader.parseCalendar = function (dat) {
+            var cal = document.createElement('div');
+            cal.className = "cal";
+            $(cal).html('<table class="calendar calendar0"><thead><tr class="calendar-head"></tr></thead></table><table class="calendar calendar1"cellpadding="0"cellspacing="0"><tbody><tr><td>6:00</td><td>6:00</td><td>6:00</td><td>6:00</td><td>6:00</td><td>6:00</td><td>6:00</td></tr><tr><td>7:00</td><td>7:00</td><td>7:00</td><td>7:00</td><td>7:00</td><td>7:00</td><td>7:00</td></tr><tr><td>8:00</td><td>8:00</td><td>8:00</td><td>8:00</td><td>8:00</td><td>8:00</td><td>8:00</td></tr><tr><td>9:00</td><td>9:00</td><td>9:00</td><td>9:00</td><td>9:00</td><td>9:00</td><td>9:00</td></tr><tr><td>10:00</td><td>10:00</td><td>10:00</td><td>10:00</td><td>10:00</td><td>10:00</td><td>10:00</td></tr><tr><td>11:00</td><td>11:00</td><td>11:00</td><td>11:00</td><td>11:00</td><td>11:00</td><td>11:00</td></tr></tbody></table><table class="calendar calendar2"><tbody><tr><td>12:00</td><td>12:00</td><td>12:00</td><td>12:00</td><td>12:00</td><td>12:00</td><td>12:00</td></tr><tr><td>13:00</td><td>13:00</td><td>13:00</td><td>13:00</td><td>13:00</td><td>13:00</td><td>13:00</td></tr><tr><td>14:00</td><td>14:00</td><td>14:00</td><td>14:00</td><td>14:00</td><td>14:00</td><td>14:00</td></tr><tr><td>15:00</td><td>15:00</td><td>15:00</td><td>15:00</td><td>15:00</td><td>15:00</td><td>15:00</td></tr><tr><td>16:00</td><td>16:00</td><td>16:00</td><td>16:00</td><td>16:00</td><td>16:00</td><td>16:00</td></tr><tr><td>17:00</td><td>17:00</td><td>17:00</td><td>17:00</td><td>17:00</td><td>17:00</td><td>17:00</td></tr></tbody></table><table class="calendar calendar3"><tbody><tr><td>18:00</td><td>18:00</td><td>18:00</td><td>18:00</td><td>18:00</td><td>18:00</td><td>18:00</td></tr><tr><td>19:00</td><td>19:00</td><td>19:00</td><td>19:00</td><td>19:00</td><td>19:00</td><td>19:00</td></tr><tr><td>20:00</td><td>20:00</td><td>20:00</td><td>20:00</td><td>20:00</td><td>20:00</td><td>20:00</td></tr><tr><td>21:00</td><td>21:00</td><td>21:00</td><td>21:00</td><td>21:00</td><td>21:00</td><td>21:00</td></tr><tr><td>22:00</td><td>22:00</td><td>22:00</td><td>22:00</td><td>22:00</td><td>22:00</td><td>22:00</td></tr><tr><td>23:00</td><td>23:00</td><td>23:00</td><td>23:00</td><td>23:00</td><td>23:00</td><td>23:00</td></tr></tbody></table><table class="calendar calendar4"><tbody><tr><td>0:00</td><td>0:00</td><td>0:00</td><td>0:00</td><td>0:00</td><td>0:00</td><td>0:00</td></tr><tr><td>1:00</td><td>1:00</td><td>1:00</td><td>1:00</td><td>1:00</td><td>1:00</td><td>1:00</td></tr><tr><td>2:00</td><td>2:00</td><td>2:00</td><td>2:00</td><td>2:00</td><td>2:00</td><td>2:00</td></tr><tr><td>3:00</td><td>3:00</td><td>3:00</td><td>3:00</td><td>3:00</td><td>3:00</td><td>3:00</td></tr><tr><td>4:00</td><td>4:00</td><td>4:00</td><td>4:00</td><td>4:00</td><td>4:00</td><td>4:00</td></tr><tr><td>5:00</td><td>5:00</td><td>5:00</td><td>5:00</td><td>5:00</td><td>5:00</td><td>5:00</td></tr></tbody></table>');
+            $(cal).find('.calendar-head').append(dat.head);
+            var arr = dat.body;
+            var i = 0;
+            $(cal).find("tbody td").each(function () {
+                if (arr[i++]) {
+                    $(this).addClass('highlighted');
+                }
+            });
+            return cal;
+        };
         loader._deliveryTime = {
             onPageLoad: function () {
                 var months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug",
-                        "Sept", "Oct", "Nov", "Dec"];
+                    "Sept", "Oct", "Nov", "Dec"];
                 var date;
                 var row = "";
                 for (var i = 0; i < 7; i++) {
@@ -339,11 +351,25 @@
                 $("#select-delivery-time").find(".calendar-head").append(row);
             },
             getData: function () {
-                return $('#select-delivery-time').html();
+                var dat = {
+                    head: $('#select-delivery-time  .calendar-head').html(),
+                    body: []
+                };
+
+                $('#select-delivery-time tbody td').each(function () {
+                    if ($(this).hasClass('highlighted')) {
+                        dat.body.push(1);
+                    }
+                    else {
+                        dat.body.push(0);
+                    }
+                });
+
+                return dat;
             },
             loadData: function (data) {
                 if (data == null) {
-                    $('#select-delivery-time .highlighted').removeClass('highlighted');
+                    $('#select-delivery-time').find('.highlighted').removeClass('highlighted');
                     $("#delivery-time_warning").hide();
                 }
                 else {
@@ -381,16 +407,17 @@
                 isMouseDown = false;
             });
         }
+
         load();
 
-        $('#delivery-time-back').click(function() {
+        $('#delivery-time-back').click(function () {
             $("#delivery-time_warning").hide();
             goToPage('_shopping');
         });
 
-        $('#delivery-time-submit').click(function() {
+        $('#delivery-time-submit').click(function () {
             //addDeliveryTime();
-            if ($('#select-delivery-time .highlighted').length == 0){
+            if ($('#select-delivery-time .highlighted').length == 0) {
                 $("#delivery-time_warning").show();
             }
             else {

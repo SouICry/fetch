@@ -68,6 +68,9 @@
                 }
 
             }
+        },
+        onPageLoad: function() {
+            loadCancelTicket();
         }
     };
 
@@ -77,8 +80,52 @@
     });
 
     $('#cancelTicket_cancel_btn').click(function () {
+        cancelTicket();
         goToPage("_history");
     });
 
 })();
+
+function loadCancelTicket() {
+    $.ajax({
+        type: "POST",
+        url: "/_cancelTicket",
+        data: {ticket: loader.ticketId},
+        success: function (data) {
+            //data is the object sent back on success (could also just be string)
+            loader._cancelTicket.loadData(data);
+
+            // var str= data.email;
+            // var nameParts = str.split("@");
+            // var name = nameParts.length==2 ? nameParts[0] : null;
+            // if(UrlExists('images/profiles/' + name + '.png'))
+            //     document.getElementById("accSettingAbove-img").src = 'images/profiles/' + name + '.png';
+            // else
+            //     document.getElementById("accSettingAbove-img").src = 'placeholder/person4.png';
+        },
+        error: function (data) {
+        }
+    });
+}
+
+function cancelTicket() {
+    $.ajax({
+        type: "POST",
+        url: "/_cancelTicket",
+        data: {ticket: loader.ticketId, type: 'cancel'},
+        success: function (data) {
+            //data is the object sent back on success (could also just be string)
+            // var str= data.email;
+            // var nameParts = str.split("@");
+            // var name = nameParts.length==2 ? nameParts[0] : null;
+            // if(UrlExists('images/profiles/' + name + '.png'))
+            //     document.getElementById("accSettingAbove-img").src = 'images/profiles/' + name + '.png';
+            // else
+            //     document.getElementById("accSettingAbove-img").src = 'placeholder/person4.png';
+        },
+        error: function (data) {
+
+        }
+    });
+}
 

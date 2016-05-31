@@ -67,6 +67,9 @@
                 }
 
             }
+        },
+        onPageLoad: function() {
+            loadShoppingStatus();
         }
     };
 
@@ -94,7 +97,7 @@ function loadShoppingStatus() {
             //     document.getElementById("accSettingAbove-img").src = 'placeholder/person4.png';
         },
         error: function (data) {
-            //data is the object send back on fail (could also just be string)
+
         }
     });
 }

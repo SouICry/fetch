@@ -31,7 +31,7 @@
 
             // pass2.style.backgroundColor = goodColor;
             message.style.color = goodColor;
-            message.innerHTML = "Passwords Match!"
+            message.innerHTML = "Passwords Match!";
 
             $("#submitPass").prop("disabled", false);
         } else {
