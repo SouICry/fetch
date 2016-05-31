@@ -14,6 +14,9 @@
         {name: "vons", time: "10:00 pm", id: "864", state: "draft"}],*/ // may not have draft state
         version: 0,
         onPageLoad: function() {
+            $("#yourDeliveries__accepted_tickets").empty();
+            $("#yourDeliveries_shopped_tickets").empty();
+            $("#yourDeliveries_delivered_tickets").empty();
             assholes135();
         },
         loadData: function (data) {
@@ -125,6 +128,8 @@
             });
         }
     };
+
+    var yourDeliveriesPageCount = 0;
 
     $('li.yourDeliveries1').each(function () {
         $(this).click(function () {

@@ -1482,14 +1482,14 @@ app.post('/driverListUpdate', function (req, res) {
                     console.log('could not find ticket with id: ' + ticketId + ' in driverListUpdate');
                     res.status(500);
                     res.send('');
-
-                } else {
-
+                }
+                else {
                     res.setHeader('Content-Type', 'application/json');
                     res.send(JSON.stringify({
                         full_name: user.grocery_list[i].shopper.full_name,
                         items: user.grocery_list[i].shopping_list,
-                        contact: user.phone_number
+                        contact: user.phone_number,
+                        special_notes: user.grocery_list[i].special_notes
                     }));
                 }
             }

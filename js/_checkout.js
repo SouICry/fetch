@@ -24,7 +24,6 @@
                 document.getElementById(data.checkout_id).click();
 
             }
-
         }
     };
 
