@@ -64,12 +64,15 @@ function whenLogedIn(){
     $("#Butt").append("<div class='panel-divs'id='index-LogOut' onclick=loader.logout(); > <span class= 'glyphicon glyphicon-off'></span> Log Out </div>");
 }
 $(document).ready(function (){
-    $("#open-menu-drawer").hide();
-    $("#open-menu-drawer").show();
-        if(loader.isLoggedIn == false) {
+   
+        if(loader.isLoggedIn) {
             $("#index_login_top").hide();
-            $("#User-Info").hide();
+            $("#User-Info").show();
             $("#open-menu-drawer").show();
+        }
+        else{ 
+            $("#open-menu-drawer").hide();
+            $("#index-menu-drawer").show();
             $("#Butt").append("<div class='panel-divs'id='index-Login'onclick=goToPage('_login'); > <span class= 'glyphicon glyphicon-log-in'></span> Login</div>");
             $("#Butt").append("<div class='panel-divs'id='index-SignUp'onclick=goToPage('_signUp'); > <span class= 'glyphicon glyphicon-plus-sign'></span> Sign Up </div>");
         }
