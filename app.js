@@ -1792,9 +1792,50 @@ app.get('/cancel-payment', function (req, res) {
     res.redirect('/cancelRedirect.html');
 });
 
+
+
+
 //---------------------------- Cancel Ticket ----------------------------------
 app.post('/_cancelTicket', function (req, res) {
+    var ticketId = req.body.ticketId;
+    var object = {};
+    if (ticketId == null) {
+        res.status(420);
+        console.log('ERROR IS HERE');
+        console.log(ticketId);
+        res.setHeader('Content-Type', 'application/json');
+        res.send({message: 'no ticket ID!'});
+    }
 
+
+    console.log('LOADING ACCOUNT');
+    db.collection('users').findOne({"grocery_list._id": ticketId},
+        function (err, ticket) {
+            if (err) {
+                console.log('Error in : ' + err);
+                res.status(500);
+                res.setHeader('Content-Type', 'application/json');
+                res.send({message: 'cannot access collection to find ticket '});
+                return;
+            }
+            if (ticket == null) {
+                console.log('Could not find user with ticket ' + ticketId + ' in _shoppingStatus');
+                console.log(JSON.stringify(ticket));
+                res.status(500);
+                res.send('');
+            }
+            else {
+                //console.log(JSON.stringify(ticket));
+                object.items = ticket.shopping_list;
+                object.driverId = ticket.driver._id;
+                object.driver_full_name = ticket.driver.full_name;
+                object.special_note = ticket.special_options;
+                object.time = ticket.available_time;
+
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify(object));
+            }
+        });
 });
 
 
@@ -1802,10 +1843,10 @@ app.post('/_cancelTicket', function (req, res) {
 app.post('/_shoppingStatus', function (req, res) {
     var ticketId = req.body.ticketId;
     var object = {};
-    if (userId == null) {
+    if (ticketId == null) {
         res.status(420);
         console.log('ERROR IS HERE');
-        console.log(userId)
+        console.log(ticketId);
         res.setHeader('Content-Type', 'application/json');
         res.send({message: 'no user logged in'});
     }
@@ -1818,7 +1859,7 @@ app.post('/_shoppingStatus', function (req, res) {
                 console.log('Error in : ' + err);
                 res.status(500);
                 res.setHeader('Content-Type', 'application/json');
-                res.send({message: 'cannot access collection to find ticket '})
+                res.send({message: 'cannot access collection to find ticket '});
                 return;
             }
             if (ticket == null) {
