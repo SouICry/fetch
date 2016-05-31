@@ -582,22 +582,7 @@
 
 
     }
-    $(document).ready(function () {
-        $(document).on('click mousemove focus keypress', loader.setActive);
 
-        pageInit();
-        for (var j = 0; j < allPages.length; j++) {
-            $('#page-content').append('<div id="section-' + j + '"></div>');
-            for (var i = 0; i < allPages[j].length; i++) {
-                var whichid = allPages[j][i];
-                loadPage(whichid, j, i);
-                var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
-                $("#Butt").append("<div " + clickVal + " >" + whichid + "</div>");
-            }
-        }
-
-        loadPage("payment", 0, 0);
-    });
 
     function pageInit() {
 
@@ -686,6 +671,23 @@
             }
         });
     }
+
+    $(document).ready(function () {
+        $(document).on('click mousemove focus keypress', loader.setActive);
+
+        pageInit();
+        for (var j = 0; j < allPages.length; j++) {
+            $('#page-content').append('<div id="section-' + j + '"></div>');
+            for (var i = 0; i < allPages[j].length; i++) {
+                var whichid = allPages[j][i];
+                loadPage(whichid, j, i);
+                var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
+                $("#Butt").append("<div " + clickVal + " >" + whichid + "</div>");
+            }
+        }
+
+        loadPage("payment", 0, 0);
+    });
 
 
     $(document).ready(function ($) {

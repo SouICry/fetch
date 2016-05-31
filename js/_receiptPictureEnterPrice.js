@@ -61,7 +61,6 @@
             price: $("enter_price").val,
             ticket: loader.ticketId
         };
-        alert(JSON.stringify(data_to_send));
         $.ajax({
             type: "POST",
             url: "/_receiptPictureEnterPrice",

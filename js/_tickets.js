@@ -9,15 +9,14 @@
             getQueueTickets();
         },
         getData: function () {
-            return selected;
+
         },
         loadData: function (data) {
 
-            $("#tickets_content").empty();
+            $("#tickets_content").html("");
             if (data == null || data.length == 0) {
                 $("#tickets_content").append('<li id="ticket_not " class = "ticket"' +
                     '>No tickets available</li>');
-
             }
             else {
                 function toName(nameString) {

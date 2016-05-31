@@ -6,15 +6,13 @@
         loadData: function (data) {
             ticketId = data._id;
             //populate driver list
-            var numItems = $("#_viewTicket_numItems").text;
+            var numItems = $("#_viewTicket_numItems");
             $("#listName").text(" ");
-            $("ul").empty();
-            numItems(" ");
+            $("#_viewTicket ul").html("");
             var array = data.shopping_list;
             var separatedNames = data.shopper.full_name;
 
             for (var i = 0; i < array.length; i++) {
-                alert(array[i]);
                 // item count
                 count = array.length;
                 //create the contact info(where should I got this, is there a flied relates to contact?
@@ -27,10 +25,10 @@
                 $('#_viewTicket_list').prepend(newItem);
 
                 if (count == 1) {
-                    numItems("1 item left");
+                    $(numItems).text("1 item left");
                 }
                 else {
-                    numItems(count + " items left");
+                    $(numItems).text(count + " items left");
                 }
 
                 if (count != 0) {
@@ -44,7 +42,7 @@
     };
 
     var ticketId = null;
-
+    
     $('#_viewTicket_submit_list').click(function () {
         assholes39();
         goToPage("_yourDeliveries");

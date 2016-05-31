@@ -20,10 +20,10 @@
             updateHistoryPage();
         },
         loadData: function (data) {
-            $("#yourOrders_pending_tickets").empty();
-            $("#yourOrders_accepted_tickets").empty();
-            $("#yourOrders_shopped_tickets").empty();
-            $("#yourOrders_delivered_tickets").empty();
+            $("#yourOrders_pending_tickets").html("");
+            $("#yourOrders_accepted_tickets").html("");
+            $("#yourOrders_shopped_tickets").html("");
+            $("#yourOrders_delivered_tickets").html("");
 
 
             if (data == "none" || (data.user_history.length == 0 && data.pending_list.length == 0)) {

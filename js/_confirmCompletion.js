@@ -14,12 +14,12 @@
             return sendBackData;
         },
         loadData: function (data) {
-            $("#shopper_icon").empty();
-            $("#shopperName").empty();
-            $("ul").empty();
-            $("#_confirm_numItems").empty();
-            $("#_confirm_price").empty();
-            $("#receipt").empty();
+            $("#shopper_icon").html("");
+            $("#shopperName").html("");
+            $("#_confirmCompletion ul").html("");
+            $("#_confirm_numItems").html("");
+            $("#_confirm_price").html("");
+            $("#receipt").html("");
 
             status = data.status;
             var array = data.items;

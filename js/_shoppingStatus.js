@@ -26,7 +26,7 @@
                 loader.loadMap("shoppingStatusMap",{lat:32, lng:-150});
                 var numItems = $("#_shoppingStatus_numItems").text;
                 $("#listName_shoppingStatus").text(" ");
-                $("ul").empty();
+                $("#_shoppingStatus ul").html("");
                 numItems(" ");
                 $("#shoppingstatus_note").val(" ");
 
