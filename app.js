@@ -1024,8 +1024,8 @@ app.post('/init', function (req, res) {
                 if (err) {
                     console.log('Error in init: ' + err);
                     res.status(500);
-                    res.setHeader('Content-Type', 'application/json');
-                    res.send({message: 'cannot access collection to find user '});
+                    //res.setHeader('Content-Type', 'application/json');
+                    res.send('cannot access collection to find user ');
                     return;
                 }
                 //console.log('user = ' + JSON.stringify(user));
@@ -1045,15 +1045,16 @@ app.post('/init', function (req, res) {
                 else {
                     console.log(JSON.stringify(user));
                     masters[userId].full_name = user.full_name;
+                    masters[userId].userId = userId;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send(JSON.stringify({
+                        userId: userId,
+                        isLoggedIn: false
+                    }));
+                    return;
                 }
             });
-        masters[userId].userId = userId;
-        res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({
-            userId: userId,
-            isLoggedIn: false
-        }));
-        return;
+       
     }
     else {
         res.setHeader('Content-Type', 'application/json');
@@ -1653,13 +1654,16 @@ app.post('/_viewTicket', function (req, res) {
     else {
         db.collection('users').update(
             {
-                _id: userId,
+                //_id: userId,
                 'grocery_list._id': ticketId
             },
             {
                 $set: {
                     'grocery_list.$.state': 'accepted'
                 }
+            },
+            {
+                multi: true
             }, function (err, result) {
                 // Get the user that we just modified
                 db.collection('users').findOne({_id: userId}, function (err, user) {
@@ -1766,6 +1770,23 @@ app.get('/cancel-payment', function (req, res) {
     var userId = req.query.user;
     res.redirect('/cancelRedirect.html');
 });
+
+//---------------------------- Cancel Ticket ----------------------------------
+app.post('/_cancelTicket', function(req, res) {
+    
+});
+
+
+//---------------------------- shopping status ---------------------------------
+app.post('/_shoppingStatus', function(req,res) {
+    
+});
+
+
+
+
+
+
 
 
 //---------------------------- Price and Receipt Photo ------------------------

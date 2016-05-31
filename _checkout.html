@@ -27,7 +27,7 @@
                 </div>
                 <div class ="row">
                     <div class="alert alert-danger fade in" id="checkout_warning">
-                        <strong>Danger!</strong> There are some empty fields!
+                        <strong>Danger!</strong> You must select an option!
                     </div>
                 </div>
             </div>
@@ -35,8 +35,11 @@
     </div>
 
     <div class="row" style="text-align: center">
-        <a type="button" id="checkout_close" class="btn waves-effects orange">Close</a>
-        <a type="button" id="checkout_submitcheckout" class="btn waves-effects orange">Continue</a>
+        <div class="col-xs-12">
+            <a id="checkout-back" type="button" class="btn waves-effects orange"><- Back</a>
+            <a id="checkout_close" type="button" class="btn waves-effects orange">Close</a>
+            <a id="checkout_submitcheckout" type="button" class="btn waves-effects orange">Continue -></a>
+        </div>
     </div>
 
 </div>

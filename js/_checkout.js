@@ -75,11 +75,18 @@
         }
     });
 
+    $('#checkout-back').click(function() {
+        $("#checkout_warning").hide();
+        goToPage("_deliveryLocation");
+    });
+
 
     $('#checkout_close').click(function () {
       //  loader.payment.simulateCancelPayment();
 
         loader._checkout.loadData(null);
+        loader._deliveryTime.loadData(null);
+        loader._shopping.loadData(null);
 
         goToPage("_homePage");
     });

@@ -45,8 +45,8 @@
     var ticketId = null;
 
     $('#_viewTicket_submit_list').click(function () {
-        goToPage("_yourDeliveries");
         assholes39();
+        goToPage("_yourDeliveries");
     });
 
     function assholes39() {
