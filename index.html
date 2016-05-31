@@ -36,6 +36,7 @@
     <div class="container">
         <div class="row">
             <div id="Glyph" class="col-xs-3">
+                <div id="index_login_top"><a style="text-decoration:none" onclick="goToPage('_login')"><h3>Login</h3></a> </div>
                 <div id="open-menu-drawer"><span class="glyphicon glyphicon-menu-hamburger"></span></div>
             </div>
             <div id="Fetch" class=" text-center col-xs-6">
@@ -53,7 +54,7 @@
 <div id="menu-drawer" class="cd-panel from-left" style="z-index: 3000">
     <div class="cd-panel-container">
         <div id="panel-Header" class="">
-            <div class="container-name">
+            <div class="container-name" id="User-Info">
                 <div class="div1" onclick="goToPage('_accSetting')"><img class="img-circle" id="index-image-user"
                                                                          src="placeholder/person4.png"></div>
                 <div class="div2" id="index_user-name"></div>
@@ -431,9 +432,9 @@
             }
         },
         login: function (data) { //Called after successful login, passing the returned data
+
             console.log("login");
             console.log(data);
-
             var d = new Date();
             d.setTime(d.getTime() + (1000 * 24 * 60 * 60 * 1000));
             document.cookie = "user=" + data.userId + ";expires=" + d.toUTCString();

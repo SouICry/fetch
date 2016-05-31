@@ -15,6 +15,12 @@
     var vid = document.getElementById("receipt_video1");
     var canvas = document.getElementById("receipt_canvas1");
 
+    var upload = document.getElementById('submitReceiptButton1');
+    upload.style.display = "none";
+    $('#uploadReceipt1').click(function(){
+        upload.style.display = "block";
+    });
+    
     // jQuery.fn.extend({
     //     disable: function(state) {
     //         return this.each(function() {
@@ -25,6 +31,9 @@
 
     $('#submitReceiptButton1').click(function(){
         uploadPriceReceipt();
+        goToPage("_congrats_driver_finish_shopping");
+    });
+    $('#cancelRecButton1').click(function(){
         goToPage("_congrats_driver_finish_shopping");
     });
 

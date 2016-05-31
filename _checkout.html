@@ -1,90 +1,36 @@
 <div id="checkout" class="container text-center box">
-    <div class="row">
+    <div class="row" style="margin-bottom: 15px">
         <div class="col-xs-offset-2 col-xs-8">
             <h2>Continue Checkout</h2>
 
             <div class=row>
                 <h4>If driver cannot locate your specific item, buy... </h4>
-                <div class="list-group vertical-center" id="checkout_notes" data-toggle="buttons">
-                    <div class="row">
-                        <label class="btn list-group-item active">
-                            <input type="radio" name="specialnotes" id="checkout_option1" value="cheapest"
-                                   autocomplete="off" checked>Cheapest option
-                        </label>
-                    </div>
-                    <div class="row">
-                        <label class="btn list-group-item">
-                            <input type="radio" name="specialnotes" id="checkout_option2" value="expensive"
-                                   autocomplete="off">Most expensive option
-                        </label><s></s>
-                    </div>
-                    <div class="div">
-                        <label class="btn list-group-item">
-                            <input type="radio" name="specialnotes" id="checkout_option3" value="none"
-                                   autocomplete="off">Nothing
-                        </label>
-                    </div>
-                </div>
-
-                <h4>Available times for drop-off.</h4>
                 <div class="row">
-                    <div class="col-xs-12 nohighlight" id="appendCalendar">
-                    </div>
-                </div>
-                <div class="form-group col-xs-5">
-                    <select class="form-control" id="checkout_time1">
-                        <option>9AM</option>
-                        <option>10AM</option>
-                        <option>11AM</option>
-                        <option>12PM</option>
-                        <option>1PM</option>
-                        <option>2PM</option>
-                        <option>3PM</option>
-                        <option>4PM</option>
-                        <option>5PM</option>
-                        <option>6PM</option>
-                        <option>7PM</option>
-                        <option>8PM</option>
-                        <option>9PM</option>
-                        <option>10PM</option>
-                        <option>11PM</option>
-                        <option>12PM</option>
-                        <option>1AM</option>
-                    </select>
-                </div>
-                <div class="col-xs-2">
-                    <p>to</p>
-                </div>
-                <div class="form-group col-xs-5">
-                    <select class="form-control" id="checkout_time2">
-                        <option>9AM</option>
-                        <option>10AM</option>
-                        <option>11AM</option>
-                        <option>12PM</option>
-                        <option>1PM</option>
-                        <option>2PM</option>
-                        <option>3PM</option>
-                        <option>4PM</option>
-                        <option>5PM</option>
-                        <option>6PM</option>
-                        <option>7PM</option>
-                        <option>8PM</option>
-                        <option>9PM</option>
-                        <option>10PM</option>
-                        <option>11PM</option>
-                        <option>12PM</option>
-                        <option>1AM</option>
-                    </select>
+                    <form action="submit" style="text-align:left">
+                        <div class="col-xs-4 col-xs-offset-4">
+                        </p>
+                            <input name="special_notes" type="radio" id="checkout_option1"/>
+                            <label for="checkout_option1">Cheapest</label>
+                        </p>
+
+                        <input name="special_notes" type="radio" id="checkout_option2"/>
+                            <label for="checkout_option2">Most Expensive</label>
+                        </p>
+
+                        <input name="special_notes" type="radio" id="checkout_option3"/>
+                            <label for="checkout_option3">None</label>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-
-        <div class="row" style="text-align: center">
-            <a type="button" id="checkout_submitcheckout" class="btn waves-effects orange">Continue</a>
-            <a type="button" id="checkout_close" class="btn waves-effects orange">Close</a>
-        </div>
-
     </div>
+
+    <div class="row" style="text-align: center">
+        <a type="button" id="checkout_submitcheckout" class="btn waves-effects orange">Continue</a>
+        <a type="button" id="checkout_close" class="btn waves-effects orange">Close</a>
+    </div>
+
 </div>
 <div class="footerBars container">
     <div class="footer2"></div>
@@ -93,19 +39,6 @@
 
 <script src="js/_checkout.js"></script>
 
-<style>
-    .selected {
-        color: orange;
-    }
+<script>
 
-    .nohighlight {
-        -webkit-touch-callout: none; /* iOS Safari */
-        -webkit-user-select: none; /* Chrome/Safari/Opera */
-        -khtml-user-select: none; /* Konqueror */
-        -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-        user-select: none;
-        /* Non-prefixed version, currently
-                               not supported by any browser */
-    }
-</style>
+</script>
