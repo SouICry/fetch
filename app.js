@@ -159,7 +159,10 @@ app.post("/_shopping", function (req, res) {
     var list = req.body.list;
     var checkout = req.body.checkout;
     //TODO initialize verion in login, init, sign up
-    if (masters[userId].shoppingVersion < req.body.shoppingVersion) {
+    if(!masters.hasOwnProperty(userId) || masters[userId].shoppingVersion == 'undefined'){
+        res.send("");
+    }
+    else if (masters[userId].shoppingVersion < req.body.shoppingVersion) {
         masters[userId].shoppingVersion = req.body.shoppingVersion;
         masters[userId].list = list;
         res.send("");
