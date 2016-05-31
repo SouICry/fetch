@@ -54,7 +54,7 @@
     $("#shopping_submit_list").hide();
     $('#shopping_submit_list').click(function () {
         if (list_shopping.length > 0) {
-            goToPage("_checkout");
+            goToPage("_deliveryTime");
         }
     });
 

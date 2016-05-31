@@ -65,7 +65,8 @@ function whenLogedIn(){
 }
 $(document).ready(function (){
     
-        $("#toggleButton").hide();
+        $("#User-Info").hide();
+        $("#open-menu-drawer").hide();
         $("#Butt").append("<div class='panel-divs'id='index-Login'onclick=goToPage('_login'); > <span class= 'glyphicon glyphicon-log-in'></span> Login</div>");
         $("#Butt").append("<div class='panel-divs'id='index-SignUp'onclick=goToPage('_signUp'); > <span class= 'glyphicon glyphicon-plus-sign'></span> Sign Up </div>");
    
@@ -81,7 +82,9 @@ $("#open-menu-drawer").on('click',function(event){
 
 });
 function index_login(){
-    $("#toggleButton").show();
+    $("#open-menu-drawer").show();
+    $("#index_login_top").hide();
+    $("#User-Info").show();
     $("#index-Login").remove();
     $("#index-SignUp").remove();
     $("#index-Home").remove();
