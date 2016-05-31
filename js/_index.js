@@ -2,6 +2,24 @@
  * Created by zeusn_000 on 5/21/2016.
  */
 
+var toggle = "Shopper";
+function whenLogedIn(){
+
+    var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
+    $("#index-Login").remove();
+    $("#index-SignUp").remove();
+    $("#Butt").append("<div class='panel-divs' id='index-Home' onclick=goToPage('_homePage'); > <span class= 'glyphicon glyphicon-home'></span> Home </div>");
+    $("#Butt").append("<div class='panel-divs'id='index-Setting' onclick=goToPage('_accSetting'); > <span class= 'glyphicon glyphicon-cog'></span> Setting</div>");
+    $("#Butt").append("<div class='panel-divs'id='index-Contact' onclick=goToPage('_contact'); > <span class= 'glyphicon glyphicon-equalizer'></span> Contact </div>");
+    $("#Butt").append("<div class='panel-divs'id='index-History' onclick=goToPage('_history'); > <span class= ''></span> History </div>");
+    $("#Butt").append("<div class='panel-divs'id='index-Shopping' onclick=goToPage('_shopping'); > <span class= ''></span> Shopping </div>");
+    $("#Butt").append("<div class='panel-divs'id='index-CheckOut' onclick=goToPage('_checkout'); > <span class= 'glyphicon glyphicon-check'></span> Checkout </div>");
+    $("#Butt").append("<div class='panel-divs'id='index-Rating' onclick=goToPage('_rating'); > <span class= 'glyphicon glyphicon-signal'></span> Rating </div>");
+    $("#Butt").append("<div class='panel-divs'id='index-Tickets' onclick=goToPage('_tickets'); > <span class= ''></span> Tickets </div>");
+    $("#Butt").append("<div class='panel-divs'id='index-DeliverList' onclick=goToPage('_driverList'); > <span class= ''></span> Dirver List </div>");
+    $("#Butt").append("<div class='panel-divs'id='index-Deliveries' onclick=goToPage('_yourDeliveries'); > <span class= ''></span> Your Deliveries </div>");
+    $("#Butt").append("<div class='panel-divs'id='index-LogOut' onclick=loader.logout(); > <span class= 'glyphicon glyphicon-off'></span> Log Out </div>");
+}
 (function () {
     // Wait for everything to load, then check loader.isLoggedIn
     setTimeout(function() {
@@ -42,7 +60,7 @@ function index_login(){
     // $("#Butt").append("<div class='panel-divs'id='index-Tickets' onclick=goToPage('_tickets'); > <span class= ''></span> Tickets </div>");
     // $("#Butt").append("<div class='panel-divs'id='index-DeliverList' onclick=goToPage('_driverList'); > <span class= ''></span> Dirver List </div>");
     // $("#Butt").append("<div class='panel-divs'id='index-CheckOut' onclick=goToPage('_checkout'); > <span class= 'glyphicon glyphicon-check'></span> Checkout </div>");
-    $("#Butt").append("<div class='panel-divs'id='index-Contact' onclick=goToPage('_contact'); > <span class= 'glyphicon glyphicon-equalizer'></span> Contact us </div>");
+    $("#Butt").append("<div class='panel-divs'id='index-Contact' onclick=goToPage('_contact'); > <span class= 'glyphicon glyphicon-equalizer'></span> Contact </div>");
     $("#Butt").append("<div class='panel-divs'id='index-Setting' onclick=goToPage('_accSetting'); > <span class= 'glyphicon glyphicon-cog'></span> Setting</div>");
     // $("#Butt").append("<div class='panel-divs'id='index-Shopping' onclick=goToPage('_shopping'); > <span class= ''></span> Shopping </div>");
     // $("#Butt").append("<div class='panel-divs'id='' onclick=goToPage('_congrats'); > <span class= 'glyphicon glyphicon-off'></span> Shopping </div>");

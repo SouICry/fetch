@@ -1805,7 +1805,7 @@ app.post('/_viewTicket', function (req, res) {
                             console.log('Updated ticket state: ' + ticketToSend.state);
                             ticketToSend.driver._id = userId;
                             ticketToSend.driver.full_name = user.full_name;
-                            ticketToSend.driver.phone_number = user.contact.phone_number;
+                            ticketToSend.driver.phone_number = user.phone_number;
 
                             // Update the driver's db to have the ticket in delivery_list
                             db.collection('users').update({_id: userId}, {$push: {'delivery_list': ticketToSend}}, function (err) {
