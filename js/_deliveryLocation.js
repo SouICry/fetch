@@ -4,7 +4,7 @@
     loader._deliveryLocation = {
         loadData: function () {
             map = new google.maps.Map(document.getElementById('map-select-loc'), {
-                center: {lat: -34.397, lng: 150.644},
+                center: {lat: 32.87998053492496, lng: -117.2360865181381},
                 zoom: 18
             });
 
@@ -20,11 +20,7 @@
                 }, function () {
                     handleLocationError(true, infoWindow, map.getCenter());
                 });
-            } else {
-                // Browser doesn't support Geolocation
-                var pos = {lat: 32.87998053492496, lng: -117.2360865181381}
-                map.setCenter();
-            }
+            } 
         },
         getData: function () {
             var center = map.getCenter();

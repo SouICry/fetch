@@ -12,9 +12,7 @@ var destGeo;
         version: 0, //Must be 0 
         getData: null,
         loadData: null,
-        onPageLoad: function () {
-            getGeolocation
-        }
+        onPageLoad: getGeolocation
     }
 })();
 
