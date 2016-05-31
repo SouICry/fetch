@@ -33,6 +33,18 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname));
 
+//SSL
+// var https = require('https');
+// var http = require('http');
+// var httpApp = express();
+// var fs = require('fs');
+// var options = {
+//     key: fs.readFileSync('/path/to/privkey.pem'),
+//     cert: fs.readFileSync('/path/to/fullchain.pem'),
+//     ca: fs.readFileSync('/path/to/chain.pem')
+// }
+
+
 var masters = {};
 
 function createNotification(userId, text, page, icon) {
@@ -1967,7 +1979,7 @@ app.post('/_cancelTicket', function (req, res) {
     var ticketId = req.body.ticketId;
     var object = {};
     if (ticketId == null) {
-        res.status(420);
+        res.status(500);
         console.log('ERROR IS HERE');
         console.log(ticketId);
         res.setHeader('Content-Type', 'application/json');
@@ -2216,6 +2228,19 @@ MongoClient.connect(mongodb_url, function (err, database) {
     mongoose.connect(mongodb_url);
     db = database;
 });
+
+//SSL REPLACE BELOW SERVER
+// httpApp.get('*', function(req, res){
+//     res.redirect('https://fetchgrocery.com' + req.url);
+// };
+//
+// http.createServer(httpApp).listen(80);
+//
+// var server = https.createServer(options, app).listen(443, function () {
+//     var host = server.address().address;
+//     var port = server.address().port;
+//     console.log("Example app listening at http://%s:%s", host, port)
+// }
 
 var server = app.listen(3000, function () {
     var host = server.address().address;
