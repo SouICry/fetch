@@ -9,6 +9,7 @@
                 canvas.height = vid.offsetHeight;
                 canvas.width = canvas.height;
             }
+            upload.style.display = "none";
             enableCameraImage(vid, canvas,
                 document.getElementById("takeButton1"),
                 document.getElementById("redoButton1"),
@@ -28,7 +29,7 @@
     var canvas = document.getElementById("canvas1");
     
     var upload = document.getElementById('uploadButton1');
-    upload.style.display = "none";
+
     $('#takeButton1').click(function(){
         upload.style.display = "block";
     });
