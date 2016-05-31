@@ -1,23 +1,22 @@
-
 var map;
 function initMap() {
 
     map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: -34.397, lng: 150.644},
+        center: {lat: 32.88, lng: -117.233},
         zoom: 18
     });
 
 
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
+        navigator.geolocation.getCurrentPosition(function (position) {
             var pos = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };
 
             map.setCenter(pos);
-        }, function() {
+        }, function () {
             handleLocationError(true, infoWindow, map.getCenter());
         });
     } else {
