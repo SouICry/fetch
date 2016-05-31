@@ -123,9 +123,9 @@ function index_login(){
 
 function toggleShopper(){
     $("#index-Deliveries").remove();
-   
+    $("#index-Tickets").remove();
 
-    $("#Butt").append("<div class='panel-divs'id='index-History' onclick=goToPage('_history'); > <span class= ''></span> History </div>");
+    $("#Butt").append("<div class='panel-divs'id='index-History' onclick=goToPage('_history'); > <span class= ''></span> Your Orders </div>");
 
 
   
@@ -137,7 +137,7 @@ function toggleDriver(){
     
     $("#index-History").remove();
 
-
+    $("#Butt").append("<div class='panel-divs'idg='index-Tickets' onclick=goToPage('_tickets'); > <span class= ''></span> Tickets </div>");
     $("#Butt").append("<div class='panel-divs'id='index-Deliveries' onclick=goToPage('_yourDeliveries'); > <span class= ''></span> Your Deliveries </div>");
 
    
