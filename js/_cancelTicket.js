@@ -1,9 +1,8 @@
 (function () {
     loader._cancelTicket = {
-        data: {driver_full_name: "Pamela Anderson",
+        data: {
             items: ["aa","bb","cc","dd"],
-            driverId: "firstpartofemail",
-            pos: {lat:32, lng:-150},
+            shopping_location: {lat:32, lng:-150},
             special_note: "cheap",
             //time: "<table class='calendar calendar0'> <thead> <tr class='calendar-head'  cellpadding='0' cellspacing='0'> </tr> </thead> </table> <table class='calendar calendar1' cellpadding='0' cellspacing='0'> <tbody> <tr><td>6</td> <td>6</td> <td>6</td> <td>6</td> <td>6</td> <td>6</td> <td>6</td> </tr> <tr> <td>7</td> <td>7</td> <td>7</td> <td>7</td> <td>7</td> <td>7</td> <td>7</td> </tr> <tr> <td>8</td> <td>8</td> <td>8</td> <td>8</td> <td>8</td> <td>8</td> <td>8</td> </tr> <tr> <td>9</td> <td>9</td> <td>9</td> <td>9</td> <td>9</td> <td>9</td> <td>9</td> </tr> <tr> <td>10</td> <td>10</td> <td>10</td> <td>10</td> <td>10</td> <td>10</td> <td>10</td> </tr> <tr> <td>11</td> <td>11</td> <td>11</td> <td>11</td> <td>11</td> <td>11</td> <td>11</td> </tr> </tbody> </table> <table class='calendar calendar2'> <tbody> <tr> <td>12</td> <td>12</td> <td>12</td> <td>12</td> <td>12</td> <td>12</td> <td>12</td> </tr> <tr> <td>1</td> <td>1</td> <td>1</td> <td>1</td> <td>1</td> <td>1</td> <td>1</td> </tr> <tr> <td>2</td> <td>2</td> <td>2</td> <td>2</td> <td>2</td> <td>2</td> <td>2</td> </tr> <tr> <td>3</td> <td>3</td> <td>3</td> <td>3</td> <td>3</td> <td>3</td> <td>3</td> </tr> <tr> <td>4</td> <td>4</td> <td>4</td> <td>4</td> <td>4</td> <td>4</td> <td>4</td> </tr> <tr> <td>5</td> <td>5</td> <td>5</td> <td>5</td> <td>5</td> <td>5</td> </tr> </tbody> </table> <table class='calendar calendar3'> <tbody> <tr> <td>6</td> <td>6</td> <td>6</td> <td>6</td> <td>6</td> <td>6</td> <td>6</td> </tr> <tr> <td>7</td> <td>7</td> <td>7</td> <td>7</td> <td>7</td> <td>7</td> <td>7</td> </tr> <tr> <td>8</td> <td>8</td> <td>8</td> <td>8</td> <td>8</td> <td>8</td> <td>8</td> </tr> <tr> <td>9</td> <td>9</td> <td>9</td> <td>9</td> <td>9</td> <td>9</td> </tr> <tr> <td>10</td> <td>10</td> <td>10</td> <td>10</td> <td>10</td> <td>10</td> <td>10</td> </tr> <tr> <td>11</td> <td>11</td> <td>11</td> <td>11</td> <td>11</td> <td>11</td> <td>11</td> </tr> </tbody> </table> <table class='calendar calendar4'> <tbody> <tr> <td>12</td> <td>12</td> <td>12</td> <td>12</td> <td>12</td> <td>12</td> <td>12</td> </tr> <tr> <td>1</td> <td>1</td> <td>1</td> <td>1</td> <td>1</td> <td>1</td> <td>1</td> </tr> <tr> <td>2</td> <td>2</td> <td>2</td> <td>2</td> <td>2</td> <td>2</td> <td>2</td> </tr> <tr> <td>3</td> <td>3</td> <td>3</td> <td>3</td> <td>3</td> <td>3</td> <td>3</td> </tr> <tr> <td>4</td> <td>4</td> <td>4</td> <td>4</td> <td>4</td> <td>4</td> <td>4</td> </tr> <tr> <td>5</td> <td>5</td> <td>5</td> <td>5</td> <td>5</td> <td>5</td> <td>5</td> </tr> </tbody> </table>"
             calendar:loader._deliveryTime.getData()
@@ -17,7 +16,7 @@
 
             else {
                 $("#_cancelTicket_numItems").text("");
-                loader.loadMap("cancelTicketMap",{lat:32, lng:-150});
+                loader.loadMap("cancelTicketMap",data.shopping_location);
                 $("#cancelTicketCalendar").append(loader.parseCalendar(data.calendar));
                 $("#_cancelTicket ul").html("");
                 $("#cancelTicket_note").val("");
@@ -29,7 +28,7 @@
                 // document.getElementById("cancelTicket-img").src = "images/profiles/" + data.driverId + ".png";
                 // document.getElementById("listName_cancelTicket").innerHTML = data.driver_full_name + " took your ticket";
                 document.getElementById("cancelTicket_note").innerHTML = "Special Notes: " + data.special_note;
-                $("#cancelTicket_location").text("Delivery Location: " + data.shopping_location);
+                // $("#cancelTicket_location").text("Delivery Location: " + data.shopping_location);
                 //$("#cancelTicketCalendar").append(data.time);
 
                 for (var i = 0; i < array.length; i++) {
@@ -81,7 +80,7 @@ function loadCancelTicket() {
     $.ajax({
         type: "POST",
         url: "/_cancelTicket",
-        data: {ticket: loader.ticketId},
+        data: {ticketId: loader.ticketId},
         success: function (data) {
             //data is the object sent back on success (could also just be string)
             loader._cancelTicket.loadData(data);
@@ -103,7 +102,7 @@ function cancelTicket() {
     $.ajax({
         type: "POST",
         url: "/_cancelTicket",
-        data: {ticket: loader.ticketId, type: 'cancel'},
+        data: {ticketId: loader.ticketId, type: 'cancel'},
         success: function (data) {
             //data is the object sent back on success (could also just be string)
             // var str= data.email;
