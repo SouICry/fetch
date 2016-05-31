@@ -162,32 +162,56 @@
                 loader.goToPage(page);
             }
         },
-        updateShopping: function(){
-            if (loader.isLoggedIn && loader.userId.length > 1) {
-
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json",
-                    dataType: "json",
-                    url: "/_shopping",
-                    data: JSON.stringify({
-                        version: loader._shopping.version,
-                        list: loader._shopping.getData()
-                    }),
-                    success: function (data) {
-                        if (data.list) {
-                            loader._shopping.loadData(data.list);
-                            loader._shopping.version = data.version;
-                            //loader._shopping.version = data.version;
-                        }
-//                    else{
-//                        //ticketPrototype.ticket.list = loader._shopping.getData();
-//                        loader._shopping.data = loader._shopping.getData();
+//        updateShopping: function(){
+//        //    if (loader.currentPage == "_shopping") {
+//
+//                $.ajax({
+//                    type: "POST",
+//                    contentType: "application/json",
+//                    dataType: "json",
+//                    url: "/_shopping",
+//                    data: JSON.stringify({
+//                        version: loader._shopping.version,
+//                        list: loader._shopping.getData(),
+//                        checkoutVersion: loader._checkout.version,
+//                        checkout: loader._checkout.getData()
+//                    }),
+//                    success: function (data) {
+//                        if (data && data.list) {
+//                            loader._shopping.loadData(data.list);
+//                            loader._shopping.version = data.version;
+//                        }
+//                        if(data && data.checkout){
+//                            loader._checkout.loadData(data.checkout);
+//                            loader._checkout.version = data.checkoutVersion;
+//                        }
 //                    }
-                    }
-                });
-            }
-        },
+//                });
+
+//            if(loader.currentPage == "_checkout"){
+//               console.log(loader._checkout.getData().checkout_notes);
+//                $.ajax({
+//                    type: "POST",
+//                    contentType: "application/json",
+//                    dataType: "json",
+//                    url: "/_shopping",
+//                    data: JSON.stringify({
+////                        version: loader._shopping.version,
+////                        list: loader._shopping.getData(),
+//                        checkoutVersion: loader._checkout.version,
+//                        checkout: loader._checkout.getData()
+//                    }),
+//                    success: function (data) {
+//                        if (data.checkout) {
+//                            loader._checkout.loadData(JSON.parse(data.checkout));
+//                            loader._checkout.version = data.checkoutVersion;
+//                            //loader._shopping.version = data.version;
+//                        }
+//                    }
+//                });
+//            }
+
+        //},
         //Saves current active ticket (if any), then fetches new one and loads page data corresponding to ticket status in back end store
 //        sendData: function () { //Gets data from page and sends to server for update. Server will send back version num
 //            if (loader.currentPageObject.getData != null) {
@@ -230,16 +254,30 @@
 //                });
 //            }
 //        },
-        currentPageChanged: null,
+        currentPageChanged: function(){
+            if(loader.currentPage == "_shopping" || loader.currentPage == "_checkout"){
+                //alert ("alert");
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    dataType: "json",
+                    url: "/_shopping",
+                    data: JSON.stringify({
+                        shoppingVersion: loader._shopping.version,
+                        list: loader._shopping.getData(),
+                        checkoutVersion: loader._checkout.version,
+                        checkout: loader._checkout.getData()
+                    })
+                });
+            }
+        },
         //set to run every second elsewhere
         getUpdates: function () {
 
             //Only update if not active
             if (loader.isLoggedIn && loader.userId.length > 1) {
                 //keep updating no matter what
-                if(loader.currentPage == "_shopping"){
-                    loader.updateShopping();
-                }
+                loader.currentPageChanged();
                 if (loader.activeCyclesLeft > 0) {
                     loader.activeCyclesLeft--;
                 }
@@ -249,7 +287,20 @@
                         contentType: "application/json",
                         dataType: "json",
                         url: "/getUpdates",
+                        data: JSON.stringify({
+                            shoppingVersion : loader._shopping.version,
+                            checkoutVersion: loader._checkout.version
+                        }),
                         success: function (data) {
+                            alert(JSON.stringify(data.list));
+                            if(data.list != null){
+                                loader._shopping.version = data.shoppingVersion;
+                                loader._shopping.loadData(data.list);
+                            }
+                            if(data.checkout != null){
+                                loader._checkout.loadData(data.checkout);
+                                loader._checkout.version = data.checkoutVersion
+                            }
 
                             loader.ticketId = data.ticketId;
                             if (!data.isLoggedIn) {
