@@ -27,12 +27,12 @@
             }
             
             $("#accsetting_full_name").val(data.full_name).siblings().addClass("active");
-            $("#accsetting_email").val(data.email).siblings().addClass("active");;
-            $("#accsetting_phone").val(data.phone).siblings().addClass("active");;
-            $("#accsetting_street").val(data.street).siblings().addClass("active");;
-            $("#accsetting_city").val(data.city).siblings().addClass("active");;
-            $("#accsetting_state").val(data.state).siblings().addClass("active");;
-            $("#accsetting_zip").val(data.zip).siblings().addClass("active");;
+            $("#accsetting_email").val(data.email).siblings().addClass("active");
+            $("#accsetting_phone").val(data.phone).siblings().addClass("active");
+            $("#accsetting_street").val(data.street).siblings().addClass("active");
+            $("#accsetting_city").val(data.city).siblings().addClass("active");
+            $("#accsetting_state").val(data.state).siblings().addClass("active");
+            $("#accsetting_zip").val(data.zip).siblings().addClass("active");
             document.getElementById("index_user-name").innerHTML = data.full_name;
 
         },
