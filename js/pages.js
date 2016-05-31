@@ -8,5 +8,5 @@ var allPages = [
     ["_yourDeliveries", '_driverList', "_receiptPictureEnterPrice", "_congrats_driver_finish_shopping"],
     ["_purchasedTickets", '_rateUser', '_congrats'],
 
-    ["_accSetting", "_contact", "_passwordRecovery", "_passwordReset", "_login", "_signUp", "_takeProfilePicture"]
+    ["_accSetting", "_contact", "_passwordRecovery", "_passwordReset", "_login", "_signUp", "_takeProfilePicture", "_verifyEmail"]
 ];

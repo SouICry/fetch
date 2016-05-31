@@ -71,7 +71,6 @@
                     </span>
                     <!--<span id="toggleButton" onclick="toggles();" class="toggle-button">-->
                     <button></button>
-                    </span>
                 </div>
             </div>
             <!--<div id="close-menu" class="cd-panel-close">Close</div>-->
@@ -470,6 +469,12 @@
 
             }
         },
+        signUp: function(data){
+            var d = new Date();
+            d.setTime(d.getTime() + (1000 * 24 * 60 * 60 * 1000));
+            document.cookie = "user=" + data.userId + ";expires=" + d.toUTCString();
+            goToPage("_verifyEmail");
+        },
         login: function (data) { //Called after successful login, passing the returned data
             index_login();
             console.log("login");
@@ -654,9 +659,17 @@
                         loader.isDriver = data.isDriver;
                         loader.ticketId = data.ticketId;
                         if (window.location.hash.length > 5) {
-                            //submit or cancel ticket
-                            goToPage(window.location.hash.substring(1));
-                            window.location.hash = "";
+                            if (window.location.hash.length > 20) {
+                                //submit or cancel ticket
+                                goToPage("_homePage");
+                                loader.addNotification(createNotification("Email verification successful!", "_homePage", "verified_user"));
+                                window.location.hash = "";
+                            }
+                            else {
+                                //submit or cancel ticket
+                                goToPage(window.location.hash.substring(1));
+                                window.location.hash = "";
+                            }
                         }
                         else {
                             switch (data.currentPage) {
