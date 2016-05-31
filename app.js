@@ -1654,46 +1654,8 @@ app.post('/_viewTicket', function (req, res) {
         res.send('');
     }
     else {
-        // db.collection('users').findOne({'grocery_list._id': ticketId}, function(err, user) {
-        //     if (err) {
-        //         console.log('In _viewTicket: userId is null');
-        //         res.status(500);
-        //         res.send('');
-        //     }
-        //     else if (!user) {
-        //         console.log('In _viewTicket: user not found');
-        //         res.status(500);
-        //         res.send('');
-        //     }
-        //     else {
-        //         var ticketToSend = null;
-        //         for (var i = 0; i < user.grocery_list.length; i++) {
-        //             if (user.grocery_list[i]._id == ticketId) {
-        //                 ticketToSend = user.grocery_list[i];
-        //                 break;
-        //             }
-        //         }
-        //
-        //         if (ticketToSend == null) {
-        //             console.log('In _viewTicket: ticket not found');
-        //             res.status(500);
-        //             res.send('');
-        //         }
-        //         else {
-        //             db.collection('users').updateOne({_id: userId}, {$push: {'delivery_list': ticketToSend}}, function(err) {
-        //                 if (err) {
-        //                     console.log('In _viewTicket: userId is null');
-        //                     res.status(500);
-        //                     res.send('');
-        //                 }
-        //             });
-        //         }
-        //     }
-        // });
-
         db.collection('users').update(
             {
-                _id: userId,
                 'grocery_list._id': ticketId
             },
             {
@@ -1701,56 +1663,65 @@ app.post('/_viewTicket', function (req, res) {
                     'grocery_list.$.state': 'accepted'
                 }
             }, function (err) {
-                // Get the user that we just modified
-                db.collection('users').findOne({'grocery_list._id': ticketId}, function (err, user) {
-                    if (err) {
-                        console.log('error');
-                        res.status(500);
-                        res.send('');
-                    }
-                    else if (!user) {
-                        console.log('In _viewTicket: could not find user with corresponding ticketId: ' + ticketId);
-                        res.status(500);
-                        res.send('');
-                    }
-                    else {
-                        var ticketToSend = null;
-
-                        for (var i = 0; i < user.grocery_list.length; i++) {
-                            if (user.grocery_list[i]._id == ticketId) {
-                                ticketToSend = user.grocery_list[i];
-                                break;
-                            }
+                if (err) {
+                    console.log('Error: ' + err);
+                    res.status(500);
+                    res.send('');
+                }
+                else {
+                    // Get the user that we just modified
+                    db.collection('users').findOne({'grocery_list._id': ticketId}, function (err, user) {
+                        if (err) {
+                            console.log('error');
+                            res.status(500);
+                            res.send('');
                         }
-
-                        if (ticketToSend == null) {
+                        else if (!user) {
                             console.log('In _viewTicket: could not find user with corresponding ticketId: ' + ticketId);
                             res.status(500);
                             res.send('');
-                            return;
                         }
+                        else {
+                            var ticketToSend = null;
 
-                        db.collection('users').update({_id: userId}, {$push:{'delivery_list': ticketToSend}}, function(err) {
-                            if (err) {
-                                console.log('error');
+                            for (var i = 0; i < user.grocery_list.length; i++) {
+                                if (user.grocery_list[i]._id == ticketId) {
+                                    ticketToSend = user.grocery_list[i];
+                                    break;
+                                }
+                            }
+
+                            if (ticketToSend == null) {
+                                console.log('In _viewTicket: could not find user with corresponding ticketId: ' + ticketId);
                                 res.status(500);
                                 res.send('');
+                                return;
                             }
-                            else {
-                                db.collection('grocery_queue').remove({_id: ticketId}, function (err) {
-                                    if (err) {
-                                        console.log('In _viewTicket: could not remove ticket from queue: ' + ticketId);
-                                        res.status(500);
-                                        res.send('');
-                                        return;
-                                    }
 
-                                    console.log('Successfully removed ticket from queue with id: ' + ticketId);
-                                });
-                            }
-                        });
-                    }
-                });
+                            console.log('Updated ticket state: ' + ticketToSend.state);
+
+                            db.collection('users').update({_id: userId}, {$push: {'delivery_list': ticketToSend}}, function (err) {
+                                if (err) {
+                                    console.log('error');
+                                    res.status(500);
+                                    res.send('');
+                                }
+                                else {
+                                    db.collection('grocery_queue').remove({_id: ticketId}, function (err) {
+                                        if (err) {
+                                            console.log('In _viewTicket: could not remove ticket from queue: ' + ticketId);
+                                            res.status(500);
+                                            res.send('');
+                                            return;
+                                        }
+
+                                        console.log('Successfully removed ticket from queue with id: ' + ticketId);
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
             }
         );
     }
