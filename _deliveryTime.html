@@ -64,10 +64,7 @@
                     </thead>
                 </table>
                 <table class="calendar calendar1" cellpadding="0" cellspacing="0">
-
-
                     <tbody>
-
                     <tr>
                         <td>6</td>
                         <td>6</td>
@@ -313,6 +310,18 @@
 <script>
 
     (function () {
+        loader.parseCalendar = function(dat){
+            var cal = document.createElement('div');
+            $(cal).html('<table class="calendar calendar0"><thead><tr class="calendar-head"cellpadding="0"cellspacing="0"></tr></thead></table><table class="calendar calendar1"cellpadding="0"cellspacing="0"><tbody><tr><td>6</td><td>6</td><td>6</td><td>6</td><td>6</td><td>6</td><td>6</td></tr><tr><td>7</td><td>7</td><td>7</td><td>7</td><td>7</td><td>7</td><td>7</td></tr><tr><td>8</td><td>8</td><td>8</td><td>8</td><td>8</td><td>8</td><td>8</td></tr><tr><td>9</td><td>9</td><td>9</td><td>9</td><td>9</td><td>9</td><td>9</td></tr><tr><td>10</td><td>10</td><td>10</td><td>10</td><td>10</td><td>10</td><td>10</td></tr><tr><td>11</td><td>11</td><td>11</td><td>11</td><td>11</td><td>11</td><td>11</td></tr></tbody></table><table class="calendar calendar2"><tbody><tr><td>12</td><td>12</td><td>12</td><td>12</td><td>12</td><td>12</td><td>12</td></tr><tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr><tr><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td></tr><tr><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td></tr><tr><td>4</td><td>4</td><td>4</td><td>4</td><td>4</td><td>4</td><td>4</td></tr><tr><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td></tr></tbody></table><table class="calendar calendar3"><tbody><tr><td>6</td><td>6</td><td>6</td><td>6</td><td>6</td><td>6</td><td>6</td></tr><tr><td>7</td><td>7</td><td>7</td><td>7</td><td>7</td><td>7</td><td>7</td></tr><tr><td>8</td><td>8</td><td>8</td><td>8</td><td>8</td><td>8</td><td>8</td></tr><tr><td>9</td><td>9</td><td>9</td><td>9</td><td>9</td><td>9</td><td>9</td></tr><tr><td>10</td><td>10</td><td>10</td><td>10</td><td>10</td><td>10</td><td>10</td></tr><tr><td>11</td><td>11</td><td>11</td><td>11</td><td>11</td><td>11</td><td>11</td></tr></tbody></table><table class="calendar calendar4"><tbody><tr><td>12</td><td>12</td><td>12</td><td>12</td><td>12</td><td>12</td><td>12</td></tr><tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr><tr><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td></tr><tr><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td></tr><tr><td>4</td><td>4</td><td>4</td><td>4</td><td>4</td><td>4</td><td>4</td></tr><tr><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td></tr></tbody></table>')
+            $(cal).find('.calendar-head').append(dat.head);
+            var arr = dat.body;
+            var i = 0;
+            $(cal).find("tbody .td").each(function(){
+                if (arr[i]){
+                    $(this).addClass('highlighted');
+                }
+            });
+        };
         loader._deliveryTime = {
             onPageLoad: function () {
                 var date;
@@ -325,7 +334,21 @@
                 $("#select-delivery-time .calendar-head").append(row);
             },
             getData: function () {
-                return $('#select-delivery-time').html();
+                var dat = {
+                    head: $('#select-delivery-time  .calendar-head').html(),
+                    body: []
+                };
+
+                $('#select-delivery-time tbody td').each(function(){
+                    if ($(this).hasClass('highlighted')){
+                        dat.body.push(1);
+                    }
+                    else {
+                        dat.body.push(0);
+                    }
+                });
+
+                return dat;
             },
             loadData: function (data) {
                 if (data == null) {
