@@ -26,7 +26,7 @@ var test_data = {
             //populate driver list
             $("#listName_purchasedTickets").text(" ");
             $("#phone_purchasedTickets").text(" ");
-            $("ul").empty();
+            $("#_purchasedTickets ul").empty();
             $("#purchasedTickets_numItems").text(" ");
             $("#purchasedTickets_note").val(" ");
 
