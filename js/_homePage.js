@@ -20,6 +20,9 @@
     });
     $('#homePage figure').click(function(){
         loader.store = $(this).data("store");
+        loader._checkout.loadData(null);
+        loader._deliveryTime.loadData(null);
+        loader._shopping.loadData(null);
         goToPage("_shopping");
     });
 })();
