@@ -9,7 +9,7 @@ var test_data = {
 };
 
 (function () {
-    loader._purchasedTickets = {
+    loader._deliveredTickets = {
         version: 0,
         getData: function () { //NOT SURE WHAT TO SEND -JEN
             var packData = null;
@@ -21,23 +21,23 @@ var test_data = {
         },
         loadData: function (data) {
             //populate driver list
-            $("#listName_purchasedTickets").text(" ");
-            $("#phone_purchasedTickets").text(" ");
+            $("#listName_deliveredTickets").text(" ");
+            $("#phone_deliveredTickets").text(" ");
             $("ul").empty();
-            $("#purchasedTickets_numItems").text(" ");
-            $("#purchasedTickets_note").val(" ");
+            $("#deliveredTickets_numItems").text(" ");
+            $("#deliveredTickets_note").val(" ");
 
             fullName = data.full_name;
             array = data.items;
             var name = data.full_name;
 
             //create the contact info(where should I got this, is there a flied relates to contact?
-            document.getElementById("listName_purchasedTickets").innerHTML = name + "'s Shopping List";
-            document.getElementById("phone_purchasedTickets").innerHTML = "Phone: " + data.contact;
-            $("#purchasedTickets_note").val(data.special_note).siblings().addClass("active");
-            document.getElementById("purchasedTickets-img").src = "images/profiles/" + data.shopperId + ".png";
-            $("#purchasedTickets_location").text("Delivery Location: " + data.shopping_location);
-            $("#purchasedTicketsCalendar").append(data.time);
+            document.getElementById("listName_deliveredTickets").innerHTML = name + "'s Shopping List";
+            document.getElementById("phone_deliveredTickets").innerHTML = "Phone: " + data.contact;
+            $("#deliveredTickets_note").val(data.special_note).siblings().addClass("active");
+            document.getElementById("deliveredTickets-img").src = "images/profiles/" + data.shopperId + ".png";
+            $("#deliveredTickets_location").text("Delivery Location: " + data.shopping_location);
+            $("#deliveredTicketsTicketsCalendar").append(data.time);
 
             for (var i = 0; i < array.length; i++) {
                 // item count
@@ -48,13 +48,13 @@ var test_data = {
                 newItem.innerHTML = array[i];
                 newItem.className = 'driverItem';
                 //newItem.id = array[i];
-                $('#purchasedTickets_list').prepend(newItem);
+                $('#deliveredTickets_list').prepend(newItem);
 
                 if (count == 1) {
-                    $("#purchasedTickets_numItems").text("1 item");
+                    $("#deliveredTickets_numItems").text("1 item");
                 }
                 else {
-                    $("#purchasedTickets_numItems").text(count + " items");
+                    $("#deliveredTickets_numItems").text(count + " items");
                 }
             }
         }
@@ -65,16 +65,7 @@ var test_data = {
     var fullName = "";
     var array = [];
 
-    $("#purchasedTickets_submit_list").click(function () {
-
-        confirm("Are you sure you want to close ticket?");
-
-        assholes61323355();
-        goToPage("_receiptPictureEnterPrice");
-
-    });
-
-    $("#purchasedTickets-back").click(function() {
+    $("#deliveredTickets-back").click(function() {
         goToPage("_yourDeliveries");
     });
 
@@ -83,13 +74,13 @@ var test_data = {
     // Used after click submit, update the grocery ticket for the users
     function assholes61323355() {
         var info_to_send = {};
-        info_to_send.ticketId = loader._purchasedTickets.data;
+        info_to_send.ticketId = loader._deliveredTickets.data;
         //alert(info_to_send.ticketId);
         info_to_send.type = 'send';
 
         $.ajax({
             type: "POST",
-            url: "/_purchasedTickets",
+            url: "/_deliveredTickets",
             data: info_to_send,
             success: function (data) {
                 alert('success!!!!!');
@@ -105,19 +96,19 @@ var test_data = {
     // Used to get data from db
     function assholes666() {
         var info_to_send = {};
-        info_to_send.ticketId = loader._purchasedTickets.data;
+        info_to_send.ticketId = loader._deliveredTickets.data;
         //alert(info_to_send.ticketId);
         info_to_send.type = 'send';
 
         $.ajax({
             type: "POST",
-            url: "/purchasedTicketsUpdate",
+            url: "/deliveredTicketsUpdate",
             contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(info_to_send),
             success: function (data) {
                 //data is the object sent back on success (could also just be string)
-                loader._purchasedTickets.loadData(data);
+                loader._deliveredTickets.loadData(data);
             },
             error: function (data) {
                 //data is the object send back on fail (could also just be string)
