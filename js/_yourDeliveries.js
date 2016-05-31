@@ -17,7 +17,7 @@
             assholes135();
         },
         loadData: function (data) {
-            $("#yourDeliveries__accepted_tickets").empty();
+            $("#yourDeliveries_accepted_tickets").empty();
             $("#yourDeliveries_shopped_tickets").empty();
             $("#yourDeliveries_delivered_tickets").empty();
 
@@ -125,7 +125,7 @@
             });
         }
     };
-
+    var pc = 0;
     $('li.yourDeliveries1').each(function () {
         $(this).click(function () {
             // Setting loader._driverList.data to ticketId here
