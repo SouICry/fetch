@@ -57,12 +57,7 @@ var test_data = {
                     $("#_driver_numItems").text(count + " items left");
                 }
 
-                if (count != 0) {
-                    $("#_driver_footerInfo").show();
-                }
-                else {
-                    $("#_driver_footerInfo").hide();
-                }
+
             }
 
             // for(var j = 0; j < arrayCheckedOff.length; j++){
@@ -115,34 +110,33 @@ var test_data = {
         }
 
         if (arr.length === count || flag === true) {
-            assholes61323355();
-            goToPage("_congrats_driver_finish_shopping");
+            //assholes61323355();
+            //goToPage("_congrats_driver_finish_shopping");
+            goToPage('_receiptPictureEnterPrice');
         }
     });
-
-    assholes666();
-
-    // Used after click submit, update the grocery ticket for the users
-    function assholes61323355() {
-        var info_to_send = {};
-        info_to_send.ticketId = loader._driverList.data;
-        //alert(info_to_send.ticketId);
-        info_to_send.type = 'send';
-
-        $.ajax({
-            type: "POST",
-            url: "/_driverList",
-            data: info_to_send,
-            success: function (data) {
-                alert('success!!!!!');
-                //data is the object sent back on success (could also just be string)
-                //loader._driverList.loadData(data);
-            },
-            error: function (data) {
-                //data is the object send back on fail (could also just be string)
-            }
-        });
-    }
+    
+    // // Used after click submit, update the grocery ticket for the users
+    // function assholes61323355() {
+    //     var info_to_send = {};
+    //     info_to_send.ticketId = loader._driverList.data;
+    //     //alert(info_to_send.ticketId);
+    //     info_to_send.type = 'send';
+    //
+    //     $.ajax({
+    //         type: "POST",
+    //         url: "/_driverList",
+    //         data: info_to_send,
+    //         success: function (data) {
+    //             alert('success!!!!!');
+    //             //data is the object sent back on success (could also just be string)
+    //             //loader._driverList.loadData(data);
+    //         },
+    //         error: function (data) {
+    //             //data is the object send back on fail (could also just be string)
+    //         }
+    //     });
+    // }
 
     // Used to get data from db
     function assholes666() {

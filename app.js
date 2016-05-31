@@ -1452,7 +1452,6 @@ app.post('_homePage', function (req, res, next) {
 });
 
 app.post('/driverListUpdate', function (req, res) {
-
     var ticketId = req.body.ticketId;
 
     if (!ticketId) {

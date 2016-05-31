@@ -148,6 +148,7 @@
 
             $('li.yourOrders1').each(function () {
                 $(this).click(function () {
+                    loader.ticketId = $(this).data('id');
                     // alert($(this).data("id"));
                     // loader.getTicket($(this).data("id"), $(this).data("state"));
                     goToPage("_shoppingStatus");
@@ -156,6 +157,7 @@
 
             $('li.yourOrders').each(function () {
                 $(this).click(function () {
+                    loader.ticketId = $(this).data('id');
                     // alert($(this).data("id"));
                     // loader.getTicket($(this).data("id"), $(this).data("state"));
                     goToPage("_cancelTicket");
@@ -183,7 +185,7 @@
                 loader._history.loadData(data);
 
                 // TODO: for viewTicket get the ticket data from loader.history
-                loader.history = data;
+                loader.history = data.user_history.concat(data.pending_list);
             },
             error: function (data) {
                 //data is the object send back on fail (could also just be string)
