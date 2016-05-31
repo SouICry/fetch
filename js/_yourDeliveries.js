@@ -121,6 +121,7 @@
             $('li.yourDeliveries1').each(function () {
                 $(this).click(function () {
                     //alert($('li.yourDeliveries1').data('id'));
+                    loader.ticketId = $(this).data('id');
                     loader._driverList.data = $('li.yourDeliveries1').data('id');
                     goToPage('_driverList');
                     //loader._driverList.loadData($('li.yourDeliveries1').data('id'));
@@ -133,6 +134,8 @@
 
     $('li.yourDeliveries1').each(function () {
         $(this).click(function () {
+
+            loader.ticketId = $(this).data('id');
             // Setting loader._driverList.data to ticketId here
             loader._driverList.data = $('li.yourDeliveries1').data('id');
             goToPage('/_driverList');
