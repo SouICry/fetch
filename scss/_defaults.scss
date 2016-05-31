@@ -87,10 +87,14 @@ h4 {
 }
 
 h6 {
-  font-size: 1.5em;
+  font-size: 20px;
   font-weight: 200;
   margin: 0;
-  text-shadow: 1px 1px rgba(119, 119, 119, 0.36);
+  //text-shadow: 1px 1px rgba(119, 119, 119, 0.36);
+  @media screen and (max-width: 570px) {
+    font-size: 15px;
+    font-weight:200;
+  }
 }
 
 .box {
