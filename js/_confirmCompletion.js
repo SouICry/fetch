@@ -79,7 +79,7 @@
         changeTicketState();
 
         // TODO: FIX THIS. CURRENTLY DOESN'T GO TO RATEUSER FOR SOME REASON?
-        goToPage("/_rateUser");
+        goToPage("_rateDriver");
     });
 
     function changeTicketState() {
@@ -91,7 +91,7 @@
                 type: 'send'
             },
             success: function (data) {
-                goToPage("/_rateDriver");
+                goToPage("_rateDriver");
                 console.log('Successfully changed ticket state to delivered');
             },
             error: function (data) {
