@@ -1,4 +1,11 @@
 #tickets {
+
+  label{
+    margin:3px 0;
+    margin-left:32%;
+    font-weight:100;
+    color:black;
+  }
   h4{
     color:black;
     font-weight:100;
@@ -31,10 +38,11 @@
   }
 
   .store {
-    border-radius: 5px;
-    box-shadow: 0px 1px 3px #888888;
+    //border-radius: 5px;
+    //box-shadow: 0px 1px 3px #888888;
     margin: 0 2px;
     padding:0;
+    text-align:left;
 
   }
   .marketButtons {
