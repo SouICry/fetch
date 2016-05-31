@@ -1901,37 +1901,40 @@ app.post('/_shoppingStatus', function(req,res) {
         res.setHeader('Content-Type', 'application/json');
         res.send({message: 'no user logged in'});
     }
+    else {
+        console.log('LOADING ACCOUNT');
+        db.collection('users').findOne({"grocery_list._id": ticketId},
+            function (err, ticket) {
+                if (err) {
+                    console.log('Error in : ' + err);
+                    res.status(500);
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send({message: 'cannot access collection to find ticket '});
+                    return;
+                }
+                else {
+                    if (ticket == null) {
+                        console.log('Could not find user with ticket ' + ticketId + ' in _shoppingStatus');
+                        console.log(JSON.stringify(ticket));
+                        res.status(500);
+                        res.send('');
+                    }
+                    else {
+                        //console.log(JSON.stringify(ticket));
+                        object.items = ticket.shopping_list;
+                        object.driverId = ticket.driver._id;
+                        object.driver_full_name = ticket.driver.full_name;
+                        object.special_note = ticket.special_options;
+                        object.time = ticket.available_time;
+                        object.shopping_location = ticket.geolocation;
 
-    console.log('LOADING ACCOUNT');
-    db.collection('users').findOne({"grocery_list._id": ticketId},
-        function (err, ticket) {
-            if (err) {
-                console.log('Error in : ' + err);
-                res.status(500);
-                res.setHeader('Content-Type', 'application/json');
-                res.send({message: 'cannot access collection to find ticket '});
-                return;
+                        res.setHeader('Content-Type', 'application/json');
+                        res.send(JSON.stringify(object));
+                    }
+                }
             }
-            if (ticket == null) {
-                console.log('Could not find user with ticket ' + ticketId + ' in _shoppingStatus');
-                console.log(JSON.stringify(ticket));
-                res.status(500);
-                res.send('');
-            }
-            else {
-                //console.log(JSON.stringify(ticket));
-                object.items = ticket.shopping_list;
-                object.driverId = ticket.driver._id;
-                object.driver_full_name = ticket.driver.full_name;
-                object.special_note = ticket.special_options;
-                object.time = ticket.available_time;
-                object.shopping_location = ticket.geolocation;
-
-                res.setHeader('Content-Type', 'application/json');
-                res.send(JSON.stringify(object));
-            }
-        }
-    );
+        );
+    }
 });
 
 //---------------------------- Price and Receipt Photo ------------------------
