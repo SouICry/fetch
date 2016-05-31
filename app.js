@@ -1987,7 +1987,7 @@ app.post('/_cancelTicket', function (req, res) {
     }
 
     else if(req.body.type == 'cancel') {
-        db.collection('users').updateOne({"grocery_list._id": ticketId},
+        db.collection('users').updateOne({'grocery_list._id': ticketId},
             {
                 $set: {
                     state: 'cancelled'
@@ -2059,7 +2059,7 @@ app.post('/_shoppingStatus', function(req,res) {
     }
     else {
         console.log('LOADING ACCOUNT');
-        db.collection('users').findOne({"grocery_list._id": ticketId},
+        db.collection('users').findOne({'grocery_list._id': ticketId},
             function (err, ticket) {
                 if (err) {
                     console.log('Error in : ' + err);
