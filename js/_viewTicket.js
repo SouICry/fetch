@@ -42,7 +42,7 @@
     };
 
     var ticketId = null;
-
+    
     $('#_viewTicket_submit_list').click(function () {
         assholes39();
         goToPage("_yourDeliveries");

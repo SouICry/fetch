@@ -9,14 +9,14 @@
         },
         loadData: function (data) {
             cancelled_ticketState = {
-                ticket_id: data.id,
+                ticket_id: data.id
               //  state: "canceled"
             }
         }
     };
 
     $('#submit_cancelled').click(function () {
-        goToPage("_shopping");
+        goToPage("_homePage");
     });
 
 })();
