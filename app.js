@@ -1684,24 +1684,6 @@ app.post('/_viewTicket', function (req, res) {
 
                             console.log('Updated ticket state: ' + ticketToSend.state);
 
-                            // Update ticket to hold driver's name
-                            db.collection('users').findOne({_id: userId}, function(err, user) {
-                                if (err) {
-                                    console.log('error: ' + err);
-                                    res.status(500);
-                                    res.send('');
-                                }
-                                else if (!user){
-                                    console.log('error could not find user');
-                                    res.status(500);
-                                    res.send('');
-                                }
-                                else {
-                                    ticketToSend.driver.full_name = user.full_name;
-                                }
-                            });
-
-                            // Add ticket to the driver's delivery list
                             db.collection('users').update({_id: userId}, {$push: {'delivery_list': ticketToSend}}, function (err) {
                                 if (err) {
                                     console.log('error');
@@ -1817,49 +1799,49 @@ app.post('/_cancelTicket', function(req, res) {
 
 
 //---------------------------- shopping status ---------------------------------
-// app.post('/_shoppingStatus', function(req,res) {
-//     var ticketId = req.body.ticketId;
-//     var object = {};
-//     if (userId == null) {
-//         res.status(420);
-//         console.log('ERROR IS HERE');
-//         console.log(userId)
-//         res.setHeader('Content-Type', 'application/json');
-//         res.send({message: 'no user logged in'});
-//     }
-//
-//         console.log('LOADING ACCOUNT');
-//         db.collection('users').findOne({"grocery_list._id": ticketId},
-//             function (err, ticket) {
-//                 if (err) {
-//                     console.log('Error in : ' + err);
-//                     res.status(500);
-//                     res.setHeader('Content-Type', 'application/json');
-//                     res.send({message: 'cannot access collection to find user '})
-//                     return;
-//                 }
-//                 //console.log('user = ' + JSON.stringify(user));
-//                 if (ticket == null) {
-//                     console.log('Could not find user with ticket ' + ticketId + ' in _shoppingStatus');
-//                     console.log(JSON.stringify(ticket));
-//                     res.status(500);
-//                     res.send('');
-//                     return;
-//                 }
-//                 else {
-//                     //console.log(JSON.stringify(ticket));
-//                     object.items = ticket.shopping_list;
-//                     object.driverId = ticket.driver._id;
-//                     object.driver_full_name = ticket.driver.full_name;
-//                     object.special_note = ticket.special_options;
-//                     object.time = ticket.available_time;
-//
-//                     res.setHeader('Content-Type', 'application/json');
-//                     res.send(JSON.stringify(object));
-//                 }
-//             });
-//     }
-// });
+app.post('/_shoppingStatus', function(req,res) {
+    var ticketId = req.body.ticketId;
+    var object = {};
+    if (userId == null) {
+        res.status(420);
+        console.log('ERROR IS HERE');
+        console.log(userId)
+        res.setHeader('Content-Type', 'application/json');
+        res.send({message: 'no user logged in'});
+    }
+
+        console.log('LOADING ACCOUNT');
+        db.collection('users').findOne({"grocery_list._id": ticketId},
+            function (err, ticket) {
+                if (err) {
+                    console.log('Error in : ' + err);
+                    res.status(500);
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send({message: 'cannot access collection to find user '})
+                    return;
+                }
+                //console.log('user = ' + JSON.stringify(user));
+                if (ticket == null) {
+                    console.log('Could not find user with ticket ' + ticketId + ' in _shoppingStatus');
+                    console.log(JSON.stringify(ticket));
+                    res.status(500);
+                    res.send('');
+                    return;
+                }
+                else {
+                    //console.log(JSON.stringify(ticket));
+                    object.items = ticket.shopping_list;
+                    object.driverId = ticket.driver._id;
+                    object.driver_full_name = ticket.driver.full_name;
+                    object.special_note = ticket.special_options;
+                    object.time = ticket.available_time;
+
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send(JSON.stringify(object));
+                }
+            });
+    }
+});
 
 
 
