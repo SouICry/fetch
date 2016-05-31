@@ -28,7 +28,7 @@
         info_to_send.type = "get";
 
         //Simulation (alert or console.log to check for yourself)
-        alert(JSON.stringify(info_to_send));
+        // alert(JSON.stringify(info_to_send));
 
         //Actual
         $.ajax({
