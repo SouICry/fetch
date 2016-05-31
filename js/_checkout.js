@@ -38,7 +38,7 @@
     $('#checkout_submitcheckout').click(function () {
 
         _checkout.checkout_notes = $('input[name="special_notes"]:checked', '#checkout_notes').val();
-
+        //alert(_checkout.checkout_notes);
             // var info_to_send = {};
             // info_to_send.ticketId: _checkout.checkout_range;
             // info_to_send.available_time_end: _checkout.checkout_range1;
@@ -73,7 +73,7 @@
 
             goToPage("_pendingPayment");
             //loader.payment.simulateCompletePayment();
-            //loader.payment.triggerPayment();
+            loader.payment.triggerPayment();
 
         // go to paypal to set up payment
         // on successful payment, goes to _submitted
@@ -86,10 +86,10 @@
       //  loader.payment.simulateCancelPayment();
         goToPage("_homePage");
     });
-
+    
     $('#checkout_notes').click(function (event) {
         loader._checkout.version++;
+       // alert("clcik notes");
     });
-
 })();
 

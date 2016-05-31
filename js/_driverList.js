@@ -13,7 +13,7 @@ var test_data = {
                 contact: $("#phone").substring(8),
                 full_name: fullName,
                 items: array,
-                //special_note: data.special_note
+                special_note: data.special_note
             };
 
             return packData;
@@ -36,7 +36,8 @@ var test_data = {
             //create the contact info(where should I got this, is there a flied relates to contact?
             document.getElementById("listName_driverList").innerHTML = name + "'s Shopping List";
             document.getElementById("phone").innerHTML = "Phone: " + data.contact;
-            $("#driver_note").val(data.special_note).siblings().addClass("active");
+            alert(data.special_note);
+            $("#driver_note").text("Special Note: " + data.special_note);
 
             for (var i = 0; i < array.length; i++) {
                 // item count
