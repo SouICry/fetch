@@ -1,6 +1,6 @@
 <div class="container text-center box" id="login-container">
     <div class="row">
-        <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-lg-4 col-md-offset-3 col-lg-offset-4">
+        <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3">
             <h2 class="form-signin-heading">Fetch Login</h2><br>
 
             <div class="input-field">
@@ -11,10 +11,9 @@
                 <input type="password" class="form-control" id="login_user_pass" name="password"/><br>
                 <label for="login_user_pass">Password</label>
             </div>
-            <div class="checkbox">
-                <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Remember me<br>
-            </div>
-            <button class="btn waves-effect orange" id="login_butt" type="submit">Login</button>
+            <button class="btn waves-effect orange" id="login_butt" type="submit">Login</button><br><br>
+            <a  onclick="goToPage('_signUp')"><h6 id="signup-link">Create account</h6></a>
+
         </div>
     </div>
 </div>

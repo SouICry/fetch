@@ -14,10 +14,11 @@
             return sendBackData;
         },
         loadData: function (data) {
+            var numItems = $("#_confirm_numItems");
             $("#driver_icon").empty();
             $("#driverName").empty();
             $("ul").empty();
-            $("#_confirm_numItems").empty();
+            numItems.empty();
             $("#_confirm_price").empty();
             $("#receipt").empty();
 
@@ -56,10 +57,10 @@
                 $('#_confirm_list').prepend(newItem);
 
                 if (count == 1) {
-                    $("#_confirm_numItems").text("1 item");
+                    numItems.text("1 item");
                 }
                 else {
-                    $("#_confirm_numItems").text(count + " items");
+                    numItems.text(count + " items");
                 }
 
                 if (count != 0) {

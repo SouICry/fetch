@@ -10,9 +10,9 @@
             return dataSendBack;
         },
         loadData: function (data) {
-
+            var usImage = $('#user-image').data;
             $("#user-name_rateUser").empty();
-            $('#user-image').data('src', "/placeholder/person.png");
+            usImage('src', "/placeholder/person.png");
 
             var separatedNames = data.user_full_name;
             document.getElementById("user-name_rateUser").innerHTML = separatedNames;
@@ -21,7 +21,7 @@
             var imageSrc = "Images/users/" + data.userId + ".png";
 
             if (imageSrc !== null) {
-                $('#user-image').data('src', imageSrc);
+                usImage('src', imageSrc);
             }
         }
     };

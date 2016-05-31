@@ -6,9 +6,10 @@
         loadData: function (data) {
             ticketId = data._id;
             //populate driver list
+            var numItems = $("#_viewTicket_numItems").text;
             $("#listName").text(" ");
             $("ul").empty();
-            $("#_viewTicket_numItems").text(" ");
+            numItems(" ");
             var array = data.shopping_list;
             var separatedNames = data.shopper.full_name;
 
@@ -26,10 +27,10 @@
                 $('#_viewTicket_list').prepend(newItem);
 
                 if (count == 1) {
-                    $("#_viewTicket_numItems").text("1 item left");
+                    numItems("1 item left");
                 }
                 else {
-                    $("#_viewTicket_numItems").text(count + " items left");
+                    numItems(count + " items left");
                 }
 
                 if (count != 0) {
@@ -45,8 +46,8 @@
     var ticketId = null;
 
     $('#_viewTicket_submit_list').click(function () {
-        goToPage("_yourDeliveries");
         assholes39();
+        goToPage("_yourDeliveries");
     });
 
     function assholes39() {

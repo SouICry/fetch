@@ -3,8 +3,9 @@
        // data: "none",
         data: ["greenEggs", "ham"],
         version: 0,
+        // TODO: clear everything in the queue then reload the tickets
         onPageLoad: function() {
-            loader._shopping.loadData(null);
+            // TODO: get rid of onpageload here. do this after submission of ticket
         },//Must be 0 
         getData: function () { //must be null if not needed 
             return list_shopping;
@@ -69,7 +70,7 @@
             //newItem.append "<button>delete</button>";
             $('#shopping_list').prepend(newItem);
             shopping_count++;
-            loader._shopping.version++;
+            loader._shopping.version++; //Trivi add this
             if (shopping_count == 1) {
                 $("#shopping_numItems").text("1 item");
             }
@@ -98,7 +99,7 @@
         $(this).remove();
         $('#shopping_submit_list').hide();
         shopping_count--;
-        loader._shopping.version++;
+        loader._shopping.version++; //Trivi add this
         if (shopping_count == 1) {
             $("#shopping_numItems").text("1 item");
         }

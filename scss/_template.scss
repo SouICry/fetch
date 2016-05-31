@@ -58,14 +58,21 @@ a{
   background-color: darkorange;
 }
 
-#User{
-  background-color: #ffdb99;
+#User {
+
+
   position: fixed;
   width: 100%;
   height: 100px;
   z-index: 2000;
   top: 0;
-  @include outline-shadow;
+
+  .jumbotron{
+    background-color: #ffdb99;
+    margin:0;
+    padding:0;
+    @include outline-shadow;
+  }
 }
 
 

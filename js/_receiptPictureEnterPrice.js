@@ -5,6 +5,7 @@
     loader._receiptPictureEnterPrice = {
 
         onPageLoad: function(){
+            upload.style.display = "none";
             enableImageUpload(null, canvas, null, null, document.getElementById('uploadReceipt1'));
         },
         onPageLeave: function(){
@@ -12,11 +13,10 @@
         }
     };
 
-    var vid = document.getElementById("receipt_video1");
+    //var vid = document.getElementById("receipt_video1");
     var canvas = document.getElementById("receipt_canvas1");
 
     var upload = document.getElementById('submitReceiptButton1');
-    upload.style.display = "none";
     $('#uploadReceipt1').click(function(){
         upload.style.display = "block";
     });
@@ -38,15 +38,16 @@
     });
 
     $("#enter_price_receipt").keyup(function(){
+        var price = $("#enter_price_receipt").val();
+        var subButton = $("#submitReceiptButton1");
+        if(!isNaN(price) && price != "" ){
 
-        if(!isNaN($("#enter_price_receipt").val()) && $("#enter_price_receipt").val() != "" ){
-
-            if($("#submitReceiptButton1").hasClass('disabled')) {
-                $("#submitReceiptButton1").removeClass("disabled");
+            if(subButton.hasClass('disabled')) {
+                subButton.removeClass("disabled");
             }
         }
         else{
-            $("#submitReceiptButton1").addClass('disabled');
+            subButton.addClass('disabled');
         }
     });
     // if(!isNAN($("#enter_price_receipt").val()) ){
@@ -59,7 +60,7 @@
             image: canvas.toDataURL("image/png"),
             price: $("enter_price").val,
             ticket: loader.ticketId
-        }
+        };
         alert(JSON.stringify(data_to_send));
         $.ajax({
             type: "POST",

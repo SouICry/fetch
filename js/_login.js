@@ -28,7 +28,7 @@
         info_to_send.type = "get";
 
         //Simulation (alert or console.log to check for yourself)
-        alert(JSON.stringify(info_to_send));
+        // alert(JSON.stringify(info_to_send));
 
         //Actual
         $.ajax({
@@ -37,8 +37,7 @@
                 data: info_to_send,
                 success: function (data) {
                     //data is the object sent back on success (could also just be string)
-                    index_login();
-                    loadAccountData();
+                   
                     loader.login(data);
                     
                     

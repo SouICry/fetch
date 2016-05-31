@@ -13,11 +13,11 @@
         {name: "vons", time: "9:00 pm", id: "864", state: "delivered"},
         {name: "vons", time: "10:00 pm", id: "864", state: "draft"}],*/ // may not have draft state
         version: 0,
-        // onPageLoad: function() {
-        //     assholes135();
-        // },
+        onPageLoad: function() {
+            assholes135();
+        },
         loadData: function (data) {
-            $("#yourDeliveries__accepted_tickets").empty();
+            $("#yourDeliveries_accepted_tickets").empty();
             $("#yourDeliveries_shopped_tickets").empty();
             $("#yourDeliveries_delivered_tickets").empty();
 
@@ -134,8 +134,6 @@
         });
     });
 
-    assholes135();
-
     // $('#_viewTicket_submit_list').click(function () {
     //     assholes40();
     //     goToPage("_yourDeliveries");
@@ -159,5 +157,7 @@
             }
         );
     }
+    assholes135();
+
 })();
 
