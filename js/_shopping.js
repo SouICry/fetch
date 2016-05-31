@@ -71,7 +71,7 @@
             //newItem.append "<button>delete</button>";
             $('#shopping_list').prepend(newItem);
             shopping_count++;
-            loader._shopping.version++;
+            loader._shopping.version++; //Trivi add this
             if (shopping_count == 1) {
                 $("#shopping_numItems").text("1 item");
             }
@@ -100,7 +100,7 @@
         $(this).remove();
         $('#shopping_submit_list').hide();
         shopping_count--;
-        loader._shopping.version++;
+        loader._shopping.version++; //Trivi add this
         if (shopping_count == 1) {
             $("#shopping_numItems").text("1 item");
         }
