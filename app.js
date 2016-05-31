@@ -1660,7 +1660,7 @@ app.post('/_purchasedTickets', function (req, res, next) {
             }
         });
 
-        console.log('Successfully updated tickets in user db');
+        console.log('Successfully updated tickets in user db in purchasedTickets');
         res.send('');
     }
 });
@@ -1735,8 +1735,8 @@ app.post('/_yourDeliveries', function (req, res) {
                 console.log('Sending data back to _yourDeliveries.js');
                 res.setHeader('Content-Type', 'application/json');
                 res.send(JSON.stringify({
-                    user_history: doc.user_history,
-                    pending_list: doc.delivery_list
+                    delivery_history: doc.delivery_history,
+                    pending_deliveries: doc.delivery_list
                 }));
             }
         });
@@ -1848,28 +1848,42 @@ app.post('/_viewTicket', function (req, res) {
 
 
 // --------------------------- PURCHASED TICKETS ----------------------------
-app.post('/_loadPurchasedTickets.js', function(req, res) {
+app.post('/_loadPurchasedTickets', function(req, res) {
 
     var ticketId = req.body.ticketId;
     var object = {};
 
-    console.log('LOADING ACCOUNT');
+    console.log('LOADING ACCOUNT...ticketId = ' + ticketId);
     db.collection('users').findOne({"grocery_list._id": ticketId},
-        function (err, ticket) {
+        function (err, user) {
             if (err) {
                 console.log('Error in : ' + err);
                 res.status(500);
-                res.setHeader('Content-Type', 'application/json');
-                res.send({message: 'cannot access collection to find ticket '});
+                res.send('');
                 return;
             }
-            if (ticket == null) {
+            if (user == null) {
                 console.log('Could not find user with ticket ' + ticketId + ' in _shoppingStatus');
-                console.log(JSON.stringify(ticket));
                 res.status(500);
                 res.send('');
             }
             else {
+                var ticket = null;
+
+                for (var i = 0; i < user.grocery_list.length; i++) {
+                    if (user.grocery_list[i]._id == ticketId) {
+                        ticket = user.grocery_list[i];
+                        break;
+                    }
+                }
+
+                if (!ticket) {
+                    console.log('Error: could not find ticket in loadPurchasedTicket');
+                    res.status(500);
+                    res.send('');
+                    return;
+                }
+
                 //console.log(JSON.stringify(ticket));
                 object.full_name = ticket.shopper.full_name;
                 object.phone = ticket.shopper.phone_number;

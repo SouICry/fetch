@@ -11,7 +11,7 @@
     function updateTicketToDelivered() {
         $.ajax({
             type: "POST",
-            url: "/updatePurchasedTickets",
+            url: "/_driverList",
             data: {
                 ticketId: loader.ticketId
             },

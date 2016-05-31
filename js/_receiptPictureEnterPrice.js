@@ -80,7 +80,7 @@
         goToPage("_congrats_driver_finish_shopping");
     });
 
-    // Used after click submit, update the grocery ticket for the users
+    // Used after click submit, update the grocery ticket in the users collection for shopper and driver
     function assholes61323355() {
         var info_to_send = {};
         info_to_send.ticketId = loader._driverList.data;
