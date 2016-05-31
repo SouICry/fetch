@@ -1,36 +1,36 @@
 <div id="_shoppingStatus" class="container box text-center">
-    <div class="col-xs-12">
-        <div>
-            <h2 id="listName_shoppingStatus"></h2>
-            <h3 id="phone_shoppingStatus"></h3>
-        </div>
-    </div>
-
     <div class="row">
+    <div class="col-xs-12">
+            <img style="margin: 8%" class="img-circle" id="shoppingStatus-img" src="placeholder/person5.png">
+            <h2 id="listName_shoppingStatus"></h2>
+    </div>
         <div class="col-xs-12">
             <ul id="_shoppingStatus_list"></ul>
+            <div class="text-left"  id="_shoppingStatus_numItems"></div>
         </div>
-    </div>
-
-    <div class="row">
         <div class="col-xs-12">
-            <div class="input-field">
-                <label for="shoppingstatus_note">Special Note:</label>
-                <input disabled type="text" class="form-control bfh-phone" data-country="US"
-                       id="shoppingstatus_note">
-            </div>
-        </div>
-    </div>
+                <div class="text-left" id="shoppingstatus_note"></div>
+                <div class="text-left" id="shoppingstatus_location"></div>
 
-    <div class="row">
+        </div>
+
+        <div id="shoppingStatusCalendarPart" class="col-xs-12">
+            <div class="text-left" id="shoppingStatusCalendarHeader">Delivery time:</div>
+            <div id="shoppingStatusCalendar"></div>
+        </div>
+
         <div class="col-xs-12">
             <div class="row" id="_shoppingStatus_footerInfo">
-                <div class="col-xs-4" id="_shoppingStatus_numItems"></div>
+
                 <a id="shoppingStatus_list_btn" type="button" class="btn waves-effect orange">
                     Close
                 </a>
             </div>
+            <div id="shoppingStatusMap" class="map"></div>
         </div>
+
+
+
     </div>
 
 </div>
