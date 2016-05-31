@@ -25,7 +25,7 @@ var test_data = {
             //populate driver list
             $("#listName").text(" ");
             $("#phone").text(" ");
-            $("#_driverList ul").empty();
+            $("#_driverList ul").html("");
             $("#_driver_numItems").text(" ");
             $("#driver_note").val(" ");
 

@@ -11,7 +11,7 @@
         },
         loadData: function (data) {
             var drImage = $('#driver-image').data;
-            $("#driver-name_rateDriver").empty();
+            $("#driver-name_rateDriver").html("");
             drImage('src', "/placeholder/person.png");
 
             var separatedNames = data.driver_full_name;

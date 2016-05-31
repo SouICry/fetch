@@ -19,7 +19,7 @@
 
             shopping_count = 0;
             list_shopping.splice(0, list_shopping.length);
-            $("#shopping_list").empty();
+            $("#shopping_list").html("");
             $("#shoppingCheckListItem").val("");
 
             for (var i = 0; i < data.length; i++) {

@@ -11,7 +11,7 @@
         },
         loadData: function (data) {
             var usImage = $('#user-image').data;
-            $("#user-name_rateUser").empty();
+            $("#user-name_rateUser").html("");
             usImage('src', "/placeholder/person.png");
 
             var separatedNames = data.user_full_name;

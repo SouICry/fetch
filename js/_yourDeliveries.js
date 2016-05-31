@@ -17,9 +17,9 @@
             assholes135();
         },
         loadData: function (data) {
-            $("#yourDeliveries_accepted_tickets").empty();
-            $("#yourDeliveries_shopped_tickets").empty();
-            $("#yourDeliveries_delivered_tickets").empty();
+            $("#yourDeliveries_accepted_tickets").html("");
+            $("#yourDeliveries_shopped_tickets").html("");
+            $("#yourDeliveries_delivered_tickets").html("");
 
             if (data == "none" || (data.user_history.length == 0 && data.pending_list.length == 0)) {
                 $("#yourDeliveries_accepted_tickets").append('<li class = "ticket"' +

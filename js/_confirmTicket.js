@@ -15,12 +15,12 @@
         },
         loadData: function (data) {
             var numItems = $("#_confirm_numItems");
-            $("#driver_icon").empty();
-            $("#driverName").empty();
-            $("#_confirmTicket ul").empty();
-            numItems.empty();
-            $("#_confirm_price").empty();
-            $("#receipt").empty();
+            $("#driver_icon").html("");
+            $("#driverName").html("");
+            $("#_confirmTicket ul").html("");
+            numItems.html("");
+            $("#_confirm_price").html("");
+            $("#receipt").html("");
 
             status = data.status;
             var array = data.items;
