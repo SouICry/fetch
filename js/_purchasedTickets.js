@@ -118,7 +118,7 @@ var test_data = {
 
         if (arr.length === count || flag === true) {
             assholes61323355();
-            goToPage("_congrats_driver_finish_shopping");
+            goToPage("_congratsTicketClosed");
         }
     });
 
