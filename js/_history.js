@@ -148,6 +148,7 @@
 
             $('li.yourOrders1').each(function () {
                 $(this).click(function () {
+                    loader.ticketId = $(this).data('id');
                     // alert($(this).data("id"));
                     // loader.getTicket($(this).data("id"), $(this).data("state"));
                     goToPage("_shoppingStatus");
@@ -156,6 +157,7 @@
 
             $('li.yourOrders').each(function () {
                 $(this).click(function () {
+                    loader.ticketId = $(this).data('id');
                     // alert($(this).data("id"));
                     // loader.getTicket($(this).data("id"), $(this).data("state"));
                     goToPage("_cancelTicket");
