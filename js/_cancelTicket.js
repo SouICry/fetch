@@ -23,6 +23,7 @@
 
                 var fullName = data.full_name;
                 var array = data.items;
+                var numItems = $("#_cancelTicket_numItems");
 
                 //create the contact info(where should I got this, is there a flied relates to contact?
                 // document.getElementById("cancelTicket-img").src = "images/profiles/" + data.driverId + ".png";
