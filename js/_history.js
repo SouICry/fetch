@@ -183,7 +183,7 @@
                 loader._history.loadData(data);
 
                 // TODO: for viewTicket get the ticket data from loader.history
-                loader.history = data;
+                loader.history = data.user_history.concat(data.pending_list);
             },
             error: function (data) {
                 //data is the object send back on fail (could also just be string)
