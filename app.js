@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(session({resave: true, saveUninitialized: true, secret: 'williamiscool'}));
 app.use(passport.initialize());
-app.use(passport.sessiofn());
+app.use(passport.session());
 app.use(express.static(__dirname));
 
 var masters = {};
