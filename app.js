@@ -1590,6 +1590,8 @@ app.post('/driverListUpdate', function (req, res) {
 app.post('/_driverList', function (req, res, next) {
     var object = {};
     var ticketId = req.body.ticketId;
+    var price = req.body.price;
+    
     console.log('ticketId = ' + ticketId);
 
     if (ticketId) {
