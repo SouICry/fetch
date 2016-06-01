@@ -2126,7 +2126,7 @@ app.post('/_shoppingStatus', function (req, res) {
                         object.driverId = ticket.driver._id;
                         object.driver_full_name = ticket.driver.full_name;
                         object.special_note = ticket.special_options;
-                        object.time = ticket.available_time;
+                        object.calendar = ticket.available_time;
                         object.shopping_location = ticket.geolocation;
 
                         res.setHeader('Content-Type', 'application/json');
