@@ -60,7 +60,7 @@
             //document.getElementById("confirmTicket_img").src = "images/profiles/" + data.driverId + ".png";
             console.log(JSON.stringify(data.calendar));
             $("#confirmTicket_location").text("Delivery Location: ");
-            $("#confirmTicketCalendar").append(loader.parseCalendar(data.calendar));
+            $("#confirmTicket_Calendar").append(loader.parseCalendar(data.calendar));
             
 
             //  $("#confirmTicket_Calendar").append(data.time);
