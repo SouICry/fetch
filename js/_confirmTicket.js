@@ -34,7 +34,7 @@
             $("#confirmTicket_total_price").html("");
             $("#confirmTicket_receipt").html("");
             $("confirmTicketCalendar").html("");
-            loader.loadMap("confirmTicket_Map",{lat:32, lng:-150});
+            loader.loadMap("confirmTicket_Map",data.shopping_location);
 
             status = data.status;
             var array = data.items;
@@ -56,6 +56,7 @@
             document.getElementById("confirmTicket_img").src = "images/profiles/" + data.driverId + ".png";
             $("#confirmTicket_location").text("Delivery Location: ");
             $("#confirmTicketCalendar").append(loader.parseCalendar(data.calendar));
+            
 
             //  $("#confirmTicket_Calendar").append(data.time);
 
@@ -90,6 +91,7 @@
                 document.getElementById("confirmTicket_img").src = 'images/profiles/' + driverId + '.png';
             else
                 document.getElementById("confirmTicket_img").src = 'placeholder/person4.png';
+            loadConfirmTicket();
         }
     };
 
@@ -129,6 +131,27 @@
     });
 
 })();
+function loadConfirmTicket() {
+    var info_to_send = {};
+    info_to_send.ticketId = loader.ticketId;
+    //alert(info_to_send.ticketId);
+    info_to_send.type = 'send';
+
+    $.ajax({
+        type: "POST",
+        url: "/_confirmTicket",
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify(info_to_send),
+        success: function (data) {
+            //data is the object sent back on success (could also just be string)
+            loader._confirmTicket.loadData(data);
+        },
+        error: function (data) {
+            //data is the object send back on fail (could also just be string)
+        }
+    });
+}
 /**
  * Created by juneruijiang on 5/23/16.
  */
