@@ -36,8 +36,10 @@
         goToPage('_driverList');
     });
 
+    var price;
+
     $("#enter_price_receipt").keyup(function(){
-        var price = $("#enter_price_receipt").val();
+        price = $("#enter_price_receipt").val();
         var subButton = $("#submitReceiptButton1");
         if(!isNaN(price) && price != "" ){
 
@@ -76,6 +78,7 @@
     }
 
     $('#submitReceiptButton1').click(function() {
+        loader.price = price;
         assholes61323355();
         goToPage("_congrats_driver_finish_shopping");
     });
@@ -89,7 +92,7 @@
 
         $.ajax({
             type: "POST",
-            url: "/updatePurchasedTickets",
+            url: "/_driverList",
             data: info_to_send,
             success: function (data) {
                 //data is the object sent back on success (could also just be string)
