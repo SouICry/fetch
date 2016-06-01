@@ -75,8 +75,6 @@ var test_data = {
     //var count = data.items.length - arrayCheckedOff.length;
     var fullName = "";
     var array = [];
-    var purchasedTickets_shopperId = "";
-
 
     $("#purchasedTickets_submit_list").click(function () {
         $(this).addClass('disabled');
@@ -93,8 +91,7 @@ var test_data = {
     $("#purchasedTickets-messenger").click(function(){
         loader.openChat(shopperId, fullName);
     });
-    
-    
+
     // Used after click submit, update the grocery ticket for the users
     function assholes6155() {
         $.ajax({
