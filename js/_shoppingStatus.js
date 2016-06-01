@@ -49,7 +49,7 @@
                 //document.getElementById("shoppingStatus-img").src = "images/profiles/" + data.driverId + ".png";
                 document.getElementById("listName_shoppingStatus").innerHTML = data.driver_full_name + " took your ticket";
                 document.getElementById("shoppingstatus_note").innerHTML = "Special Notes: " + data.special_note;
-                $("#shoppingstatus_location").text("Delivery Location: " + data.shopping_location);
+                $("#shoppingstatus_location").text("Delivery Location: ");
                 //$("#shoppingStatusCalendar").append(loader.parseCalendar(loader._deliveryTime.getData()));
 
                 //$("#shoppingStatusCalendar").append(data.time);
