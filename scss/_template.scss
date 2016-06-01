@@ -133,11 +133,13 @@ button:focus {
 }
 
 #open-menu-drawer {
+  transition: none;
+  cursor: pointer;
   color: $fetchOrange;
   font-size: 24px;
   line-height: 50px;
   &:hover {
-    color: black;
+    color: orange;
   }
 }
 

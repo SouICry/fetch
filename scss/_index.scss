@@ -22,6 +22,9 @@
     transform: translate(-50%, -50%);
     font-size: 32px;
     line-height: 56px;
+    &:hover {
+      color: orange;
+    }
   }
   #cover {
     transition: all 1s;
