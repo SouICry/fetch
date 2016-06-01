@@ -92,7 +92,7 @@
 
         $.ajax({
             type: "POST",
-            url: "/updatePurchasedTickets",
+            url: "/_driverList",
             data: info_to_send,
             success: function (data) {
                 //data is the object sent back on success (could also just be string)

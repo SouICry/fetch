@@ -1590,6 +1590,8 @@ app.post('/driverListUpdate', function (req, res) {
 app.post('/_driverList', function (req, res, next) {
     var object = {};
     var ticketId = req.body.ticketId;
+    var price = req.body.price;
+    
     console.log('ticketId = ' + ticketId);
 
     if (ticketId) {
@@ -2410,6 +2412,8 @@ app.post('/userConfirm', function(req, res ){
 
         else if (masters.ticketId[req.body.ticketId].userId != req.session.userId) {
             masters.ticketId[req.body.ticketId].done = true;
+            // masters.ticketId[req.body.ticketId].
+
         }
     }
     console.log("Ticket status in user Confirm",masters.ticketId[req.body.ticketId]);
