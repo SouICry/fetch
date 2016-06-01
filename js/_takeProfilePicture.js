@@ -64,7 +64,7 @@
             data: JSON.stringify({image: canvas.toDataURL("image/png")}),
             success: function(){
                 
-                alert("uploader");
+                // alert("uploader");
             }
         });
     }

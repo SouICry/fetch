@@ -23,7 +23,7 @@
         },
         loadData: function (data) {
             if (!data) {
-                alert('NO DATA TO LOAD');
+                // alert('NO DATA TO LOAD');
             }
             
             $("#accsetting_full_name").val(data.full_name).siblings().addClass("active");
