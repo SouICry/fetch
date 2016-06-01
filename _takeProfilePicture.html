@@ -1,25 +1,26 @@
-<div class="row">
-    <div class="col-md-4 col-lg-4" id="profile-button-box-outer">
-        <div id="profile-button-box">
-            <h2>Profile Picture</h2>
-            <a class="btn waves-effect orange" id="takeButton1">Take Photo</a>
-            <a class="btn waves-effect orange" id="redoButton1">Retake Photo</a>
-            <h4>or</h4>
-            <label class="btn waves-effect orange">
-                Upload From File<input class="hidden" type="file" id="uploadImage1" name="imageLoader"/>
-            </label>
+<div class="container box text-center" id="profile-pic">
+    <div class="row">
+        <div class="col-md-4 col-lg-4" id="profile-button-box-outer">
+            <div id="profile-button-box">
+                <h2>Profile Picture</h2>
+                <a class="btn waves-effect orange" id="takeButton1">Take Photo</a>
+                <a class="btn waves-effect orange" id="redoButton1">Retake Photo</a>
+                <h4>or</h4>
+                <label class="btn waves-effect orange">
+                    Upload From File<input class="hidden" type="file" id="uploadImage1" name="imageLoader"/>
+                </label>
 
-            <a class="btn waves-effect orange" id="uploadButton1">Submit</a>
-            <a class="btn waves-effect orange" id="cancelButton1">Cancel</a>
+                <a class="btn waves-effect orange" id="uploadButton1">Submit</a>
+                <a class="btn waves-effect orange" id="cancelButton1">Cancel</a>
+            </div>
+        </div>
+        <div class="col-md-8 col-lg-8" id="profile-outer">
+            <div id="profile-image-square">
+                <video id="video1" muted autoplay></video>
+                <canvas id="canvas1"></canvas>
+            </div>
         </div>
     </div>
-    <div class="col-md-8 col-lg-8" id="profile-outer">
-        <div id="profile-image-square">
-            <video id="video1" muted autoplay></video>
-            <canvas id="canvas1"></canvas>
-        </div>
-    </div>
-</div>
 </div>
 <div class="footerBars container">
     <div class="footer2"></div>
