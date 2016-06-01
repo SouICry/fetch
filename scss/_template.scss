@@ -34,7 +34,7 @@ a{
 #panel-Header{
   position: relative;
   z-index: 1000000000;
-  background-color: darkorange;
+  background-color: $fetchOrange;
   height:150px;
   @include outline-shadow;
 
