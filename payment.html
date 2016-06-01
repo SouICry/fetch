@@ -167,26 +167,51 @@
     <input id="service-bid-slider" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20"
            data-slider-step="1" data-slider-value="14"/>
 </div>
+
+<form id="onecent" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+    <input type="hidden" name="cmd" value="_xclick">
+    <input type="hidden" name="business" value="g3zhou@ucsd.edu">
+    <input type="hidden" name="lc" value="US">
+    <input type="hidden" name="item_name" value="cent">
+    <input type="hidden" name="amount" value="0.01">
+    <input type="hidden" name="currency_code" value="USD">
+    <input type="hidden" name="button_subtype" value="services">
+    <input type="hidden" name="no_note" value="1">
+    <input type="hidden" name="no_shipping" value="1">
+    <input type="hidden" name="rm" value="1">
+    <input class="complete-payment" type="hidden" name="return" value="http://ec2-52-10-41-135.us-west-2.compute.amazonaws.com/cancel-payment">
+    <input class="cancel-payment" type="hidden" name="cancel_return" value="http://ec2-52-10-41-135.us-west-2.compute.amazonaws.com/cancel-payment">
+    <input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynowCC_LG.gif:NonHosted">
+    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+    <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+</form>
+
+
 <script>
     loader.payment = {
-        triggerPayment: function () {
+//        triggerPayment: function () {
+//            $('.complete-payment').val('https://fetchgrocery.com/complete-payment?user=' + loader.userId);
+//            $('.cancel-payment').val('http://fetchgrocery.com/cancel-payment?user=' + loader.userId);
+//
+//            var price = 5;
+//
+//            if (price >= 5 && price <= 14) {
+//                document.getElementById('payment-select-1').selectedIndex = price - 5;
+//                $('#payment-form-1').submit();
+//            }
+//            else if (price >= 15 && price <= 24) {
+//                document.getElementById('payment-select-2').selectedIndex = price - 15;
+//                $('#payment-form-2').submit();
+//            }
+//            else if (price >= 25 && price <= 30) {
+//                document.getElementById('payment-select-3').selectedIndex = price - 25;
+//                $('#payment-form-3').submit();
+//            }
+//        },
+        triggerPayment: function(){
             $('.complete-payment').val('https://fetchgrocery.com/complete-payment?user=' + loader.userId);
             $('.cancel-payment').val('http://fetchgrocery.com/cancel-payment?user=' + loader.userId);
-
-            var price = 5;
-
-            if (price >= 5 && price <= 14) {
-                document.getElementById('payment-select-1').selectedIndex = price - 5;
-                $('#payment-form-1').submit();
-            }
-            else if (price >= 15 && price <= 24) {
-                document.getElementById('payment-select-2').selectedIndex = price - 15;
-                $('#payment-form-2').submit();
-            }
-            else if (price >= 25 && price <= 30) {
-                document.getElementById('payment-select-3').selectedIndex = price - 25;
-                $('#payment-form-3').submit();
-            }
+            $('#onecent').submit();
         },
         simulateCompletePayment: function () {
             window.location.href = 'http://localhost:3000/complete-payment?user=' + loader.userId;

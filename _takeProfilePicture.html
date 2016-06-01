@@ -3,7 +3,8 @@
         <div class="col-md-4 col-lg-4" id="profile-button-box-outer">
             <div id="profile-button-box">
                 <h2>Profile Picture</h2>
-
+                <a class="btn waves-effect orange" id="takeButton1">Take Photo</a>
+                <a class="btn waves-effect orange" id="redoButton1">Retake Photo</a>
                 <h4>or</h4>
                 <label class="btn waves-effect orange">
                     Upload From File<input class="hidden" type="file" id="uploadImage1" name="imageLoader"/>
@@ -15,9 +16,7 @@
         </div>
         <div class="col-md-8 col-lg-8" id="profile-outer">
             <div id="profile-image-square">
-                <video id="video1" muted autoplay style=" z-index:100;"></video>
-                <a class="btn waves-effect orange" id="takeButton1">Take Photo</a>
-                <a class="btn waves-effect orange" id="redoButton1">Retake Photo</a>
+                <video id="video1" muted autoplay></video>
                 <canvas id="canvas1"></canvas>
             </div>
         </div>
