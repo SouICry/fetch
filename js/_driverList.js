@@ -42,7 +42,7 @@ var driver__test_data = {
             //create the contact info(where should I got this, is there a flied relates to contact?
             document.getElementById("listName_driverList").innerHTML = name + "'s Shopping List";
             document.getElementById("phone").innerHTML = "Phone: " + data.contact;
-            $("#driver_note").text("Special Note: " + data.special_note);
+            $("#driver_note").text("Special Note: " + data.special_notes);
 
             for (var i = 0; i < array.length; i++) {
                 // item count
