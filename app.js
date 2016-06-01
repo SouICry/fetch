@@ -1607,7 +1607,8 @@ app.post('/_driverList', function (req, res, next) {
             },
             {
                 $set: {
-                    'delivery_list.$.state': 'purchased'
+                    'delivery_list.$.state': 'purchased',
+                    'delivery_list.$.price': price
                 }
             }, function (err) {
                 if (err) {
@@ -1622,7 +1623,8 @@ app.post('/_driverList', function (req, res, next) {
                         },
                         {
                             $set: {
-                                'grocery_list.$.state': 'purchased'
+                                'grocery_list.$.state': 'purchased',
+                                'grocery _list.$.price': price
                             }
                         }, function (err) {
 
