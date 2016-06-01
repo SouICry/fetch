@@ -1643,6 +1643,7 @@ app.post('/_driverList', function (req, res, next) {
 app.post('/_purchasedTickets', function (req, res, next) {
     var userId = req.session.userId;
     var ticketId = req.body.ticketId;
+    var price = req.body.price;
     console.log('ticketId = ' + ticketId);
 
     if (!userId) {
@@ -1687,6 +1688,7 @@ app.post('/_purchasedTickets', function (req, res, next) {
                 }
 
                 ticketToRemove.state = 'delivered';
+                ticketToRemove.price = price;
 
                 // Remove the ticket from the driver's delivery_list and add to delivery_history
                 db.collection('users').update(
@@ -2283,17 +2285,6 @@ app.post('/_receiptPictureEnterPrice', function (req, res) {
     //send price and receipt to the database
     var price = req.body.price;
     var ticketId = req.body.ticket;
-    //update shopper's grocery list
-    db.collection('users').updateOne({'grocery_list._id': ticketId},
-        {
-            $set: {
-                price: price
-            }
-        },
-        function (err) {
-            if (err) return err;
-        }
-    );
 
     var img = (req.body.image);
     var data = img.replace(/^data:image\/\w+;base64,/, "");
