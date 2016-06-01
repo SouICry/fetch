@@ -1,21 +1,22 @@
 #video1 {
   //position: absolute;
-  //width: auto;
+  width: 100%;
   //height: 100%;
   //border:solid 1px black;
 }
 
 #canvas1 {
+  width:100%;
   position: absolute;
-  width: 100%;
-  height: 100%;
+  padding:10px;
+  height: 80%;
 }
 #profile-pic {
   height: 100%;
 
-  //.btn {
-  //  width: 100%;
-  //}
+  .btn {
+    width: 100%;
+  }
 
   .row {
     height: 100%;
@@ -62,20 +63,4 @@
   //  top: 50%;
   //  transform: translateY(-50%);
   //}
-}
-#takeButton1{
-   z-index: 1;
-   position: absolute;
-   bottom: 12%;
-   display: block;
-   width: 25%;
-   left: 33%;
- }
-#redoButton1{
-  z-index: 1;
-  position: absolute;
-  bottom: 12%;
-  display: block;
-  width: 25%;
-  left: 33%;
 }
