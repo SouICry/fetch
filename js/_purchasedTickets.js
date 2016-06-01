@@ -38,8 +38,9 @@ var test_data = {
             document.getElementById("phone_purchasedTickets").innerHTML = "Phone: " + data.phone_number;
             $("#purchasedTickets_note").val(data.special_note).siblings().addClass("active");
             document.getElementById("purchasedTickets-img").src = "images/profiles/" + data.shopperId + ".png";
-            $("#purchasedTickets_location").text("Delivery Location: " + data.shopping_location);
+            $("#purchasedTickets_location").text("Delivery Location: ");
             $("#purchasedTicketsCalendar").append(loader.parseCalendar(data.calendar));
+            loader.loadMap("purchasedTicketsMap",data.shopping_location);
 
             // $("#purchasedTicketsCalendar").append(data.time);
 
