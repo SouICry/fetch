@@ -1767,7 +1767,7 @@ app.post('/_viewTicket', function (req, res) {
     }
     else {
         // Update the shopper's ticket in the db
-        db.collection('users').findOne({_Id: userId}, function (err, driver) {
+        db.collection('users').findOne({_id: userId}, function (err, driver) {
             if (err) {
                 console.log('Error: ' + err);
                 res.status(500);
@@ -1782,7 +1782,7 @@ app.post('/_viewTicket', function (req, res) {
                     {
                         $set: {
                             'grocery_list.$.state': 'accepted',
-                            'grocery_list.$.driver._id': driver._Id,
+                            'grocery_list.$.driver._id': driver._id,
                             'grocery_list.$.driver.full_name': driver.full_name,
                             'grocery_list.&.driver.phone_number': driver.phone_number
                         }
