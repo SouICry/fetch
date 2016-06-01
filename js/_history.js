@@ -31,8 +31,7 @@
             $("#yourOrders_delivered_tickets").html("");
 
 
-            if (data == "none" || (data.user_history.length == 0 && data.pending_list.length == 0)) {
-
+            if (data == "none" || (/*data.user_history.length == 0 && */data.pending_list.length == 0)) {
                 $("#yourOrders_pending_tickets").append('<li class = "ticket"' +
                     '>No orders</li>');
                 $("#yourOrders_accepted_tickets").append('<li class = "ticket"' +
@@ -51,25 +50,25 @@
             var delivered_tickets = [];
             var extra = [];
 
-            for (var i = 0; i < tickets.user_history.length; i++) {
-                //alert(JSON.stringify(tickets.user_history[i]));
-
-                if (tickets.user_history[i].state == 'pending') {
-                    pending_tickets.push(tickets.user_history[i]);
-                }
-                else if (tickets.user_history[i].state == 'accepted') {
-                    accepted_tickets.push(tickets.user_history[i]);
-                }
-                else if (tickets.user_history[i].state == 'purchased') {
-                    shopped_tickets.push(tickets.user_history[i]);
-                }
-                else if (tickets.user_history[i].state == 'delivered') {
-                    delivered_tickets.push(tickets.user_history[i]);
-                }
-                else {
-                    extra.push(tickets.user_history[i]);
-                }
-            }
+            // for (var i = 0; i < tickets.user_history.length; i++) {
+            //     //alert(JSON.stringify(tickets.user_history[i]));
+            //
+            //     if (tickets.user_history[i].state == 'pending') {
+            //         pending_tickets.push(tickets.user_history[i]);
+            //     }
+            //     else if (tickets.user_history[i].state == 'accepted') {
+            //         accepted_tickets.push(tickets.user_history[i]);
+            //     }
+            //     else if (tickets.user_history[i].state == 'purchased') {
+            //         shopped_tickets.push(tickets.user_history[i]);
+            //     }
+            //     else if (tickets.user_history[i].state == 'delivered') {
+            //         delivered_tickets.push(tickets.user_history[i]);
+            //     }
+            //     else {
+            //         extra.push(tickets.user_history[i]);
+            //     }
+            // }
 
             for (var i = 0; i < tickets.pending_list.length; i++) {
                 //alert(JSON.stringify(tickets.pending_list[i]));
@@ -194,7 +193,8 @@
                 loader._history.loadData(data);
 
                 // TODO: for viewTicket get the ticket data from loader.history
-                loader.history = data.user_history.concat(data.pending_list);
+                //loader.history = data.user_history.concat(data.pending_list);
+                loader.history = data.pending_list;
             },
             error: function (data) {
                 //data is the object send back on fail (could also just be string)
