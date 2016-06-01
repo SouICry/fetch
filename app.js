@@ -1779,7 +1779,6 @@ app.post('/_viewTicket', function (req, res) {
                 res.send('');
             }
             else {
-
                 db.collection('users').update(
                     {
                         'grocery_list._id': ticketId
@@ -1789,7 +1788,7 @@ app.post('/_viewTicket', function (req, res) {
                             'grocery_list.$.state': 'accepted',
                             'grocery_list.$.driver._id': driver._id,
                             'grocery_list.$.driver.full_name': driver.full_name,
-                            'grocery_list.&.driver.phone_number': driver.phone_number
+                            'grocery_list.$.driver.phone_number': driver.phone_number
                         }
                     }, function (err) {
                         if (err) {
@@ -1904,7 +1903,7 @@ app.post('/_loadPurchasedTickets', function (req, res) {
 
                 //console.log(JSON.stringify(ticket));
                 object.full_name = ticket.shopper.full_name;
-                object.phone = ticket.shopper.phone_number;
+                object.phone_number = ticket.shopper.phone_number;
                 object.shopperId = ticket.shopper._id;
                 object.items = ticket.shopping_list;
                 object.special_note = ticket.special_options;
@@ -2131,6 +2130,7 @@ app.post('/_shoppingStatus', function (req, res) {
                         }
                         //console.log(JSON.stringify(ticket));
                         object.items = ticket.shopping_list;
+                        object.phone_number = ticket.shopper.phone_number;
                         object.driverId = ticket.driver._id;
                         object.driver_full_name = ticket.driver.full_name;
                         object.special_note = ticket.special_options;
