@@ -30,6 +30,9 @@
 <div id="notifications">
 
 </div>
+<canvas id="chatCanvas" class="hidden">
+
+</canvas>
 <div id="chats">
 
 </div>
@@ -192,24 +195,57 @@
         uploadChatImage: function (input) {
             console.log(new Date().getTime());
             var name = new Date().getTime() + ".png";
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                dataType: "json",
-                url: "/saveChatImage",
-                data: JSON.stringify({
-                    image: input.files[0],
-                    name: name
-                }),
-                success: function(){
-                    var chat = $(input.parentNode.parentNode.parentNode).find('.chatForm');
-                    chat.find("input").val("<img class='materialboxed' src='/images/chat/" + name +"'/>");
-                    chat.submit();
-                }
-            });
-            var chat = $(input.parentNode.parentNode.parentNode).find('.chatForm');
-            chat.find("input").val("<img class='materialboxed' src='/images/profiles/a.png'/>");
-            chat.submit();
+//            $.ajax({
+//                type: "POST",
+//                contentType: "application/json",
+//                dataType: "json",
+//                url: "/saveChatImage",
+//                data: JSON.stringify({
+//                    image: input.files[0],
+//                    name: name
+//                }),
+//                success: function(){
+//
+//                }
+//            });
+//            var chat = $(input.parentNode.parentNode.parentNode).find('.chatForm');
+//            chat.find("input").val("<img class='materialboxed' src='/images/profiles/a.png'/>");
+//            chat.submit();
+
+
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                //console.log("In Load");
+                var img = new Image();
+                img.onload = function () {
+                    var factor = 1;
+                    while (img.width / factor > 800) {
+                        factor *= 2;
+                    }
+                    var canvas = document.getElementById('chatCanvas');
+                    canvas.width = img.width / factor;
+                    canvas.height = img.height / factor;
+                    var context = canvas.getContext("2d");
+                    context.drawImage(img, 0, 0);
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        dataType: "json",
+                        url: "/saveChatImage",
+                        data: JSON.stringify({
+                            image: canvas.toDataURL("image/png"),
+                            name: name
+                        }),
+                        success: function () {
+                            var chat = $(input.parentNode.parentNode.parentNode).find('.chatForm');
+                            chat.find("input").val("<img class='materialboxed' src='/images/chat/" + name + "'/>");
+                            chat.submit();
+                        }
+                    });
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
         },
         openChat: function (id, name) {
             if (!loader.chat.hasOwnProperty(id)) {
@@ -469,7 +505,7 @@
 
             }
         },
-        signUp: function(data){
+        signUp: function (data) {
             var d = new Date();
             d.setTime(d.getTime() + (1000 * 24 * 60 * 60 * 1000));
             document.cookie = "user=" + data.userId + ";expires=" + d.toUTCString();
@@ -561,7 +597,7 @@
         switchToShopper: function () {
             goToPage("_history", true);
 //            alert();
-              loader.isDriver = false;
+            loader.isDriver = false;
 //            $.ajax({
 //                type: "POST",
 //                contentType: "application/json",
