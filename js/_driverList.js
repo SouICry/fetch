@@ -1,8 +1,9 @@
-var test_data = {
-    full_name: "Donkey Punch",
+var driver__test_data = {
+    full_name: "Tim",
     items: ["aa", "bb", "cc", "dd"],
     contact: 1234567890,
-    special_note: "cheap"
+    special_note: "cheap",
+    shopper_id: "tpei"
 };
 
 (function () {
@@ -32,11 +33,11 @@ var test_data = {
             fullName = data.full_name;
             array = data.items;
             var name = data.full_name;
+            driverList_shopperid = data.shopper_id;
 
             //create the contact info(where should I got this, is there a flied relates to contact?
             document.getElementById("listName_driverList").innerHTML = name + "'s Shopping List";
             document.getElementById("phone").innerHTML = "Phone: " + data.contact;
-            alert(data.special_note);
             $("#driver_note").text("Special Note: " + data.special_note);
 
             for (var i = 0; i < array.length; i++) {
@@ -71,6 +72,7 @@ var test_data = {
     //var count = data.items.length - arrayCheckedOff.length;
     var fullName = "";
     var array = [];
+    var driverList_shopperid = "";
 
     $(document).on('click', '.driverItem',function () {
 
@@ -115,7 +117,14 @@ var test_data = {
             goToPage('_receiptPictureEnterPrice');
         }
     });
-    
+
+    $("#driverList-location-back").click(function(){
+        goToPage("_yourDeliveries");
+    });
+
+    $("#driver_messenger").click(function(){
+        loader.openChat(driverList_shopperid, fullName);
+    });
     // // Used after click submit, update the grocery ticket for the users
     // function assholes61323355() {
     //     var info_to_send = {};
