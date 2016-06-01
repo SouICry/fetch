@@ -1,7 +1,9 @@
 #driverListHeader{
-  //opacity:.9;
   margin:0;
-  ////filter:blur(5px);
-  //-webkit-filter: blur(5px);
+
+  .selected{
+      text-decoration: line-through;
+      color: lightgrey;
+  }
 }
 
