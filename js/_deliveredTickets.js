@@ -20,14 +20,14 @@ var test_data = {
             assholes666();
         },
         loadData: function (data) {
-            //populate driver list
+
+            $("#deliveredTicketsCalendar").text("");
             $("#listName_deliveredTickets").text(" ");
             $("#phone_deliveredTickets").text(" ");
             $("#_deliveredTickets ul").empty();
             $("#deliveredTickets_numItems").text(" ");
             $("#deliveredTickets_note").val(" ");
             loader.loadMap("deliveredTicketsMap",{lat:32, lng:-150});
-            //$("#deliveredTicketsCalendar").append(loader.parseCalendar(data.calendar));
 
 
             fullName = data.full_name;
@@ -41,6 +41,8 @@ var test_data = {
             $("#deliveredTickets_note").val(data.special_note).siblings().addClass("active");
             document.getElementById("deliveredTickets-img").src = "images/profiles/" + data.shopperId + ".png";
             $("#deliveredTickets_location").text("Delivery Location: ");
+            $("#deliveredTicketsCalendar").append(loader.parseCalendar(data.calendar));
+
             //$("#deliveredTicketsCalendar").append(data.time);
 
             for (var i = 0; i < array.length; i++) {
