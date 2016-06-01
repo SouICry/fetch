@@ -54,13 +54,15 @@
     // if any field is empty, warning shows up
     $("#accsetting_submit_info").click(function () {
         var fullName = $('#accsetting_full_name').val();
-        /*var email = $('#accsetting_email').val();
+        var email = $('#accsetting_email').val();
         var phone = $('#accsetting_phone').val();
         var street = $('#accsetting_street').val();
-        var city =$('#accsetting_city').val() ;*/
-        if ((fullName == '') || ($('#accsetting_email').val() == '') || ($('#accsetting_phone').val() == '')
-            || ($('#accsetting_street').val() == '') || ($('#accsetting_city').val() == '') || ($('#accsetting_state').val() == '')
-            || ($('#accsetting_zip').val() == '')){
+        var city =$('#accsetting_city').val() ;
+        var state = $('#accsetting_state').val();
+        var zip = $('#accsetting_zip').val();
+        if ((fullName == '') || (email == '') || (phone == '')
+            || (street == '') || (city == '') || (state == '')
+            || (zip == '')){
             $("#accsetting_warning").show();
             if (($('#accsetting_full_name').val() == '')){
                 $("#accsetting_full_name_parent").addClass("has-error");
@@ -98,7 +100,7 @@
             else {
                 $("#accsetting_state_parent").removeClass("has-error");
             }
-            if (($('#accsetting_zip').val() == '')){
+            if ((zip == '')){
                 $("#accsetting_zip_parent").addClass("has-error");
             }
             else {

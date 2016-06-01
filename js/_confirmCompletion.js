@@ -10,7 +10,7 @@
                 new_price: data.price,
                 new_ticketId: data.ticketId,
                 new_status: status
-            };
+            }
             return sendBackData;
         },
         loadData: function (data) {
@@ -70,35 +70,26 @@
 
                 }
             }
+        },
+        onPageLoad: function(){
+            if(UrlExists('images/profiles/' + loader.userId + '.png')) {
+                document.getElementById("conCom-img").src = 'images/profiles/' + loader.userId + '.png';
+            }
         }
     };
 
     var status;
     $("#driver_confirm_button").click(function(){
         status = "completed";
-        changeTicketState();
-
-        // TODO: FIX THIS. CURRENTLY DOESN'T GO TO RATEUSER FOR SOME REASON?
-        goToPage("_rateDriver");
+        //loader.userConfirm();
+       
+        alert(status);
+        //goToPage("_rateUser");
     });
-
-    function changeTicketState() {
-        $.ajax({
-            type: "POST",
-            url: "/_purchasedTickets",
-            data: {
-                ticketId: loader.ticketId,
-                type: 'send'
-            },
-            success: function (data) {
-                goToPage("_rateDriver");
-                console.log('Successfully changed ticket state to delivered');
-            },
-            error: function (data) {
-                console.log('GOT IN ERROR IN PURCHASEDDDAG');
-                //data is the object send back on fail (could also just be string)
-            }
-        });
-    }
     
-})();
+})();/**
+ * Created by juneruijiang on 5/23/16.
+ */
+/**
+ * Created by juneruijiang on 5/24/16.
+ */

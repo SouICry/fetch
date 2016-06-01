@@ -150,7 +150,7 @@ var driver__test_data = {
     // Used to get data from db
     function assholes666() {
         var info_to_send = {};
-        info_to_send.ticketId = loader._driverList.data;
+        info_to_send.ticketId = loader.ticketId;
         //alert(info_to_send.ticketId);
         info_to_send.type = 'send';
 
