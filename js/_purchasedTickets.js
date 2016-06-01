@@ -80,9 +80,9 @@ var test_data = {
         $(this).addClass('disabled');
 
         assholes6155();
-        if(result) {
+        //if(result) {
             goToPage("_rateUser");
-        }
+        //}
     });
 
     $("#purchasedTickets-back").click(function() {
@@ -121,6 +121,7 @@ var test_data = {
                             //loader.goToPage("/_rateUser");
                             var info_to_send = {};
                             info_to_send.ticketId = loader.ticketId;
+                            info_to_send.price = loader.price;
                             //alert(info_to_send.ticketId);
                             info_to_send.type = 'send';
                             clearInterval(sync);
@@ -131,8 +132,7 @@ var test_data = {
                                 url: "/_purchasedTickets",
                                 data: info_to_send,
                                 success: function (data) {
-
-                                    //alert('success!!!!!');
+                                    alert('success!!!!!');
                                 },
                                 error: function (data) {
                                     //data is the object send back on fail (could also just be string)
