@@ -34,6 +34,7 @@
 
                 var array = data.items;
                 var count = 0;
+                var numItems = $("#_shoppingStatus_numItems");
 
                 //create the contact info(where should I got this, is there a flied relates to contact?
 
