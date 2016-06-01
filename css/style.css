@@ -531,7 +531,10 @@ h6 {
 .btn {
   background-color: orange; }
 
-#accSettingAbove-img, #rateDriver-img {
+.rating .glyphicon-heart {
+  color: lightgray; }
+
+#accSettingAbove-img {
   height: 55%;
   width: 55%;
   padding: 1px;
@@ -1165,7 +1168,8 @@ button:focus {
   margin: 10px; }
 
 #video1 {
-  width: 100%; }
+  width: 100%;
+  padding: 10px; }
 
 #canvas1 {
   width: 100%;
@@ -1445,6 +1449,38 @@ button:focus {
       height: 250px;
       width: 250px;
       margin: 20px; } }
+
+@media screen and (min-width: 1500px) {
+  #rateDriver .ratingSize {
+    margin: 60px 0; } }
+#rateDriver .userIcon {
+  position: relative;
+  height: 300px; }
+#rateDriver #rateDriver-image-content {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); }
+#rateDriver img {
+  margin: 8%; }
+#rateDriver #rateDriver-content {
+  position: relative;
+  height: 200px;
+  margin-top: 8%; }
+#rateDriver .glyphicon, #rateDriver .glyphicon-heart {
+  font-size: 35px; }
+#rateDriver #rateDriver-img {
+  height: 55%;
+  width: 55%;
+  padding: 1px;
+  border: 2px solid grey; }
+  @media screen and (max-width: 991px) {
+    #rateDriver #rateDriver-img {
+      height: 250px;
+      width: 250px;
+      margin: 20px;
+      border: solid 2px grey; } }
 
 #page-content {
   margin: 0;
