@@ -1504,6 +1504,7 @@ app.post('/driverListUpdate', function (req, res) {
                 else {
                     res.setHeader('Content-Type', 'application/json');
                     res.send(JSON.stringify({
+                        _id: user.grocery_list[i].shopper._id,
                         full_name: user.grocery_list[i].shopper.full_name,
                         items: user.grocery_list[i].shopping_list,
                         contact: user.phone_number,
