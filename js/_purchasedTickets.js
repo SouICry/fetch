@@ -18,6 +18,7 @@ var test_data = {
 
             return packData;
         },
+        
         onPageLoad: function () {
 
             if(UrlExists('images/profiles/' + shopperId + '.png')) {
@@ -81,7 +82,7 @@ var test_data = {
 
         assholes6155();
         //if(result) {
-            goToPage("_rateUser");
+            //goToPage("_rateUser");
         //}
     });
 
@@ -132,7 +133,7 @@ var test_data = {
                                 url: "/_purchasedTickets",
                                 data: info_to_send,
                                 success: function (data) {
-                                    alert('success!!!!!');
+                                    //alert('success!!!!!');
                                 },
                                 error: function (data) {
                                     //data is the object send back on fail (could also just be string)
