@@ -86,7 +86,7 @@ var test_data = {
             url: "/_purchasedTickets",
             data: info_to_send,
             success: function (data) {
-                goToPage("/_confirmCompletion");
+                goToPage("_confirmCompletion");
                 //alert('success!!!!!');
             },
             error: function (data) {
