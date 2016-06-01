@@ -137,30 +137,30 @@
         //     });
         // }, 500);
         // }
-        // });
+    });
+})();
 
-    })();
-    function loadConfirmTicket() {
-        var info_to_send = {};
-        info_to_send.ticketId = loader.ticketId;
-        //alert(info_to_send.ticketId);
-        info_to_send.type = 'send';
+function loadConfirmTicket() {
+    var info_to_send = {};
+    info_to_send.ticketId = loader.ticketId;
+    //alert(info_to_send.ticketId);
+    info_to_send.type = 'send';
 
-        $.ajax({
-            type: "POST",
-            url: "/_confirmTicket",
-            contentType: "application/json",
-            dataType: "json",
-            data: JSON.stringify(info_to_send),
-            success: function (data) {
-                //data is the object sent back on success (could also just be string)
-                loader._confirmTicket.loadData(data);
-            },
-            error: function (data) {
-                //data is the object send back on fail (could also just be string)
-            }
-        });
-    }
+    $.ajax({
+        type: "POST",
+        url: "/_confirmTicket",
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify(info_to_send),
+        success: function (data) {
+            //data is the object sent back on success (could also just be string)
+            loader._confirmTicket.loadData(data);
+        },
+        error: function (data) {
+            //data is the object send back on fail (could also just be string)
+        }
+    });
+}
 /**
  * Created by juneruijiang on 5/23/16.
  */
