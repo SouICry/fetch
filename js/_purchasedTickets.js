@@ -27,6 +27,7 @@ var test_data = {
             $("#_purchasedTickets ul").html("");
             $("#purchasedTickets_numItems").text(" ");
             $("#purchasedTickets_note").val(" ");
+            $("#purchasedTicketsCalendar").html("");
 
             fullName = data.full_name;
             array = data.items;
@@ -38,7 +39,9 @@ var test_data = {
             $("#purchasedTickets_note").val(data.special_note).siblings().addClass("active");
             document.getElementById("purchasedTickets-img").src = "images/profiles/" + data.shopperId + ".png";
             $("#purchasedTickets_location").text("Delivery Location: " + data.shopping_location);
-            $("#purchasedTicketsCalendar").append(data.time);
+            $("#purchasedTicketsCalendar").append(loader.parseCalendar(data.calendar));
+
+            // $("#purchasedTicketsCalendar").append(data.time);
 
             for (var i = 0; i < array.length; i++) {
                 // item count

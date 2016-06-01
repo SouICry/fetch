@@ -1,38 +1,32 @@
 (function () {
     loader._rateUser = {
-        data: {user_full_name: "Jane Doe", userId: 133, rate: 5},
-        getData: function(){
-            var dataSendBack = {
-                user_full_name: data.full_name,
-                userId: data.userId,
-                rate: _rating
-            };
-            return dataSendBack;
-        },
+        data: {user_full_name: "Jane Doe", userId: 133},
+        getData: null,
         loadData: function (data) {
-            var usImage = $('#user-image');
+            var drImage = $('#rateUser-img');
             $("#user-name_rateUser").html("");
-            usImage.data('src', "/placeholder/person.png");
+            drImage.data('src', "/placeholder/person.png");
 
-            var separatedNames = data.user_full_name;
-            document.getElementById("user-name_rateUser").innerHTML = separatedNames;
+            document.getElementById("user-name_rateUser").innerHTML =  data.user_full_name;
 
-
-            var imageSrc = "Images/users/" + data.userId + ".png";
+            var imageSrc = "images/profiles/" + data.userId + ".png";
 
             if (imageSrc !== null) {
-                usImage.data('src', imageSrc);
+                drImage.data('src', imageSrc);
             }
         }
     };
 
+
     $(".userRate_button").click(function(){
+        changeTicketState();
         goToPage("_congratsTicketClosed");
     });
-    
+
+
 
     var _rating = 0;
-    var r1 = $('#rating-1'), r2 = $('#rating-2'), r3 = $('#rating-3'), r4 = $('#rating-4'), r5 = $('#rating-5');
+    var r1 = $('#user_rating-1'), r2 = $('#user_rating-2'), r3 = $('#user_rating-3'), r4 = $('#user_rating-4'), r5 = $('#user_rating-5');
     r1.hover(function () {
         r1.addClass("selected");
         r2.removeClass("selected");
@@ -75,7 +69,24 @@
     });
 
 
+
+    function changeTicketState() {
+        $.ajax({
+            type: "POST",
+            url: "/_purchasedTickets",
+            data: {
+                ticketId: loader.ticketId,
+                type: 'send'
+            },
+            success: function (data) {
+                console.log('Successfully changed ticket state to delivered');
+            },
+            error: function (data) {
+                console.log('GOT IN ERROR IN PURCHASEDDDAG');
+                //data is the object send back on fail (could also just be string)
+            }
+        });
+    }
+
 })();
-/**
- * Created by juneruijiang on 5/24/16.
- */
+
