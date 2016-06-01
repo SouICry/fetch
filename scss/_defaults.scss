@@ -82,6 +82,11 @@ h3 {
   font-size: 30px;
   font-weight: 100;
   text-align: center;
+
+  @media screen and (max-width: 570px) {
+    font-size: 25px;
+    margin-bottom: 0;
+  }
 }
 
 h4 {

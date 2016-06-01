@@ -538,34 +538,47 @@
             window.location.reload();
         },
         switchToDriver: function () {
+            //alert();
+            goToPage("_yourDeliveries", true);
             loader.isDriver = true;
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                dataType: "json",
-                url: "/switchRole",
-                data: JSON.stringify({
-                    isDriver: true
-                }),
-                success: function () {
-                    goToPage("_yourDeliveries", true);
-                }
-            });
+//            $.ajax({
+//                type: "POST",
+//                contentType: "application/json",
+//                dataType: "json",
+//                url: "/switchRole",
+//                data: JSON.stringify({
+//                    isDriver: true
+//                }),
+//                success: function () {
+//                    alert("switchDriver");
+//
+//                },
+//                fail: function(){
+//                    alert("fail")
+//                }
+//            });
         },
         switchToShopper: function () {
-            loader.isDriver = false;
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                dataType: "json",
-                url: "/switchRole",
-                data: JSON.stringify({
-                    isDriver: false
-                }),
-                success: function(){
-                    goToPage("_history", true);
-                }
-            });
+            goToPage("_history", true);
+//            alert();
+//            loader.isDriver = false;
+//            $.ajax({
+//                type: "POST",
+//                contentType: "application/json",
+//                dataType: "json",
+//                url: "/switchRole",
+//                data: JSON.stringify({
+//                    isDriver: false
+//                }),
+//                success: function(){
+//
+//                    alert("switchShopper");
+//                    goToPage("_history", true);
+//                },
+//                fail: function(){
+//                    alert("fail")
+//                }
+//            });
         }
     };
     //loader.currentPageChanged = _.throttle(loader.sendData, 501);
