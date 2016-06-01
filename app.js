@@ -1447,7 +1447,7 @@ app.post('/_checkout', function (req, res, next) {
             // May not use start/end time
             available_time_start: req.body.options.checkout_range1,
             available_time_end: req.body.options.checkout_range2,
-            available_time: "req.body.available_time",
+            available_time: req.body.available_time,
             state: 'pending',
             price: '',
             geolocation: {
@@ -1507,7 +1507,7 @@ app.post('/driverListUpdate', function (req, res) {
                         full_name: user.grocery_list[i].shopper.full_name,
                         items: user.grocery_list[i].shopping_list,
                         contact: user.phone_number,
-                        special_notes: user.grocery_list[i].special_notes
+                        special_notes: user.grocery_list[i].special_options
                     }));
                 }
             }
@@ -1903,7 +1903,7 @@ app.post('/_loadPurchasedTickets', function (req, res) {
 
                 //console.log(JSON.stringify(ticket));
                 object.full_name = ticket.shopper.full_name;
-                object.phone = ticket.shopper.phone_number;
+                object.phone_number = ticket.shopper.phone_number;
                 object.shopperId = ticket.shopper._id;
                 object.items = ticket.shopping_list;
                 object.special_note = ticket.special_options;
@@ -2049,7 +2049,7 @@ app.post('/_cancelTicket', function (req, res) {
                 }
                 if (user == null) {
                     console.log('Could not find user with ticket ' + ticketId + ' in _shoppingStatus');
-                    console.log(JSON.stringify(ticket));
+                    console.log(JSON.stringify(user));
                     res.status(500);
                     res.send('');
                 }
@@ -2130,6 +2130,7 @@ app.post('/_shoppingStatus', function (req, res) {
                         }
                         //console.log(JSON.stringify(ticket));
                         object.items = ticket.shopping_list;
+                        object.phone_number = ticket.shopper.phone_number;
                         object.driverId = ticket.driver._id;
                         object.driver_full_name = ticket.driver.full_name;
                         object.special_note = ticket.special_options;

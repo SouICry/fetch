@@ -1,41 +1,84 @@
-<div class="container text-center box">
-    <div class="row">
-        <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3">
-            <h2 id="driver-name_rateDriver" data-id="5876"></h2>
-            <h3>Rate the driver!</h3>
-            <div class="row">
-                <div class="col-xs-8-offset-2">
-                    <img id="driver-image" src="/placeholder/person.png"/>
-                </div>
+<!--<div class="container text-center box">-->
+    <!--<div class="row">-->
+        <!--<div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3">-->
+            <!--<h2 id="driver-name_rateDriver" data-id="5876"></h2>-->
+            <!--<h3>Rate the driver!</h3>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="row">-->
+        <!--<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="position: relative; height: 442px;">-->
+            <!--<div id="rateDriver-image-content" style="width: 100%;position: absolute; top: 50%; left: 50%;-->
+                <!--transform: translate(-50%, -50%)">-->
+                <!--<img style="margin: 8%" class="img-circle" id="rateDriver-img"-->
+                     <!--src="placeholder/person5.png">-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="row">-->
+        <!--<div class="col-xs-10-offset-1 col-sm-6-offset-3">-->
+            <!--<div class="rating">-->
+                <!--<span id="driver_rating-1" class="glyphicon glyphicon-heart"></span>-->
+                <!--<span id="driver_rating-2" class="glyphicon glyphicon-heart"></span>-->
+                <!--<span id="driver_rating-3" class="glyphicon glyphicon-heart"></span>-->
+                <!--<span id="driver_rating-4" class="glyphicon glyphicon-heart"></span>-->
+                <!--<span id="driver_rating-5" class="glyphicon glyphicon-heart"></span>-->
+            <!--</div>-->
+            <!--<div class="row">-->
+                <!--<div class="col-xs-10 col-xs-offset-1">-->
+                    <!--<a id="rate-driver" type="button" class="btn waves-effect orange driverRate_button">-->
+                        <!--Rate!-->
+                    <!--</a>-->
+                    <!--<a id="rate-driver-skip" type="button" class="btn waves-effect orange driverRate_button">-->
+                        <!--Skip-->
+                    <!--</a>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+<!--<div class="footerBars container">-->
+    <!--<div class="footer2"></div>-->
+    <!--<div class="footer3"></div>-->
+<!--</div>-->
+
+<!--<script src="js/_rateDriver.js"></script>-->
+<div id="rateDriver" class="container box" style="text-align: center">
+    <div class="row" style="height: 100%;">
+
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="position: relative; height: 300px;">
+            <!--<h2>Account Information</h2>-->
+            <div id="rateDriver-image-content" style="width: 100%;position: absolute; top: 50%; left: 50%;
+                transform: translate(-50%, -50%)">
+                <img style="margin: 8%" class="img-circle" id="rateDriver-img"
+                     src="placeholder/person5.png">
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-10-offset-1 col-sm-6-offset-3">
+
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 " id="rateDriver-content" style="position: relative; height: 200px; margin-top: 8%">
+            <h2>Rate the driver!</h2>
+            <h3 id="driver-name_rateDriver">Driver name: Gary Gillespie</h3>
+
             <div class="rating">
-                <span id="driver_rating-1" class="glyphicon glyphicon-heart"></span>
-                <span id="driver_rating-2" class="glyphicon glyphicon-heart"></span>
-                <span id="driver_rating-3" class="glyphicon glyphicon-heart"></span>
-                <span id="driver_rating-4" class="glyphicon glyphicon-heart"></span>
-                <span id="driver_rating-5" class="glyphicon glyphicon-heart"></span>
-            </div>
-            <div class="row">
-                <div class="col-xs-10 col-xs-offset-1">
-                    <a id="rate-driver" type="button" class="btn waves-effect orange driverRate_button">
-                        Rate!
-                    </a>
-                    <a id="rate-driver-skip" type="button" class="btn waves-effect orange driverRate_button">
-                        Skip
-                    </a>
-                </div>
+                <span id="driver_rating-1" class="glyphicon glyphicon-heart" style="font-size: 35px"></span>
+                <span id="driver_rating-2" class="glyphicon glyphicon-heart" style="font-size: 35px"></span>
+                <span id="driver_rating-3" class="glyphicon glyphicon-heart" style="font-size: 35px"></span>
+                <span id="driver_rating-4" class="glyphicon glyphicon-heart" style="font-size: 35px"></span>
+                <span id="driver_rating-5" class="glyphicon glyphicon-heart" style="font-size: 35px"></span>
             </div>
         </div>
+
     </div>
+    <div class="col-xs-12">
+        <a id="rate-driver-skip" type="button" class="btn waves-effect orange driverRate_button">Skip</a>
+        <a id="rate-driver" type="button" class="btn waves-effect orange driverRate_button">Rate!</a>
+    </div>
+
 </div>
 <div class="footerBars container">
     <div class="footer2"></div>
     <div class="footer3"></div>
 </div>
 
-<script src="js/_rateDriver.js"></script>
-
+<script type="text/javascript" src="/js/_rateDriver.js"></script>

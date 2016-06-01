@@ -452,11 +452,11 @@
                             }
                             if (data.isDriver != loader.isDriver) {
                                 if (data.isDriver) {
-                                    loader.switchToDriver();
+                                    //loader.switchToDriver();
                                     return;
                                 }
                                 else {
-                                    loader.switchToShopper();
+                                    //loader.switchToShopper();
                                     return;
                                 }
                             }
@@ -561,7 +561,7 @@
         switchToShopper: function () {
             goToPage("_history", true);
 //            alert();
-//            loader.isDriver = false;
+              loader.isDriver = false;
 //            $.ajax({
 //                type: "POST",
 //                contentType: "application/json",

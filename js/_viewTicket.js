@@ -11,6 +11,7 @@
             $("#_viewTicket ul").html("");
             var array = data.shopping_list;
             var separatedNames = data.shopper.full_name;
+            
 
             for (var i = 0; i < array.length; i++) {
                 // item count

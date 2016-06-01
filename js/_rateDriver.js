@@ -1,24 +1,15 @@
 (function () {
     loader._rateDriver = {
-        data: {driver_full_name: "Jane Doe", driverId: 133, rate: 5},
-        getData: function(){
-            var dataSendBack = {
-                driver_full_name: data.full_name,
-                driverId: data.userId,
-                rate: _rating
-            };
-            return dataSendBack;
-        },
+        data: {driver_full_name: "Jane Doe", driverId: 133},
+        getData: null,
         loadData: function (data) {
-            var drImage = $('#driver-image');
+            var drImage = $('#rateDriver-img');
             $("#driver-name_rateDriver").html("");
             drImage.data('src', "/placeholder/person.png");
+            
+            document.getElementById("driver-name_rateUser").innerHTML =  data.driver_full_name;
 
-            var separatedNames = data.driver_full_name;
-            document.getElementById("driver-name_rateUser").innerHTML = separatedNames;
-
-
-            var imageSrc = "Images/users/" + data.driverId + ".png";
+            var imageSrc = "images/profiles/" + data.driverId + ".png";
 
             if (imageSrc !== null) {
                 drImage.data('src', imageSrc);
@@ -31,6 +22,7 @@
         changeTicketState();
         goToPage("_congratsTicketClosed");
     });
+
 
 
     var _rating = 0;
@@ -97,9 +89,4 @@
     }
 
 })();
-/**
- * Created by juneruijiang on 5/24/16.
- */
-/**
- * Created by juneruijiang on 5/25/16.
- */
+

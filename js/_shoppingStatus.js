@@ -34,9 +34,17 @@
 
                 var array = data.items;
                 var count = 0;
+                var numItems = $("#_shoppingStatus_numItems");
 
                 //create the contact info(where should I got this, is there a flied relates to contact?
-                document.getElementById("shoppingStatus-img").src = "images/profiles/" + data.driverId + ".png";
+
+
+                var name = data.driverId
+                if(UrlExists('images/profiles/' + name + '.png'))
+                    document.getElementById("shoppingStatus-img").src = 'images/profiles/' + name + '.png';
+                else
+                    document.getElementById("shoppingStatus-img").src = 'placeholder/person4.png';
+                //document.getElementById("shoppingStatus-img").src = "images/profiles/" + data.driverId + ".png";
                 document.getElementById("listName_shoppingStatus").innerHTML = data.driver_full_name + " took your ticket";
                 document.getElementById("shoppingstatus_note").innerHTML = "Special Notes: " + data.special_note;
                 $("#shoppingstatus_location").text("Delivery Location: " + data.shopping_location);
@@ -78,7 +86,7 @@
     };
 
     $('#shoppingStatus_list_btn').click(function () {
-        goToPage("_history");
+        goToPage("_rateDriver");
     });
 
 })();
@@ -93,11 +101,7 @@ function loadShoppingStatus() {
             loader._shoppingStatus.loadData(data);
 
             
-            var name = data.driverId
-            if(UrlExists('images/profiles/' + name + '.png'))
-                document.getElementById("shoppingStatus-img").src = 'images/profiles/' + name + '.png';
-            else
-                document.getElementById("shoppingStatus-img").src = 'placeholder/person4.png';
+
         },
         error: function (data) {
 
