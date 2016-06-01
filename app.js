@@ -171,7 +171,7 @@ app.post("/_shopping", function (req, res) {
     var list = req.body.list;
     var checkout = req.body.checkout;
     //TODO initialize verion in login, init, sign up
-    if(!masters.hasOwnProperty(userId) || masters[userId].shoppingVersion == 'undefined'){
+    if (!masters.hasOwnProperty(userId) || masters[userId].shoppingVersion == 'undefined') {
         res.send("");
     }
     else if (masters[userId].shoppingVersion < req.body.shoppingVersion) {
@@ -379,14 +379,14 @@ app.post('/savePhoto', function (req, res) {
     var buf = new Buffer(data, 'base64');
     //noinspection JSUnresolvedFunction
     if (req.session.userId === 'undefined')
-        fs.writeFile('images/profiles/image.png', buf, function(err) {
-            if(err)
+        fs.writeFile('images/profiles/image.png', buf, function (err) {
+            if (err)
                 throw err;
             console.log("Photo saved");
         });
     else
-        fs.writeFile('images/profiles/' + req.session.userId + '.png', buf, function(err) {
-            if(err)
+        fs.writeFile('images/profiles/' + req.session.userId + '.png', buf, function (err) {
+            if (err)
                 throw err;
             console.log("Photo saved");
         });
@@ -892,6 +892,8 @@ app.post('/switchRole', function (req, res) {
         var userId = req.session.userId;
         masters[userId].isDriver = req.body.isDriver;
         res.send();
+    } else {
+        res.send();
     }
 });
 
@@ -1067,7 +1069,7 @@ app.post('/init', function (req, res) {
                     }));
                 }
             });
-       
+
     }
     else {
         res.setHeader('Content-Type', 'application/json');
@@ -1589,7 +1591,7 @@ app.post('/_purchasedTickets', function (req, res, next) {
     }
     else {
         // Driver's delivery list ticket updated to purchased status
-        db.collection('users').findOne({_id: userId}, function(err, user) {
+        db.collection('users').findOne({_id: userId}, function (err, user) {
             if (err) {
                 console.log('Error: ' + err);
                 res.status(500);
@@ -1629,7 +1631,7 @@ app.post('/_purchasedTickets', function (req, res, next) {
                         $pull: {'delivery_list': {_id: ticketId}},
                         $push: {'delivery_history': ticketToRemove}
                     },
-                    function(err) {
+                    function (err) {
                         if (err) {
                             console.log('Error: ' + err);
                             res.status(500);
@@ -1646,7 +1648,7 @@ app.post('/_purchasedTickets', function (req, res, next) {
                                     $pull: {'grocery_list': {_id: ticketId}},
                                     $push: {'user_history': ticketToRemove}
                                 },
-                                function(err) {
+                                function (err) {
                                     if (err) {
                                         console.log('Error: ' + err);
                                         res.status(500);
@@ -1848,7 +1850,7 @@ app.post('/_viewTicket', function (req, res) {
 
 
 // --------------------------- PURCHASED TICKETS ----------------------------
-app.post('/_loadPurchasedTickets', function(req, res) {
+app.post('/_loadPurchasedTickets', function (req, res) {
 
     var ticketId = req.body.ticketId;
     var object = {};
@@ -1900,13 +1902,6 @@ app.post('/_loadPurchasedTickets', function(req, res) {
 });
 
 
-
-
-
-
-
-
-
 // ---------------------------- TICKETS/QUEUE -------------------------------
 // Queue page
 app.post('/_tickets', function (req, res) {
@@ -1939,7 +1934,7 @@ app.get('/complete-payment', function (req, res) {
     console.log(userId);
     //
     var gticket = masters[userId].ticket;
-    
+
     for (var i = 0; i < gticket.shopping_list.length; i++) {
         console.log(gticket.shopping_list[i]);
     }
@@ -1986,8 +1981,6 @@ app.get('/cancel-payment', function (req, res) {
 });
 
 
-
-
 //---------------------------- Cancel Ticket ----------------------------------
 
 app.post('/_cancelTicket', function (req, res) {
@@ -2001,14 +1994,14 @@ app.post('/_cancelTicket', function (req, res) {
         res.send({message: 'no ticket ID!'});
     }
 
-    else if(req.body.type == 'cancel') {
+    else if (req.body.type == 'cancel') {
         db.collection('users').updateOne({'grocery_list._id': ticketId},
             {
                 $set: {
                     state: 'cancelled'
                 }
-            }, 
-            function(err) {
+            },
+            function (err) {
                 if (err) {
                     console.log('In _cancelTicket: could not update ticket to cancelled: ' + ticketId);
                     res.status(500);
@@ -2016,7 +2009,6 @@ app.post('/_cancelTicket', function (req, res) {
                     return;
                 }
             }
-
         );
         db.collection('grocery_queue').remove({_id: ticketId}, function (err) {
             if (err) {
@@ -2062,7 +2054,7 @@ app.post('/_cancelTicket', function (req, res) {
 
 
 //---------------------------- shopping status ---------------------------------
-app.post('/_shoppingStatus', function(req,res) {
+app.post('/_shoppingStatus', function (req, res) {
     var ticketId = req.body.ticketId;
     var object = {};
     if (ticketId == null) {
@@ -2131,13 +2123,13 @@ app.post('/_receiptPictureEnterPrice', function (req, res) {
     var buf = new Buffer(data, 'base64');
     //noinspection JSUnresolvedFunction
     if (req.session.userId === 'undefined')
-        fs.writeFile('images/receipts/image.png', buf, function(err) {
+        fs.writeFile('images/receipts/image.png', buf, function (err) {
             if (err)
                 throw err;
             console.log("Photo saved");
         });
     else
-        fs.writeFile('images/receipts/' + ticketId + '.png', buf, function(err) {
+        fs.writeFile('images/receipts/' + ticketId + '.png', buf, function (err) {
             if (err)
                 throw err;
             console.log("Photo saved");
