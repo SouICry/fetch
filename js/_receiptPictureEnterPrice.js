@@ -69,7 +69,7 @@
             url: "/_receiptPictureEnterPrice",
             data: JSON.stringify(data_to_send),
             success: function(){
-                alert("uploader");
+                // alert("uploader");
             },
             error: function (data) {
             //data is the object send back on fail (could also just be string)

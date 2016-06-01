@@ -132,7 +132,7 @@ var test_data = {
                                 url: "/_purchasedTickets",
                                 data: info_to_send,
                                 success: function (data) {
-                                    alert('success!!!!!');
+                                    // alert('success!!!!!');
                                 },
                                 error: function (data) {
                                     //data is the object send back on fail (could also just be string)

@@ -1,5 +1,5 @@
 if(window.location.protocol == 'file:'){
-    alert('To test this demo properly please use a local server such as XAMPP or WAMP. See README.md for more details.');
+    // alert('To test this demo properly please use a local server such as XAMPP or WAMP. See README.md for more details.');
 }
 
 var resizeableImage = function(image_target) {
