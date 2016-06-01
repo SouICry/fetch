@@ -74,13 +74,13 @@ a{
     @include outline-shadow;
   }
 
-  h4 {
+  h6 {
     @media screen and (max-width: 570px) {
       font-size: 15px;
-      margin: 20px 0;
+    }
+      margin: 15px 0;
       font-weight: 100;
       opacity: 1;
-    }
   }
 }
 
@@ -112,7 +112,7 @@ button:focus {
     width:100%;
     height: 60px;
     border:0;
-    padding: 0;
+    padding-left: 10px;
     border:none;
     color:darkgray;
     background-color:transparent;

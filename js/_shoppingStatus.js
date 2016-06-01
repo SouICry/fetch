@@ -24,8 +24,8 @@
             }
 
             else {
-                $("#shoppingStatusCalendar").append(loader.parseCalendar(data.calendar));
-                loader.loadMap("shoppingStatusMap",{lat:32, lng:-150});
+                //$("#shoppingStatusCalendar").append(loader.parseCalendar(data.calendar));
+                loader.loadMap("shoppingStatusMap",data.shopping_location);
                 $("#_shoppingStatus_numItems").text("");
                 $("#listName_shoppingStatus").text("");
                 $("#_shoppingStatus ul").html("");
@@ -36,7 +36,14 @@
                 var count = 0;
 
                 //create the contact info(where should I got this, is there a flied relates to contact?
-                document.getElementById("shoppingStatus-img").src = "images/profiles/" + data.driverId + ".png";
+
+
+                var name = data.driverId
+                if(UrlExists('images/profiles/' + name + '.png'))
+                    document.getElementById("shoppingStatus-img").src = 'images/profiles/' + name + '.png';
+                else
+                    document.getElementById("shoppingStatus-img").src = 'placeholder/person4.png';
+                //document.getElementById("shoppingStatus-img").src = "images/profiles/" + data.driverId + ".png";
                 document.getElementById("listName_shoppingStatus").innerHTML = data.driver_full_name + " took your ticket";
                 document.getElementById("shoppingstatus_note").innerHTML = "Special Notes: " + data.special_note;
                 $("#shoppingstatus_location").text("Delivery Location: " + data.shopping_location);
@@ -85,17 +92,13 @@ function loadShoppingStatus() {
     $.ajax({
         type: "POST",
         url: "/_shoppingStatus",
-        data: {ticket: loader.ticketId},
+        data: {ticketId: loader.ticketId},
         success: function (data) {
             //data is the object sent back on success (could also just be string)
             loader._shoppingStatus.loadData(data);
 
             
-            var name = data.driverId
-            if(UrlExists('images/profiles/' + name + '.png'))
-                document.getElementById("shoppingStatus-img").src = 'images/profiles/' + name + '.png';
-            else
-                document.getElementById("shoppingStatus-img").src = 'placeholder/person4.png';
+
         },
         error: function (data) {
 

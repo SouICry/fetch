@@ -26,18 +26,22 @@ var test_data = {
             $("#_deliveredTickets ul").empty();
             $("#deliveredTickets_numItems").text(" ");
             $("#deliveredTickets_note").val(" ");
+            loader.loadMap("deliveredTicketsMap",{lat:32, lng:-150});
+            //$("#deliveredTicketsCalendar").append(loader.parseCalendar(data.calendar));
+
 
             fullName = data.full_name;
             array = data.items;
             var name = data.full_name;
+
 
             //create the contact info(where should I got this, is there a flied relates to contact?
             document.getElementById("listName_deliveredTickets").innerHTML = name + "'s Shopping List";
             document.getElementById("phone_deliveredTickets").innerHTML = "Phone: " + data.contact;
             $("#deliveredTickets_note").val(data.special_note).siblings().addClass("active");
             document.getElementById("deliveredTickets-img").src = "images/profiles/" + data.shopperId + ".png";
-            $("#deliveredTickets_location").text("Delivery Location: " + data.shopping_location);
-            $("#deliveredTicketsTicketsCalendar").append(data.time);
+            $("#deliveredTickets_location").text("Delivery Location: ");
+            //$("#deliveredTicketsCalendar").append(data.time);
 
             for (var i = 0; i < array.length; i++) {
                 // item count
