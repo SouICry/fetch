@@ -24,7 +24,9 @@
             }
 
             else {
+
                 $("#shoppingStatusCalendar").text("");
+                $("#shoppingStatusCalendar").append(loader.parseCalendar(data.calendar));
                 loader.loadMap("shoppingStatusMap",data.shopping_location);
                 $("#_shoppingStatus_numItems").text("");
                 $("#listName_shoppingStatus").text("");
@@ -48,7 +50,7 @@
                 document.getElementById("listName_shoppingStatus").innerHTML = data.driver_full_name + " took your ticket";
                 document.getElementById("shoppingstatus_note").innerHTML = "Special Notes: " + data.special_note;
                 $("#shoppingstatus_location").text("Delivery Location: " + data.shopping_location);
-                $("#shoppingStatusCalendar").append(loader.parseCalendar(loader._deliveryTime.getData()));
+                //$("#shoppingStatusCalendar").append(loader.parseCalendar(loader._deliveryTime.getData()));
 
                 //$("#shoppingStatusCalendar").append(data.time);
 

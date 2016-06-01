@@ -1540,17 +1540,13 @@ app.post('/_driverList', function (req, res, next) {
         //res.send(object);
 
         // Driver's delivery list ticket updated to purchased status
-        db.collection('users').update({
+        db.collection('users').updateOne({
                 'delivery_list._id': ticketId
             },
             {
                 $set: {
                     'delivery_list.$.state': 'purchased'
                 }
-            },
-            {
-                multi: true
-
             }, function (err) {
                 if (err) {
                     console.log('Error in _driverList: ' + err);
@@ -1559,17 +1555,13 @@ app.post('/_driverList', function (req, res, next) {
                 }
                 else {
                     // Shopper's grocery list ticket updated to purchased status
-                    db.collection('users').update({
+                    db.collection('users').updateOne({
                             'grocery_list._id': ticketId
                         },
                         {
                             $set: {
                                 'grocery_list.$.state': 'purchased'
                             }
-                        },
-                        {
-                            multi: true
-
                         }, function (err) {
 
                             if (err) {
