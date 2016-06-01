@@ -164,6 +164,7 @@ function enableImageUpload(vid, canvas, takeButton, redoButton, uploadInput) {
     var context = canvas.getContext("2d");
 
     imageUp = function handleImageUpload(e) {
+
         var reader = new FileReader();
         reader.onload = function (event) {
             //console.log("In Load");
@@ -191,7 +192,7 @@ function enableImageUpload(vid, canvas, takeButton, redoButton, uploadInput) {
             img.src = event.target.result;
         };
         reader.readAsDataURL(e.target.files[0]);
-    }
+    };
     uploadInput.addEventListener('change', imageUp, false);
 }
 
