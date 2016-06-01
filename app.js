@@ -407,7 +407,7 @@ app.post('/saveChatImage',function(req,res){
     //console.log(req.body);
     var img = (req.body.image);
     var data = img.replace(/^data:image\/\w+;base64,/, "");
-
+    console.log("Chat image");
     var buf = new Buffer(data, 'base64');
     fs.writeFile('images/chat/' + req.body.name, buf, function (err) {
         if (err)
@@ -2379,7 +2379,7 @@ MongoClient.connect(mongodb_url, function (err, database) {
     db = database;
 });
 
-//SSL REPLACE BELOW SERVER
+// //SSL REPLACE BELOW SERVER
 // httpApp.get('*', function(req, res){
 //     res.redirect('https://fetchgrocery.com' + req.url);
 // });

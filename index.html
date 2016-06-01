@@ -208,6 +208,7 @@
                     canvas.height = img.height / factor;
                     var context = canvas.getContext("2d");
                     context.drawImage(img, 0, 0);
+                    alert();
                     $.ajax({
                         type: "POST",
                         contentType: "application/json",
@@ -218,6 +219,7 @@
                             name: name
                         }),
                         success: function () {
+                            alert();
                             var chat = $(input.parentNode.parentNode.parentNode).find('.chatForm');
                             chat.find("input").val("<img class='materialboxed' src='/images/chat/" + name + "'/>");
                             chat.submit();
