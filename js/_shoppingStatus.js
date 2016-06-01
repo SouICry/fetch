@@ -84,7 +84,7 @@
     };
 
     $('#shoppingStatus_list_btn').click(function () {
-        goToPage("_history");
+        goToPage("_rateDriver");
     });
 
 })();
