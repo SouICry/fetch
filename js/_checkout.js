@@ -5,7 +5,6 @@
         getData: function () { //must be null if not needed
             _checkout.checkout_notes = checkout_isSelected;
             _checkout.checkout_id = $('#checkout_notes').find(':checked').attr("id");
-            alert(_checkout.checkout_notes);
             return _checkout;
         },
         loadData: function (data) {
