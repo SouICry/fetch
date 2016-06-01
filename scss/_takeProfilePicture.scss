@@ -13,9 +13,9 @@
 #profile-pic {
   height: 100%;
 
-  .btn {
-    width: 100%;
-  }
+  //.btn {
+  //  width: 100%;
+  //}
 
   .row {
     height: 100%;
@@ -62,4 +62,20 @@
   //  top: 50%;
   //  transform: translateY(-50%);
   //}
+}
+#takeButton1{
+   z-index: 1;
+   position: absolute;
+   bottom: 12%;
+   display: block;
+   width: 25%;
+   left: 33%;
+ }
+#redoButton1{
+  z-index: 1;
+  position: absolute;
+  bottom: 12%;
+  display: block;
+  width: 25%;
+  left: 33%;
 }
