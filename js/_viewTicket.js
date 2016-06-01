@@ -54,7 +54,7 @@
     });
 
     $('#viewTicket-back').click(function(){
-        goToPage("_yourDeliveries");
+        goToPage("_tickets");
     });
 
     function assholes39() {
