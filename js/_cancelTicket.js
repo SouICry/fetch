@@ -15,13 +15,15 @@
             }
 
             else {
+                $("#_cancelTicket_numItems").text("");
                 loader.loadMap("cancelTicketMap",data.shopping_location);
-                //$("#cancelTicketCalendar").append(loader.parseCalendar(data.calendar));
+                $("#cancelTicketCalendar").append(loader.parseCalendar(data.calendar));
                 $("#_cancelTicket ul").html("");
                 $("#cancelTicket_note").val("");
 
                 var fullName = data.full_name;
                 var array = data.items;
+                var numItems = $("#_cancelTicket_numItems");
 
                 //create the contact info(where should I got this, is there a flied relates to contact?
                 // document.getElementById("cancelTicket-img").src = "images/profiles/" + data.driverId + ".png";
@@ -41,7 +43,12 @@
                     //newItem.id = array[i];
                     $('#_cancelTicket_list').prepend(newItem);
 
-
+                    if (count == 1) {
+                        numItems.text("1 item");
+                    }
+                    else {
+                        numItems.text(count + " items");
+                    }
 
                     if (count != 0) {
                         $("#_cancelTicket_footerInfo").show();

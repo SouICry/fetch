@@ -68,7 +68,11 @@ var test_data = {
 
     $("#purchasedTickets_submit_list").click(function () {
         $(this).addClass('disabled');
+
         assholes6155();
+        if(result) {
+            goToPage("_rateUser");
+        }
     });
 
     $("#purchasedTickets-back").click(function() {
