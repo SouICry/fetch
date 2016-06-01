@@ -25,7 +25,7 @@
 
 
     $(".userRate_button").click(function(){
-        changeTicketState();
+        //changeTicketState();
         goToPage("_congrats");
     });
 
@@ -73,24 +73,23 @@
     });
 
 
-
-    function changeTicketState() {
-        // $.ajax({
-        //     type: "POST",
-        //     url: "/_purchasedTickets",
-        //     data: {
-        //         ticketId: loader.ticketId,
-        //         type: 'send'
-        //     },
-        //     success: function (data) {
-        //         console.log('Successfully changed ticket state to delivered');
-        //     },
-        //     error: function (data) {
-        //         console.log('GOT IN ERROR IN PURCHASEDDDAG');
-        //         //data is the object send back on fail (could also just be string)
-        //     }
-        // });
-    }
+    // function changeTicketState() {
+    //     $.ajax({
+    //         type: "POST",
+    //         url: "/_purchasedTickets",
+    //         data: {
+    //             ticketId: loader.ticketId,
+    //             type: 'send'
+    //         },
+    //         success: function (data) {
+    //             console.log('Successfully changed ticket state to delivered');
+    //         },
+    //         error: function (data) {
+    //             console.log('GOT IN ERROR IN PURCHASEDDDAG');
+    //             //data is the object send back on fail (could also just be string)
+    //         }
+    //     });
+    // }
 
 })();
 
