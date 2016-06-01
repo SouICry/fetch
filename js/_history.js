@@ -117,14 +117,14 @@
 
             for (var i = 0; i < shopped_tickets.length; i++) {
                 ticket = shopped_tickets[i];
-                $("#yourOrders_shopped_tickets").append('<li  data-id="' + ticket._id + '" class = "yourOrders1 ' + ticket.store_name + ' ticket" ' + ' ><div  >'
+                $("#yourOrders_shopped_tickets").append('<li  data-id="' + ticket._id + '" class = "yourOrders2 ' + ticket.store_name + ' ticket" ' + ' ><div  >'
                     + toName(ticket.store_name) + ' <br> Estimate Deliver Time: ' + ticket.time_created +
                     '</div></li>');
             }
 
             for (var i = 0; i < delivered_tickets.length; i++) {
                 ticket = delivered_tickets[i];
-                $("#yourOrders_delivered_tickets").append('<li  data-id="' + ticket._id + '" class = "yourOrders2 ' + ticket.store_name + ' ticket" ' + ' ><div  >'
+                $("#yourOrders_delivered_tickets").append('<li  data-id="' + ticket._id + '" class = "yourOrders3 ' + ticket.store_name + ' ticket" ' + ' ><div  >'
                     + toName(ticket.store_name) + ' <br> Estimate Deliver Time: ' + ticket.time_created +
                     '</div></li>');
             }
@@ -145,6 +145,15 @@
                 $("#yourOrders_delivered_tickets").append('<li class = "ticket"' +
                     '>No orders</li>');
             }
+
+            $('li.yourOrders2').each(function () {
+                $(this).click(function () {
+                    loader.ticketId = $(this).data('id');
+                    // alert($(this).data("id"));
+                    // loader.getTicket($(this).data("id"), $(this).data("state"));
+                    goToPage("_confirmTicket");
+                });
+            });
 
             $('li.yourOrders1').each(function () {
                 $(this).click(function () {
