@@ -888,11 +888,16 @@ app.post('/getTicket', function (req, res) {
 
 //----------------------------------getTicket----------------------------------------------------------------
 app.post('/switchRole', function (req, res) {
+    console.log("switch");
     if (masters.hasOwnProperty(userId) && masters[userId] != null) {
         var userId = req.session.userId;
         masters[userId].isDriver = req.body.isDriver;
-        res.send();
+        res.send("");
     }
+    else {
+        res.send("");
+    }
+    console.log("sent");
 });
 
 
