@@ -89,7 +89,7 @@ var test_data = {
             url: "/_deliveredTickets",
             data: info_to_send,
             success: function (data) {
-                alert('success!!!!!');
+                // alert('success!!!!!');
                 //data is the object sent back on success (could also just be string)
                 //loader._driverList.loadData(data);
             },

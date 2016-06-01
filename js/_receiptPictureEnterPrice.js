@@ -69,7 +69,7 @@
             url: "/_receiptPictureEnterPrice",
             data: JSON.stringify(data_to_send),
             success: function(){
-                alert("uploader");
+                // alert("uploader");
             },
             error: function (data) {
             //data is the object send back on fail (could also just be string)
@@ -92,7 +92,7 @@
 
         $.ajax({
             type: "POST",
-            url: "/updatePurchasedTickets",
+            url: "/_driverList",
             data: info_to_send,
             success: function (data) {
                 //data is the object sent back on success (could also just be string)

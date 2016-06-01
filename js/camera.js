@@ -40,7 +40,7 @@ var imageUp;
 function enableCamera(vid, canvas, takeButton, redoButton, source, onTakePic) {
     if (typeof MediaStreamTrack === 'undefined' ||
         typeof MediaStreamTrack.getSources === 'undefined') {
-        alert('Your browser doesnt support using the camera :( Try uploading or use Chrome instead');
+        // alert('Your browser doesnt support using the camera :( Try uploading or use Chrome instead');
     } else {
         //noinspection JSUnresolvedVariable,JSUnresolvedFunction
         navigator.mediaDevices.enumerateDevices(gotSources);//MediaStreamTrack.getSources(gotSources);
@@ -91,7 +91,7 @@ function enableCamera(vid, canvas, takeButton, redoButton, source, onTakePic) {
 
     function errorCallback(error) {
         console.log('navigator.getUserMedia error: ', error);
-        alert('Something went wrong with the camera :( Try uploading or use Chrome instead');
+        // alert('Something went wrong with the camera :( Try uploading or use Chrome instead');
     }
     //console.log("Enable is alive");
     //navigator.mediaDevices.getUserMedia(constraints).then(successCallback(s)).catch(errorCallback(e));

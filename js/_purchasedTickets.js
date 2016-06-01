@@ -18,6 +18,7 @@ var test_data = {
 
             return packData;
         },
+        
         onPageLoad: function () {
 
             if(UrlExists('images/profiles/' + shopperId + '.png')) {
@@ -81,7 +82,7 @@ var test_data = {
 
         assholes6155();
         //if(result) {
-          //  goToPage("_rateUser");
+            //goToPage("_rateUser");
         //}
     });
 
@@ -94,30 +95,29 @@ var test_data = {
 
     // Used after click submit, update the grocery ticket for the users
     function assholes6155() {
-        $.ajax({
-            type: "POST",
-            contentType: "application/json",
-            dataType: "json",
-            url: "/userConfirm",
-            data: JSON.stringify({
-                ticketId: loader.ticketId
-            })
-        });
-        if (sync == -99999) {
-            sync = setInterval(function () {
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json",
-                    dataType: "json",
-                    url: "/checkConfirm",
-                    data: JSON.stringify({
-                        ticketId: loader.ticketId
-                    }),
-                    success: function (data) {
-                        console.log(data);
-                        
-                        if (data == true) {
-                            alert("dasfdafsdsd");
+        // $.ajax({
+        //     type: "POST",
+        //     contentType: "application/json",
+        //     dataType: "json",
+        //     url: "/userConfirm",
+        //     data: JSON.stringify({
+        //         ticketId: loader.ticketId
+        //     })
+        // });
+        // if (sync == -99999) {
+        //     sync = setInterval(function () {
+        //         $.ajax({
+        //             type: "POST",
+        //             contentType: "application/json",
+        //             dataType: "json",
+        //             url: "/checkConfirm",
+        //             data: JSON.stringify({
+        //                 ticketId: loader.ticketId
+        //             }),
+        //             success: function (data) {
+        //                 console.log(data);
+        //
+        //                 if (data == true) {
                             //goToPage("_rateUser");
                             //loader.goToPage("/_rateUser");
                             var info_to_send = {};
@@ -133,18 +133,18 @@ var test_data = {
                                 url: "/_purchasedTickets",
                                 data: info_to_send,
                                 success: function (data) {
-                                    alert('success!!!!!');
+                                    //alert('success!!!!!');
                                 },
                                 error: function (data) {
                                     //data is the object send back on fail (could also just be string)
                                 }
                             });
                             goToPage("_rateUser");
-                        }
-                    }
-                });
-            }, 500);
-        }
+            //             }
+            //         }
+            //     });
+            // }, 500);
+        // }
 
     }
 
