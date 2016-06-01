@@ -117,4 +117,8 @@
             list_shopping.splice(index, 1);
         }
     });
+
+    $("#shopping-back").click(function(){
+        goToPage("_homePage");
+    });
 })();   
