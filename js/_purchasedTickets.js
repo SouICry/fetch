@@ -95,29 +95,29 @@ var test_data = {
 
     // Used after click submit, update the grocery ticket for the users
     function assholes6155() {
-        // $.ajax({
-        //     type: "POST",
-        //     contentType: "application/json",
-        //     dataType: "json",
-        //     url: "/userConfirm",
-        //     data: JSON.stringify({
-        //         ticketId: loader.ticketId
-        //     })
-        // });
-        // if (sync == -99999) {
-        //     sync = setInterval(function () {
-        //         $.ajax({
-        //             type: "POST",
-        //             contentType: "application/json",
-        //             dataType: "json",
-        //             url: "/checkConfirm",
-        //             data: JSON.stringify({
-        //                 ticketId: loader.ticketId
-        //             }),
-        //             success: function (data) {
-        //                 console.log(data);
-        //
-        //                 if (data == true) {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            url: "/userConfirm",
+            data: JSON.stringify({
+                ticketId: loader.ticketId
+            })
+        });
+        if (sync == -99999) {
+            sync = setInterval(function () {
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    dataType: "json",
+                    url: "/checkConfirm",
+                    data: JSON.stringify({
+                        ticketId: loader.ticketId
+                    }),
+                    success: function (data) {
+                        console.log(data);
+        
+                        if (data == true) {
                             //goToPage("_rateUser");
                             //loader.goToPage("/_rateUser");
                             var info_to_send = {};
@@ -140,11 +140,11 @@ var test_data = {
                                 }
                             });
                             goToPage("_rateUser");
-            //             }
-            //         }
-            //     });
-            // }, 500);
-        // }
+                        }
+                    }
+                });
+            }, 500);
+        }
 
     }
 
