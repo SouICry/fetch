@@ -24,8 +24,8 @@
             }
 
             else {
-                $("#shoppingStatusCalendar").append(loader.parseCalendar(data.calendar));
-                loader.loadMap("shoppingStatusMap",{lat:32, lng:-150});
+                //$("#shoppingStatusCalendar").append(loader.parseCalendar(data.calendar));
+                loader.loadMap("shoppingStatusMap",data.shopping_location);
                 $("#_shoppingStatus_numItems").text("");
                 $("#listName_shoppingStatus").text("");
                 $("#_shoppingStatus ul").html("");
@@ -85,7 +85,7 @@ function loadShoppingStatus() {
     $.ajax({
         type: "POST",
         url: "/_shoppingStatus",
-        data: {ticket: loader.ticketId},
+        data: {ticketId: loader.ticketId},
         success: function (data) {
             //data is the object sent back on success (could also just be string)
             loader._shoppingStatus.loadData(data);
