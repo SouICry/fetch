@@ -404,15 +404,19 @@ app.post('/savePhoto', function (req, res) {
 
 //Uploads chat image
 app.post('/saveChatImage',function(req,res){
-    var image = req.body.image;
     //console.log(req.body);
-    fs.writeFile('images/chat/' + req.body.name, image, 'base64', function (err) {
+    var img = (req.body.image);
+    var data = img.replace(/^data:image\/\w+;base64,/, "");
+
+    var buf = new Buffer(data, 'base64');
+    fs.writeFile('images/chat/' + req.body.name, buf, function (err) {
         if (err)
             throw err;
         console.log("Chat image saved");
     });
 
-    res.send("");
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify({"name": "a"}));
 });
 
 // Serialize user for storing to session
@@ -537,6 +541,47 @@ app.post('/_signUp', function (req, res, next) {
                     }
                 });
             });
+            // var email = req.body.email;
+            // async.waterfall([
+            //     function (done) {
+            //         crypto.randomBytes(20, function (err, buf) {
+            //             var token = buf.toString('hex');
+            //             done(err, token);
+            //         });
+            //     },
+            //     function (token, user, done) {
+            //         var Transport = nodemailer.createTransport({
+            //             service: 'Gmail',
+            //             auth: {
+            //                 user: 'fetchtestuser',
+            //                 pass: 'insanelycreatives'
+            //             }
+            //         });
+            //         var mailOptions = {
+            //             to: email,
+            //             from: 'fetchtestuser@gmail.com',
+            //             subject: 'Fetch Grocery Email Verification',
+            //             text: 'You are receiving this because you (or someone else) have signed up for an account on fetchgrocery.com using this email.\n\n' +
+            //             'Visit the link to verify your account:\n\n' +
+            //             'https://' + req.headers.host + '#' + token + '\n\n' +
+            //             'If you did not sign up, ignore this email.\n'
+            //         };
+            //         console.log('Sending Mail');
+            //         Transport.sendMail(mailOptions, function (err, info) {
+            //             if (err) {
+            //                 console.log('Error occurred while sending mail');
+            //                 console.log(err.message);
+            //                 res.status(500);
+            //                 return;
+            //             }
+            //             console.log('info', 'An e-mail has been sent to ' + email + ' with further instructions.');
+            //             done(err, 'done');
+            //         });
+            //     }
+            // ], function (err) {
+            //     if (err) return next(err);
+            //     //res.redirect('/forgot');
+            // });
         }
     })(req, res, next);
 });
@@ -1529,7 +1574,7 @@ app.post('/driverListUpdate', function (req, res) {
                 else {
                     res.setHeader('Content-Type', 'application/json');
                     res.send(JSON.stringify({
-                        _id: user.grocery_list[i].shopper._id,
+                        shopper_id: user.grocery_list[i].shopper._id,
                         full_name: user.grocery_list[i].shopper.full_name,
                         items: user.grocery_list[i].shopping_list,
                         contact: user.phone_number,
@@ -2017,7 +2062,7 @@ app.get('/cancel-payment', function (req, res) {
 //---------------------------- Cancel Ticket ----------------------------------
 
 app.post('/_cancelTicket', function (req, res) {
-    var ticketId = req.body.ticket;
+    var ticketId = req.body.ticketId;
     var object = {};
     if (ticketId == null) {
         res.status(500);

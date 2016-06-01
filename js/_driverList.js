@@ -29,12 +29,16 @@ var driver__test_data = {
             $("#_driverList ul").html("");
             $("#_driver_numItems").text(" ");
             $("#driver_note").val(" ");
-
+        
             fullName = data.full_name;
             array = data.items;
             var name = data.full_name;
             driverList_shopperid = data.shopper_id;
-
+            alert(driverList_shopperid);
+            alert(name);
+            loader.shopperid = data.shopper_id;
+            loader.shopperFullName = data.full_name;
+            
             //create the contact info(where should I got this, is there a flied relates to contact?
             document.getElementById("listName_driverList").innerHTML = name + "'s Shopping List";
             document.getElementById("phone").innerHTML = "Phone: " + data.contact;
