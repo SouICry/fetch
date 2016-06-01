@@ -50,6 +50,7 @@
                 document.getElementById("index_user-name").innerHTML = str;
                 //data is the object sent back on success (could also just be string)
                 loader.login(data);
+                //loader.signUp(data);
             },
             error: function (data) {
                 //alert('error');

@@ -71,7 +71,6 @@
                     </span>
                     <!--<span id="toggleButton" onclick="toggles();" class="toggle-button">-->
                     <button></button>
-                    </span>
                 </div>
             </div>
             <!--<div id="close-menu" class="cd-panel-close">Close</div>-->
@@ -470,6 +469,12 @@
 
             }
         },
+        signUp: function(data){
+            var d = new Date();
+            d.setTime(d.getTime() + (1000 * 24 * 60 * 60 * 1000));
+            document.cookie = "user=" + data.userId + ";expires=" + d.toUTCString();
+            goToPage("_verifyEmail");
+        },
         login: function (data) { //Called after successful login, passing the returned data
             index_login();
             console.log("login");
@@ -541,10 +546,11 @@
                 url: "/switchRole",
                 data: JSON.stringify({
                     isDriver: true
-                })
+                }),
+                success: function () {
+                    goToPage("_yourDeliveries", true);
+                }
             });
-            //UI changes for menu bar
-            goToPage("_yourDeliveries", true);
         },
         switchToShopper: function () {
             loader.isDriver = false;
@@ -555,10 +561,11 @@
                 url: "/switchRole",
                 data: JSON.stringify({
                     isDriver: false
-                })
+                }),
+                success: function(){
+                    goToPage("_history", true);
+                }
             });
-            //UI changes for menu bar
-            goToPage("_history", true);
         }
     };
     //loader.currentPageChanged = _.throttle(loader.sendData, 501);
@@ -654,9 +661,17 @@
                         loader.isDriver = data.isDriver;
                         loader.ticketId = data.ticketId;
                         if (window.location.hash.length > 5) {
-                            //submit or cancel ticket
-                            goToPage(window.location.hash.substring(1));
-                            window.location.hash = "";
+                            if (window.location.hash.length > 20) {
+                                //submit or cancel ticket
+                                goToPage("_homePage");
+                                loader.addNotification(createNotification("Email verification successful!", "_homePage", "verified_user"));
+                                window.location.hash = "";
+                            }
+                            else {
+                                //submit or cancel ticket
+                                goToPage(window.location.hash.substring(1));
+                                window.location.hash = "";
+                            }
                         }
                         else {
                             switch (data.currentPage) {
@@ -708,15 +723,26 @@
         $(document).on('click mousemove focus keypress', loader.setActive);
 
         pageInit();
-        for (var j = 0; j < allPages.length; j++) {
-            $('#page-content').append('<div id="section-' + j + '"></div>');
-            for (var i = 0; i < allPages[j].length; i++) {
-                var whichid = allPages[j][i];
-                loadPage(whichid, j, i);
-                var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
-                $("#Butt").append("<div " + clickVal + " >" + whichid + "</div>");
+//        for (var j = 0; j < allPages.length; j++) {
+//            $('#page-content').append('<div id="section-' + j + '"></div>');
+//            for (var i = 0; i < allPages[j].length; i++) {
+//                var whichid = allPages[j][i];
+//                loadPage(whichid, j, i);
+//                var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
+//                $("#Butt").append("<div " + clickVal + " >" + whichid + "</div>");
+//            }
+//        }
+
+        $.ajax({
+            type: "POST",
+            url: "/loadPage",
+            data: {name: "allPages"},
+            async: false,
+            success: function (data) {
+                $('#page-content').append(data);
             }
-        }
+        });
+
         $("#index_login_top").show();
         $("#open-menu-drawer").show();
         loadPage("payment", 0, 0);
