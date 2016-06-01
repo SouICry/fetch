@@ -1,4 +1,5 @@
 (function () {
+    var driverId;
     loader._shoppingStatus = {
         data: {driver_full_name: "Bob Yay",
                driverId: "firstpartofemail",
@@ -19,6 +20,8 @@
             return packedData;
         },
         loadData: function (data) {
+            driverId = data.driverId;
+            
             if (data == "none" || data.length == 0) {
                 data = [];
             }
@@ -41,7 +44,7 @@
                 //create the contact info(where should I got this, is there a flied relates to contact?
 
 
-                var name = data.driverId
+                var name = data.driverId;
                 if(UrlExists('images/profiles/' + name + '.png'))
                     document.getElementById("shoppingStatus-img").src = 'images/profiles/' + name + '.png';
                 else
@@ -83,6 +86,12 @@
             }
         },
         onPageLoad: function() {
+            if(UrlExists('images/profiles/' + driverId + '.png'))
+                document.getElementById("shoppingStatus-img").src = 'images/profiles/' + driverId + '.png';
+            else
+                document.getElementById("shoppingStatus-img").src = 'placeholder/person4.png';
+
+
             loadShoppingStatus();
         }
     };
