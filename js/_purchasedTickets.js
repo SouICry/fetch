@@ -9,6 +9,7 @@ var test_data = {
 };
 
 (function () {
+    var sync;
     loader._purchasedTickets = {
         version: 0,
         getData: function () { //NOT SURE WHAT TO SEND -JEN

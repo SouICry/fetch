@@ -546,10 +546,11 @@
                 url: "/switchRole",
                 data: JSON.stringify({
                     isDriver: true
-                })
+                }),
+                success: function () {
+                    goToPage("_yourDeliveries", true);
+                }
             });
-            //UI changes for menu bar
-            goToPage("_yourDeliveries", true);
         },
         switchToShopper: function () {
             loader.isDriver = false;
@@ -560,10 +561,11 @@
                 url: "/switchRole",
                 data: JSON.stringify({
                     isDriver: false
-                })
+                }),
+                success: function(){
+                    goToPage("_history", true);
+                }
             });
-            //UI changes for menu bar
-            goToPage("_history", true);
         }
     };
     //loader.currentPageChanged = _.throttle(loader.sendData, 501);
@@ -721,15 +723,26 @@
         $(document).on('click mousemove focus keypress', loader.setActive);
 
         pageInit();
-        for (var j = 0; j < allPages.length; j++) {
-            $('#page-content').append('<div id="section-' + j + '"></div>');
-            for (var i = 0; i < allPages[j].length; i++) {
-                var whichid = allPages[j][i];
-                loadPage(whichid, j, i);
-                var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
-                $("#Butt").append("<div " + clickVal + " >" + whichid + "</div>");
+//        for (var j = 0; j < allPages.length; j++) {
+//            $('#page-content').append('<div id="section-' + j + '"></div>');
+//            for (var i = 0; i < allPages[j].length; i++) {
+//                var whichid = allPages[j][i];
+//                loadPage(whichid, j, i);
+//                var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
+//                $("#Butt").append("<div " + clickVal + " >" + whichid + "</div>");
+//            }
+//        }
+
+        $.ajax({
+            type: "POST",
+            url: "/loadPage",
+            data: {name: "allPages"},
+            async: false,
+            success: function (data) {
+                $('#page-content').append(data);
             }
-        }
+        });
+
         $("#index_login_top").show();
         $("#open-menu-drawer").show();
         loadPage("payment", 0, 0);

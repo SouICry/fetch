@@ -1,4 +1,5 @@
 (function () {
+    var sync;
     loader._confirmTicket = {
         data: {driver_full_name: "John Doe", driverId: 123, items: ["aa", "bb", "cc", "dd"], price: 56.7, ticketId: 234, status: "delivered"},
         version: 0,
