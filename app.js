@@ -1447,7 +1447,7 @@ app.post('/_checkout', function (req, res, next) {
             // May not use start/end time
             available_time_start: req.body.options.checkout_range1,
             available_time_end: req.body.options.checkout_range2,
-            available_time: "req.body.available_time",
+            available_time: req.body.available_time,
             state: 'pending',
             price: '',
             geolocation: {
@@ -2049,7 +2049,7 @@ app.post('/_cancelTicket', function (req, res) {
                 }
                 if (user == null) {
                     console.log('Could not find user with ticket ' + ticketId + ' in _shoppingStatus');
-                    console.log(JSON.stringify(ticket));
+                    console.log(JSON.stringify(user));
                     res.status(500);
                     res.send('');
                 }
