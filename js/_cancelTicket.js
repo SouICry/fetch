@@ -16,6 +16,7 @@
 
             else {
                 $("#_cancelTicket_numItems").text("");
+                $("#cancelTicketCalendar").html("");
                 loader.loadMap("cancelTicketMap",data.shopping_location);
                 $("#cancelTicketCalendar").append(loader.parseCalendar(data.calendar));
                 $("#_cancelTicket ul").html("");
