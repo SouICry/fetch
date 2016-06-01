@@ -134,6 +134,11 @@
             });
         }
     };
+
+    $("#yourDeliveries_ticket_btn").click(function(){
+        goToPage("_tickets");
+    });
+
     //
     // $('li.yourDeliveries1').each(function () {
     //     $(this).click(function () {
