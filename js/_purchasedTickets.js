@@ -67,8 +67,11 @@ var test_data = {
     var array = [];
 
     $("#purchasedTickets_submit_list").click(function () {
-        confirm("Are you sure you want to close the ticket?");
+        var result = confirm("Are you sure you want to close the ticket?");
         assholes6155();
+        if(result) {
+            goToPage("_rateUser");
+        }
     });
 
     $("#purchasedTickets-back").click(function() {
