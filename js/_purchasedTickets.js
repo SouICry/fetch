@@ -9,6 +9,7 @@ var test_data = {
 };
 
 (function () {
+    var shopperId;
     var sync = -99999;
     loader._purchasedTickets = {
         version: 0,
@@ -18,9 +19,14 @@ var test_data = {
             return packData;
         },
         onPageLoad: function () {
+
+            if(UrlExists('images/profiles/' + shopperId + '.png')) {
+                document.getElementById("purchasedTickets-img").src = 'images/profiles/' + shopperId + '.png';
+            }
             assholes666();
         },
         loadData: function (data) {
+            shopperId = data.shopperId;
             //populate driver list
             $("#listName_purchasedTickets").text(" ");
             $("#phone_purchasedTickets").text(" ");
@@ -38,8 +44,9 @@ var test_data = {
             document.getElementById("phone_purchasedTickets").innerHTML = "Phone: " + data.phone_number;
             $("#purchasedTickets_note").val(data.special_note).siblings().addClass("active");
             document.getElementById("purchasedTickets-img").src = "images/profiles/" + data.shopperId + ".png";
-            $("#purchasedTickets_location").text("Delivery Location: " + data.shopping_location);
+            $("#purchasedTickets_location").text("Delivery Location: ");
             $("#purchasedTicketsCalendar").append(loader.parseCalendar(data.calendar));
+            loader.loadMap("purchasedTicketsMap",data.shopping_location);
 
             // $("#purchasedTicketsCalendar").append(data.time);
 

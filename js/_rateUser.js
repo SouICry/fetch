@@ -3,16 +3,22 @@
         data: {user_full_name: "Jane Doe", userId: 133},
         getData: null,
         loadData: function (data) {
-            var drImage = $('#rateUser-img');
+            //var usImage = $('#rateUser-img');
             $("#user-name_rateUser").html("");
-            drImage.data('src', "/placeholder/person.png");
+            $('#rateUser-img').src = "/placeholder/person4.png";
 
             document.getElementById("user-name_rateUser").innerHTML =  data.user_full_name;
 
+            console.log("Loading");
             var imageSrc = "images/profiles/" + data.userId + ".png";
 
             if (imageSrc !== null) {
-                drImage.data('src', imageSrc);
+                $('#rateUser-img').attr('src', imageSrc);
+            }
+        },
+        onPageLoad: function(data) {
+            if(UrlExists('images/profiles/' + loader.userId + '.png')) {
+                document.getElementById("rateUser-img").src = 'images/profiles/' + loader.userId + '.png';
             }
         }
     };
@@ -22,8 +28,6 @@
         changeTicketState();
         goToPage("_congratsTicketClosed");
     });
-
-
 
     var _rating = 0;
     var r1 = $('#user_rating-1'), r2 = $('#user_rating-2'), r3 = $('#user_rating-3'), r4 = $('#user_rating-4'), r5 = $('#user_rating-5');

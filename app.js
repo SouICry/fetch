@@ -402,6 +402,19 @@ app.post('/savePhoto', function (req, res) {
     res.send("");
 });
 
+//Uploads chat image
+app.post('/saveChatImage',function(req,res){
+    var image = req.body.image;
+    //console.log(req.body);
+    fs.writeFile('images/chat/' + req.body.name, image, 'base64', function (err) {
+        if (err)
+            throw err;
+        console.log("Chat image saved");
+    });
+
+    res.send("");
+});
+
 // Serialize user for storing to session
 // Saved to req.session.passport.user
 passport.serializeUser(function (user, done) {
@@ -1515,6 +1528,7 @@ app.post('/driverListUpdate', function (req, res) {
                 else {
                     res.setHeader('Content-Type', 'application/json');
                     res.send(JSON.stringify({
+                        _id: user.grocery_list[i].shopper._id,
                         full_name: user.grocery_list[i].shopper.full_name,
                         items: user.grocery_list[i].shopping_list,
                         contact: user.phone_number,
@@ -1910,7 +1924,7 @@ app.post('/_loadPurchasedTickets', function (req, res) {
                 object.shopperId = ticket.shopper._id;
                 object.items = ticket.shopping_list;
                 object.special_note = ticket.special_options;
-                object.time = ticket.available_time;
+                object.calendar = ticket.available_time;
                 object.shopping_location = ticket.geolocation;
 
                 res.setHeader('Content-Type', 'application/json');
@@ -2137,7 +2151,7 @@ app.post('/_shoppingStatus', function (req, res) {
                         object.driverId = ticket.driver._id;
                         object.driver_full_name = ticket.driver.full_name;
                         object.special_note = ticket.special_options;
-                        object.time = ticket.available_time;
+                        object.calendar = ticket.available_time;
                         object.shopping_location = ticket.geolocation;
 
                         res.setHeader('Content-Type', 'application/json');

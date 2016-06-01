@@ -321,16 +321,22 @@
 <script>
 
     (function () {
+        var months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug",
+            "Sept", "Oct", "Nov", "Dec"];
         loader.parseCalendar = function (dat) {
             if (dat != null) {
                 var cal = document.createElement('div');
                 cal.className = "cal";
                 $(cal).html('<table class="calendar calendar0"><thead><tr class="calendar-head"></tr></thead></table><table class="calendar calendar1"cellpadding="0"cellspacing="0"><tbody><tr><td>6:00</td><td>6:00</td><td>6:00</td><td>6:00</td><td>6:00</td><td>6:00</td><td>6:00</td></tr><tr><td>7:00</td><td>7:00</td><td>7:00</td><td>7:00</td><td>7:00</td><td>7:00</td><td>7:00</td></tr><tr><td>8:00</td><td>8:00</td><td>8:00</td><td>8:00</td><td>8:00</td><td>8:00</td><td>8:00</td></tr><tr><td>9:00</td><td>9:00</td><td>9:00</td><td>9:00</td><td>9:00</td><td>9:00</td><td>9:00</td></tr><tr><td>10:00</td><td>10:00</td><td>10:00</td><td>10:00</td><td>10:00</td><td>10:00</td><td>10:00</td></tr><tr><td>11:00</td><td>11:00</td><td>11:00</td><td>11:00</td><td>11:00</td><td>11:00</td><td>11:00</td></tr></tbody></table><table class="calendar calendar2"><tbody><tr><td>12:00</td><td>12:00</td><td>12:00</td><td>12:00</td><td>12:00</td><td>12:00</td><td>12:00</td></tr><tr><td>13:00</td><td>13:00</td><td>13:00</td><td>13:00</td><td>13:00</td><td>13:00</td><td>13:00</td></tr><tr><td>14:00</td><td>14:00</td><td>14:00</td><td>14:00</td><td>14:00</td><td>14:00</td><td>14:00</td></tr><tr><td>15:00</td><td>15:00</td><td>15:00</td><td>15:00</td><td>15:00</td><td>15:00</td><td>15:00</td></tr><tr><td>16:00</td><td>16:00</td><td>16:00</td><td>16:00</td><td>16:00</td><td>16:00</td><td>16:00</td></tr><tr><td>17:00</td><td>17:00</td><td>17:00</td><td>17:00</td><td>17:00</td><td>17:00</td><td>17:00</td></tr></tbody></table><table class="calendar calendar3"><tbody><tr><td>18:00</td><td>18:00</td><td>18:00</td><td>18:00</td><td>18:00</td><td>18:00</td><td>18:00</td></tr><tr><td>19:00</td><td>19:00</td><td>19:00</td><td>19:00</td><td>19:00</td><td>19:00</td><td>19:00</td></tr><tr><td>20:00</td><td>20:00</td><td>20:00</td><td>20:00</td><td>20:00</td><td>20:00</td><td>20:00</td></tr><tr><td>21:00</td><td>21:00</td><td>21:00</td><td>21:00</td><td>21:00</td><td>21:00</td><td>21:00</td></tr><tr><td>22:00</td><td>22:00</td><td>22:00</td><td>22:00</td><td>22:00</td><td>22:00</td><td>22:00</td></tr><tr><td>23:00</td><td>23:00</td><td>23:00</td><td>23:00</td><td>23:00</td><td>23:00</td><td>23:00</td></tr></tbody></table><table class="calendar calendar4"><tbody><tr><td>0:00</td><td>0:00</td><td>0:00</td><td>0:00</td><td>0:00</td><td>0:00</td><td>0:00</td></tr><tr><td>1:00</td><td>1:00</td><td>1:00</td><td>1:00</td><td>1:00</td><td>1:00</td><td>1:00</td></tr><tr><td>2:00</td><td>2:00</td><td>2:00</td><td>2:00</td><td>2:00</td><td>2:00</td><td>2:00</td></tr><tr><td>3:00</td><td>3:00</td><td>3:00</td><td>3:00</td><td>3:00</td><td>3:00</td><td>3:00</td></tr><tr><td>4:00</td><td>4:00</td><td>4:00</td><td>4:00</td><td>4:00</td><td>4:00</td><td>4:00</td></tr><tr><td>5:00</td><td>5:00</td><td>5:00</td><td>5:00</td><td>5:00</td><td>5:00</td><td>5:00</td></tr></tbody></table>');
-                $(cal).find('.calendar-head').append(dat.head);
-                var arr = dat.body;
-                var i = 0;
+                var head = $(cal).find('.calendar-head');
+                var i;
+                for (i = 0; i < 7; i++){
+                    head.append('<td>' + months[parseInt(dat.substr(4 * i, 2))] + " " + parseInt(dat.substr(2 + 4 * i, 2)) + '</td>');
+                }
+
+                i = 28;
                 $(cal).find("tbody td").each(function () {
-                    if (arr[i++] == "1") {
+                    if (dat[i++] == "1") {
                         $(this).addClass('highlighted');
                     }
                 });
@@ -339,30 +345,32 @@
         };
         loader._deliveryTime = {
             onPageLoad: function () {
-                var months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug",
-                    "Sept", "Oct", "Nov", "Dec"];
+
                 var date;
                 var row = "";
                 for (var i = 0; i < 7; i++) {
                     date = new Date(Date.now() + i * 86400000);
+                    var month = date.getMonth();
+                    var date = date.getDate();
                     //row += "<td>" + (date.getMonth() + 1) + "/" + date.getDate() + "</td>";
-                    row += "<td>" + months[date.getMonth()] + " " + date.getDate() + "</td>";
+                    row += "<td data-date='" + (month < 10 ? "0" + month : month) + "" +  (date < 10 ? "0" + date : date) + "'>" + months[month] + " " + date + "</td>";
                 }
 
                 $("#select-delivery-time").find(".calendar-head").append(row);
             },
             getData: function () {
-                var dat = {
-                    head: $('#select-delivery-time  .calendar-head').html(),
-                    body: ""
-                };
+                var dat = "";
+
+                $('#select-delivery-time thead td').each(function(){
+                    dat += $(this).data("date");
+                });
 
                 $('#select-delivery-time tbody td').each(function () {
                     if ($(this).hasClass('highlighted')) {
-                        dat.body += "1";
+                        dat += "1";
                     }
                     else {
-                        dat.body += "0";
+                        dat += "0";
                     }
                 });
 

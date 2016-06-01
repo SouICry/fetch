@@ -70,6 +70,11 @@
 
                 }
             }
+        },
+        onPageLoad: function(){
+            if(UrlExists('images/profiles/' + loader.userId + '.png')) {
+                document.getElementById("conCom-img").src = 'images/profiles/' + loader.userId + '.png';
+            }
         }
     };
 

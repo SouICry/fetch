@@ -1,5 +1,6 @@
 (function () {
     var sync = -99999;
+    var driverId;
     loader._confirmTicket = {
         data: {
             driver_full_name: "John Doe",
@@ -24,6 +25,7 @@
             return sendBackData;
         },
         loadData: function (data) {
+            driverId = data.driverId;
             var numItems = $("#confirmTicket_numItems");
             $("#confirmTicket_icon").html("");
             $("#confirmTicket_driverName").html("");
@@ -82,6 +84,12 @@
                     $("#confirmTicket_footerInfo").hide();
                 }
             }
+        },
+        onPageLoad: function () {
+            if(UrlExists('images/profiles/' + driverId + '.png'))
+                document.getElementById("confirmTicket_img").src = 'images/profiles/' + driverId + '.png';
+            else
+                document.getElementById("confirmTicket_img").src = 'placeholder/person4.png';
         }
     };
 
