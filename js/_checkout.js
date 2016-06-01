@@ -3,9 +3,9 @@
         data: "", //Optional
         version: 0, //Must be 0
         getData: function () { //must be null if not needed
-            _checkout.checkout_notes = $('input[name="specialnotes"]:checked', '#checkout_notes').val();
+            _checkout.checkout_notes = checkout_isSelected;
             _checkout.checkout_id = $('#checkout_notes').find(':checked').attr("id");
-
+            alert(_checkout.checkout_notes);
             return _checkout;
         },
         loadData: function (data) {
@@ -34,6 +34,8 @@
         checkout_notes: ""
     };
 
+    var checkout_isSelected;
+
     //loader._checkout.loadData(_checkout);
 
     $('#checkout_submitcheckout').click(function () {
@@ -42,7 +44,7 @@
             $("#checkout_warning").show();
         }
         else {
-            _checkout.checkout_notes = $('input[name="special_notes"]:checked', '#checkout_notes').val();
+            checkout_isSelected = $('input[name="special_notes"]:checked', '#checkout_notes').val();
             //Actual
             $.ajax({
                 type: "POST",
