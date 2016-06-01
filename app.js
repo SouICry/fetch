@@ -1903,7 +1903,7 @@ app.post('/_loadPurchasedTickets', function (req, res) {
 
                 //console.log(JSON.stringify(ticket));
                 object.full_name = ticket.shopper.full_name;
-                object.phone = ticket.shopper.phone_number;
+                object.phone_number = ticket.shopper.phone_number;
                 object.shopperId = ticket.shopper._id;
                 object.items = ticket.shopping_list;
                 object.special_note = ticket.special_options;
@@ -2130,6 +2130,7 @@ app.post('/_shoppingStatus', function (req, res) {
                         }
                         //console.log(JSON.stringify(ticket));
                         object.items = ticket.shopping_list;
+                        object.phone_number = ticket.shopper.phone_number;
                         object.driverId = ticket.driver._id;
                         object.driver_full_name = ticket.driver.full_name;
                         object.special_note = ticket.special_options;

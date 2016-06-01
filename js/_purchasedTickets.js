@@ -34,7 +34,7 @@ var test_data = {
 
             //create the contact info(where should I got this, is there a flied relates to contact?
             document.getElementById("listName_purchasedTickets").innerHTML = name + "'s Shopping List";
-            document.getElementById("phone_purchasedTickets").innerHTML = "Phone: " + data.contact;
+            document.getElementById("phone_purchasedTickets").innerHTML = "Phone: " + data.phone_number;
             $("#purchasedTickets_note").val(data.special_note).siblings().addClass("active");
             document.getElementById("purchasedTickets-img").src = "images/profiles/" + data.shopperId + ".png";
             $("#purchasedTickets_location").text("Delivery Location: " + data.shopping_location);
