@@ -81,7 +81,7 @@ var test_data = {
 
         assholes6155();
         //if(result) {
-            goToPage("_rateUser");
+          //  goToPage("_rateUser");
         //}
     });
 
@@ -117,6 +117,7 @@ var test_data = {
                         console.log(data);
                         
                         if (data == true) {
+                            alert("dasfdafsdsd");
                             //goToPage("_rateUser");
                             //loader.goToPage("/_rateUser");
                             var info_to_send = {};
