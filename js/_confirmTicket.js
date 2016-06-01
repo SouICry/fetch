@@ -85,7 +85,7 @@
         }
     };
 
-    $("#confirm_button").click(function () {
+    $("#confirmTicket_button").click(function () {
         $(this).addClass('disabled');
         $.ajax({
             type: "POST",
@@ -107,11 +107,11 @@
                         ticketId: loader.ticketId
                     }),
                     success: function (data) {
-                        if (data == "true") {
+                        if (data == true) {
                             clearInterval(sync);
                             sync = -99999;
-                            $("#confirm_button").removeClass("disabled");
-                            goToPage("/_rateDriver");
+                            $("#confirmTicket_button").removeClass("disabled");
+                            goToPage("_rateDriver");
                         }
                     }
                 });

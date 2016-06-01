@@ -104,7 +104,10 @@ var test_data = {
                         ticketId: loader.ticketId
                     }),
                     success: function (data) {
-                        if (data == "true") {
+                        console.log(data);
+                        if (data == true) {
+                            goToPage("_rateUser");
+                            //loader.goToPage("/_rateUser");
                             var info_to_send = {};
                             info_to_send.ticketId = loader.ticketId;
                             //alert(info_to_send.ticketId);
@@ -124,7 +127,7 @@ var test_data = {
                                     //data is the object send back on fail (could also just be string)
                                 }
                             });
-                            goToPage("/_rateUser");
+                            goToPage("_rateUser");
                         }
                     }
                 });

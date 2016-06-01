@@ -1669,7 +1669,7 @@ app.post('/_purchasedTickets', function (req, res, next) {
         });
 
         console.log('Successfully updated tickets in user db in purchasedTickets');
-        res.send('');
+        //res.send('');
     }
 });
 
@@ -2278,7 +2278,7 @@ app.post('/_driverMap', function (req, res) {
 });
 masters.ticketId = {};
 app.post('/userConfirm', function(req, res ){
-
+    console.log("ticketId in userConfirm is", req.body.ticketId);
     if(req.body.ticketId ) {
         if (!masters.ticketId.hasOwnProperty(req.body.ticketId)) {
             masters.ticketId[req.body.ticketId] = {
@@ -2292,17 +2292,22 @@ app.post('/userConfirm', function(req, res ){
             masters.ticketId[req.body.ticketId].done = true;
         }
     }
+    console.log("Ticket status in user Confirm",masters.ticketId[req.body.ticketId]);
     res.send("");
 });
 
 app.post('/checkConfirm', function(req, res){
+    console.log("Ticket status in check confirm",masters.ticketId[req.body.ticketId]);
     if(masters.ticketId.hasOwnProperty(req.body.ticketId)) {
         if (masters.ticketId[req.body.ticketId].done == true) {
+            console.log("it go into here");
             res.send("true");
         }
     }
-    else
+    else {
+        console.log("it sned back nothing");
         res.send("");
+    }
 });
 
 
