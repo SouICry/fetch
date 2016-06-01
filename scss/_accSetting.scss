@@ -1,3 +1,58 @@
 #accSetting{
-  
+
+  .ratingSize{
+
+    @media screen and (min-width:1500px){
+      margin:60px 0;
+    }
+
+  }
+
+  .userIcon{
+    position: relative;
+    height: 442px;
+  }
+
+  #user-image-content{
+    width:100%;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+  }
+
+  img{
+    margin:8%;
+  }
+
+  #rateUser-content{
+    position: relative;
+    height:200px;
+    margin-top:8%;
+
+    @media screen and (max-width:991px){
+      margin-top:0;
+      height:135px;
+
+    }
+  }
+  .glyphicon, .glyphicon-heart {
+    font-size:35px;
+  }
+
+  #accSettingAbove-img{
+    height:55%;
+    width:55%;
+    padding:1px;
+    border: 2px solid grey;
+
+    @media screen and (max-width:991px){
+
+      height: 250px;
+      width: 250px;
+      margin:20px;
+
+    }
+
+  }
 }
