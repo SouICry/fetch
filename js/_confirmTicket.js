@@ -34,7 +34,7 @@
             $("#confirmTicket_total_price").html("");
             $("#confirmTicket_receipt").html("");
             $("confirmTicketCalendar").html("");
-            loader.loadMap("confirmTicket_Map",data.shopping_location);
+            loader.loadMap("confirmTicket_Map", data.shopping_location);
             $("#confirmTicket_receipt").html("");
 
 
@@ -42,14 +42,14 @@
             var array = data.items;
             var separatedNames = data.driver_full_name;
 
-            if(UrlExists('images/profiles/' + driverId + '.png'))
+            if (UrlExists('images/profiles/' + driverId + '.png'))
                 document.getElementById("confirmTicket_img").src = 'images/profiles/' + driverId + '.png';
             else
                 document.getElementById("confirmTicket_img").src = 'placeholder/person4.png';
             //show the driver name and create the profile pic
             document.getElementById("confirmTicket_driverName").innerHTML = "Driver Name: " + separatedNames;
 
-            if(UrlExists('images/receipts/' + driverId + '.png'))
+            if (UrlExists('images/receipts/' + driverId + '.png'))
                 document.getElementById("confirmTicket_receipt").src = 'images/receipts/' + driverId + '.png';
             else
                 document.getElementById("confirmTicket_receipt").src = 'placeholder/person4.png';
@@ -62,8 +62,9 @@
             // receipt.src = "Images/tickets/" + data.ticketId + ".png";
             // $("#receipt").append(receipt);
 
-            //document.getElementById("confirmTicket_price").innerHTML = "Price: $" + (data.price).toFixed(2);
-            //document.getElementById("confirmTicket_total_price").innerHTML = "Total Price including the service fee: $" + (data.price * 1.15).toFixed(2);
+            console.log(data);
+            // document.getElementById("confirmTicket_price").innerHTML = "Price: $" + (data.price).toFixed(2);
+            // document.getElementById("confirmTicket_total_price").innerHTML = "Total Price including the service fee: $" + (data.price * 1.10).toFixed(2);
             //document.getElementById("confirmTicket_img").src = "images/profiles/" + data.driverId + ".png";
             console.log(JSON.stringify(data.calendar));
             $("#confirmTicket_location").text("Delivery Location: ");
@@ -127,39 +128,39 @@
         //             }),
         //             success: function (data) {
         //                 if (data == true) {
-                            clearInterval(sync);
-                            sync = -99999;
-                            $("#confirmTicket_button").removeClass("disabled");
-                            goToPage("_rateDriver");
-        //                 }
+        clearInterval(sync);
+        sync = -99999;
+        $("#confirmTicket_button").removeClass("disabled");
+        goToPage("_rateDriver");
         //             }
-        //         });
-        //     }, 500);
+        //         }
+        //     });
+        // }, 500);
         // }
-    });
+        // });
 
-})();
-function loadConfirmTicket() {
-    var info_to_send = {};
-    info_to_send.ticketId = loader.ticketId;
-    //alert(info_to_send.ticketId);
-    info_to_send.type = 'send';
+    })();
+    function loadConfirmTicket() {
+        var info_to_send = {};
+        info_to_send.ticketId = loader.ticketId;
+        //alert(info_to_send.ticketId);
+        info_to_send.type = 'send';
 
-    $.ajax({
-        type: "POST",
-        url: "/_confirmTicket",
-        contentType: "application/json",
-        dataType: "json",
-        data: JSON.stringify(info_to_send),
-        success: function (data) {
-            //data is the object sent back on success (could also just be string)
-            loader._confirmTicket.loadData(data);
-        },
-        error: function (data) {
-            //data is the object send back on fail (could also just be string)
-        }
-    });
-}
+        $.ajax({
+            type: "POST",
+            url: "/_confirmTicket",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(info_to_send),
+            success: function (data) {
+                //data is the object sent back on success (could also just be string)
+                loader._confirmTicket.loadData(data);
+            },
+            error: function (data) {
+                //data is the object send back on fail (could also just be string)
+            }
+        });
+    }
 /**
  * Created by juneruijiang on 5/23/16.
  */

@@ -4,7 +4,7 @@ var test_data = {
     contact: 1234567890,
     special_note: "cheap",
     time: "<table class='calendar calendar0'> <thead> <tr class='calendar-head'  cellpadding='0' cellspacing='0'> </tr> </thead> </table> <table class='calendar calendar1' cellpadding='0' cellspacing='0'> <tbody> <tr><td>6</td> <td>6</td> <td>6</td> <td>6</td> <td>6</td> <td>6</td> <td>6</td> </tr> <tr> <td>7</td> <td>7</td> <td>7</td> <td>7</td> <td>7</td> <td>7</td> <td>7</td> </tr> <tr> <td>8</td> <td>8</td> <td>8</td> <td>8</td> <td>8</td> <td>8</td> <td>8</td> </tr> <tr> <td>9</td> <td>9</td> <td>9</td> <td>9</td> <td>9</td> <td>9</td> <td>9</td> </tr> <tr> <td>10</td> <td>10</td> <td>10</td> <td>10</td> <td>10</td> <td>10</td> <td>10</td> </tr> <tr> <td>11</td> <td>11</td> <td>11</td> <td>11</td> <td>11</td> <td>11</td> <td>11</td> </tr> </tbody> </table> <table class='calendar calendar2'> <tbody> <tr> <td>12</td> <td>12</td> <td>12</td> <td>12</td> <td>12</td> <td>12</td> <td>12</td> </tr> <tr> <td>1</td> <td>1</td> <td>1</td> <td>1</td> <td>1</td> <td>1</td> <td>1</td> </tr> <tr> <td>2</td> <td>2</td> <td>2</td> <td>2</td> <td>2</td> <td>2</td> <td>2</td> </tr> <tr> <td>3</td> <td>3</td> <td>3</td> <td>3</td> <td>3</td> <td>3</td> <td>3</td> </tr> <tr> <td>4</td> <td>4</td> <td>4</td> <td>4</td> <td>4</td> <td>4</td> <td>4</td> </tr> <tr> <td>5</td> <td>5</td> <td>5</td> <td>5</td> <td>5</td> <td>5</td> </tr> </tbody> </table> <table class='calendar calendar3'> <tbody> <tr> <td>6</td> <td>6</td> <td>6</td> <td>6</td> <td>6</td> <td>6</td> <td>6</td> </tr> <tr> <td>7</td> <td>7</td> <td>7</td> <td>7</td> <td>7</td> <td>7</td> <td>7</td> </tr> <tr> <td>8</td> <td>8</td> <td>8</td> <td>8</td> <td>8</td> <td>8</td> <td>8</td> </tr> <tr> <td>9</td> <td>9</td> <td>9</td> <td>9</td> <td>9</td> <td>9</td> </tr> <tr> <td>10</td> <td>10</td> <td>10</td> <td>10</td> <td>10</td> <td>10</td> <td>10</td> </tr> <tr> <td>11</td> <td>11</td> <td>11</td> <td>11</td> <td>11</td> <td>11</td> <td>11</td> </tr> </tbody> </table> <table class='calendar calendar4'> <tbody> <tr> <td>12</td> <td>12</td> <td>12</td> <td>12</td> <td>12</td> <td>12</td> <td>12</td> </tr> <tr> <td>1</td> <td>1</td> <td>1</td> <td>1</td> <td>1</td> <td>1</td> <td>1</td> </tr> <tr> <td>2</td> <td>2</td> <td>2</td> <td>2</td> <td>2</td> <td>2</td> <td>2</td> </tr> <tr> <td>3</td> <td>3</td> <td>3</td> <td>3</td> <td>3</td> <td>3</td> <td>3</td> </tr> <tr> <td>4</td> <td>4</td> <td>4</td> <td>4</td> <td>4</td> <td>4</td> <td>4</td> </tr> <tr> <td>5</td> <td>5</td> <td>5</td> <td>5</td> <td>5</td> <td>5</td> <td>5</td> </tr> </tbody> </table>",
-    pos: {lat:32, lng:-150},
+    pos: {lat: 32, lng: -150},
     shopperId: "firstpartofemail"
 };
 
@@ -18,10 +18,10 @@ var test_data = {
 
             return packData;
         },
-        
+
         onPageLoad: function () {
 
-            if(UrlExists('images/profiles/' + shopperId + '.png')) {
+            if (UrlExists('images/profiles/' + shopperId + '.png')) {
                 document.getElementById("purchasedTickets-img").src = 'images/profiles/' + shopperId + '.png';
             }
             assholes666();
@@ -47,7 +47,7 @@ var test_data = {
             document.getElementById("purchasedTickets-img").src = "images/profiles/" + data.shopperId + ".png";
             $("#purchasedTickets_location").text("Delivery Location: ");
             $("#purchasedTicketsCalendar").append(loader.parseCalendar(data.calendar));
-            loader.loadMap("purchasedTicketsMap",data.shopping_location);
+            loader.loadMap("purchasedTicketsMap", data.shopping_location);
 
             // $("#purchasedTicketsCalendar").append(data.time);
 
@@ -82,14 +82,14 @@ var test_data = {
 
         assholes6155();
         //if(result) {
-            //goToPage("_rateUser");
+        //goToPage("_rateUser");
         //}
     });
 
-    $("#purchasedTickets-back").click(function() {
+    $("#purchasedTickets-back").click(function () {
         goToPage("_yourDeliveries");
     });
-    $("#purchasedTickets-messenger").click(function(){
+    $("#purchasedTickets-messenger").click(function () {
         loader.openChat(shopperId, fullName);
     });
 
@@ -118,32 +118,33 @@ var test_data = {
         //                 console.log(data);
         //
         //                 if (data == true) {
-                            //goToPage("_rateUser");
-                            //loader.goToPage("/_rateUser");
-                            var info_to_send = {};
-                            info_to_send.ticketId = loader.ticketId;
-                            info_to_send.price = loader.price;
-                            //alert(info_to_send.ticketId);
-                            info_to_send.type = 'send';
-                            clearInterval(sync);
-                            sync = -99999;
-                            $("#purchasedTickets_submit_list").removeClass("disabled");
-                            $.ajax({
-                                type: "POST",
-                                url: "/_purchasedTickets",
-                                data: info_to_send,
-                                success: function (data) {
-                                    //alert('success!!!!!');
-                                },
-                                error: function (data) {
-                                    //data is the object send back on fail (could also just be string)
-                                }
-                            });
-                            goToPage("_rateUser");
-            //             }
-            //         }
-            //     });
-            // }, 500);
+        //goToPage("_rateUser");
+        //loader.goToPage("/_rateUser");
+        var info_to_send = {};
+        info_to_send.ticketId = loader.ticketId;
+        info_to_send.price = loader.price;
+        //alert(info_to_send.ticketId);
+        info_to_send.type = 'send';
+        clearInterval(sync);
+        sync = -99999;
+        $("#purchasedTickets_submit_list").removeClass("disabled");
+        goToPage("_rateUser");
+        $.ajax({
+            type: "POST",
+            url: "/_purchasedTickets",
+            data: info_to_send,
+            success: function (data) {
+                //alert('success!!!!!');
+            },
+            error: function (data) {
+                //data is the object send back on fail (could also just be string)
+            }
+        });
+
+        //                 }
+        //             }
+        //         });
+        //     }, 500);
         // }
 
     }

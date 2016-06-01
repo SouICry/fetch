@@ -2547,6 +2547,11 @@ app.post('/checkConfirm', function(req, res){
             console.log("it go into here");
             res.send("true");
         }
+            
+        else{
+            console.log("no");
+            res.send("");
+        }
     }
     else {
         console.log("it sned back nothing");

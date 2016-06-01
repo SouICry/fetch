@@ -13,7 +13,7 @@
     
     //var vid = document.getElementById("receipt_video1");
     var canvas = document.getElementById("receipt_canvas1");
-
+    
     var upload = document.getElementById('submitReceiptButton1');
     $('#uploadReceipt1').click(function(){
         upload.style.display = "block";
@@ -66,6 +66,8 @@
         };
         $.ajax({
             type: "POST",
+            contentType: "application/json",
+            dataType: "json",
             url: "/_receiptPictureEnterPrice",
             data: JSON.stringify(data_to_send),
             success: function(){
