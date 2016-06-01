@@ -26,7 +26,7 @@
 
     $(".userRate_button").click(function(){
         //changeTicketState();
-        goToPage("_congratsTicketClosed");
+        goToPage("_congrats");
     });
 
     var _rating = 0;
@@ -68,10 +68,9 @@
         r2.addClass("selected");
         r3.addClass("selected");
         r4.addClass("selected");
-        r5.addClass("selected");
+        r5.addClass("selected") ;
         _rating = 5;
     });
-
 
 
     // function changeTicketState() {

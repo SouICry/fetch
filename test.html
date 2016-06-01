@@ -41,7 +41,7 @@ function gotSources(sourceInfos) {
 function enableCamera(vid, canvas, takeButton, redoButton, source) {
     if (typeof MediaStreamTrack === 'undefined' ||
             typeof MediaStreamTrack.getSources === 'undefined') {
-        alert('Your browser doesnt support using the camera :( Try uploading or use Chrome instead');
+//        alert('Your browser doesnt support using the camera :( Try uploading or use Chrome instead');
     } else {
         MediaStreamTrack.getSources(gotSources);
     }
@@ -69,7 +69,7 @@ function enableCamera(vid, canvas, takeButton, redoButton, source) {
 
     function errorCallback(error) {
         console.log('navigator.getUserMedia error: ', error);
-        alert('Something went wrong with the camera :( Try uploading or use Chrome instead');
+//        alert('Something went wrong with the camera :( Try uploading or use Chrome instead');
     }
 
     function disableCamera() {
@@ -160,7 +160,7 @@ function enableCamera(vid, canvas, takeButton, redoButton, source) {
                 url: "/savePhoto",
                 data: JSON.stringify({image: canvas.toDataURL("image/png")}),
                 success: function (resp) {
-                    alert(resp);
+//                    alert(resp);
                 }
             });
         })

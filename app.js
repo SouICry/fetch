@@ -2414,6 +2414,8 @@ app.post('/userConfirm', function(req, res ){
 
         else if (masters.ticketId[req.body.ticketId].userId != req.session.userId) {
             masters.ticketId[req.body.ticketId].done = true;
+            // masters.ticketId[req.body.ticketId].
+
         }
     }
     console.log("Ticket status in user Confirm",masters.ticketId[req.body.ticketId]);

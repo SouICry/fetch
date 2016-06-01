@@ -208,7 +208,7 @@
                     canvas.height = img.height / factor;
                     var context = canvas.getContext("2d");
                     context.drawImage(img, 0, 0, canvas.width, canvas.height);
-                    alert();
+//                    alert();
                     $.ajax({
                         type: "POST",
                         contentType: "application/json",
@@ -219,7 +219,7 @@
                             name: name
                         }),
                         success: function () {
-                            alert();
+//                            alert();
                             var chat = $(input.parentNode.parentNode.parentNode).find('.chatForm');
                             chat.find("input").val("<img class='materialboxed' src='/images/chat/" + name + "'/>");
                             chat.submit();
@@ -466,7 +466,7 @@
         getUpdates: function () {
 
             //Only update if not active
-            if (loader.isLoggedIn && loader.userId.length > 1) {
+            if (loader.isLoggedIn && loader.userId.length > 0) {
                 //keep updating no matter what
                 if (loader.currentPage == "_shopping" || loader.currentPage == "_checkout") {
                     loader.updateShopping();
@@ -582,19 +582,18 @@
                 }
 
             }
-
             window.setInterval(loader.getUpdates, 501);
 
 
         },
         logout: function () {
             document.cookie = "user=" + loader.userId + ";expires=" + new Date(0).toUTCString();
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                dataType: "json",
-                url: "/logout"
-            });
+//            $.ajax({
+//                type: "POST",
+//                contentType: "application/json",
+//                dataType: "json",
+//                url: "/logout"
+//            });
             window.location.reload();
         },
         switchToDriver: function () {
@@ -707,6 +706,7 @@
                     userId: loader.userId
                 },
                 success: function (data) {
+
                     //If invalid, clear cookie and reload
                     if (data.userId == "") {
                         document.cookie = "user=" + data.userId + ";expires=" + new Date(0).toUTCString();
@@ -766,6 +766,7 @@
                             }
                         }
                     }
+
                     window.setInterval(loader.getUpdates, 501);
                 }
             });
@@ -786,6 +787,7 @@
             data: {name: pageName},
             async: false,
             success: function (data) {
+                console.log(pageName);
                 $('#section-' + row).append("<div><div id='" + pageName +
                         "' data-x='" + column + "' data-y='" + row + "'>" + data + "</div></div>");
             }
