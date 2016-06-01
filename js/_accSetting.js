@@ -157,10 +157,14 @@ function loadAccountData() {
             var str= data.email;
             var nameParts = str.split("@");
             var name = nameParts.length==2 ? nameParts[0] : null;
-            if(UrlExists('images/profiles/' + name + '.png'))
+            if(UrlExists('images/profiles/' + name + '.png')) {
                 document.getElementById("accSettingAbove-img").src = 'images/profiles/' + name + '.png';
-            else
+                document.getElementById("index-image-user").src = 'images/profiles/' + name + '.png';
+            }
+            else {
                 document.getElementById("accSettingAbove-img").src = 'placeholder/person4.png';
+                document.getElementById("index-image-user").src = 'placeholder/person4.png';
+            }
         },
         error: function (data) {
             //data is the object send back on fail (could also just be string)
