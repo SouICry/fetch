@@ -2,7 +2,7 @@
  * Created by zeusn_000 on 5/21/2016.
  */
 
-var toggle = "Shopper";
+
 // function whenLogedIn(){
 //
 //     var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
@@ -21,6 +21,7 @@ var toggle = "Shopper";
 //     $("#Butt").append("<div class='panel-divs'id='index-LogOut' onclick=loader.logout(); > <span class= 'glyphicon glyphicon-off'></span> Log Out </div>");
 // }
 (function () {
+    var toggle = "Shopper";
     // Wait for everything to load, then check loader.isLoggedIn
     setTimeout(function() {
         if(loader.isLoggedIn) {
@@ -39,7 +40,7 @@ var toggle = "Shopper";
             $("#Butt").append("<div class='panel-divs'id='index-Contact' onclick=goToPage('_contact'); > <span class= 'glyphicon glyphicon-equalizer'></span> Contact </div>");
             $("#Butt").append("<div class='panel-divs'id='index-Setting' onclick=goToPage('_accSetting'); > <span class= 'glyphicon glyphicon-cog'></span> Setting</div>");
             
-            if(toggle=="shopper"){
+            if(toggle=="Shopper"){
                 $("#Butt").append("<div class='panel-divs'id='index-History' onclick=goToPage('_history'); > <span class= 'glyphicon glyphicon-shopping-cart'></span> Your Orders </div>");
             }
             else{
