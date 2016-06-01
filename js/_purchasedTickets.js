@@ -117,7 +117,7 @@ var test_data = {
                         console.log(data);
                         
                         if (data == true) {
-                            goToPage("_rateUser");
+                            //goToPage("_rateUser");
                             //loader.goToPage("/_rateUser");
                             var info_to_send = {};
                             info_to_send.ticketId = loader.ticketId;
