@@ -1590,6 +1590,8 @@ app.post('/driverListUpdate', function (req, res) {
 app.post('/_driverList', function (req, res, next) {
     var object = {};
     var ticketId = req.body.ticketId;
+    var price = req.body.price;
+    
     console.log('ticketId = ' + ticketId);
 
     if (ticketId) {
@@ -2210,6 +2212,75 @@ app.post('/_shoppingStatus', function (req, res) {
         );
     }
 });
+
+
+//----------------------------- CONFIRM COMPLETION ------------------------------------------
+app.post('/_confirmTicket', function(req, res) {
+    var ticketId = req.body.ticketId;
+    var object = {};
+    if (ticketId == null) {
+        res.status(420);
+        console.log('ERROR IS HERE');
+        console.log(ticketId);
+        res.setHeader('Content-Type', 'application/json');
+        res.send({message: 'no user logged in'});
+    }
+    else {
+        console.log('LOADING ACCOUNT');
+        db.collection('users').findOne({'grocery_list._id': ticketId},
+            function (err, user) {
+                if (err) {
+                    console.log('Error in : ' + err);
+                    res.status(500);
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send({message: 'cannot access collection to find ticket '});
+                    return;
+                }
+                else {
+                    if (user == null) {
+                        console.log('Could not find user with ticket ' + ticketId + ' in _shoppingStatus');
+                        console.log(JSON.stringify(user));
+                        res.status(500);
+                        res.send('');
+                    }
+                    else {
+                        var ticket = null;
+
+                        for (var i = 0; i < user.grocery_list.length; i++) {
+                            if (user.grocery_list[i]._id == ticketId) {
+                                ticket = user.grocery_list[i];
+                                break;
+                            }
+                        }
+
+                        if (!ticket) {
+                            console.log('Error: could not find ticket in loadPurchasedTicket');
+                            res.status(500);
+                            res.send('');
+                            return;
+                        }
+                        //console.log(JSON.stringify(ticket));
+                        object.items = ticket.shopping_list;
+                        object.driverId = ticket.driver._id;
+                        object.driver_full_name = ticket.driver.full_name;
+                        object.special_note = ticket.special_options;
+                        object.calendar = ticket.available_time;
+                        object.shopping_location = ticket.geolocation;
+                        object.price = ticket.price;
+                        object.status = ticket.state;
+
+                        res.setHeader('Content-Type', 'application/json');
+                        res.send(JSON.stringify(object));
+                    }
+                }
+            }
+        );
+    }
+
+});
+
+
+
 
 //---------------------------- Price and Receipt Photo ------------------------
 app.post('/_receiptPictureEnterPrice', function (req, res) {
