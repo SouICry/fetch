@@ -18,10 +18,11 @@
     };
 
 
-    $(".rate-driver").click(function(){
+    $(".driverRate_button").click(function(){
         changeTicketState();
         goToPage("_congratsTicketClosed");
     });
+
 
 
     var _rating = 0;

@@ -124,7 +124,7 @@
 
             for (var i = 0; i < delivered_tickets.length; i++) {
                 ticket = delivered_tickets[i];
-                $("#yourOrders_delivered_tickets").append('<li  data-id="' + ticket._id + '" class = "yourOrders1 ' + ticket.store_name + ' ticket" ' + ' ><div  >'
+                $("#yourOrders_delivered_tickets").append('<li  data-id="' + ticket._id + '" class = "yourOrders2 ' + ticket.store_name + ' ticket" ' + ' ><div  >'
                     + toName(ticket.store_name) + ' <br> Estimate Deliver Time: ' + ticket.time_created +
                     '</div></li>');
             }
