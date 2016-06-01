@@ -1,5 +1,6 @@
 (function () {
     var sync = -99999;
+    var driverId;
     loader._confirmTicket = {
         data: {
             driver_full_name: "John Doe",
@@ -24,6 +25,7 @@
             return sendBackData;
         },
         loadData: function (data) {
+            driverId = data.driverId;
             var numItems = $("#confirmTicket_numItems");
             $("#confirmTicket_icon").html("");
             $("#confirmTicket_driverName").html("");
@@ -82,10 +84,16 @@
                     $("#confirmTicket_footerInfo").hide();
                 }
             }
+        },
+        onPageLoad: function () {
+            if(UrlExists('images/profiles/' + driverId + '.png'))
+                document.getElementById("confirmTicket_img").src = 'images/profiles/' + driverId + '.png';
+            else
+                document.getElementById("confirmTicket_img").src = 'placeholder/person4.png';
         }
     };
 
-    $("#confirm_button").click(function () {
+    $("#confirmTicket_button").click(function () {
         $(this).addClass('disabled');
         $.ajax({
             type: "POST",
@@ -96,6 +104,7 @@
                 ticketId: loader.ticketId
             })
         });
+        
         if (sync == -99999) {
             sync = setInterval(function () {
                 $.ajax({
@@ -107,11 +116,11 @@
                         ticketId: loader.ticketId
                     }),
                     success: function (data) {
-                        if (data == "true") {
+                        if (data == true) {
                             clearInterval(sync);
                             sync = -99999;
-                            $("#confirm_button").removeClass("disabled");
-                            goToPage("/_rateDriver");
+                            $("#confirmTicket_button").removeClass("disabled");
+                            goToPage("_rateDriver");
                         }
                     }
                 });
