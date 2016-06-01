@@ -404,15 +404,19 @@ app.post('/savePhoto', function (req, res) {
 
 //Uploads chat image
 app.post('/saveChatImage',function(req,res){
-    var image = req.body.image;
     //console.log(req.body);
-    fs.writeFile('images/chat/' + req.body.name, image, 'base64', function (err) {
+    var img = (req.body.image);
+    var data = img.replace(/^data:image\/\w+;base64,/, "");
+
+    var buf = new Buffer(data, 'base64');
+    fs.writeFile('images/chat/' + req.body.name, buf, function (err) {
         if (err)
             throw err;
         console.log("Chat image saved");
     });
 
-    res.send("");
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify({"name": "a"}));
 });
 
 // Serialize user for storing to session
