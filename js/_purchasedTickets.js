@@ -33,7 +33,7 @@ var test_data = {
             $("#phone_purchasedTickets").text(" ");
             $("#_purchasedTickets ul").html("");
             $("#purchasedTickets_numItems").text(" ");
-            $("#purchasedTickets_note").val(" ");
+            $("#purchasedTickets_note").text(" ");
             $("#purchasedTicketsCalendar").html("");
 
             fullName = data.full_name;
@@ -43,7 +43,7 @@ var test_data = {
             //create the contact info(where should I got this, is there a flied relates to contact?
             document.getElementById("listName_purchasedTickets").innerHTML = name + "'s Shopping List";
             document.getElementById("phone_purchasedTickets").innerHTML = "Phone: " + data.phone_number;
-            $("#purchasedTickets_note").val(data.special_note).siblings().addClass("active");
+            $("#purchasedTickets_note").text(data.special_note).siblings().addClass("active");
             document.getElementById("purchasedTickets-img").src = "images/profiles/" + data.shopperId + ".png";
             $("#purchasedTickets_location").text("Delivery Location: ");
             $("#purchasedTicketsCalendar").append(loader.parseCalendar(data.calendar));
