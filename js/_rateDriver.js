@@ -24,7 +24,6 @@
             }
             else
                 document.getElementById("rateDriver-img").src = 'placeholder/person4.png';
-
         }
     };
 
