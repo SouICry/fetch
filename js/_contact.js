@@ -23,7 +23,6 @@
             email: $("#contact_email").val(),
             comment: $("#contact_comment").val()
         };
-        alert(JSON.stringify(contact_infoToSend));
         contactSite();
         
         if ($('#contact_name, #contact_email, #contact_comment').val() != '') {
