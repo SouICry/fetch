@@ -1,1523 +1,1693 @@
-<div id="section-0"><div><div id="_homePage" data-x="0" data-y="0"><section class="container text-center" id="homePage">
+<div id="section-0">
+    <div>
+        <div id="_homePage" data-x="0" data-y="0">
+            <section class="container text-center" id="homePage">
 
-    <div class="row marketRow">
-        <figure class="col-xs-6" data-store="vons">
-            <div class="shop">
-                <!--<img src="/resources/images/food1.jpg"/>-->
-                <h2 class="name"> Vons </h2></div>
-        </figure>
+                <div class="row marketRow">
+                    <figure class="col-xs-6" data-store="vons">
+                        <div class="shop">
+                            <!--<img src="/resources/images/food1.jpg"/>-->
+                            <h2 class="name"> Vons </h2></div>
+                    </figure>
 
-        <figure class="col-xs-6" data-store="ralphs">
-            <div class="shop">
-                <!--<img src="/resources/images/food3.jpg"/>-->
-                <h2 class="name"> Ralph's</h2></div>
-        </figure>
+                    <figure class="col-xs-6" data-store="ralphs">
+                        <div class="shop">
+                            <!--<img src="/resources/images/food3.jpg"/>-->
+                            <h2 class="name"> Ralph's</h2></div>
+                    </figure>
 
-    </div>
+                </div>
 
-    <!--<div class="row marketRow"><div class ="col-xs-12"></div></div>-->
-
-
-    <div class="row marketRow ">
-        <figure class="col-xs-6" data-store="tjs">
-            <div class="shop">
-                <!--<img src="/resources/images/food2.jpg"/>-->
-                <h2 class="name"> Sunshine Market </h2></div>
-        </figure>
-
-        <figure class="col-xs-6" data-store="wholeFoods">
-            <div class="shop">
-                <!--<img src="/resources/images/food4.jpg"/>-->
-                <h2 class="name"> Whole Foods</h2></div>
-        </figure>
-    </div>
-
-</section>
+                <!--<div class="row marketRow"><div class ="col-xs-12"></div></div>-->
 
 
-    <script type="text/javascript" src="/js/_homePage.js"></script>
-</div></div><div><div id="_shopping" data-x="1" data-y="0"><div class="container box text-center" id="shopping">
-    <div class="row" id="shoppingHeader">
-        <div class="col-xs-12">
-            <h2>Shopping List</h2>
+                <div class="row marketRow ">
+                    <figure class="col-xs-6" data-store="tjs">
+                        <div class="shop">
+                            <!--<img src="/resources/images/food2.jpg"/>-->
+                            <h2 class="name"> Sunshine Market </h2></div>
+                    </figure>
+
+                    <figure class="col-xs-6" data-store="wholeFoods">
+                        <div class="shop">
+                            <!--<img src="/resources/images/food4.jpg"/>-->
+                            <h2 class="name"> Whole Foods</h2></div>
+                    </figure>
+                </div>
+
+            </section>
+
+
+            <script type="text/javascript" src="/js/_homePage.js"></script>
         </div>
     </div>
-    <div class="row">
-        <div class="col-xs-12">
-            <form id="shopping_list_form">
-                <span><input id="shoppingCheckListItem" class="input" type="text" name="checkListItem" placeholder="What do you need?" autocomplete="off" autofocus=""></span>
-            </form>
-            <ul id="shopping_list">
+    <div>
+        <div id="_shopping" data-x="1" data-y="0">
+            <div class="container box text-center" id="shopping">
+                <div class="row" id="shoppingHeader">
+                    <div class="col-xs-12">
+                        <h2>Shopping List</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <form id="shopping_list_form">
+                            <span><input id="shoppingCheckListItem" class="input" type="text" name="checkListItem"
+                                         placeholder="What do you need?" autocomplete="off" autofocus=""></span>
+                        </form>
+                        <ul id="shopping_list">
 
-            </ul>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12">
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
 
-            <div class="col-xs-4" id="shopping_numItems"></div>
+                        <div class="col-xs-4" id="shopping_numItems"></div>
 
-            <div class="col-xs-12">
-                <a id="shopping-back" type="button" class="btn waves-effects orange">&lt;&lt; Back</a>
+                        <div class="col-xs-12">
+                            <a id="shopping-back" type="button" class="btn waves-effects">&lt;&lt; Back</a>
 
-                <a id="shopping_submit_list" type="button" class="waves-teal btn waves-effects">
-                    Continue &gt;&gt;
-                </a>
-            </div>
+                            <a id="shopping_submit_list" type="button" class="waves-teal btn waves-effects">
+                                Continue &gt;&gt;
+                            </a>
+                        </div>
 
-        </div>
-    </div>
-</div>
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div>
-    <script src="js/_shopping.js"></script>
-
-</div></div><div><div id="_deliveryTime" data-x="2" data-y="0">.
-    <style>
-
-        .calendar-outer {
-            margin-bottom: 10px;
-        }
-
-        .calendar {
-            width: 100%;
-            border: none;
-            border-bottom: 1px solid rgb(200, 200, 200);
-        }
-
-        .calendar td {
-            border-radius: 0;
-            border: none;
-            padding: 0;
-            width: 14.285%;
-            height: 16px;
-            font-size: 12px;
-            text-align: center;
-        }
-
-        .calendar0 {
-            border-top: 1px solid rgb(200, 200, 200);
-
-        }
-
-        .calendar0.calendar td {
-            font-size: 12px;
-
-        }
-
-        .calendar1, .calendar4 {
-            /*background: url("/resources/images/am.png") space center;
-            background-size: auto 100%;
-            background-color: rgba(73, 211, 255, 0.5);
-            background-color: #879FCB;*/
-        }
-
-        .calendar2, .calendar3 {
-            /*background: url("/resources/images/pm.png")  space center;
-            background-size: auto 100%;
-            background-color: rgba(160, 161, 163, 0.15);
-            background-color: #FECD7E;*/
-        }
-
-        .calendar tbody td {
-            cursor: pointer;
-        }
-
-        .calendar tbody td.highlighted {
-
-            background-color: rgba(127, 255, 0, 0.5);
-        }
-
-
-    </style>
-    <div class="container text-center box">
-        <div class="row">
-            <div class="col-xs-12">
-                <h2>Select Available Delivery Times</h2>
-            </div>
-            <div class="col-xs-12">
-                <div id="select-delivery-time" class="calendar-outer">
-                    <table class="calendar calendar0 ">
-                        <thead>
-                        <tr class="calendar-head" cellpadding="0" cellspacing="0">
-                        </tr>
-                        </thead>
-                    </table>
-                    <table class="calendar calendar1" cellpadding="0" cellspacing="0">
-                        <tbody>
-                        <tr>
-                            <td>6:00</td>
-                            <td>6:00</td>
-                            <td>6:00</td>
-                            <td>6:00</td>
-                            <td>6:00</td>
-                            <td>6:00</td>
-                            <td>6:00</td>
-                        </tr>
-                        <tr>
-                            <td>7:00</td>
-                            <td>7:00</td>
-                            <td>7:00</td>
-                            <td>7:00</td>
-                            <td>7:00</td>
-                            <td>7:00</td>
-                            <td>7:00</td>
-                        </tr>
-                        <tr>
-                            <td>8:00</td>
-                            <td>8:00</td>
-                            <td>8:00</td>
-                            <td>8:00</td>
-                            <td>8:00</td>
-                            <td>8:00</td>
-                            <td>8:00</td>
-                        </tr>
-                        <tr>
-                            <td>9:00</td>
-                            <td>9:00</td>
-                            <td>9:00</td>
-                            <td>9:00</td>
-                            <td>9:00</td>
-                            <td>9:00</td>
-                            <td>9:00</td>
-                        </tr>
-                        <tr>
-                            <td>10:00</td>
-                            <td>10:00</td>
-                            <td>10:00</td>
-                            <td>10:00</td>
-                            <td>10:00</td>
-                            <td>10:00</td>
-                            <td>10:00</td>
-                        </tr>
-                        <tr>
-                            <td>11:00</td>
-                            <td>11:00</td>
-                            <td>11:00</td>
-                            <td>11:00</td>
-                            <td>11:00</td>
-                            <td>11:00</td>
-                            <td>11:00</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <table class="calendar calendar2">
-                        <tbody>
-                        <tr>
-                            <td>12:00</td>
-                            <td>12:00</td>
-                            <td>12:00</td>
-                            <td>12:00</td>
-                            <td>12:00</td>
-                            <td>12:00</td>
-                            <td>12:00</td>
-                        </tr>
-                        <tr>
-                            <td>13:00</td>
-                            <td>13:00</td>
-                            <td>13:00</td>
-                            <td>13:00</td>
-                            <td>13:00</td>
-                            <td>13:00</td>
-                            <td>13:00</td>
-                        </tr>
-                        <tr>
-                            <td>14:00</td>
-                            <td>14:00</td>
-                            <td>14:00</td>
-                            <td>14:00</td>
-                            <td>14:00</td>
-                            <td>14:00</td>
-                            <td>14:00</td>
-                        </tr>
-                        <tr>
-                            <td>15:00</td>
-                            <td>15:00</td>
-                            <td>15:00</td>
-                            <td>15:00</td>
-                            <td>15:00</td>
-                            <td>15:00</td>
-                            <td>15:00</td>
-                        </tr>
-                        <tr>
-                            <td>16:00</td>
-                            <td>16:00</td>
-                            <td>16:00</td>
-                            <td>16:00</td>
-                            <td>16:00</td>
-                            <td>16:00</td>
-                            <td>16:00</td>
-                        </tr>
-                        <tr>
-                            <td>17:00</td>
-                            <td>17:00</td>
-                            <td>17:00</td>
-                            <td>17:00</td>
-                            <td>17:00</td>
-                            <td>17:00</td>
-                            <td>17:00</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <table class="calendar calendar3">
-                        <tbody>
-                        <tr>
-                            <td>18:00</td>
-                            <td>18:00</td>
-                            <td>18:00</td>
-                            <td>18:00</td>
-                            <td>18:00</td>
-                            <td>18:00</td>
-                            <td>18:00</td>
-                        </tr>
-                        <tr>
-                            <td>19:00</td>
-                            <td>19:00</td>
-                            <td>19:00</td>
-                            <td>19:00</td>
-                            <td>19:00</td>
-                            <td>19:00</td>
-                            <td>19:00</td>
-                        </tr>
-                        <tr>
-                            <td>20:00</td>
-                            <td>20:00</td>
-                            <td>20:00</td>
-                            <td>20:00</td>
-                            <td>20:00</td>
-                            <td>20:00</td>
-                            <td>20:00</td>
-                        </tr>
-                        <tr>
-                            <td>21:00</td>
-                            <td>21:00</td>
-                            <td>21:00</td>
-                            <td>21:00</td>
-                            <td>21:00</td>
-                            <td>21:00</td>
-                            <td>21:00</td>
-                        </tr>
-                        <tr>
-                            <td>22:00</td>
-                            <td>22:00</td>
-                            <td>22:00</td>
-                            <td>22:00</td>
-                            <td>22:00</td>
-                            <td>22:00</td>
-                            <td>22:00</td>
-                        </tr>
-                        <tr>
-                            <td>23:00</td>
-                            <td>23:00</td>
-                            <td>23:00</td>
-                            <td>23:00</td>
-                            <td>23:00</td>
-                            <td>23:00</td>
-                            <td>23:00</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <table class="calendar calendar4">
-                        <tbody>
-                        <tr>
-                            <td>0:00</td>
-                            <td>0:00</td>
-                            <td>0:00</td>
-                            <td>0:00</td>
-                            <td>0:00</td>
-                            <td>0:00</td>
-                            <td>0:00</td>
-                        </tr>
-                        <tr>
-                            <td>1:00</td>
-                            <td>1:00</td>
-                            <td>1:00</td>
-                            <td>1:00</td>
-                            <td>1:00</td>
-                            <td>1:00</td>
-                            <td>1:00</td>
-                        </tr>
-                        <tr>
-                            <td>2:00</td>
-                            <td>2:00</td>
-                            <td>2:00</td>
-                            <td>2:00</td>
-                            <td>2:00</td>
-                            <td>2:00</td>
-                            <td>2:00</td>
-                        </tr>
-                        <tr>
-                            <td>3:00</td>
-                            <td>3:00</td>
-                            <td>3:00</td>
-                            <td>3:00</td>
-                            <td>3:00</td>
-                            <td>3:00</td>
-                            <td>3:00</td>
-                        </tr>
-                        <tr>
-                            <td>4:00</td>
-                            <td>4:00</td>
-                            <td>4:00</td>
-                            <td>4:00</td>
-                            <td>4:00</td>
-                            <td>4:00</td>
-                            <td>4:00</td>
-                        </tr>
-                        <tr>
-                            <td>5:00</td>
-                            <td>5:00</td>
-                            <td>5:00</td>
-                            <td>5:00</td>
-                            <td>5:00</td>
-                            <td>5:00</td>
-                            <td>5:00</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    </div>
                 </div>
             </div>
-            <div class="col-xs-12">
-                <div class="alert alert-danger fade in" id="delivery-time_warning">
-                    <strong>Danger!</strong> You must select a time range for drop-off!
-                </div>
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
             </div>
-            <div class="col-xs-12">
-                <a id="delivery-time-back" type="button" class="btn waves-effects orange">&lt;&lt; Back</a>
-                <a id="delivery-time-submit" type="button" class="btn waves-effects orange">Select &gt;&gt;</a>
-            </div>
+            <script src="js/_shopping.js"></script>
+
         </div>
     </div>
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div>
-    <script>
+    <div>
+        <div id="_deliveryTime" data-x="2" data-y="0">.
+            <style>
 
-        (function () {
-            var months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug",
-                "Sept", "Oct", "Nov", "Dec"];
-            loader.parseCalendar = function (dat) {
-                if (dat != null) {
-                    var cal = document.createElement('div');
-                    cal.className = "cal";
-                    $(cal).html('<table class="calendar calendar0"><thead><tr class="calendar-head"></tr></thead></table><table class="calendar calendar1"cellpadding="0"cellspacing="0"><tbody><tr><td>6:00</td><td>6:00</td><td>6:00</td><td>6:00</td><td>6:00</td><td>6:00</td><td>6:00</td></tr><tr><td>7:00</td><td>7:00</td><td>7:00</td><td>7:00</td><td>7:00</td><td>7:00</td><td>7:00</td></tr><tr><td>8:00</td><td>8:00</td><td>8:00</td><td>8:00</td><td>8:00</td><td>8:00</td><td>8:00</td></tr><tr><td>9:00</td><td>9:00</td><td>9:00</td><td>9:00</td><td>9:00</td><td>9:00</td><td>9:00</td></tr><tr><td>10:00</td><td>10:00</td><td>10:00</td><td>10:00</td><td>10:00</td><td>10:00</td><td>10:00</td></tr><tr><td>11:00</td><td>11:00</td><td>11:00</td><td>11:00</td><td>11:00</td><td>11:00</td><td>11:00</td></tr></tbody></table><table class="calendar calendar2"><tbody><tr><td>12:00</td><td>12:00</td><td>12:00</td><td>12:00</td><td>12:00</td><td>12:00</td><td>12:00</td></tr><tr><td>13:00</td><td>13:00</td><td>13:00</td><td>13:00</td><td>13:00</td><td>13:00</td><td>13:00</td></tr><tr><td>14:00</td><td>14:00</td><td>14:00</td><td>14:00</td><td>14:00</td><td>14:00</td><td>14:00</td></tr><tr><td>15:00</td><td>15:00</td><td>15:00</td><td>15:00</td><td>15:00</td><td>15:00</td><td>15:00</td></tr><tr><td>16:00</td><td>16:00</td><td>16:00</td><td>16:00</td><td>16:00</td><td>16:00</td><td>16:00</td></tr><tr><td>17:00</td><td>17:00</td><td>17:00</td><td>17:00</td><td>17:00</td><td>17:00</td><td>17:00</td></tr></tbody></table><table class="calendar calendar3"><tbody><tr><td>18:00</td><td>18:00</td><td>18:00</td><td>18:00</td><td>18:00</td><td>18:00</td><td>18:00</td></tr><tr><td>19:00</td><td>19:00</td><td>19:00</td><td>19:00</td><td>19:00</td><td>19:00</td><td>19:00</td></tr><tr><td>20:00</td><td>20:00</td><td>20:00</td><td>20:00</td><td>20:00</td><td>20:00</td><td>20:00</td></tr><tr><td>21:00</td><td>21:00</td><td>21:00</td><td>21:00</td><td>21:00</td><td>21:00</td><td>21:00</td></tr><tr><td>22:00</td><td>22:00</td><td>22:00</td><td>22:00</td><td>22:00</td><td>22:00</td><td>22:00</td></tr><tr><td>23:00</td><td>23:00</td><td>23:00</td><td>23:00</td><td>23:00</td><td>23:00</td><td>23:00</td></tr></tbody></table><table class="calendar calendar4"><tbody><tr><td>0:00</td><td>0:00</td><td>0:00</td><td>0:00</td><td>0:00</td><td>0:00</td><td>0:00</td></tr><tr><td>1:00</td><td>1:00</td><td>1:00</td><td>1:00</td><td>1:00</td><td>1:00</td><td>1:00</td></tr><tr><td>2:00</td><td>2:00</td><td>2:00</td><td>2:00</td><td>2:00</td><td>2:00</td><td>2:00</td></tr><tr><td>3:00</td><td>3:00</td><td>3:00</td><td>3:00</td><td>3:00</td><td>3:00</td><td>3:00</td></tr><tr><td>4:00</td><td>4:00</td><td>4:00</td><td>4:00</td><td>4:00</td><td>4:00</td><td>4:00</td></tr><tr><td>5:00</td><td>5:00</td><td>5:00</td><td>5:00</td><td>5:00</td><td>5:00</td><td>5:00</td></tr></tbody></table>');
-                    var head = $(cal).find('.calendar-head');
-                    var i;
-                    for (i = 0; i < 7; i++){
-                        head.append('<td>' + months[parseInt(dat.substr(4 * i, 2))] + " " + parseInt(dat.substr(2 + 4 * i, 2)) + '</td>');
-                    }
-
-                    i = 28;
-                    $(cal).find("tbody td").each(function () {
-                        if (dat[i++] == "1") {
-                            $(this).addClass('highlighted');
-                        }
-                    });
-                    return cal;
+                .calendar-outer {
+                    margin-bottom: 10px;
                 }
-            };
-            loader._deliveryTime = {
-                onPageLoad: function () {
 
-                    var date;
-                    var row = "";
-                    for (var i = 0; i < 7; i++) {
-                        date = new Date(Date.now() + i * 86400000);
-                        var month = date.getMonth();
-                        var date = date.getDate();
-                        //row += "<td>" + (date.getMonth() + 1) + "/" + date.getDate() + "</td>";
-                        row += "<td data-date='" + (month < 10 ? "0" + month : month) + "" +  (date < 10 ? "0" + date : date) + "'>" + months[month] + " " + date + "</td>";
+                .calendar {
+                    width: 100%;
+                    border: none;
+                    border-bottom: 1px solid rgb(200, 200, 200);
+                }
+
+                .calendar td {
+                    border-radius: 0;
+                    border: none;
+                    padding: 0;
+                    width: 14.285%;
+                    height: 16px;
+                    font-size: 12px;
+                    text-align: center;
+                }
+
+                .calendar0 {
+                    border-top: 1px solid rgb(200, 200, 200);
+
+                }
+
+                .calendar0.calendar td {
+                    font-size: 12px;
+
+                }
+
+                .calendar1, .calendar4 {
+                    /*background: url("/resources/images/am.png") space center;
+                    background-size: auto 100%;
+                    background-color: rgba(73, 211, 255, 0.5);
+                    background-color: #879FCB;*/
+                }
+
+                .calendar2, .calendar3 {
+                    /*background: url("/resources/images/pm.png")  space center;
+                    background-size: auto 100%;
+                    background-color: rgba(160, 161, 163, 0.15);
+                    background-color: #FECD7E;*/
+                }
+
+                .calendar tbody td {
+                    cursor: pointer;
+                }
+
+                .calendar tbody td.highlighted {
+
+                    background-color: rgba(127, 255, 0, 0.5);
+                }
+
+
+            </style>
+            <div class="container text-center box">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h2>Select Available Delivery Times</h2>
+                    </div>
+                    <div class="col-xs-12">
+                        <div id="select-delivery-time" class="calendar-outer">
+                            <table class="calendar calendar0 ">
+                                <thead>
+                                <tr class="calendar-head" cellpadding="0" cellspacing="0">
+                                </tr>
+                                </thead>
+                            </table>
+                            <table class="calendar calendar1" cellpadding="0" cellspacing="0">
+                                <tbody>
+                                <tr>
+                                    <td>6:00</td>
+                                    <td>6:00</td>
+                                    <td>6:00</td>
+                                    <td>6:00</td>
+                                    <td>6:00</td>
+                                    <td>6:00</td>
+                                    <td>6:00</td>
+                                </tr>
+                                <tr>
+                                    <td>7:00</td>
+                                    <td>7:00</td>
+                                    <td>7:00</td>
+                                    <td>7:00</td>
+                                    <td>7:00</td>
+                                    <td>7:00</td>
+                                    <td>7:00</td>
+                                </tr>
+                                <tr>
+                                    <td>8:00</td>
+                                    <td>8:00</td>
+                                    <td>8:00</td>
+                                    <td>8:00</td>
+                                    <td>8:00</td>
+                                    <td>8:00</td>
+                                    <td>8:00</td>
+                                </tr>
+                                <tr>
+                                    <td>9:00</td>
+                                    <td>9:00</td>
+                                    <td>9:00</td>
+                                    <td>9:00</td>
+                                    <td>9:00</td>
+                                    <td>9:00</td>
+                                    <td>9:00</td>
+                                </tr>
+                                <tr>
+                                    <td>10:00</td>
+                                    <td>10:00</td>
+                                    <td>10:00</td>
+                                    <td>10:00</td>
+                                    <td>10:00</td>
+                                    <td>10:00</td>
+                                    <td>10:00</td>
+                                </tr>
+                                <tr>
+                                    <td>11:00</td>
+                                    <td>11:00</td>
+                                    <td>11:00</td>
+                                    <td>11:00</td>
+                                    <td>11:00</td>
+                                    <td>11:00</td>
+                                    <td>11:00</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <table class="calendar calendar2">
+                                <tbody>
+                                <tr>
+                                    <td>12:00</td>
+                                    <td>12:00</td>
+                                    <td>12:00</td>
+                                    <td>12:00</td>
+                                    <td>12:00</td>
+                                    <td>12:00</td>
+                                    <td>12:00</td>
+                                </tr>
+                                <tr>
+                                    <td>13:00</td>
+                                    <td>13:00</td>
+                                    <td>13:00</td>
+                                    <td>13:00</td>
+                                    <td>13:00</td>
+                                    <td>13:00</td>
+                                    <td>13:00</td>
+                                </tr>
+                                <tr>
+                                    <td>14:00</td>
+                                    <td>14:00</td>
+                                    <td>14:00</td>
+                                    <td>14:00</td>
+                                    <td>14:00</td>
+                                    <td>14:00</td>
+                                    <td>14:00</td>
+                                </tr>
+                                <tr>
+                                    <td>15:00</td>
+                                    <td>15:00</td>
+                                    <td>15:00</td>
+                                    <td>15:00</td>
+                                    <td>15:00</td>
+                                    <td>15:00</td>
+                                    <td>15:00</td>
+                                </tr>
+                                <tr>
+                                    <td>16:00</td>
+                                    <td>16:00</td>
+                                    <td>16:00</td>
+                                    <td>16:00</td>
+                                    <td>16:00</td>
+                                    <td>16:00</td>
+                                    <td>16:00</td>
+                                </tr>
+                                <tr>
+                                    <td>17:00</td>
+                                    <td>17:00</td>
+                                    <td>17:00</td>
+                                    <td>17:00</td>
+                                    <td>17:00</td>
+                                    <td>17:00</td>
+                                    <td>17:00</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <table class="calendar calendar3">
+                                <tbody>
+                                <tr>
+                                    <td>18:00</td>
+                                    <td>18:00</td>
+                                    <td>18:00</td>
+                                    <td>18:00</td>
+                                    <td>18:00</td>
+                                    <td>18:00</td>
+                                    <td>18:00</td>
+                                </tr>
+                                <tr>
+                                    <td>19:00</td>
+                                    <td>19:00</td>
+                                    <td>19:00</td>
+                                    <td>19:00</td>
+                                    <td>19:00</td>
+                                    <td>19:00</td>
+                                    <td>19:00</td>
+                                </tr>
+                                <tr>
+                                    <td>20:00</td>
+                                    <td>20:00</td>
+                                    <td>20:00</td>
+                                    <td>20:00</td>
+                                    <td>20:00</td>
+                                    <td>20:00</td>
+                                    <td>20:00</td>
+                                </tr>
+                                <tr>
+                                    <td>21:00</td>
+                                    <td>21:00</td>
+                                    <td>21:00</td>
+                                    <td>21:00</td>
+                                    <td>21:00</td>
+                                    <td>21:00</td>
+                                    <td>21:00</td>
+                                </tr>
+                                <tr>
+                                    <td>22:00</td>
+                                    <td>22:00</td>
+                                    <td>22:00</td>
+                                    <td>22:00</td>
+                                    <td>22:00</td>
+                                    <td>22:00</td>
+                                    <td>22:00</td>
+                                </tr>
+                                <tr>
+                                    <td>23:00</td>
+                                    <td>23:00</td>
+                                    <td>23:00</td>
+                                    <td>23:00</td>
+                                    <td>23:00</td>
+                                    <td>23:00</td>
+                                    <td>23:00</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <table class="calendar calendar4">
+                                <tbody>
+                                <tr>
+                                    <td>0:00</td>
+                                    <td>0:00</td>
+                                    <td>0:00</td>
+                                    <td>0:00</td>
+                                    <td>0:00</td>
+                                    <td>0:00</td>
+                                    <td>0:00</td>
+                                </tr>
+                                <tr>
+                                    <td>1:00</td>
+                                    <td>1:00</td>
+                                    <td>1:00</td>
+                                    <td>1:00</td>
+                                    <td>1:00</td>
+                                    <td>1:00</td>
+                                    <td>1:00</td>
+                                </tr>
+                                <tr>
+                                    <td>2:00</td>
+                                    <td>2:00</td>
+                                    <td>2:00</td>
+                                    <td>2:00</td>
+                                    <td>2:00</td>
+                                    <td>2:00</td>
+                                    <td>2:00</td>
+                                </tr>
+                                <tr>
+                                    <td>3:00</td>
+                                    <td>3:00</td>
+                                    <td>3:00</td>
+                                    <td>3:00</td>
+                                    <td>3:00</td>
+                                    <td>3:00</td>
+                                    <td>3:00</td>
+                                </tr>
+                                <tr>
+                                    <td>4:00</td>
+                                    <td>4:00</td>
+                                    <td>4:00</td>
+                                    <td>4:00</td>
+                                    <td>4:00</td>
+                                    <td>4:00</td>
+                                    <td>4:00</td>
+                                </tr>
+                                <tr>
+                                    <td>5:00</td>
+                                    <td>5:00</td>
+                                    <td>5:00</td>
+                                    <td>5:00</td>
+                                    <td>5:00</td>
+                                    <td>5:00</td>
+                                    <td>5:00</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="alert alert-danger fade in" id="delivery-time_warning">
+                            <strong>Danger!</strong> You must select a time range for drop-off!
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <a id="delivery-time-back" type="button" class="btn waves-effects orange">&lt;&lt; Back</a>
+                        <a id="delivery-time-submit" type="button" class="btn waves-effects orange">Select &gt;&gt;</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
+            </div>
+            <script>
+
+                (function () {
+                    var months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug",
+                        "Sept", "Oct", "Nov", "Dec"];
+                    loader.parseCalendar = function (dat) {
+                        if (dat != null) {
+                            var cal = document.createElement('div');
+                            cal.className = "cal";
+                            $(cal).html('<table class="calendar calendar0"><thead><tr class="calendar-head"></tr></thead></table><table class="calendar calendar1"cellpadding="0"cellspacing="0"><tbody><tr><td>6:00</td><td>6:00</td><td>6:00</td><td>6:00</td><td>6:00</td><td>6:00</td><td>6:00</td></tr><tr><td>7:00</td><td>7:00</td><td>7:00</td><td>7:00</td><td>7:00</td><td>7:00</td><td>7:00</td></tr><tr><td>8:00</td><td>8:00</td><td>8:00</td><td>8:00</td><td>8:00</td><td>8:00</td><td>8:00</td></tr><tr><td>9:00</td><td>9:00</td><td>9:00</td><td>9:00</td><td>9:00</td><td>9:00</td><td>9:00</td></tr><tr><td>10:00</td><td>10:00</td><td>10:00</td><td>10:00</td><td>10:00</td><td>10:00</td><td>10:00</td></tr><tr><td>11:00</td><td>11:00</td><td>11:00</td><td>11:00</td><td>11:00</td><td>11:00</td><td>11:00</td></tr></tbody></table><table class="calendar calendar2"><tbody><tr><td>12:00</td><td>12:00</td><td>12:00</td><td>12:00</td><td>12:00</td><td>12:00</td><td>12:00</td></tr><tr><td>13:00</td><td>13:00</td><td>13:00</td><td>13:00</td><td>13:00</td><td>13:00</td><td>13:00</td></tr><tr><td>14:00</td><td>14:00</td><td>14:00</td><td>14:00</td><td>14:00</td><td>14:00</td><td>14:00</td></tr><tr><td>15:00</td><td>15:00</td><td>15:00</td><td>15:00</td><td>15:00</td><td>15:00</td><td>15:00</td></tr><tr><td>16:00</td><td>16:00</td><td>16:00</td><td>16:00</td><td>16:00</td><td>16:00</td><td>16:00</td></tr><tr><td>17:00</td><td>17:00</td><td>17:00</td><td>17:00</td><td>17:00</td><td>17:00</td><td>17:00</td></tr></tbody></table><table class="calendar calendar3"><tbody><tr><td>18:00</td><td>18:00</td><td>18:00</td><td>18:00</td><td>18:00</td><td>18:00</td><td>18:00</td></tr><tr><td>19:00</td><td>19:00</td><td>19:00</td><td>19:00</td><td>19:00</td><td>19:00</td><td>19:00</td></tr><tr><td>20:00</td><td>20:00</td><td>20:00</td><td>20:00</td><td>20:00</td><td>20:00</td><td>20:00</td></tr><tr><td>21:00</td><td>21:00</td><td>21:00</td><td>21:00</td><td>21:00</td><td>21:00</td><td>21:00</td></tr><tr><td>22:00</td><td>22:00</td><td>22:00</td><td>22:00</td><td>22:00</td><td>22:00</td><td>22:00</td></tr><tr><td>23:00</td><td>23:00</td><td>23:00</td><td>23:00</td><td>23:00</td><td>23:00</td><td>23:00</td></tr></tbody></table><table class="calendar calendar4"><tbody><tr><td>0:00</td><td>0:00</td><td>0:00</td><td>0:00</td><td>0:00</td><td>0:00</td><td>0:00</td></tr><tr><td>1:00</td><td>1:00</td><td>1:00</td><td>1:00</td><td>1:00</td><td>1:00</td><td>1:00</td></tr><tr><td>2:00</td><td>2:00</td><td>2:00</td><td>2:00</td><td>2:00</td><td>2:00</td><td>2:00</td></tr><tr><td>3:00</td><td>3:00</td><td>3:00</td><td>3:00</td><td>3:00</td><td>3:00</td><td>3:00</td></tr><tr><td>4:00</td><td>4:00</td><td>4:00</td><td>4:00</td><td>4:00</td><td>4:00</td><td>4:00</td></tr><tr><td>5:00</td><td>5:00</td><td>5:00</td><td>5:00</td><td>5:00</td><td>5:00</td><td>5:00</td></tr></tbody></table>');
+                            var head = $(cal).find('.calendar-head');
+                            var i;
+                            for (i = 0; i < 7; i++) {
+                                head.append('<td>' + months[parseInt(dat.substr(4 * i, 2))] + " " + parseInt(dat.substr(2 + 4 * i, 2)) + '</td>');
+                            }
+
+                            i = 28;
+                            $(cal).find("tbody td").each(function () {
+                                if (dat[i++] == "1") {
+                                    $(this).addClass('highlighted');
+                                }
+                            });
+                            return cal;
+                        }
+                    };
+                    loader._deliveryTime = {
+                        onPageLoad: function () {
+
+                            var date;
+                            var row = "";
+                            for (var i = 0; i < 7; i++) {
+                                date = new Date(Date.now() + i * 86400000);
+                                var month = date.getMonth();
+                                var date = date.getDate();
+                                //row += "<td>" + (date.getMonth() + 1) + "/" + date.getDate() + "</td>";
+                                row += "<td data-date='" + (month < 10 ? "0" + month : month) + "" + (date < 10 ? "0" + date : date) + "'>" + months[month] + " " + date + "</td>";
+                            }
+
+                            $("#select-delivery-time").find(".calendar-head").append(row);
+                        },
+                        getData: function () {
+                            var dat = "";
+
+                            $('#select-delivery-time thead td').each(function () {
+                                dat += $(this).data("date");
+                            });
+
+                            $('#select-delivery-time tbody td').each(function () {
+                                if ($(this).hasClass('highlighted')) {
+                                    dat += "1";
+                                }
+                                else {
+                                    dat += "0";
+                                }
+                            });
+
+                            return dat;
+                        },
+                        loadData: function (data) {
+                            if (data == null) {
+                                $('#select-delivery-time').find('.highlighted').removeClass('highlighted');
+                                $("#delivery-time_warning").hide();
+                            }
+                            else {
+                                $('#select-delivery-time').html(data);
+                                load();
+                            }
+                        }
+
+                    };
+                    function load() {
+
+                        $("#delivery-time_warning").hide();
+                        var isMouseDown = false,
+                                isHighlighted;
+                        $("#select-delivery-time").find("td").on("mousedown touchstart", function () {
+                            isMouseDown = true;
+                            $(this).toggleClass("highlighted");
+                            isHighlighted = $(this).hasClass("highlighted");
+                            return false; // prevent text selection
+                        }).on("mousemove", function (event) {
+                            if (isMouseDown) {
+                                var e = document.elementFromPoint(event.clientX, event.clientY);
+                                $(e).toggleClass("highlighted", isHighlighted);
+                            }
+                        }).on("touchmove", function (event) {
+                            if (isMouseDown) {
+                                var t = event.originalEvent.touches[0];
+                                var e = document.elementFromPoint(t.clientX, t.clientY);
+                                $(e).toggleClass("highlighted", isHighlighted);
+                            }
+                        });
+
+
+                        $(document).on("mouseup touchend", function () {
+                            isMouseDown = false;
+                        });
                     }
 
-                    $("#select-delivery-time").find(".calendar-head").append(row);
-                },
-                getData: function () {
-                    var dat = "";
+                    load();
 
-                    $('#select-delivery-time thead td').each(function(){
-                        dat += $(this).data("date");
+                    $('#delivery-time-back').click(function () {
+                        $("#delivery-time_warning").hide();
+                        goToPage('_shopping');
                     });
 
-                    $('#select-delivery-time tbody td').each(function () {
-                        if ($(this).hasClass('highlighted')) {
-                            dat += "1";
+                    $('#delivery-time-submit').click(function () {
+                        //addDeliveryTime();
+                        if ($('#select-delivery-time .highlighted').length == 0) {
+                            $("#delivery-time_warning").show();
                         }
                         else {
-                            dat += "0";
+                            $("#delivery-time_warning").hide();
+                            goToPage('_deliveryLocation');
                         }
                     });
-
-                    return dat;
-                },
-                loadData: function (data) {
-                    if (data == null) {
-                        $('#select-delivery-time').find('.highlighted').removeClass('highlighted');
-                        $("#delivery-time_warning").hide();
-                    }
-                    else {
-                        $('#select-delivery-time').html(data);
-                        load();
-                    }
-                }
-
-            };
-            function load() {
-
-                $("#delivery-time_warning").hide();
-                var isMouseDown = false,
-                        isHighlighted;
-                $("#select-delivery-time").find("td").on("mousedown touchstart", function () {
-                    isMouseDown = true;
-                    $(this).toggleClass("highlighted");
-                    isHighlighted = $(this).hasClass("highlighted");
-                    return false; // prevent text selection
-                }).on("mousemove", function (event) {
-                    if (isMouseDown) {
-                        var e = document.elementFromPoint(event.clientX, event.clientY);
-                        $(e).toggleClass("highlighted", isHighlighted);
-                    }
-                }).on("touchmove", function (event) {
-                    if (isMouseDown) {
-                        var t = event.originalEvent.touches[0];
-                        var e = document.elementFromPoint(t.clientX, t.clientY);
-                        $(e).toggleClass("highlighted", isHighlighted);
-                    }
-                });
-
-
-                $(document).on("mouseup touchend", function () {
-                    isMouseDown = false;
-                });
-            }
-
-            load();
-
-            $('#delivery-time-back').click(function () {
-                $("#delivery-time_warning").hide();
-                goToPage('_shopping');
-            });
-
-            $('#delivery-time-submit').click(function () {
-                //addDeliveryTime();
-                if ($('#select-delivery-time .highlighted').length == 0) {
-                    $("#delivery-time_warning").show();
-                }
-                else {
-                    $("#delivery-time_warning").hide();
-                    goToPage('_deliveryLocation');
-                }
-            });
-        })();
-    </script></div></div><div><div id="_deliveryLocation" data-x="3" data-y="0"><div class="container text-center box">
-    <div class="row">
-        <div class="col-xs-12">
-            <h2>Select Delivery Location</h2>
-        </div>
-        <div class="col-xs-12">
-            <div id="map-select-loc"></div>
-            <div id="centerMarker-select-loc"></div>
-            <script type="text/javascript" src="js/_deliveryLocation.js"></script>
-            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBmhEjZ6m4l05dajXYQ0fbMPdm2-wg9-U&amp;callback=loader._deliveryLocation.loadData" async="" defer=""></script>
-        </div>
-        <div class="col-xs-12">
-            <a id="delivery-location-back" type="button" class="btn waves-effects orange">&lt;&lt; Back</a>
-            <a id="delivery-location-submit" type="button" class="btn waves-effects orange">Select &gt;&gt;</a>
+                })();
+            </script>
         </div>
     </div>
-</div>
-</div></div><div><div id="_checkout" data-x="4" data-y="0"><div id="checkout" class="container text-center box">
-    <div class="row" style="margin-bottom: 15px">
-        <div class="col-xs-offset-2 col-xs-8">
-            <h2>Continue Checkout</h2>
-
-            <div class="row">
-                <h4>If driver cannot locate your specific item, buy... </h4>
+    <div>
+        <div id="_deliveryLocation" data-x="3" data-y="0">
+            <div class="container text-center box">
                 <div class="row">
+                    <div class="col-xs-12">
+                        <h2>Select Delivery Location</h2>
+                    </div>
+                    <div class="col-xs-12">
+                        <div id="map-select-loc"></div>
+                        <div id="centerMarker-select-loc"></div>
+                        <script type="text/javascript" src="js/_deliveryLocation.js"></script>
+                        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBmhEjZ6m4l05dajXYQ0fbMPdm2-wg9-U&amp;callback=loader._deliveryLocation.loadData"
+                                async="" defer=""></script>
+                    </div>
+                    <div class="col-xs-12">
+                        <a id="delivery-location-back" type="button" class="btn waves-effects">&lt;&lt; Back</a>
+                        <a id="delivery-location-submit" type="button" class="btn waves-effects">Select &gt;&gt;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div id="_checkout" data-x="4" data-y="0">
+            <div id="checkout" class="container text-center box">
+                <div class="row" style="margin-bottom: 15px">
+                    <div class="col-xs-offset-2 col-xs-8">
+                        <h2>Continue Checkout</h2>
 
-                    <div id="checkout_notes">
-                        <form action="submit" style="text-align:left">
-                            <div class="col-xs-4 col-xs-offset-4">
-                                <input name="special_notes" type="radio" id="checkout_option1" value="cheapest">
-                                <label for="checkout_option1">Cheapest</label>
+                        <div class="row">
+                            <h4>If driver cannot locate your specific item, buy... </h4>
+                            <div class="row">
 
-                                <input name="special_notes" type="radio" id="checkout_option2" value="expensive">
-                                <label for="checkout_option2">Most Expensive</label>
+                                <div id="checkout_notes">
+                                    <form action="submit" style="text-align:left">
+                                        <div class="col-xs-4 col-xs-offset-4">
+                                            <input name="special_notes" type="radio" id="checkout_option1"
+                                                   value="cheapest">
+                                            <label for="checkout_option1">Cheapest</label>
 
-                                <input name="special_notes" type="radio" id="checkout_option3" value="none">
-                                <label for="checkout_option3">None</label>
+                                            <input name="special_notes" type="radio" id="checkout_option2"
+                                                   value="expensive">
+                                            <label for="checkout_option2">Most Expensive</label>
+
+                                            <input name="special_notes" type="radio" id="checkout_option3" value="none">
+                                            <label for="checkout_option3">None</label>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
-                        </form>
+                            <div class="row">
+                                <div class="alert alert-danger fade in" id="checkout_warning">
+                                    <strong>Danger!</strong> You must select an option!
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="alert alert-danger fade in" id="checkout_warning">
-                        <strong>Danger!</strong> You must select an option!
+
+                <div class="row" style="text-align: center">
+                    <div class="col-xs-12">
+                        <a id="checkout-back" type="button" class="btn waves-effects">&lt;&lt; Back</a>
+                        <a id="checkout_submitcheckout" type="button" class="btn waves-effects">Pay and Submit
+                            &gt;&gt;</a>
                     </div>
                 </div>
+
             </div>
-        </div>
-    </div>
-
-    <div class="row" style="text-align: center">
-        <div class="col-xs-12">
-            <a id="checkout-back" type="button" class="btn waves-effects orange">&lt;&lt; Back</a>
-            <a id="checkout_submitcheckout" type="button" class="btn waves-effects orange">Pay and Submit &gt;&gt;</a>
-        </div>
-    </div>
-
-</div>
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div>
-
-    <script src="js/_checkout.js"></script>
-
-    <script>
-
-    </script></div></div><div><div id="_pendingPayment" data-x="5" data-y="0">
-    <div class="container box">
-        <div class="row text-center">
-            <div class="col-xs-12">
-                <div>
-                    <h2> Processing </h2>
-                    <h5> Please wait, your payment is being processed through PayPal. </h5>
-                </div>
-                <div id="loading_icon">
-                    <span class="glyphicon glyphicon-repeat glyphicon-repeat-animate"></span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div></div></div><div><div id="_submitted" data-x="6" data-y="0"><div class="container box text-center" id="submitted">
-    <div class="row">
-        <div class="col-xs-12">
-            <h2>Ticket Submitted</h2>
-            <h5>Your service fee has been received, and your ticket is now submitted to the Fetch queue!</h5>
-            <a id="submit_submitted" type="button" class="btn waves-effect orange">View Ticket Status</a>
-        </div>
-    </div>
-</div>
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div>
-    <script src="/js/_submitted.js"></script>
-</div></div><div><div id="_cancelled" data-x="7" data-y="0"><div class="container box text-center" id="cancelled">
-    <div class="row">
-        <div class="col-xs-12">
-            <div>
-                <h2>Ticket Not Submitted</h2>
-                <h5>PayPal indicates that you have cancelled your submission.</h5>
-                <a id="submit_cancelled" type="button" class="btn waves-effects orange">
-                    Go Back and Edit Shopping List
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
-
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div>
-    <script src="/js/_cancelled.js"></script>
-</div></div></div><div id="section-1"><div><div id="_history" data-x="0" data-y="1"><div id="history" class="container box text-center">
-    <div class="row">
-        <div class="col-xs-12 col-md-12">
-            <div>
-                <h2 class="">Your Orders</h2>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12 col-md-6">
-            <h3>Pending Tickets</h3>
-            <ul id="yourOrders_pending_tickets" class="text-center&quot;"></ul>
-        </div>
-
-
-        <div class="col-xs-12 col-md-6">
-            <h3>Accepted Tickets</h3>
-            <ul id="yourOrders_accepted_tickets" class="text-center&quot;"></ul>
-        </div>
-
-    </div>
-    <div class="row">
-        <div class="col-xs-12 col-md-6">
-            <h3>Purchased Tickets</h3>
-            <ul id="yourOrders_shopped_tickets" class="text-center&quot;"></ul>
-        </div>
-
-        <div class="col-xs-12 col-md-6">
-            <h3>Delivered Tickets</h3>
-            <ul id="yourOrders_delivered_tickets" class="text-center&quot;"></ul>
-        </div>
-    </div>
-</div>
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div>
-
-    <script src="/js/_history.js"></script>
-</div></div><div><div id="_shoppingStatus" data-x="1" data-y="1"><div id="shoppingStatus" class="container box text-center">
-    <div class="row">
-        <div class="col-xs-offset-4 col-xs-4">
-            <img class="img-circle" id="shoppingStatus-img" src="placeholder/person4.png">
-            <h2 id="listName_shoppingStatus"></h2>
-        </div>
-
-        <div class="col-xs-12">
-            <ul id="_shoppingStatus_list"></ul>
-            <div class="text-left" id="_shoppingStatus_numItems"></div>
-        </div>
-
-        <div id="shoppingStatusCalendarPart" class="col-xs-12">
-            <div id="shoppingStatusCalendarHeader">Delivery time:</div>
-            <div id="shoppingStatusCalendar"></div>
-        </div>
-
-        <div class="col-xs-12">
-            <div id="shoppingstatus_note"></div>
-            <div id="shoppingstatus_location"></div>
-            <div id="shoppingStatusMap" class="map" style="margin: auto"></div>
-        </div>
-
-        <div class="col-xs-12">
-            <div class="row" id="_shoppingStatus_footerInfo">
-                <a id="shoppingStatus_list_btn" type="button" class="btn waves-effect orange">
-                    Close
-                </a>
-            </div>
-        </div>
-    </div>
-
-</div>
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div>
-    <script src="js/_shoppingStatus.js"></script></div></div><div><div id="_cancelTicket" data-x="2" data-y="1"><div id="cancelTicket" class="container box text-center">
-    <div class="row">
-        <div class="col-xs-12">
-            <!--<img class="img-circle" id="cancelTicket-img" src="placeholder/person5.png">-->
-            <!--<h2 id="listName_cancelTicket"></h2>-->
-            <h2>Ticket's details</h2>
-        </div>
-
-
-        <div class="col-xs-12">
-            <ul id="_cancelTicket_list"></ul>
-            <div class="text-left" id="_cancelTicket_numItems"></div>
-        </div>
-
-        <div class="col-xs-12">
-            <div class="text-left" id="cancelTicket_note"></div>
-            <div class="text-left" id="cancelTicket_location"></div>
-            <div class="text-left" id="cancelTicketMapHeader">Delivery location:</div>
-            <div id="cancelTicketMap" class="map" style="margin: auto"></div>
-        </div>
-
-        <div id="cancelTicketCalendarPart" class="col-xs-12">
-            <div class="text-left" id="cancelTicketCalendarHeader">Delivery time:</div>
-            <div id="cancelTicketCalendar"></div>
-        </div>
-
-        <div class="col-xs-12">
-            <div class="row" id="_cancelTicket_footerInfo">
-                <a id="cancelTicket_list_btn" type="button" class="btn waves-effect">
-                    Close
-                </a>
-                <a id="cancelTicket_cancel_btn" type="button" class="btn waves-effect">
-                    Cancel ticket
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div>
-    <script src="js/_cancelTicket.js"></script></div></div></div><div id="section-2"><div><div id="_confirmTicket" data-x="0" data-y="2"><div class="container box" id="confirmTicket">
-    <div class="row text-center">
-        <div class="col-xs-12">
-            <h2> Confirm your ticket</h2>
-
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="col-xs-offset-4 col-xs-4">
-                        <img class="img-circle" id="confirmTicket_img" src="placeholder/person4.png">
-                    </div>
-                    <div id="confirmTicket_icon" class="col-xs-4"></div>
-                    <div id="confirmTicket_name" class="col-xs-8">
-                        <h4 id="confirmTicket_driverName"></h4>
-                    </div>
-                </div>
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
             </div>
 
+            <script src="js/_checkout.js"></script>
+
+            <script>
+
+            </script>
+        </div>
+    </div>
+    <div>
+        <div id="_pendingPayment" data-x="5" data-y="0">
             <div class="container box">
+                <div class="row text-center">
+                    <div class="col-xs-12">
+                        <div>
+                            <h2> Processing </h2>
+                            <h5> Please wait, your payment is being processed through PayPal. </h5>
+                        </div>
+                        <div id="loading_icon">
+                            <span class="glyphicon glyphicon-repeat glyphicon-repeat-animate"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div id="_submitted" data-x="6" data-y="0">
+            <div class="container box text-center" id="submitted">
                 <div class="row">
                     <div class="col-xs-12">
-                        <ul id="confirmTicket_list"></ul>
+                        <h2>Ticket Submitted</h2>
+                        <h5>Your service fee has been received, and your ticket is now submitted to the Fetch
+                            queue!</h5>
+                        <a id="submit_submitted" type="button" class="btn waves-effect">View Ticket Status</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
+            </div>
+            <script src="/js/_submitted.js"></script>
+        </div>
+    </div>
+    <div>
+        <div id="_cancelled" data-x="7" data-y="0">
+            <div class="container box text-center" id="cancelled">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div>
+                            <h2>Ticket Not Submitted</h2>
+                            <h5>PayPal indicates that you have cancelled your submission.</h5>
+                            <a id="submit_cancelled" type="button" class="btn waves-effects orange">
+                                Go Back and Edit Shopping List
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
+            </div>
+            <script src="/js/_cancelled.js"></script>
+        </div>
+    </div>
+</div>
+<div id="section-1">
+    <div>
+        <div id="_history" data-x="0" data-y="1">
+            <div id="history" class="container box text-center">
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        <div>
+                            <h2 class="">Your Orders</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <h3>Pending Tickets</h3>
+                        <ul id="yourOrders_pending_tickets" class="text-center&quot;"></ul>
+                    </div>
+
+
+                    <div class="col-xs-12 col-md-6">
+                        <h3>Accepted Tickets</h3>
+                        <ul id="yourOrders_accepted_tickets" class="text-center&quot;"></ul>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <h3>Purchased Tickets</h3>
+                        <ul id="yourOrders_shopped_tickets" class="text-center&quot;"></ul>
+                    </div>
+
+                    <div class="col-xs-12 col-md-6">
+                        <h3>Delivered Tickets</h3>
+                        <ul id="yourOrders_delivered_tickets" class="text-center&quot;"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
+            </div>
+
+            <script src="/js/_history.js"></script>
+        </div>
+    </div>
+    <div>
+        <div id="_shoppingStatus" data-x="1" data-y="1">
+            <div id="shoppingStatus" class="container box text-center">
+                <div class="row">
+                    <div class="col-xs-offset-4 col-xs-4">
+                        <img class="img-circle" id="shoppingStatus-img" src="placeholder/person4.png">
+                        <h2 id="listName_shoppingStatus"></h2>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <ul id="_shoppingStatus_list"></ul>
+                        <div class="text-left" id="_shoppingStatus_numItems"></div>
+                    </div>
+
+                    <div id="shoppingStatusCalendarPart" class="col-xs-12">
+                        <div id="shoppingStatusCalendarHeader">Delivery time:</div>
+                        <div id="shoppingStatusCalendar"></div>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <div id="shoppingstatus_note"></div>
+                        <div id="shoppingstatus_location"></div>
+                        <div id="shoppingStatusMap" class="map" style="margin: auto"></div>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <div class="row" id="_shoppingStatus_footerInfo">
+                            <a id="shoppingStatus_list_btn" type="button" class="btn waves-effect orange">
+                                Close
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
+            </div>
+            <script src="js/_shoppingStatus.js"></script>
+        </div>
+    </div>
+    <div>
+        <div id="_cancelTicket" data-x="2" data-y="1">
+            <div id="cancelTicket" class="container box text-center">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!--<img class="img-circle" id="cancelTicket-img" src="placeholder/person5.png">-->
+                        <!--<h2 id="listName_cancelTicket"></h2>-->
+                        <h2>Ticket's details</h2>
+                    </div>
+
+
+                    <div class="col-xs-12">
+                        <ul id="_cancelTicket_list"></ul>
+                        <div class="text-left" id="_cancelTicket_numItems"></div>
+                    </div>
+
+                    <div id="cancelTicketCalendarPart" class="col-xs-12">
+                        <div class="text-left" id="cancelTicketCalendarHeader">Delivery time:</div>
+                        <div id="cancelTicketCalendar"></div>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <div class="text-left" id="cancelTicket_note"></div>
+                        <div class="text-left" id="cancelTicket_location"></div>
+                        <div class="text-left" id="cancelTicketMapHeader">Delivery location:</div>
+                        <div id="cancelTicketMap" class="map" style="margin: auto"></div>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <div class="row" id="_cancelTicket_footerInfo">
+                            <a id="cancelTicket_list_btn" type="button" class="btn waves-effect">
+                                Close
+                            </a>
+                            <a id="cancelTicket_cancel_btn" type="button" class="btn waves-effect">
+                                Cancel ticket
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
+            </div>
+            <script src="js/_cancelTicket.js"></script>
+        </div>
+    </div>
+</div>
+<div id="section-2">
+    <div>
+        <div id="_confirmTicket" data-x="0" data-y="2">
+            <div class="container box" id="confirmTicket">
+                <div class="row text-center">
+                    <div class="col-xs-12">
+                        <h2> Confirm your ticket</h2>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="col-xs-offset-4 col-xs-4">
+                                    <img class="img-circle" id="confirmTicket_img" src="placeholder/person4.png">
+                                </div>
+                                <div id="confirmTicket_icon" class="col-xs-4"></div>
+                                <div id="confirmTicket_name" class="col-xs-8">
+                                    <h4 id="confirmTicket_driverName"></h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="container box">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <ul id="confirmTicket_list"></ul>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div id="_confirm_footerInfo">
+                                        <div id="confirmTicket_numItems" class="text-left"></div>
+                                        <div id="confirmTicket_price" class="text-left"></div>
+                                        <div id="confirmTicket_total_price" class="text-left"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div id="confirmTicket_receipt"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div id="confirmTicket_CalendarPart" class="col-xs-12">
+                                <div class="text-left" id="confirmTicket_CalendarHeader">Delivery time:</div>
+                                <div id="confirmTicket_Calendar"></div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="text-left" id="confirmTicket_location"></div>
+                                <div id="confirmTicket_Map" class="map" style="margin: auto"></div>
+                            </div>
+                        </div>
+
+                        <a type="button" class="btn waves-effects" id="confirmTicket_button">Confirm</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
+            </div>
+            <script src="js/_confirmTicket.js"></script>
+        </div>
+    </div>
+    <div>
+        <div id="_rateDriver" data-x="1" data-y="2"><!--<script src="js/_rateDriver.js"></script>-->
+            <div id="rateDriver" class="container box text-center">
+                <div class="row ratingSize">
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 userIcon">
+                        <!--<h2>Account Information</h2>-->
+                        <div id="rateDriver-image-content">
+                            <img class="img-circle" id="rateDriver-img" src="placeholder/person4.png">
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 " id="rateDriver-content">
+                        <h2>Rate the driver!</h2>
+                        <h3 id="driver-name_rateDriver"></h3>
+
+                        <div class="rating">
+                            <span id="driver_rating-1" class="glyphicon glyphicon-heart"></span>
+                            <span id="driver_rating-2" class="glyphicon glyphicon-heart"></span>
+                            <span id="driver_rating-3" class="glyphicon glyphicon-heart"></span>
+                            <span id="driver_rating-4" class="glyphicon glyphicon-heart"></span>
+                            <span id="driver_rating-5" class="glyphicon glyphicon-heart"></span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-xs-12">
+                    <a id="rate-driver-skip" type="button" class="btn waves-effect driverRate_button">Skip</a>
+                    <a id="rate-driver" type="button" class="btn waves-effect driverRate_button">Rate!</a>
+                </div>
+
+            </div>
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
+            </div>
+
+            <script type="text/javascript" src="/js/_rateDriver.js"></script>
+        </div>
+    </div>
+    <div>
+        <div id="_congratsTicketClosed" data-x="2" data-y="2">
+            <div class="container box text-center">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div>
+                            <h2> Congratulations!</h2>
+                            <h5> This ticket has been successfully closed. </h5>
+                            <a type="button" class="btn waves-effects" id="_congratsClosed">
+                                Go To You Orders
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
+            </div>
+            <script src="js/_congratsTicketClosed.js"></script>
+        </div>
+    </div>
+</div>
+<div id="section-3">
+    <div>
+        <div id="_tickets" data-x="0" data-y="3">
+            <div class="container box text-center" id="tickets">
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div>
+                            <h2 class="text-center">Avaliable Tickets</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row marketButtons">
+
+                    <div class="col-xs-6 col-md-3">
+                        <div class="store-ticket">
+                            <input class="ticket-check" type="checkbox" data-name="ralphs" id="ralphs">
+                            <label for="ralphs"> RALPHS</label>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 col-md-3">
+                        <div class="store-ticket">
+                            <input class="ticket-check" type="checkbox" data-name="tjs" id="tjs">
+                            <label for="tjs"> TJ's</label>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 col-md-3">
+                        <div class="store-ticket">
+                            <input class="ticket-check" type="checkbox" data-name="wholeFoods" id="wholeFoods">
+                            <label for="wholeFoods"> W F</label>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 col-md-3">
+                        <div class="store-ticket">
+                            <input class="ticket-check" type="checkbox" data-name="vons" id="vons">
+                            <label for="vons"> VONS</label>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <ul id="tickets_content" class="text-center&quot;"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
+            </div>
+
+
+            <script type="text/javascript" src="/js/_tickets.js"></script>
+        </div>
+    </div>
+    <div>
+        <div id="_viewTicket" data-x="1" data-y="3">
+            <div class="container box text-center" id="viewTicket">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h2 id="listName"></h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <ul id="_viewTicket_list"></ul>
+                    </div>
+                </div>
+
+                <div class="col-xs-4" id="_viewTicket_numItems"></div>
+
+                <div id="viewTicketCalendarPart" class="col-xs-12">
+                    <div id="viewTicketCalendarHeader">Delivery time:</div>
+                    <div id="viewTicketCalendar"></div>
+                </div>
+
+                <div class="col-xs-12">
+                    <div id="viewTicket_note"></div>
+                    <div id="viewTicket_location"></div>
+                    <div id="viewTicketMap" class="map" style="margin: auto"></div>
+                </div>
+
+                <div class="row" id="_viewTicket_footerInfo">
+                    <div class="col-xs-12">
+                        <a id="viewTicket-back" type="button" class="btn waves-effects" style="float: none">&lt;&lt;
+                            Back</a>
+                        <a id="_viewTicket_submit_list" type="button"
+                           class="col-xs-4 text-center btn waves-effect waves-teal" style="float: none">
+                            Accept Ticket
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
+            </div>
+
+
+            <script src="js/_viewTicket.js"></script>
+        </div>
+    </div>
+</div>
+<div id="section-4">
+    <div>
+        <div id="_yourDeliveries" data-x="0" data-y="4">
+            <div class="container box text-center" id="yourDeliveries">
+                <div class="row">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h2>Your Deliveries</h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h3>Accepted Tickets</h3>
+                                <ul id="yourDeliveries_accepted_tickets"></ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h3>Purchased Tickets</h3>
+                                <ul id="yourDeliveries_shopped_tickets"></ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h3>Delivered Tickets</h3>
+                                <ul id="yourDeliveries_delivered_tickets"></ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
+            </div>
+            <script type="text/javascript" src="/js/_yourDeliveries.js"></script>
+        </div>
+    </div>
+    <div>
+        <div id="_driverList" data-x="1" data-y="4">
+            <div class="container box text-center">
+                <div class="row" id="driverListHeader">
+                    <div class="col-xs-12">
+                        <h2 id="listName_driverList"></h2>
+                        <h3 id="phone"></h3>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <ul id="_driverList2_list"></ul>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <div class="input-field">
+                            <div class="text-left" id="_driver_numItems"></div>
+                            <div class="text-left" id="driver_note"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <a id="driverList-location-back" type="button" class="btn waves-effects ">&lt;&lt; Back</a>
+                        <a id="driver_messenger" type="button" class="waves-teal btn waves-effects">
+                            Messenger
+                        </a>
+                        <a id="_driver_submit_list" type="button" class="waves-teal btn waves-effects">
+                            Complete &gt;&gt;
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
+            </div>
+
+
+            <script src="js/_driverList.js"></script>
+
+        </div>
+    </div>
+    <div>
+        <div id="_receiptPictureEnterPrice" data-x="2" data-y="4">
+            <div class="container text-center box" id="receipt-pic">
+                <div class="row">
+                    <div class="col-xs-12" id="receipt-button-box-outer">
+                        <h2>Receipt</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 col-lg-6 col-lg-offset-3"
+                         id="receipt-button-box">
+                        <div class="input-field">
+                            <input type="text" class="form-control" name="username" id="enter_price_receipt"><br>
+                            <label for="enter_price_receipt">Enter the price:</label>
+                        </div>
+
+                        <label class="btn waves-effect orange">
+                            Upload Receipt Image<input class="hidden" type="file" id="uploadReceipt1"
+                                                       name="imageLoader">
+                        </label>
+
+                        <a class="btn waves-effects orange disabled" id="submitReceiptButton1">Submit</a>
+                        <a class="btn waves-effects orange" id="cancelRecButton1">Cancel</a>
+
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <div id="receipt-outer"
+                             style="width: 500px;max-width: 100%; overflow: hidden; height: 800px;position: relative; margin: auto;">
+                            <canvas style=" position: absolute; top: 50%; left: 50%; transform:  translate(-50%, -50%) rotate(90deg)"
+                                    width="800" height="500" id="receipt_canvas1"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
+            </div>
+
+            <script src="js/_receiptPictureEnterPrice.js"></script>
+        </div>
+    </div>
+    <div>
+        <div id="_congrats_driver_finish_shopping" data-x="3" data-y="4">
+            <div class="container box text-center">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div>
+                            <h2> Congratulations!</h2>
+                            <h5> Well Done! We'll notify the shopper that you are on the way! </h5>
+                            <a type="button" class="btn waves-effects" id="congrats_end_shopping_to_delivery">
+                                Go To You Deliveries
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
+            </div>
+            <script src="js/_congrats_driver_finish_shopping.js"></script>
+        </div>
+    </div>
+</div>
+<div id="section-5">
+    <div>
+        <div id="_purchasedTickets" data-x="0" data-y="5">
+            <div class="container box text-center" id="purchasedTickets">
+                <div class="row" id="purchasedTicketsListHeader">
+                    <div class="col-xs-offset-4 col-xs-4">
+                        <img class="img-circle" id="purchasedTickets-img" src="placeholder/person4.png">
+                    </div>
+                    <div class="col-xs-12">
+                        <h2 id="listName_purchasedTickets"></h2>
+                        <h3 id="phone_purchasedTickets"></h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <ul id="purchasedTickets_list"></ul>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-xs-12">
-                        <div id="_confirm_footerInfo">
-                            <div id="confirmTicket_numItems" class="text-left"></div>
-                            <div id="confirmTicket_price" class="text-left"></div>
-                            <div id="confirmTicket_total_price" class="text-left"></div>
+                        <div class="input-field">
+                            <label for="purchasedTickets_note">Special Note:</label>
+                            <input disabled="" type="text" class="form-control bfh-phone" data-country="US"
+                                   id="purchasedTickets_note">
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
+                    <div id="purchasedTicketsCalendarPart" class="col-xs-12">
+                        <div id="purchasedTicketsCalendarHeader">Delivery time:</div>
+                        <div id="purchasedTicketsCalendar"></div>
+                    </div>
+                </div>
+
+                <div class="row">
                     <div class="col-xs-12">
-                        <div id="confirmTicket_receipt"></div>
+                        <div id="purchasedTickets_location"></div>
+                        <div id="purchasedTicketsMap" class="map" style="margin: auto"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="row" id="purchasedTickets_footerInfo">
+                            <div class="col-xs-12">
+                                <a id="purchasedTickets-back" type="button" class="btn waves-effects ">&lt;&lt; Back</a>
+                                <a id="purchasedTickets-messenger" type="button" class="btn waves-effects ">
+                                    Messenger
+                                </a>
+                                <a id="purchasedTickets_submit_list" type="button" class="btn waves-effects ">Close
+                                    Ticket &gt;&gt;</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="row">
-                <div id="confirmTicket_CalendarPart" class="col-xs-12">
-                    <div class="text-left" id="confirmTicket_CalendarHeader">Delivery time:</div>
-                    <div id="confirmTicket_Calendar"></div>
-                </div>
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
             </div>
 
-            <div class="row">
+
+            <script src="js/_purchasedTickets.js"></script>
+
+        </div>
+    </div>
+    <div>
+        <div id="_rateUser" data-x="1" data-y="5">
+            <div id="rateUser" class="container box text-center">
+                <div class="row ratingSize">
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 userIcon">
+                        <!--<h2>Account Information</h2>-->
+                        <div id="rateUser-image-content">
+                            <img class="img-circle" id="rateUser-img" src="placeholder/person4.png">
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 " id="rateUser-content">
+                        <h2>Rate the shopper!</h2>
+                        <h3 id="user-name_rateUser"></h3>
+
+                        <div class="rating">
+                            <span id="user_rating-1" class="glyphicon glyphicon-heart"></span>
+                            <span id="user_rating-2" class="glyphicon glyphicon-heart"></span>
+                            <span id="user_rating-3" class="glyphicon glyphicon-heart"></span>
+                            <span id="user_rating-4" class="glyphicon glyphicon-heart"></span>
+                            <span id="user_rating-5" class="glyphicon glyphicon-heart"></span>
+                        </div>
+                    </div>
+
+                </div>
                 <div class="col-xs-12">
-                    <div class="text-left" id="confirmTicket_location"></div>
-                    <div id="confirmTicket_Map" class="map" style="margin: auto"></div>
-                </div>
-            </div>
-
-            <a type="button" class="btn waves-effects orange" id="confirmTicket_button">Confirm</a>
-        </div>
-    </div>
-</div>
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div>
-    <script src="js/_confirmTicket.js"></script>
-</div></div><div><div id="_rateDriver" data-x="1" data-y="2"><!--<script src="js/_rateDriver.js"></script>-->
-    <div id="rateDriver" class="container box text-center">
-        <div class="row ratingSize">
-
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 userIcon">
-                <!--<h2>Account Information</h2>-->
-                <div id="rateDriver-image-content">
-                    <img class="img-circle" id="rateDriver-img" src="placeholder/person4.png">
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 " id="rateDriver-content">
-                <h2>Rate the driver!</h2>
-                <h3 id="driver-name_rateDriver"></h3>
-
-                <div class="rating">
-                    <span id="driver_rating-1" class="glyphicon glyphicon-heart"></span>
-                    <span id="driver_rating-2" class="glyphicon glyphicon-heart"></span>
-                    <span id="driver_rating-3" class="glyphicon glyphicon-heart"></span>
-                    <span id="driver_rating-4" class="glyphicon glyphicon-heart"></span>
-                    <span id="driver_rating-5" class="glyphicon glyphicon-heart"></span>
-                </div>
-            </div>
-
-        </div>
-        <div class="col-xs-12">
-            <a id="rate-driver-skip" type="button" class="btn waves-effect orange driverRate_button">Skip</a>
-            <a id="rate-driver" type="button" class="btn waves-effect orange driverRate_button">Rate!</a>
-        </div>
-
-    </div>
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div>
-
-    <script type="text/javascript" src="/js/_rateDriver.js"></script>
-</div></div><div><div id="_congratsTicketClosed" data-x="2" data-y="2">
-    <div class="container box text-center">
-        <div class="row">
-            <div class="col-xs-12">
-                <div>
-                    <h2> Congratulations!</h2>
-                    <h5> This ticket has been successfully closed. </h5>
-                    <a type="button" class="btn waves-effects orange" id="_congratsClosed">
-                        Go To You Orders
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div>
-    <script src="js/_congratsTicketClosed.js"></script></div></div></div><div id="section-3"><div><div id="_tickets" data-x="0" data-y="3"><div class="container box text-center" id="tickets">
-
-    <div class="row">
-        <div class="col-xs-12">
-            <div>
-                <h2 class="text-center">Avaliable Tickets</h2>
-            </div>
-        </div>
-    </div>
-
-    <div class="row marketButtons">
-
-        <div class="col-xs-6 col-md-3">
-            <div class="store-ticket">
-                <input class="ticket-check" type="checkbox" data-name="ralphs" id="ralphs">
-                <label for="ralphs"> RALPHS</label>
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-3">
-            <div class="store-ticket">
-                <input class="ticket-check" type="checkbox" data-name="tjs" id="tjs">
-                <label for="tjs"> TJ's</label>
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-3">
-            <div class="store-ticket">
-                <input class="ticket-check" type="checkbox" data-name="wholeFoods" id="wholeFoods">
-                <label for="wholeFoods"> W F</label>
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-3">
-            <div class="store-ticket">
-                <input class="ticket-check" type="checkbox" data-name="vons" id="vons">
-                <label for="vons"> VONS</label>
-            </div>
-        </div>
-
-    </div>
-    <div class="row">
-        <div class="col-xs-12">
-            <ul id="tickets_content" class="text-center&quot;"></ul>
-        </div>
-    </div>
-</div>
-
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div>
-
-
-    <script type="text/javascript" src="/js/_tickets.js"></script>
-</div></div><div><div id="_viewTicket" data-x="1" data-y="3"><div class="container box text-center" id="viewTicket">
-    <div class="row">
-        <div class="col-xs-12">
-            <h2 id="listName"></h2>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12">
-            <ul id="_viewTicket_list"></ul>
-        </div>
-    </div>
-
-    <div class="col-xs-4" id="_viewTicket_numItems"></div>
-
-    <div id="viewTicketCalendarPart" class="col-xs-12">
-        <div id="viewTicketCalendarHeader">Delivery time:</div>
-        <div id="viewTicketCalendar"></div>
-    </div>
-
-    <div class="col-xs-12">
-        <div id="viewTicket_note"></div>
-        <div id="viewTicket_location"></div>
-        <div id="viewTicketMap" class="map" style="margin: auto"></div>
-    </div>
-
-    <!--<div class="row">-->
-    <!--<div class="col-xs-12">-->
-    <div class="row" id="_viewTicket_footerInfo">
-        <div class="col-xs-12">
-            <a id="viewTicket-back" type="button" class="btn waves-effects orange" style="float: none">&lt;&lt; Back</a>
-            <a id="_viewTicket_submit_list" type="button" class="col-xs-4 text-center btn waves-effect waves-teal" style="float: none">
-                Accept Ticket
-            </a>
-        </div>
-    </div>
-    <!--</div>-->
-</div>
-
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div>
-
-
-    <script src="js/_viewTicket.js"></script>
-</div></div></div><div id="section-4"><div><div id="_yourDeliveries" data-x="0" data-y="4"><div class="container box text-center" id="yourDeliveries">
-    <div class="row">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-                    <h2>Your Deliveries</h2>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <h3>Accepted Tickets</h3>
-                    <ul id="yourDeliveries_accepted_tickets"></ul>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="row">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-                    <h3>Purchased Tickets</h3>
-                    <ul id="yourDeliveries_shopped_tickets"></ul>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="row">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-                    <h3>Delivered Tickets</h3>
-                    <ul id="yourDeliveries_delivered_tickets"></ul>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div>
-    <script type="text/javascript" src="/js/_yourDeliveries.js"></script>
-</div></div><div><div id="_driverList" data-x="1" data-y="4"><div class="container box text-center">
-    <div class="row" id="driverListHeader">
-        <div class="col-xs-12">
-            <h2 id="listName_driverList"></h2>
-            <h3 id="phone"></h3>
-        </div>
-
-        <div class="col-xs-12">
-            <ul id="_driverList2_list"></ul>
-        </div>
-
-        <div class="col-xs-12">
-            <div class="input-field">
-                <div class="text-left" id="_driver_numItems"></div>
-                <div class="text-left" id="driver_note"></div>
-            </div>
-        </div>
-
-        <div class="col-xs-12">
-            <a id="driverList-location-back" type="button" class="btn waves-effects orange">&lt;&lt; Back</a>
-            <a id="_driver_submit_list" type="button" class="waves-teal btn waves-effects">
-                Complete
-            </a>
-            <a id="driver_messenger" type="button" class="waves-teal btn waves-effects">
-                Messenger
-            </a>
-        </div>
-    </div>
-</div>
-
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div>
-
-
-    <script src="js/_driverList.js"></script>
-
-</div></div><div><div id="_receiptPictureEnterPrice" data-x="2" data-y="4"><div class="container text-center box" id="receipt-pic">
-    <div class="row">
-        <div class="col-xs-12" id="receipt-button-box-outer">
-            <h2>Receipt</h2>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 col-lg-6 col-lg-offset-3" id="receipt-button-box">
-            <div class="input-field">
-                <input type="text" class="form-control" name="username" id="enter_price_receipt"><br>
-                <label for="enter_price_receipt">Enter the price:</label>
-            </div>
-
-            <a class="btn waves-effect orange">
-                Upload Receipt Image<input class="hidden" type="file" id="uploadReceipt1" name="imageLoader">
-            </a>
-
-            <a class="btn waves-effects orange disabled" id="submitReceiptButton1">Submit</a>
-            <a class="btn waves-effects orange" id="cancelRecButton1">Cancel</a>
-
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12 col-md-6">
-            <div id="receipt-outer" style="width: 500px;max-width: 100%; overflow: hidden; height: 800px;position: relative; margin: auto;">
-                <canvas style=" position: absolute; top: 50%; left: 50%; transform:  translate(-50%, -50%) rotate(90deg)" width="800" height="500" id="receipt_canvas1"></canvas>
-            </div>
-        </div>
-    </div>
-</div>
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div>
-
-    <script src="js/_receiptPictureEnterPrice.js"></script></div></div><div><div id="_congrats_driver_finish_shopping" data-x="3" data-y="4">
-    <div class="container box text-center">
-        <div class="row">
-            <div class="col-xs-12">
-                <div>
-                    <h2> Congratulations!</h2>
-                    <h5> Well Done! We'll notify the shopper that you are on the way! </h5>
-                    <a type="button" class="btn waves-effects orange" id="congrats_end_shopping_to_delivery">
-                        Go To You Deliveries
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div>
-    <script src="js/_congrats_driver_finish_shopping.js"></script>
-</div></div></div><div id="section-5"><div><div id="_purchasedTickets" data-x="0" data-y="5"><div class="container box text-center" id="purchasedTickets">
-    <div class="row" id="purchasedTicketsListHeader">
-        <div class="col-xs-offset-4 col-xs-4">
-            <img class="img-circle" id="purchasedTickets-img" src="placeholder/person4.png">
-        </div>
-        <div class="col-xs-12">
-            <h2 id="listName_purchasedTickets"></h2>
-            <h3 id="phone_purchasedTickets"></h3>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12">
-            <ul id="purchasedTickets_list"></ul>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="input-field">
-                <label for="purchasedTickets_note">Special Note:</label>
-                <input disabled="" type="text" class="form-control bfh-phone" data-country="US" id="purchasedTickets_note">
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div id="purchasedTicketsCalendarPart" class="col-xs-12">
-            <div id="purchasedTicketsCalendarHeader">Delivery time:</div>
-            <div id="purchasedTicketsCalendar"></div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-xs-12">
-            <div id="purchasedTickets_location"></div>
-            <div id="purchasedTicketsMap" class="map" style="margin: auto"></div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="row" id="purchasedTickets_footerInfo">
-                <div class="col-xs-12">
-                    <a id="purchasedTickets-back" type="button" class="btn waves-effects orange">&lt;&lt; Back</a>
-                    <a id="purchasedTickets-messenger" type="button" class="btn waves-effects orange">
-                        Messenger
-                    </a>
-                    <a id="purchasedTickets_submit_list" type="button" class="btn waves-effects orange">Close Ticket &gt;&gt;</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div>
-
-
-    <script src="js/_purchasedTickets.js"></script>
-
-</div></div><div><div id="_rateUser" data-x="1" data-y="5"><div id="rateUser" class="container box text-center">
-    <div class="row ratingSize">
-
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 userIcon">
-            <!--<h2>Account Information</h2>-->
-            <div id="rateUser-image-content">
-                <img class="img-circle" id="rateUser-img" src="placeholder/person4.png">
-            </div>
-        </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 " id="rateUser-content">
-            <h2>Rate the shopper!</h2>
-            <h3 id="user-name_rateUser"></h3>
-
-            <div class="rating">
-                <span id="user_rating-1" class="glyphicon glyphicon-heart"></span>
-                <span id="user_rating-2" class="glyphicon glyphicon-heart"></span>
-                <span id="user_rating-3" class="glyphicon glyphicon-heart"></span>
-                <span id="user_rating-4" class="glyphicon glyphicon-heart"></span>
-                <span id="user_rating-5" class="glyphicon glyphicon-heart"></span>
-            </div>
-        </div>
-
-    </div>
-    <div class="col-xs-12">
-        <a id="rate-user-skip" type="button" class="btn waves-effect orange userRate_button">Skip</a>
-        <a id="rate-user" type="button" class="btn waves-effect orange userRate_button">Rate!</a>
-    </div>
-
-</div>
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div>
-
-    <script type="text/javascript" src="/js/_rateUser.js"></script>
-</div></div><div><div id="_congrats" data-x="2" data-y="5">
-
-    <div class="container box text-center">
-        <div class="row">
-            <div class="col-xs-12">
-                <div>
-                    <h2> Congratulations!</h2>
-                    <h5> We posted your ticket, and you will be notified as soon as it's accepted! </h5>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div></div></div></div><div id="section-6"><div><div id="_accSetting" data-x="0" data-y="6"><div id="accSetting" class="container box" style="text-align: center">
-    <div class="row" style="height: 100%;">
-
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="position: relative; height: 442px;">
-            <!--<h2>Account Information</h2>-->
-            <div id="user-image-content" style="width: 100%;position: absolute; top: 50%; left: 50%;
-                transform: translate(-50%, -50%)">
-                <img style="margin: 8%" class="img-circle" id="accSettingAbove-img" src="placeholder/person4.png">
-                <div>
-                    <a onclick="goToPage('_takeProfilePicture')">Edit Picture</a>
+                    <a id="rate-user-skip" type="button" class="btn waves-effect userRate_button">Skip</a>
+                    <a id="rate-user" type="button" class="btn waves-effect userRate_button">Rate!</a>
                 </div>
 
             </div>
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
+            </div>
+
+            <script type="text/javascript" src="/js/_rateUser.js"></script>
         </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 ">
-            <!--<h2>Account Information</h2>-->
-
-            <div id="accProfile">
-                <form role="form" data-toggle="validator">
-                    <div class="input-field">
-                        <label for="accsetting_full_name" class="control-label&quot;">Full Name:</label>
-                        <input type="text" class="form-control" id="accsetting_full_name">
+    </div>
+    <div>
+        <div id="_congrats" data-x="2" data-y="5">
+            <div class="container box text-center" id="congrats">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div>
+                            <h2>Congratulations!</h2>
+                            <h5>We closed your ticket, and have notified the shopper that you buying their items! </h5>
+                        </div>
                     </div>
 
-                    <div class="input-field">
-                        <label for="accsetting_email">Email:</label>
-                        <input type="email" class="form-control" id="accsetting_email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+                    <div class="col-xs-12">
+                        <a id="congrats-button" type="button" class="btn waves-effects ">Go to your deliveries</a>
                     </div>
-
-                    <div class="input-field">
-                        <label for="accsetting_phone">Phone Number:</label>
-                        <input type="text" class="form-control bfh-phone" data-country="US" id="accsetting_phone">
-                    </div>
-
-                    <!--<h2>Address</h2>-->
-                    <div class="input-field">
-                        <label for="accsetting_street">Street:</label>
-                        <input type="text" class="form-control" id="accsetting_street">
-                    </div>
-
-                    <div class="input-field">
-                        <label for="accsetting_city">City:</label>
-                        <input type="text" class="form-control" id="accsetting_city">
-                    </div>
-
-                    <div class="input-field">
-                        <label for="accsetting_state">State:</label>
-                        <input type="text" class="form-control" id="accsetting_state">
-                    </div>
-
-                    <div class="input-field">
-                        <label for="accsetting_zip">ZIP Code:</label>
-                        <input type="number" class="form-control" id="accsetting_zip">
-                    </div>
-
-                </form>
-            </div>
-        </div>
-
-    </div>
-    <div class="row input-filed">
-        <div class="col-xs-12">
-            <div class="alert alert-danger fade in" id="accsetting_warning">
-                <strong>Danger!</strong> There are some empty fields!
-            </div>
-            <div class="btn waves-effects orange" id="accsetting_submit_info" type="submit">Update
-            </div>
-        </div>
-    </div>
-
-</div>
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div>
-
-    <script type="text/javascript" src="/js/_accSetting.js"></script>
-</div></div><div><div id="_contact" data-x="1" data-y="6"><div class="container box text-center" id="contact">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2 ">
-            <div>
-                <h2> Contact  </h2>
-            </div>
-
-            <!--<form class="input-field">-->
-            <div class="input-field">
-                <label for="contact_name">Name</label>
-                <input type="text" class="form-control" id="contact_name">
-            </div>
-            <div class="input-field">
-                <label for="contact_email">Email</label>
-                <input type="email" class="form-control" id="contact_email">
-            </div>
-            <!--<div class="input-field">-->
-            <!--<label for="contact_comment">Comment:</label>-->
-            <!--<textarea class="form-control" rows="5" id="contact_comment"></textarea>-->
-            <!--</div>-->
-            <div class="input-field">
-                <textarea id="contact_comment" class="materialize-textarea form-control"></textarea>
-                <label for="contact_comment">Comment:</label>
-            </div>
-            <div class="row input-field">
-                <div class="alert alert-danger fade in" id="contact_warning">
-                    <strong>Danger!</strong> There are some empty fields!
                 </div>
             </div>
-            <a type="submit" id="contact_submit" class="btn waves-effects orange">Send</a>
-            <!--</form>-->
-        </div>
-    </div>
-</div>
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div>
-    <script type="text/javascript" src="/js/_contact.js"></script>
 
-</div></div><div><div id="_passwordRecovery" data-x="2" data-y="6"><div class="container text-center box" id="passwordRecovery">
-    <div class="row ">
-        <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3">
-            <div>
-                <h2>Recover Password</h2>
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
             </div>
-            <div class="input-field">
-                <input type="email" class="form-control" id="passRecovery_email">
-                <label for="passRecovery_email">Enter Email</label>
-            </div>
-            <a type="submit" class="btn bwaves-effect orange" id="passRecovery_submit_email">Submit</a>
-        </div>
-    </div>
-</div>
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div>
 
-    <script type="text/javascript" src="js/_passwordRecovery.js"></script>
-
-</div></div><div><div id="_passwordReset" data-x="3" data-y="6"><div class="container box" id="passwordReset">
-
-    <div class="row">
-        <div class="col-xs-12">
-            <h3> Password Reset</h3>
-            <!--<form>-->
-            <div class="input-field">
-                <label for="pass1">Enter New Password</label>
-                <input type="password" class="form-control" name="pass1" id="pass1">
-            </div>
-            <!--</form>-->
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-xs-12">
-            <!--<form>-->
-            <div class="input-field">
-                <label for="pass2">Re-enter Password</label>
-                <!--<input type="password" class="form-control" id="pass2" placeholder="Re-enter password">-->
-                <input type="password" class="form-control" name="pass2" id="pass2" onkeyup="checkPass(); return false;">
-                <span id="confirmMessage" class="confirmMessage"></span>
-            </div>
-            <!--</form>-->
-        </div>
-    </div>
-
-    <div class="row text-center">
-        <a type="submit" class="btn waves-effect orange" id="submitPass">submit</a>
-    </div>
-</div>
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div>
-
-    <script type="text/javascript" src="js/_passwordReset.js"></script>
-</div></div><div><div id="_login" data-x="4" data-y="6"><div class="container text-center box" id="login-container">
-    <div class="row">
-        <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3">
-            <h2 class="form-signin-heading">Fetch Login</h2><br>
-            <div id="login_message"></div>
-            <div class="input-field">
-                <input type="email" class="form-control" id="login_user_email" name="email"><br>
-                <label for="login_user_email">Email</label>
-            </div>
-            <div class="input-field">
-                <input type="password" class="form-control" id="login_user_pass" name="password"><br>
-                <label for="login_user_pass">Password</label>
-            </div>
-            <button class="btn waves-effect orange" id="login_butt" type="submit">Login</button><br><br>
-            <a class="col-lg-6" onclick="goToPage('_signUp')"><h6 id="signup-link">Create account</h6></a>
-            <a class="col-lg-6" onclick="goToPage('_passwordRecovery')"><h6 id="passwordRecover-link">Forgot Password?</h6></a>
-
-
+            <script src="_congrats.js"></script>
 
         </div>
     </div>
 </div>
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div>
-    <script type="text/javascript" src="js/_login.js"></script></div></div><div><div id="_signUp" data-x="5" data-y="6"><div class="container text-center box" id="signUp-container">
-    <div class="row">
-        <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3">
-            <h2 class="form-signin-heading">Fetch Sign-Up</h2><br>
+<div id="section-6">
+    <div>
+        <div id="_accSetting" data-x="0" data-y="6">
+            <div id="accSetting" class="container box text-center">
+                <div class="row">
 
-            <div id="signup_message"></div>
-            <div class="input-field">
-                <input type="email" class="form-control" name="email" id="signup_user_email">
-                <label for="signup_user_email">Your Email</label>
-            </div>
-            <div class="input-field">
-                <input type="text" class="form-control" name="username" id="signup_user_name">
-                <label for="signup_user_name">Your Name</label>
-            </div>
-            <div class="input-field">
-                <input type="tel" class="form-control" name="usrtel" id="signup_phone">
-                <label for="signup_phone">Your Phone Number</label>
-            </div>
-            <div class="input-field">
-                <input type="text" class="form-control" name="usrtel" id="signup_street">
-                <label for="signup_street">Street Address</label>
-            </div>
-            <div class="input-field">
-                <input type="text" class="form-control" name="usrtel" id="signup_city">
-                <label for="signup_city">City</label>
-            </div>
-            <div class="input-field">
-                <input type="text" class="form-control" name="usrtel" id="signup_state">
-                <label for="signup_state">State</label>
-            </div>
-            <div class="input-field">
-                <input type="text" class="form-control" name="usrtel" id="signup_zip">
-                <label for="signup_zip">Zip</label>
-            </div>
-            <div class="input-field">
-                <input type="password" class="form-control" name="password" id="signup_user_pass">
-                <label for="signup_user_pass">Create Password</label>
-            </div>
-            <div class="input-field">
-                <input type="password" class="form-control" name="password" id="signup_re_pass">
-                <label for="signup_re_pass">Confirm Your Password</label>
-            </div>
-            <!--<input type="email" class="form-control" name="email" placeholder="Your email" id="signup_user_email" required="" autofocus=""/>-->
-            <!--<input type="text" class="form-control" name="username" placeholder="Your name" id="signup_user_name" required="" autofocus=""/>-->
-            <!--<input type="tel" class="form-control" name="usrtel" placeholder="Your phone number" id="signup_phone" required=""/>-->
-            <!--<input type="text" class="form-control" name="usrtel" placeholder="Street Adress" id="signup_street" required=""/>-->
-            <!--<input type="text" class="form-control" name="usrtel" placeholder="City" id="signup_city" required=""/>-->
-            <!--<input type="text" class="form-control" name="usrtel" placeholder="State" id="signup_state" required=""/>-->
-            <!--<input type="text" class="form-control" name="usrtel" placeholder="Zip" id="signup_zip" required=""/>-->
-            <!--<input type="password" class="form-control" name="password" placeholder="Create a password" id="signup_user_pass" required=""/>-->
-            <!--<input type="password" class="form-control" name="password" placeholder="Confirm your password" id="signup_re_pass" required=""/>-->
-            <a class="btn waves-effect orange" id="signup_butt" type="submit">Sign-Up</a>
-        </div>
-    </div>
-</div>
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div>
-    <script type="text/javascript" src="js/_signUp.js"></script></div></div><div><div id="_takeProfilePicture" data-x="6" data-y="6"><div class="row">
-    <div class="col-md-4 col-lg-4" id="profile-button-box-outer">
-        <div id="profile-button-box">
-            <h2>Profile Picture</h2>
-            <a class="btn waves-effect orange" id="takeButton1">Take Photo</a>
-            <a class="btn waves-effect orange" id="redoButton1">Retake Photo</a>
-            <h4>or</h4>
-            <label class="btn waves-effect orange">
-                Upload From File<input class="hidden" type="file" id="uploadImage1" name="imageLoader">
-            </label>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 userIcon">
+                        <!--<h2>Account Information</h2>-->
+                        <div class="row test">
+                            <div class="col-xs-12">
+                                <div id="user-image-content">
+                                    <img class="img-circle" id="accSettingAbove-img" src="placeholder/person4.png">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div>
+                                <a onclick="goToPage('_takeProfilePicture')">Edit Picture</a>
+                            </div>
+                        </div>
+                    </div>
 
-            <a class="btn waves-effect orange" id="uploadButton1">Submit</a>
-            <a class="btn waves-effect orange" id="cancelButton1">Cancel</a>
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 accProfile">
+                        <!--<h2>Account Information</h2>-->
+
+                        <div id="accProfile">
+                            <form role="form" data-toggle="validator">
+                                <div class="input-field">
+                                    <label for="accsetting_full_name" class="control-label&quot;">Full Name:</label>
+                                    <input type="text" class="form-control" id="accsetting_full_name">
+                                </div>
+
+                                <div class="input-field">
+                                    <label for="accsetting_email">Email:</label>
+                                    <input type="email" class="form-control" id="accsetting_email"
+                                           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+                                </div>
+
+                                <div class="input-field">
+                                    <label for="accsetting_phone">Phone Number:</label>
+                                    <input type="text" class="form-control bfh-phone" data-country="US"
+                                           id="accsetting_phone">
+                                </div>
+
+                                <!--<h2>Address</h2>-->
+                                <div class="input-field">
+                                    <label for="accsetting_street">Street:</label>
+                                    <input type="text" class="form-control" id="accsetting_street">
+                                </div>
+
+                                <div class="input-field">
+                                    <label for="accsetting_city">City:</label>
+                                    <input type="text" class="form-control" id="accsetting_city">
+                                </div>
+
+                                <div class="input-field">
+                                    <label for="accsetting_state">State:</label>
+                                    <input type="text" class="form-control" id="accsetting_state">
+                                </div>
+
+                                <div class="input-field">
+                                    <label for="accsetting_zip">ZIP Code:</label>
+                                    <input type="number" class="form-control" id="accsetting_zip">
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row input-filed">
+                    <div class="col-xs-12">
+                        <div class="alert alert-danger fade in" id="accsetting_warning">
+                            <strong>Danger!</strong> There are some empty fields!
+                        </div>
+                        <div class="btn waves-effects" id="accsetting_submit_info" type="submit">Update
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
+            </div>
+
+            <script type="text/javascript" src="/js/_accSetting.js"></script>
         </div>
     </div>
-    <div class="col-md-8 col-lg-8" id="profile-outer">
-        <div id="profile-image-square">
-            <video id="video1" muted="" autoplay=""></video>
-            <canvas id="canvas1"></canvas>
+    <div>
+        <div id="_contact" data-x="1" data-y="6">
+            <div class="container box text-center" id="contact">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2 ">
+                        <div>
+                            <h2> Contact </h2>
+                        </div>
+
+                        <!--<form class="input-field">-->
+                        <div class="input-field">
+                            <label for="contact_name">Name</label>
+                            <input type="text" class="form-control" id="contact_name">
+                        </div>
+                        <div class="input-field">
+                            <label for="contact_email">Email</label>
+                            <input type="email" class="form-control" id="contact_email">
+                        </div>
+                        <!--<div class="input-field">-->
+                        <!--<label for="contact_comment">Comment:</label>-->
+                        <!--<textarea class="form-control" rows="5" id="contact_comment"></textarea>-->
+                        <!--</div>-->
+                        <div class="input-field">
+                            <textarea id="contact_comment" class="materialize-textarea form-control"></textarea>
+                            <label for="contact_comment">Comment:</label>
+                        </div>
+                        <div class="row input-field">
+                            <div class="alert alert-danger fade in" id="contact_warning">
+                                <strong>Danger!</strong> There are some empty fields!
+                            </div>
+                        </div>
+                        <a type="submit" id="contact_submit" class="btn waves-effects orange">Send</a>
+                        <!--</form>-->
+                    </div>
+                </div>
+            </div>
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
+            </div>
+            <script type="text/javascript" src="/js/_contact.js"></script>
+
         </div>
     </div>
-</div>
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
+    <div>
+        <div id="_passwordRecovery" data-x="2" data-y="6">
+            <div class="container text-center box" id="passwordRecovery">
+                <div class="row ">
+                    <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3">
+                        <div>
+                            <h2>Recover Password</h2>
+                        </div>
+                        <div class="input-field">
+                            <input type="email" class="form-control" id="passRecovery_email">
+                            <label for="passRecovery_email">Enter Email</label>
+                        </div>
+                        <a type="submit" class="btn bwaves-effect orange" id="passRecovery_submit_email">Submit</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
+            </div>
+
+            <script type="text/javascript" src="js/_passwordRecovery.js"></script>
+
+        </div>
     </div>
-    <script type="text/javascript" src="js/_takeProfilePicture.js"></script>
-</div></div><div><div id="_verifyEmail" data-x="7" data-y="6"><div class="container box text-center">
-    <div class="row">
-        <div class="col-xs-12">
-            <div>
-                <h2> Verify Email </h2>
-                <h5>Please check your email to confirm your email address.</h5>
+    <div>
+        <div id="_passwordReset" data-x="3" data-y="6">
+            <div class="container box" id="passwordReset">
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h3> Password Reset</h3>
+                        <!--<form>-->
+                        <div class="input-field">
+                            <label for="pass1">Enter New Password</label>
+                            <input type="password" class="form-control" name="pass1" id="pass1">
+                        </div>
+                        <!--</form>-->
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!--<form>-->
+                        <div class="input-field">
+                            <label for="pass2">Re-enter Password</label>
+                            <!--<input type="password" class="form-control" id="pass2" placeholder="Re-enter password">-->
+                            <input type="password" class="form-control" name="pass2" id="pass2"
+                                   onkeyup="checkPass(); return false;">
+                            <span id="confirmMessage" class="confirmMessage"></span>
+                        </div>
+                        <!--</form>-->
+                    </div>
+                </div>
+
+                <div class="row text-center">
+                    <a type="submit" class="btn waves-effect orange" id="submitPass">submit</a>
+                </div>
+            </div>
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
+            </div>
+
+            <script type="text/javascript" src="js/_passwordReset.js"></script>
+        </div>
+    </div>
+    <div>
+        <div id="_login" data-x="4" data-y="6">
+            <div class="container text-center box" id="login-container">
+                <div class="row">
+                    <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3">
+                        <h2 class="form-signin-heading">Fetch Login</h2><br>
+                        <div id="login_message"></div>
+                        <div class="input-field">
+                            <input type="email" class="form-control" id="login_user_email" name="email"><br>
+                            <label for="login_user_email">Email</label>
+                        </div>
+                        <div class="input-field">
+                            <input type="password" class="form-control" id="login_user_pass" name="password"><br>
+                            <label for="login_user_pass">Password</label>
+                        </div>
+                        <button class="btn waves-effect" id="login_butt" type="submit">Login</button>
+                        <br><br>
+                        <a class="col-lg-6" onclick="goToPage('_signUp')"><h6 id="signup-link">Create account</h6></a>
+                        <a class="col-lg-6" onclick="goToPage('_passwordRecovery')"><h6 id="passwordRecover-link">Forgot
+                            Password?</h6></a>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
+            </div>
+            <script type="text/javascript" src="js/_login.js"></script>
+        </div>
+    </div>
+    <div>
+        <div id="_signUp" data-x="5" data-y="6">
+            <div class="container text-center box" id="signUp-container">
+                <div class="row">
+                    <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3">
+                        <h2 class="form-signin-heading">Fetch Sign-Up</h2><br>
+
+                        <div id="signup_message"></div>
+                        <div class="input-field">
+                            <input type="email" class="form-control" name="email" id="signup_user_email">
+                            <label for="signup_user_email">Your Email</label>
+                        </div>
+                        <div class="input-field">
+                            <input type="text" class="form-control" name="username" id="signup_user_name">
+                            <label for="signup_user_name">Your Name</label>
+                        </div>
+                        <div class="input-field">
+                            <input type="tel" class="form-control" name="usrtel" id="signup_phone">
+                            <label for="signup_phone">Your Phone Number</label>
+                        </div>
+                        <div class="input-field">
+                            <input type="text" class="form-control" name="usrtel" id="signup_street">
+                            <label for="signup_street">Street Address</label>
+                        </div>
+                        <div class="input-field">
+                            <input type="text" class="form-control" name="usrtel" id="signup_city">
+                            <label for="signup_city">City</label>
+                        </div>
+                        <div class="input-field">
+                            <input type="text" class="form-control" name="usrtel" id="signup_state">
+                            <label for="signup_state">State</label>
+                        </div>
+                        <div class="input-field">
+                            <input type="text" class="form-control" name="usrtel" id="signup_zip">
+                            <label for="signup_zip">Zip</label>
+                        </div>
+                        <div class="input-field">
+                            <input type="password" class="form-control" name="password" id="signup_user_pass">
+                            <label for="signup_user_pass">Create Password</label>
+                        </div>
+                        <div class="input-field">
+                            <input type="password" class="form-control" name="password" id="signup_re_pass">
+                            <label for="signup_re_pass">Confirm Your Password</label>
+                        </div>
+                        <!--<input type="email" class="form-control" name="email" placeholder="Your email" id="signup_user_email" required="" autofocus=""/>-->
+                        <!--<input type="text" class="form-control" name="username" placeholder="Your name" id="signup_user_name" required="" autofocus=""/>-->
+                        <!--<input type="tel" class="form-control" name="usrtel" placeholder="Your phone number" id="signup_phone" required=""/>-->
+                        <!--<input type="text" class="form-control" name="usrtel" placeholder="Street Adress" id="signup_street" required=""/>-->
+                        <!--<input type="text" class="form-control" name="usrtel" placeholder="City" id="signup_city" required=""/>-->
+                        <!--<input type="text" class="form-control" name="usrtel" placeholder="State" id="signup_state" required=""/>-->
+                        <!--<input type="text" class="form-control" name="usrtel" placeholder="Zip" id="signup_zip" required=""/>-->
+                        <!--<input type="password" class="form-control" name="password" placeholder="Create a password" id="signup_user_pass" required=""/>-->
+                        <!--<input type="password" class="form-control" name="password" placeholder="Confirm your password" id="signup_re_pass" required=""/>-->
+                        <a class="btn waves-effect orange" id="signup_butt" type="submit">Sign-Up</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
+            </div>
+            <script type="text/javascript" src="js/_signUp.js"></script>
+        </div>
+    </div>
+    <div>
+        <div id="_takeProfilePicture" data-x="6" data-y="6">
+            <div class="container box text-center" id="profile-pic">
+                <div class="row">
+                    <div class="col-md-4 col-lg-4" id="profile-button-box-outer">
+                        <div id="profile-button-box">
+                            <h2>Profile Picture</h2>
+                            <a class="btn waves-effect" id="takeButton1">Take Photo</a>
+                            <a class="btn waves-effect" id="redoButton1">Retake Photo</a>
+                            <h4>or</h4>
+                            <label class="btn waves-effect">
+                                Upload From File<input class="hidden" type="file" id="uploadImage1" name="imageLoader">
+                            </label>
+
+                            <a class="btn waves-effect" id="uploadButton1">Submit</a>
+                            <a class="btn waves-effect" id="cancelButton1">Cancel</a>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-lg-8" id="profile-outer">
+                        <div id="profile-image-square">
+                            <video id="video1" muted="" autoplay=""></video>
+                            <canvas id="canvas1"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
+            </div>
+            <script type="text/javascript" src="js/_takeProfilePicture.js"></script>
+        </div>
+    </div>
+    <div>
+        <div id="_verifyEmail" data-x="7" data-y="6">
+            <div class="container box text-center">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div>
+                            <h2> Verify Email </h2>
+                            <h5>Please check your email to confirm your email address.</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footerBars container">
+                <div class="footer2"></div>
+                <div class="footer3"></div>
             </div>
         </div>
     </div>
 </div>
-    <div class="footerBars container">
-        <div class="footer2"></div>
-        <div class="footer3"></div>
-    </div></div></div></div>

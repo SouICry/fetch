@@ -99,37 +99,37 @@
 
     $("#confirmTicket_button").click(function () {
         $(this).addClass('disabled');
-        $.ajax({
-            type: "POST",
-            contentType: "application/json",
-            dataType: "json",
-            url: "/userConfirm",
-            data: JSON.stringify({
-                ticketId: loader.ticketId
-            })
-        });
-        
-        if (sync == -99999) {
-            sync = setInterval(function () {
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json",
-                    dataType: "json",
-                    url: "/checkConfirm",
-                    data: JSON.stringify({
-                        ticketId: loader.ticketId
-                    }),
-                    success: function (data) {
-                        if (data == true) {
+        // $.ajax({
+        //     type: "POST",
+        //     contentType: "application/json",
+        //     dataType: "json",
+        //     url: "/userConfirm",
+        //     data: JSON.stringify({
+        //         ticketId: loader.ticketId
+        //     })
+        // });
+        //
+        // if (sync == -99999) {
+        //     sync = setInterval(function () {
+        //         $.ajax({
+        //             type: "POST",
+        //             contentType: "application/json",
+        //             dataType: "json",
+        //             url: "/checkConfirm",
+        //             data: JSON.stringify({
+        //                 ticketId: loader.ticketId
+        //             }),
+        //             success: function (data) {
+        //                 if (data == true) {
                             clearInterval(sync);
                             sync = -99999;
                             $("#confirmTicket_button").removeClass("disabled");
                             goToPage("_rateDriver");
-                        }
-                    }
-                });
-            }, 500);
-        }
+        //                 }
+        //             }
+        //         });
+        //     }, 500);
+        // }
     });
 
 })();
