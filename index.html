@@ -836,6 +836,17 @@
                 $("#Butt").append("<div " + clickVal + " >" + whichid + "</div>");
             }
         }
+
+
+//        $.ajax({
+//            type: "POST",
+//            url: "/loadPage",
+//            data: {name: "allPages"},
+//            async: false,
+//            success: function (data) {
+//                $('#page-content').append(data);
+//            }
+//        });
         done = true;
         if (timeup) {
             $("#page-title").removeClass('title-cover');
