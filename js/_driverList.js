@@ -34,6 +34,8 @@ var driver__test_data = {
             array = data.items;
             var name = data.full_name;
             driverList_shopperid = data._id;
+            loader.shopperid = data._id;
+            loader.shopperFullName = data.full_name;
             
             //create the contact info(where should I got this, is there a flied relates to contact?
             document.getElementById("listName_driverList").innerHTML = name + "'s Shopping List";

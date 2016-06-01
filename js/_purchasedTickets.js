@@ -88,6 +88,9 @@ var test_data = {
     $("#purchasedTickets-back").click(function() {
         goToPage("_yourDeliveries");
     });
+    $("#purchasedTickets-messenger").click(function(){
+        loader.openChat(shopperId, fullName);
+    });
 
     // Used after click submit, update the grocery ticket for the users
     function assholes6155() {
