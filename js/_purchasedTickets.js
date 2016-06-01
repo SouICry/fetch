@@ -9,7 +9,7 @@ var test_data = {
 };
 
 (function () {
-    var sync;
+    var sync = -99999;
     loader._purchasedTickets = {
         version: 0,
         getData: function () { //NOT SURE WHAT TO SEND -JEN
@@ -86,40 +86,43 @@ var test_data = {
                 ticketId: loader.ticketId
             })
         });
+        if (sync == -99999) {
+            sync = setInterval(function () {
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    dataType: "json",
+                    url: "/checkConfirm",
+                    data: JSON.stringify({
+                        ticketId: loader.ticketId
+                    }),
+                    success: function (data) {
+                        if (data == "true") {
+                            var info_to_send = {};
+                            info_to_send.ticketId = loader.ticketId;
+                            //alert(info_to_send.ticketId);
+                            info_to_send.type = 'send';
+                            clearInterval(sync);
+                            sync = -99999;
+                            $("#purchasedTickets_submit_list").removeClass("disabled");
+                            $.ajax({
+                                type: "POST",
+                                url: "/_purchasedTickets",
+                                data: info_to_send,
+                                success: function (data) {
 
-        sync = setInterval(function(){
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                dataType: "json",
-                url: "/checkConfirm",
-                data: JSON.stringify({
-                    ticketId: loader.ticketId
-                }),
-                success: function(data){
-                    if (data == "true"){
-                        var info_to_send = {};
-                        info_to_send.ticketId = loader.ticketId;
-                        //alert(info_to_send.ticketId);
-                        info_to_send.type = 'send';
-                        clearInterval(sync);
-                        $.ajax({
-                            type: "POST",
-                            url: "/_purchasedTickets",
-                            data: info_to_send,
-                            success: function (data) {
-
-                                //alert('success!!!!!');
-                            },
-                            error: function (data) {
-                                //data is the object send back on fail (could also just be string)
-                            }
-                        });
-                        goToPage("/_rateUser");
+                                    //alert('success!!!!!');
+                                },
+                                error: function (data) {
+                                    //data is the object send back on fail (could also just be string)
+                                }
+                            });
+                            goToPage("/_rateUser");
+                        }
                     }
-                }
-            });
-        }, 500);
+                });
+            }, 500);
+        }
 
     }
 
