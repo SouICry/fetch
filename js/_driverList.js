@@ -34,13 +34,18 @@ var driver__test_data = {
             array = data.items;
             var name = data.full_name;
             driverList_shopperid = data.shopper_id;
+<<<<<<< HEAD
+=======
+            //alert(driverList_shopperid);
+            //alert(name);
+>>>>>>> fe53b330b93575970a4df33956db5c90d0c41e1e
             loader.shopperid = data.shopper_id;
             loader.shopperFullName = data.full_name;
             
             //create the contact info(where should I got this, is there a flied relates to contact?
             document.getElementById("listName_driverList").innerHTML = name + "'s Shopping List";
             document.getElementById("phone").innerHTML = "Phone: " + data.contact;
-            $("#driver_note").text("Special Note: " + data.special_note);
+            $("#driver_note").text("Special Note: " + data.special_notes);
 
             for (var i = 0; i < array.length; i++) {
                 // item count

@@ -1,4 +1,4 @@
-#rateDriver{
+#accSetting{
 
   .ratingSize{
 
@@ -10,10 +10,10 @@
 
   .userIcon{
     position: relative;
-    height: 300px;
+    height: 442px;
   }
 
-  #rateDriver-image-content{
+  #user-image-content{
     width:100%;
     position: absolute;
     top:50%;
@@ -25,14 +25,14 @@
     margin:8%;
   }
 
-  #rateDriver-content{
+  #rateUser-content{
     position: relative;
     height:200px;
     margin-top:8%;
 
     @media screen and (max-width:991px){
       margin-top:0;
-      height:175px;
+      height:135px;
 
     }
   }
@@ -40,7 +40,7 @@
     font-size:35px;
   }
 
-  #rateDriver-img{
+  #accSettingAbove-img{
     height:55%;
     width:55%;
     padding:1px;
@@ -51,10 +51,8 @@
       height: 250px;
       width: 250px;
       margin:20px;
-      border:solid 2px grey;
 
     }
 
   }
-
 }
