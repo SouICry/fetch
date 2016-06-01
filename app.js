@@ -171,7 +171,7 @@ app.post("/_shopping", function (req, res) {
     var list = req.body.list;
     var checkout = req.body.checkout;
     //TODO initialize verion in login, init, sign up
-    if(!masters.hasOwnProperty(userId) || masters[userId].shoppingVersion == 'undefined'){
+    if (!masters.hasOwnProperty(userId) || masters[userId].shoppingVersion == 'undefined') {
         res.send("");
     }
     else if (masters[userId].shoppingVersion < req.body.shoppingVersion) {
@@ -379,14 +379,14 @@ app.post('/savePhoto', function (req, res) {
     var buf = new Buffer(data, 'base64');
     //noinspection JSUnresolvedFunction
     if (req.session.userId === 'undefined')
-        fs.writeFile('images/profiles/image.png', buf, function(err) {
-            if(err)
+        fs.writeFile('images/profiles/image.png', buf, function (err) {
+            if (err)
                 throw err;
             console.log("Photo saved");
         });
     else
-        fs.writeFile('images/profiles/' + req.session.userId + '.png', buf, function(err) {
-            if(err)
+        fs.writeFile('images/profiles/' + req.session.userId + '.png', buf, function (err) {
+            if (err)
                 throw err;
             console.log("Photo saved");
         });
@@ -1067,7 +1067,7 @@ app.post('/init', function (req, res) {
                     }));
                 }
             });
-       
+
     }
     else {
         res.setHeader('Content-Type', 'application/json');
@@ -1589,7 +1589,7 @@ app.post('/_purchasedTickets', function (req, res, next) {
     }
     else {
         // Driver's delivery list ticket updated to purchased status
-        db.collection('users').findOne({_id: userId}, function(err, user) {
+        db.collection('users').findOne({_id: userId}, function (err, user) {
             if (err) {
                 console.log('Error: ' + err);
                 res.status(500);
@@ -1629,7 +1629,7 @@ app.post('/_purchasedTickets', function (req, res, next) {
                         $pull: {'delivery_list': {_id: ticketId}},
                         $push: {'delivery_history': ticketToRemove}
                     },
-                    function(err) {
+                    function (err) {
                         if (err) {
                             console.log('Error: ' + err);
                             res.status(500);
@@ -1646,7 +1646,7 @@ app.post('/_purchasedTickets', function (req, res, next) {
                                     $pull: {'grocery_list': {_id: ticketId}},
                                     $push: {'user_history': ticketToRemove}
                                 },
-                                function(err) {
+                                function (err) {
                                     if (err) {
                                         console.log('Error: ' + err);
                                         res.status(500);
@@ -1767,80 +1767,93 @@ app.post('/_viewTicket', function (req, res) {
     }
     else {
         // Update the shopper's ticket in the db
-        db.collection('users').update(
-            {
-                'grocery_list._id': ticketId
-            },
-            {
-                $set: {
-                    'grocery_list.$.state': 'accepted'
-                }
-            }, function (err) {
-                if (err) {
-                    console.log('Error: ' + err);
-                    res.status(500);
-                    res.send('');
-                }
-                else {
-                    // Get the user that we just modified
-                    db.collection('users').findOne({'grocery_list._id': ticketId}, function (err, user) {
-                        if (err) {
-                            console.log('error');
-                            res.status(500);
-                            res.send('');
+        db.collection('users').findOne({_Id: userId}, function (err, driver) {
+            if (err) {
+                console.log('Error: ' + err);
+                res.status(500);
+                res.send('');
+            }
+            else {
+
+                db.collection('users').update(
+                    {
+                        'grocery_list._id': ticketId
+                    },
+                    {
+                        $set: {
+                            'grocery_list.$.state': 'accepted',
+                            'grocery_list.$.driver._id': driver._Id,
+                            'grocery_list.$.driver.full_name': driver.full_name,
+                            'grocery_list.&.driver.phone_number': driver.phone_number
                         }
-                        else if (!user) {
-                            console.log('In _viewTicket: could not find user with corresponding ticketId: ' + ticketId);
+                    }, function (err) {
+                        if (err) {
+                            console.log('Error: ' + err);
                             res.status(500);
                             res.send('');
                         }
                         else {
-                            var ticketToSend = null;
-
-                            for (var i = 0; i < user.grocery_list.length; i++) {
-                                if (user.grocery_list[i]._id == ticketId) {
-                                    ticketToSend = user.grocery_list[i];
-                                    break;
-                                }
-                            }
-
-                            if (ticketToSend == null) {
-                                console.log('In _viewTicket: could not find user with corresponding ticketId: ' + ticketId);
-                                res.status(500);
-                                res.send('');
-                                return;
-                            }
-
-                            console.log('Updated ticket state: ' + ticketToSend.state);
-                            ticketToSend.driver._id = userId;
-                            ticketToSend.driver.full_name = user.full_name;
-                            ticketToSend.driver.phone_number = user.phone_number;
-
-                            // Update the driver's db to have the ticket in delivery_list
-                            db.collection('users').update({_id: userId}, {$push: {'delivery_list': ticketToSend}}, function (err) {
+                            // Get the user that we just modified
+                            db.collection('users').findOne({'grocery_list._id': ticketId}, function (err, shopper) {
                                 if (err) {
                                     console.log('error');
                                     res.status(500);
                                     res.send('');
                                 }
+                                else if (!shopper) {
+                                    console.log('In _viewTicket: could not find user with corresponding ticketId: ' + ticketId);
+                                    res.status(500);
+                                    res.send('');
+                                }
                                 else {
-                                    db.collection('grocery_queue').remove({_id: ticketId}, function (err) {
+                                    var ticketToSend = null;
+
+                                    for (var i = 0; i < shopper.grocery_list.length; i++) {
+                                        if (shopper.grocery_list[i]._id == ticketId) {
+                                            ticketToSend = shopper.grocery_list[i];
+                                            break;
+                                        }
+                                    }
+
+                                    if (ticketToSend == null) {
+                                        console.log('In _viewTicket: could not find user with corresponding ticketId: ' + ticketId);
+                                        res.status(500);
+                                        res.send('');
+                                        return;
+                                    }
+
+                                    // console.log('Updated ticket state: ' + ticketToSend.state);
+                                    // ticketToSend.driver._id = userId;
+                                    // ticketToSend.driver.full_name = user.full_name;
+                                    // ticketToSend.driver.phone_number = user.phone_number;
+
+                                    // Update the driver's db to have the ticket in delivery_list
+                                    db.collection('users').update({_id: userId}, {$push: {'delivery_list': ticketToSend}}, function (err) {
                                         if (err) {
-                                            console.log('In _viewTicket: could not remove ticket from queue: ' + ticketId);
+                                            console.log('error');
                                             res.status(500);
                                             res.send('');
-                                            return;
                                         }
+                                        else {
+                                            db.collection('grocery_queue').remove({_id: ticketId}, function (err) {
+                                                if (err) {
+                                                    console.log('In _viewTicket: could not remove ticket from queue: ' + ticketId);
+                                                    res.status(500);
+                                                    res.send('');
+                                                    return;
+                                                }
 
-                                        console.log('Successfully removed ticket from queue with id: ' + ticketId);
+                                                console.log('Successfully removed ticket from queue with id: ' + ticketId);
+                                            });
+                                        }
                                     });
                                 }
                             });
                         }
-                    });
-                }
+                    }
+                );
             }
-        );
+        });
     }
 });
 
@@ -1848,253 +1861,47 @@ app.post('/_viewTicket', function (req, res) {
 
 
 // --------------------------- PURCHASED TICKETS ----------------------------
-app.post('/_loadPurchasedTickets', function(req, res) {
+        app.post('/_loadPurchasedTickets', function (req, res) {
 
-    var ticketId = req.body.ticketId;
-    var object = {};
+            var ticketId = req.body.ticketId;
+            var object = {};
 
-    console.log('LOADING ACCOUNT...ticketId = ' + ticketId);
-    db.collection('users').findOne({"grocery_list._id": ticketId},
-        function (err, user) {
-            if (err) {
-                console.log('Error in : ' + err);
-                res.status(500);
-                res.send('');
-                return;
-            }
-            if (user == null) {
-                console.log('Could not find user with ticket ' + ticketId + ' in _shoppingStatus');
-                res.status(500);
-                res.send('');
-            }
-            else {
-                var ticket = null;
-
-                for (var i = 0; i < user.grocery_list.length; i++) {
-                    if (user.grocery_list[i]._id == ticketId) {
-                        ticket = user.grocery_list[i];
-                        break;
-                    }
-                }
-
-                if (!ticket) {
-                    console.log('Error: could not find ticket in loadPurchasedTicket');
-                    res.status(500);
-                    res.send('');
-                    return;
-                }
-
-                //console.log(JSON.stringify(ticket));
-                object.full_name = ticket.shopper.full_name;
-                object.phone = ticket.shopper.phone_number;
-                object.shopperId = ticket.shopper._id;
-                object.items = ticket.shopping_list;
-                object.special_note = ticket.special_options;
-                object.time = ticket.available_time;
-                object.shopping_location = ticket.geolocation;
-
-                res.setHeader('Content-Type', 'application/json');
-                res.send(JSON.stringify(object));
-            }
-        });
-});
-
-
-
-
-
-
-
-
-
-// ---------------------------- TICKETS/QUEUE -------------------------------
-// Queue page
-app.post('/_tickets', function (req, res) {
-    var userId = req.session.userId;
-
-    if (!userId) {
-        console.log('In _tickets: userId is null');
-        res.status(500);
-        res.send('');
-    }
-    else {
-        db.collection('grocery_queue').find().toArray(function (err, docs) {
-            if (err) {
-                console.log('Error in _tickets: ' + err);
-                res.status(500);
-                res.send('');
-            }
-
-            res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify(docs));
-        });
-    }
-});
-// --------------------------------------------------------------------------
-
-
-//------------------------------ PAYMENT ------------------------------------
-app.get('/complete-payment', function (req, res) {
-    var userId = req.query.user;
-    console.log(userId);
-    //
-    var gticket = masters[userId].ticket;
-    
-    for (var i = 0; i < gticket.shopping_list.length; i++) {
-        console.log(gticket.shopping_list[i]);
-    }
-    console.log('GTICKET = ' + JSON.stringify(gticket));
-    // Check that empty list was not sent
-    if (gticket.shopping_list.length == 0) {
-        console.log('Grocery ticket submitted has no items');
-        res.status(500);
-        res.send('');
-        return;
-    }
-
-
-    // Update user to hold grocery list submitted
-    db.collection('users').updateOne({_id: userId}, {$push: {'grocery_list': gticket}},
-        function (err) {
-            if (err) {
-                console.log('error updating user grocery list: ' + err);
-                res.status(500);
-                //res.setHeader('Content-Type', 'application/json');
-                res.send('');
-            }
-            else {
-                // If grocery list successfully added to user's grocery list, add list to queue
-                db.collection('grocery_queue').insert(gticket, function (err) {
+            console.log('LOADING ACCOUNT...ticketId = ' + ticketId);
+            db.collection('users').findOne({"grocery_list._id": ticketId},
+                function (err, user) {
                     if (err) {
-                        console.log('error adding list to queue: ' + err);
+                        console.log('Error in : ' + err);
                         res.status(500);
-                        //res.setHeader('Content-Type', 'application/json');
                         res.send('');
+                        return;
                     }
-                    else {
-                        res.redirect('/submittedRedirect.html');
-                    }
-                });
-            }
-        }
-    );
-});
-
-app.get('/cancel-payment', function (req, res) {
-    var userId = req.query.user;
-    res.redirect('/cancelRedirect.html');
-});
-
-
-
-
-//---------------------------- Cancel Ticket ----------------------------------
-
-app.post('/_cancelTicket', function (req, res) {
-    var ticketId = req.body.ticketId;
-    var object = {};
-    if (ticketId == null) {
-        res.status(500);
-        console.log('ERROR IS HERE');
-        console.log(ticketId);
-        res.setHeader('Content-Type', 'application/json');
-        res.send({message: 'no ticket ID!'});
-    }
-
-    else if(req.body.type == 'cancel') {
-        db.collection('users').updateOne({'grocery_list._id': ticketId},
-            {
-                $set: {
-                    state: 'cancelled'
-                }
-            }, 
-            function(err) {
-                if (err) {
-                    console.log('In _cancelTicket: could not update ticket to cancelled: ' + ticketId);
-                    res.status(500);
-                    res.send('');
-                    return;
-                }
-            }
-
-        );
-        db.collection('grocery_queue').remove({_id: ticketId}, function (err) {
-            if (err) {
-                console.log('In _cancelTicket: could not remove ticket from queue: ' + ticketId);
-                res.status(500);
-                res.send('');
-                return;
-            }
-
-            console.log('Successfully removed ticket from queue with id: ' + ticketId);
-        });
-    }
-    else {
-        console.log('LOADING ACCOUNT');
-        db.collection('users').findOne({"grocery_list._id": ticketId},
-            function (err, ticket) {
-                if (err) {
-                    console.log('Error in : ' + err);
-                    res.status(500);
-                    res.setHeader('Content-Type', 'application/json');
-                    res.send({message: 'cannot access collection to find ticket '});
-                    return;
-                }
-                if (ticket == null) {
-                    console.log('Could not find user with ticket ' + ticketId + ' in _shoppingStatus');
-                    console.log(JSON.stringify(ticket));
-                    res.status(500);
-                    res.send('');
-                }
-                else {
-                    //console.log(JSON.stringify(ticket));
-                    object.items = ticket.shopping_list;
-                    object.special_note = ticket.special_options;
-                    object.calendar = ticket.available_time;
-                    object.shopping_location = ticket.geolocation;
-
-                    res.setHeader('Content-Type', 'application/json');
-                    res.send(JSON.stringify(object));
-                }
-            });
-    }
-});
-
-
-//---------------------------- shopping status ---------------------------------
-app.post('/_shoppingStatus', function(req,res) {
-    var ticketId = req.body.ticketId;
-    var object = {};
-    if (ticketId == null) {
-        res.status(420);
-        console.log('ERROR IS HERE');
-        console.log(ticketId);
-        res.setHeader('Content-Type', 'application/json');
-        res.send({message: 'no user logged in'});
-    }
-    else {
-        console.log('LOADING ACCOUNT');
-        db.collection('users').findOne({'grocery_list._id': ticketId},
-            function (err, ticket) {
-                if (err) {
-                    console.log('Error in : ' + err);
-                    res.status(500);
-                    res.setHeader('Content-Type', 'application/json');
-                    res.send({message: 'cannot access collection to find ticket '});
-                    return;
-                }
-                else {
-                    if (ticket == null) {
+                    if (user == null) {
                         console.log('Could not find user with ticket ' + ticketId + ' in _shoppingStatus');
-                        console.log(JSON.stringify(ticket));
                         res.status(500);
                         res.send('');
                     }
                     else {
+                        var ticket = null;
+
+                        for (var i = 0; i < user.grocery_list.length; i++) {
+                            if (user.grocery_list[i]._id == ticketId) {
+                                ticket = user.grocery_list[i];
+                                break;
+                            }
+                        }
+
+                        if (!ticket) {
+                            console.log('Error: could not find ticket in loadPurchasedTicket');
+                            res.status(500);
+                            res.send('');
+                            return;
+                        }
+
                         //console.log(JSON.stringify(ticket));
+                        object.full_name = ticket.shopper.full_name;
+                        object.phone = ticket.shopper.phone_number;
+                        object.shopperId = ticket.shopper._id;
                         object.items = ticket.shopping_list;
-                        object.driverId = ticket.driver._id;
-                        object.driver_full_name = ticket.driver.full_name;
                         object.special_note = ticket.special_options;
                         object.time = ticket.available_time;
                         object.shopping_location = ticket.geolocation;
@@ -2102,147 +1909,373 @@ app.post('/_shoppingStatus', function(req,res) {
                         res.setHeader('Content-Type', 'application/json');
                         res.send(JSON.stringify(object));
                     }
-                }
-            }
-        );
-    }
-});
-
-//---------------------------- Price and Receipt Photo ------------------------
-app.post('/_receiptPictureEnterPrice', function (req, res) {
-    //send price and receipt to the database
-    var price = req.body.price;
-    var ticketId = req.body.ticket;
-    //update shopper's grocery list
-    db.collection('users').updateOne({'grocery_list._id': ticketId},
-        {
-            $set: {
-                price: price
-            }
-        },
-        function (err) {
-            if (err) return err;
-        }
-    );
-
-    var img = (req.body.image);
-    var data = img.replace(/^data:image\/\w+;base64,/, "");
-
-    var buf = new Buffer(data, 'base64');
-    //noinspection JSUnresolvedFunction
-    if (req.session.userId === 'undefined')
-        fs.writeFile('images/receipts/image.png', buf, function(err) {
-            if (err)
-                throw err;
-            console.log("Photo saved");
-        });
-    else
-        fs.writeFile('images/receipts/' + ticketId + '.png', buf, function(err) {
-            if (err)
-                throw err;
-            console.log("Photo saved");
+                });
         });
 
-    console.log("Photo Saved: " + data.substring(0, 10));
-    /*fs.writeFile("images/profiles/" + req.session.userId + ".png", req.body.image,"base64", function (err, data ) {
-     if (err) {
-     return console.log("Error");
-     }
-     console.log("Photo saved. Success!");}
-     );*/
-    res.send("");
 
-});
+// ---------------------------- TICKETS/QUEUE -------------------------------
+// Queue page
+        app.post('/_tickets', function (req, res) {
+            var userId = req.session.userId;
 
-
-//-------------------------- Contact -----------------------------------
-app.post('/_contact', function (req, res) {
-    var Transport = nodemailer.createTransport({
-        service: 'Gmail',
-        auth: {
-            user: 'fetchtestuser',
-            pass: 'insanelycreatives'
-        }
-    });
-    var mailOptions = {
-        to: 'allen@fetchgrocery.com',
-        from: 'fetchtestuser@gmail.com',
-        subject: 'User Contact from ' + req.body.email + ', ' + req.body.name,
-        text: req.body.comment
-    };
-    console.log('Sending Mail');
-    Transport.sendMail(mailOptions, function (err, info) {
-        if (err) {
-            console.log('Error occurred');
-            console.log(err.message);
-            res.status(500);
-            return;
-        }
-    });
-});
-
-
-//------------------------------ MAP --------------------------------------------
-app.post('/_map', function (req, res) {
-    if (!req.body) {
-        console.log('geoloc was not sent');
-        res.status(500);
-        return;
-    }
-    var lat = req.body.lat;
-    var lng = req.body.lng;
-
-    var ticketId = req.body.ticket;
-
-    db.collection('users').updateOne({'grocery_list._id': ticketId},
-        {
-            $set: {
-                'geolocation.lng': lng,
-                'geolocation.lat': lat
-            }
-        },
-        function (err) {
-            if (err) return err;
-        }
-    );
-});
-
-app.post('/_driverMap', function (req, res) {
-    var geolocation = {};
-    db.collection('users').findOne({'grocery_list._id': ticketId},
-        function (err, ticket) {
-            if (err) {
-                console.log('Error in accSetting: ' + err);
+            if (!userId) {
+                console.log('In _tickets: userId is null');
                 res.status(500);
-                res.setHeader('Content-Type', 'application/json');
-                res.send({message: 'cannot access collection to find user '})
-                return;
+                res.send('');
             }
-            //console.log('user = ' + JSON.stringify(user));
-            if (ticket == null) {
-                console.log('Could not find user with userId ' + userId + ' in _accSetting');
-                console.log(JSON.stringify(ticket));
+            else {
+                db.collection('grocery_queue').find().toArray(function (err, docs) {
+                    if (err) {
+                        console.log('Error in _tickets: ' + err);
+                        res.status(500);
+                        res.send('');
+                    }
+
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send(JSON.stringify(docs));
+                });
+            }
+        });
+// --------------------------------------------------------------------------
+
+
+//------------------------------ PAYMENT ------------------------------------
+        app.get('/complete-payment', function (req, res) {
+            var userId = req.query.user;
+            console.log(userId);
+            //
+            var gticket = masters[userId].ticket;
+
+            for (var i = 0; i < gticket.shopping_list.length; i++) {
+                console.log(gticket.shopping_list[i]);
+            }
+            console.log('GTICKET = ' + JSON.stringify(gticket));
+            // Check that empty list was not sent
+            if (gticket.shopping_list.length == 0) {
+                console.log('Grocery ticket submitted has no items');
                 res.status(500);
                 res.send('');
                 return;
             }
-            else {
-                geolocation.lat = ticket.geolocation.lat;
-                geolocation.lng = ticket.geolocation.lng;
+
+
+            // Update user to hold grocery list submitted
+            db.collection('users').updateOne({_id: userId}, {$push: {'grocery_list': gticket}},
+                function (err) {
+                    if (err) {
+                        console.log('error updating user grocery list: ' + err);
+                        res.status(500);
+                        //res.setHeader('Content-Type', 'application/json');
+                        res.send('');
+                    }
+                    else {
+                        // If grocery list successfully added to user's grocery list, add list to queue
+                        db.collection('grocery_queue').insert(gticket, function (err) {
+                            if (err) {
+                                console.log('error adding list to queue: ' + err);
+                                res.status(500);
+                                //res.setHeader('Content-Type', 'application/json');
+                                res.send('');
+                            }
+                            else {
+                                res.redirect('/submittedRedirect.html');
+                            }
+                        });
+                    }
+                }
+            );
+        });
+
+        app.get('/cancel-payment', function (req, res) {
+            var userId = req.query.user;
+            res.redirect('/cancelRedirect.html');
+        });
+
+
+//---------------------------- Cancel Ticket ----------------------------------
+
+        app.post('/_cancelTicket', function (req, res) {
+            var ticketId = req.body.ticketId;
+            var object = {};
+            if (ticketId == null) {
+                res.status(500);
+                console.log('ERROR IS HERE');
+                console.log(ticketId);
                 res.setHeader('Content-Type', 'application/json');
-                res.send(JSON.stringify(geolocation));
+                res.send({message: 'no ticket ID!'});
             }
-        }
-    );
-});
+
+            else if (req.body.type == 'cancel') {
+                db.collection('users').updateOne({'grocery_list._id': ticketId},
+                    {
+                        $set: {
+                            'grocery_list.$.state': 'cancelled'
+                        }
+                    },
+                    function (err) {
+                        if (err) {
+                            console.log('In _cancelTicket: could not update ticket to cancelled: ' + ticketId);
+                            res.status(500);
+                            res.send('');
+                            return;
+                        }
+                    }
+                );
+                db.collection('grocery_queue').remove({_id: ticketId}, function (err) {
+                    if (err) {
+                        console.log('In _cancelTicket: could not remove ticket from queue: ' + ticketId);
+                        res.status(500);
+                        res.send('');
+                        return;
+                    }
+
+                    console.log('Successfully removed ticket from queue with id: ' + ticketId);
+                });
+            }
+            else {
+                console.log('LOADING ACCOUNT');
+                db.collection('users').findOne({"grocery_list._id": ticketId},
+                    function (err, user) {
+                        if (err) {
+                            console.log('Error in : ' + err);
+                            res.status(500);
+                            res.setHeader('Content-Type', 'application/json');
+                            res.send({message: 'cannot access collection to find ticket '});
+                            return;
+                        }
+                        if (user == null) {
+                            console.log('Could not find user with ticket ' + ticketId + ' in _shoppingStatus');
+                            console.log(JSON.stringify(ticket));
+                            res.status(500);
+                            res.send('');
+                        }
+                        else {
+                            var ticket = null;
+
+                            for (var i = 0; i < user.grocery_list.length; i++) {
+                                if (user.grocery_list[i]._id == ticketId) {
+                                    ticket = user.grocery_list[i];
+                                    break;
+                                }
+                            }
+
+                            if (!ticket) {
+                                console.log('Error: could not find ticket in loadPurchasedTicket');
+                                res.status(500);
+                                res.send('');
+                                return;
+                            }
+                            //console.log(JSON.stringify(ticket));
+                            object.items = ticket.shopping_list;
+                            object.special_note = ticket.special_options;
+                            object.calendar = ticket.available_time;
+                            object.shopping_location = ticket.geolocation;
+
+                            res.setHeader('Content-Type', 'application/json');
+                            res.send(JSON.stringify(object));
+                        }
+                    });
+            }
+        });
 
 
-MongoClient.connect(mongodb_url, function (err, database) {
-    if (err)
-        throw err;
-    mongoose.connect(mongodb_url);
-    db = database;
-});
+//---------------------------- shopping status ---------------------------------
+        app.post('/_shoppingStatus', function (req, res) {
+            var ticketId = req.body.ticketId;
+            var object = {};
+            if (ticketId == null) {
+                res.status(420);
+                console.log('ERROR IS HERE');
+                console.log(ticketId);
+                res.setHeader('Content-Type', 'application/json');
+                res.send({message: 'no user logged in'});
+            }
+            else {
+                console.log('LOADING ACCOUNT');
+                db.collection('users').findOne({'grocery_list._id': ticketId},
+                    function (err, user) {
+                        if (err) {
+                            console.log('Error in : ' + err);
+                            res.status(500);
+                            res.setHeader('Content-Type', 'application/json');
+                            res.send({message: 'cannot access collection to find ticket '});
+                            return;
+                        }
+                        else {
+                            if (user == null) {
+                                console.log('Could not find user with ticket ' + ticketId + ' in _shoppingStatus');
+                                console.log(JSON.stringify(user));
+                                res.status(500);
+                                res.send('');
+                            }
+                            else {
+                                var ticket = null;
+
+                                for (var i = 0; i < user.grocery_list.length; i++) {
+                                    if (user.grocery_list[i]._id == ticketId) {
+                                        ticket = user.grocery_list[i];
+                                        break;
+                                    }
+                                }
+
+                                if (!ticket) {
+                                    console.log('Error: could not find ticket in loadPurchasedTicket');
+                                    res.status(500);
+                                    res.send('');
+                                    return;
+                                }
+                                //console.log(JSON.stringify(ticket));
+                                object.items = ticket.shopping_list;
+                                object.driverId = ticket.driver._id;
+                                object.driver_full_name = ticket.driver.full_name;
+                                object.special_note = ticket.special_options;
+                                object.time = ticket.available_time;
+                                object.shopping_location = ticket.geolocation;
+
+                                res.setHeader('Content-Type', 'application/json');
+                                res.send(JSON.stringify(object));
+                            }
+                        }
+                    }
+                );
+            }
+        });
+
+//---------------------------- Price and Receipt Photo ------------------------
+        app.post('/_receiptPictureEnterPrice', function (req, res) {
+            //send price and receipt to the database
+            var price = req.body.price;
+            var ticketId = req.body.ticket;
+            //update shopper's grocery list
+            db.collection('users').updateOne({'grocery_list._id': ticketId},
+                {
+                    $set: {
+                        price: price
+                    }
+                },
+                function (err) {
+                    if (err) return err;
+                }
+            );
+
+            var img = (req.body.image);
+            var data = img.replace(/^data:image\/\w+;base64,/, "");
+
+            var buf = new Buffer(data, 'base64');
+            //noinspection JSUnresolvedFunction
+            if (req.session.userId === 'undefined')
+                fs.writeFile('images/receipts/image.png', buf, function (err) {
+                    if (err)
+                        throw err;
+                    console.log("Photo saved");
+                });
+            else
+                fs.writeFile('images/receipts/' + ticketId + '.png', buf, function (err) {
+                    if (err)
+                        throw err;
+                    console.log("Photo saved");
+                });
+
+            console.log("Photo Saved: " + data.substring(0, 10));
+            /*fs.writeFile("images/profiles/" + req.session.userId + ".png", req.body.image,"base64", function (err, data ) {
+             if (err) {
+             return console.log("Error");
+             }
+             console.log("Photo saved. Success!");}
+             );*/
+            res.send("");
+
+        });
+
+
+//-------------------------- Contact -----------------------------------
+        app.post('/_contact', function (req, res) {
+            var Transport = nodemailer.createTransport({
+                service: 'Gmail',
+                auth: {
+                    user: 'fetchtestuser',
+                    pass: 'insanelycreatives'
+                }
+            });
+            var mailOptions = {
+                to: 'allen@fetchgrocery.com',
+                from: 'fetchtestuser@gmail.com',
+                subject: 'User Contact from ' + req.body.email + ', ' + req.body.name,
+                text: req.body.comment
+            };
+            console.log('Sending Mail');
+            Transport.sendMail(mailOptions, function (err, info) {
+                if (err) {
+                    console.log('Error occurred');
+                    console.log(err.message);
+                    res.status(500);
+                    return;
+                }
+            });
+        });
+
+
+//------------------------------ MAP --------------------------------------------
+        app.post('/_map', function (req, res) {
+            if (!req.body) {
+                console.log('geoloc was not sent');
+                res.status(500);
+                return;
+            }
+            var lat = req.body.lat;
+            var lng = req.body.lng;
+
+            var ticketId = req.body.ticket;
+
+            db.collection('users').updateOne({'grocery_list._id': ticketId},
+                {
+                    $set: {
+                        'geolocation.lng': lng,
+                        'geolocation.lat': lat
+                    }
+                },
+                function (err) {
+                    if (err) return err;
+                }
+            );
+        });
+
+        app.post('/_driverMap', function (req, res) {
+            var geolocation = {};
+            db.collection('users').findOne({'grocery_list._id': ticketId},
+                function (err, ticket) {
+                    if (err) {
+                        console.log('Error in accSetting: ' + err);
+                        res.status(500);
+                        res.setHeader('Content-Type', 'application/json');
+                        res.send({message: 'cannot access collection to find user '})
+                        return;
+                    }
+                    //console.log('user = ' + JSON.stringify(user));
+                    if (ticket == null) {
+                        console.log('Could not find user with userId ' + userId + ' in _accSetting');
+                        console.log(JSON.stringify(ticket));
+                        res.status(500);
+                        res.send('');
+                        return;
+                    }
+                    else {
+                        geolocation.lat = ticket.geolocation.lat;
+                        geolocation.lng = ticket.geolocation.lng;
+                        res.setHeader('Content-Type', 'application/json');
+                        res.send(JSON.stringify(geolocation));
+                    }
+                }
+            );
+        });
+
+
+        MongoClient.connect(mongodb_url, function (err, database) {
+            if (err)
+                throw err;
+            mongoose.connect(mongodb_url);
+            db = database;
+        });
 
 //SSL REPLACE BELOW SERVER
 // httpApp.get('*', function(req, res){
@@ -2257,10 +2290,10 @@ MongoClient.connect(mongodb_url, function (err, database) {
 //     console.log("Example app listening at http://%s:%s", host, port)
 // });
 
-var server = app.listen(3000, function () {
-    var host = server.address().address;
-    var port = server.address().port;
-    console.log("Example app listening at http://%s:%s", host, port)
-});
+        var server = app.listen(3000, function () {
+            var host = server.address().address;
+            var port = server.address().port;
+            console.log("Example app listening at http://%s:%s", host, port)
+        });
 
 // -------------------------------------------------------------
