@@ -10,8 +10,8 @@
             $("#listName").text(" ");
             $("#_viewTicket ul").html("");
             $("#viewTicketCalendar").text("");
-            loader.loadMap("viewTicketMap",{lat:32, lng:-150});
-            $("#viewTicketCalendar").append(loader.parseCalendar(data.calendar));
+            loader.loadMap("viewTicketMap",data.geolocation);
+            $("#viewTicketCalendar").append(loader.parseCalendar(data.available_time));
 
             var array = data.shopping_list;
             var separatedNames = data.shopper.full_name;

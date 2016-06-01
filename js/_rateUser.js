@@ -7,9 +7,8 @@
             $("#user-name_rateUser").html("");
             $('#rateUser-img').src = "/placeholder/person4.png";
 
-            document.getElementById("user-name_rateUser").innerHTML =  data.user_full_name;
-
-            console.log("Loading");
+            document.getElementById("user-name_rateUser").innerHTML = "Shopper name: " + data.user_full_name;
+            
             var imageSrc = "images/profiles/" + data.userId + ".png";
 
             if (imageSrc !== null) {
@@ -20,6 +19,7 @@
             if(UrlExists('images/profiles/' + loader.userId + '.png')) {
                 document.getElementById("rateUser-img").src = 'images/profiles/' + loader.userId + '.png';
             }
+            document.getElementById("user-name_rateUser").innerHTML = "Shopper name:" + loader.shopperFullName;
         }
     };
 

@@ -6,9 +6,9 @@
         loadData: function (data) {
             var drImage = $('#rateDriver-img');
             $("#driver-name_rateDriver").html("");
-            drImage.data('src', "/placeholder/person.png");
+            drImage.data('src', "/placeholder/person4.png");
             
-            document.getElementById("driver-name_rateUser").innerHTML =  data.driver_full_name;
+            document.getElementById("driver-name_rateUser").innerHTML = "Driver Name: " + data.driver_full_name;
             driverId = data.driverId;
             var imageSrc = "images/profiles/" + data.driverId + ".png";
 

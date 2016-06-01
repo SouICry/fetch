@@ -12,7 +12,7 @@
     height: 100%;
     overflow: hidden;
     margin: 0 10px 0 0;
-    background-color: orange;
+    background-color: #ffdb99;
     pointer-events: auto;
     transform: translateY(0);
     float: right;
@@ -85,7 +85,7 @@
       margin: 10px 0 0 0;
       div {
         float: right;
-        background-color: orange;
+        background-color: #ffdb99;
       }
     }
     .theirs {
@@ -96,7 +96,7 @@
       margin: 10px 0 0 0;
       div {
         float: left;
-        background-color: cornflowerblue;
+        background-color: lavender;
       }
     }
   }
