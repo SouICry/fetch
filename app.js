@@ -1774,7 +1774,6 @@ app.post('/_viewTicket', function (req, res) {
                 res.send('');
             }
             else {
-
                 db.collection('users').update(
                     {
                         'grocery_list._id': ticketId
@@ -1784,7 +1783,7 @@ app.post('/_viewTicket', function (req, res) {
                             'grocery_list.$.state': 'accepted',
                             'grocery_list.$.driver._id': driver._id,
                             'grocery_list.$.driver.full_name': driver.full_name,
-                            'grocery_list.&.driver.phone_number': driver.phone_number
+                            'grocery_list.$.driver.phone_number': driver.phone_number
                         }
                     }, function (err) {
                         if (err) {
