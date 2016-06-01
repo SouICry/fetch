@@ -34,15 +34,15 @@ app.use(passport.session());
 app.use(express.static(__dirname));
 
 //SSL
-// var https = require('https');
-// var http = require('http');
-// var httpApp = express();
-// var fs = require('fs');
-// var options = {
-//     key: fs.readFileSync('/etc/letsencrypt/live/fetchgrocery.com/privkey.pem'),
-//     cert: fs.readFileSync('/etc/letsencrypt/live/fetchgrocery.com/fullchain.pem'),
-//     ca: fs.readFileSync('/etc/letsencrypt/live/fetchgrocery.com/chain.pem')
-// }
+var https = require('https');
+var http = require('http');
+var httpApp = express();
+var fs = require('fs');
+var options = {
+    key: fs.readFileSync('/etc/letsencrypt/live/fetchgrocery.com/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/fetchgrocery.com/fullchain.pem'),
+    ca: fs.readFileSync('/etc/letsencrypt/live/fetchgrocery.com/chain.pem')
+}
 
 
 var masters = {};
@@ -407,7 +407,7 @@ app.post('/saveChatImage',function(req,res){
     //console.log(req.body);
     var img = (req.body.image);
     var data = img.replace(/^data:image\/\w+;base64,/, "");
-
+    console.log("Chat image");
     var buf = new Buffer(data, 'base64');
     fs.writeFile('images/chat/' + req.body.name, buf, function (err) {
         if (err)
@@ -2380,22 +2380,22 @@ MongoClient.connect(mongodb_url, function (err, database) {
 });
 
 //SSL REPLACE BELOW SERVER
-// httpApp.get('*', function(req, res){
-//     res.redirect('https://fetchgrocery.com' + req.url);
-// });
-//
-// http.createServer(httpApp).listen(80);
-//
-// var server = https.createServer(options, app).listen(443, function () {
-//     var host = server.address().address;
-//     var port = server.address().port;
-//     console.log("Example app listening at http://%s:%s", host, port)
-// });
+httpApp.get('*', function(req, res){
+    res.redirect('https://fetchgrocery.com' + req.url);
+});
 
-var server = app.listen(3000, function () {
+http.createServer(httpApp).listen(80);
+
+var server = https.createServer(options, app).listen(443, function () {
     var host = server.address().address;
     var port = server.address().port;
     console.log("Example app listening at http://%s:%s", host, port)
 });
+
+// var server = app.listen(3000, function () {
+//     var host = server.address().address;
+//     var port = server.address().port;
+//     console.log("Example app listening at http://%s:%s", host, port)
+// });
 
 // -------------------------------------------------------------
