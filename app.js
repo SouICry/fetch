@@ -402,6 +402,19 @@ app.post('/savePhoto', function (req, res) {
     res.send("");
 });
 
+//Uploads chat image
+app.post('/saveChatImage',function(req,res){
+    var image = req.body.image;
+    //console.log(req.body);
+    fs.writeFile('images/chat/' + req.body.name, image, 'base64', function (err) {
+        if (err)
+            throw err;
+        console.log("Chat image saved");
+    });
+
+    res.send("");
+});
+
 // Serialize user for storing to session
 // Saved to req.session.passport.user
 passport.serializeUser(function (user, done) {

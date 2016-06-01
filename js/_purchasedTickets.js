@@ -9,6 +9,7 @@ var test_data = {
 };
 
 (function () {
+    var shopperId;
     var sync = -99999;
     loader._purchasedTickets = {
         version: 0,
@@ -18,9 +19,14 @@ var test_data = {
             return packData;
         },
         onPageLoad: function () {
+
+            if(UrlExists('images/profiles/' + shopperId + '.png')) {
+                document.getElementById("purchasedTickets-img").src = 'images/profiles/' + shopperId + '.png';
+            }
             assholes666();
         },
         loadData: function (data) {
+            shopperId = data.shopperId;
             //populate driver list
             $("#listName_purchasedTickets").text(" ");
             $("#phone_purchasedTickets").text(" ");
