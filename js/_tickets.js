@@ -8,7 +8,7 @@
         version: 0,
         onPageLoad: function () {
             getQueueTickets();
-            interval = setInterval(getQueueTickets, 5000);
+            //interval = setInterval(getQueueTickets, 5000);
         },
         onPageLeave: function(){
             //clearInterval(interval);

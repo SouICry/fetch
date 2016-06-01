@@ -75,11 +75,35 @@
         }
     };
 
-    var status;
     $("#confirm_button").click(function(){
-        status = "completed";
-        //goToPage("_congratsTicketClosed");
-        goToPage("_rateDriver");  //Trivi added
+        $(this).addClass('disabled');
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            url: "/userConfirm",
+            data: JSON.stringify({
+                ticketId: loader.ticketId
+            })
+        });
+
+        sync = setInterval(function(){
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                url: "/checkConfirm",
+                data: JSON.stringify({
+                    ticketId: loader.ticketId
+                }),
+                success: function(data){
+                    if (data == "true"){
+                        clearInterval(sync);
+                        goToPage("/_rateDriver");
+                    }
+                }
+            });
+        }, 500);
     });
 
 })();/**
