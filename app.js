@@ -1899,7 +1899,7 @@ app.post('/_loadPurchasedTickets', function (req, res) {
                 object.shopperId = ticket.shopper._id;
                 object.items = ticket.shopping_list;
                 object.special_note = ticket.special_options;
-                object.time = ticket.available_time;
+                object.calendar = ticket.available_time;
                 object.shopping_location = ticket.geolocation;
 
                 res.setHeader('Content-Type', 'application/json');
