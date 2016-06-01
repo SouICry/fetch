@@ -2062,7 +2062,7 @@ app.get('/cancel-payment', function (req, res) {
 //---------------------------- Cancel Ticket ----------------------------------
 
 app.post('/_cancelTicket', function (req, res) {
-    var ticketId = req.body.ticket;
+    var ticketId = req.body.ticketId;
     var object = {};
     if (ticketId == null) {
         res.status(500);
