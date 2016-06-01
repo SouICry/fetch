@@ -1458,7 +1458,7 @@ app.post('/_checkout', function (req, res, next) {
             // May not use start/end time
             available_time_start: req.body.options.checkout_range1,
             available_time_end: req.body.options.checkout_range2,
-            available_time: 'req.body.available_time',
+            available_time: req.body.available_time,
             state: 'pending',
             price: '',
             geolocation: {

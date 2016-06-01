@@ -31,8 +31,8 @@
             numItems.html("");
             $("#confirmTicket_total_price").html("");
             $("#confirmTicket_receipt").html("");
-            loader.loadMap("confirmTicket_Map", {lat: 32, lng: -150});
-            //$("#confirmTicketCalendar").append(loader.parseCalendar(data.calendar));
+            $("confirmTicketCalendar").html("");
+            loader.loadMap("confirmTicket_Map",{lat:32, lng:-150});
 
             status = data.status;
             var array = data.items;
@@ -53,6 +53,8 @@
             document.getElementById("confirmTicket_total_price").innerHTML = "Total Price including the service fee: $" + (data.price * 1.15).toFixed(2);
             document.getElementById("confirmTicket_img").src = "images/profiles/" + data.driverId + ".png";
             $("#confirmTicket_location").text("Delivery Location: ");
+            $("#confirmTicketCalendar").append(loader.parseCalendar(data.calendar));
+
             //  $("#confirmTicket_Calendar").append(data.time);
 
             for (var i = 0; i < array.length; i++) {
