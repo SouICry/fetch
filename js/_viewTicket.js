@@ -9,6 +9,10 @@
             var numItems = $("#_viewTicket_numItems");
             $("#listName").text(" ");
             $("#_viewTicket ul").html("");
+            $("#viewTicketCalendar").text("");
+            loader.loadMap("viewTicketMap",{lat:32, lng:-150});
+            $("#viewTicketCalendar").append(loader.parseCalendar(data.calendar));
+
             var array = data.shopping_list;
             var separatedNames = data.shopper.full_name;
             
@@ -26,10 +30,10 @@
                 $('#_viewTicket_list').prepend(newItem);
 
                 if (count == 1) {
-                    $(numItems).text("1 item left");
+                    $(numItems).text("1 item");
                 }
                 else {
-                    $(numItems).text(count + " items left");
+                    $(numItems).text(count + " items");
                 }
 
                 if (count != 0) {
@@ -46,6 +50,10 @@
     
     $('#_viewTicket_submit_list').click(function () {
         assholes39();
+        goToPage("_yourDeliveries");
+    });
+
+    $('#viewTicket-back').click(function(){
         goToPage("_yourDeliveries");
     });
 
