@@ -957,6 +957,7 @@ app.post('/chat', function (req, res) {
         masters[req.body.userIdToChat].chat[userId].messages.push("<div class='theirs'><div>" + req.body.message + "</div></div>");
     }
 
+    
     res.send("");
 });
 

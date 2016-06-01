@@ -104,6 +104,7 @@
                 ticketId: loader.ticketId
             })
         });
+        
         if (sync == -99999) {
             sync = setInterval(function () {
                 $.ajax({

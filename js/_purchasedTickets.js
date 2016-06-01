@@ -112,6 +112,7 @@ var test_data = {
                     }),
                     success: function (data) {
                         console.log(data);
+                        
                         if (data == true) {
                             goToPage("_rateUser");
                             //loader.goToPage("/_rateUser");
