@@ -453,6 +453,7 @@ app.post('/_signUp', function (req, res, next) {
                         req.session.userId = userId;
                         if (!masters.hasOwnProperty(userId)) {
                             masters[userId] = {
+                                full_name: "",
                                 isDriver: false,
                                 isLoggedIn: true,
                                 userId: userId,
@@ -460,6 +461,8 @@ app.post('/_signUp', function (req, res, next) {
                                 chat: {
                                     messages: []
                                 },
+                                finalConfirmed: false,
+                                isConfirmed: false,
                                 shoppingVersion: 0,
                                 checkoutVersion: 0,
                                 currentPage: ""
@@ -470,7 +473,7 @@ app.post('/_signUp', function (req, res, next) {
                                         console.log('Error in accSetting: ' + err);
                                         res.status(500);
                                         res.setHeader('Content-Type', 'application/json');
-                                        res.send({message: 'cannot access collection to find user '})
+                                        res.send({message: 'cannot access collection to find user '});
                                         return;
                                     }
                                     //console.log('user = ' + JSON.stringify(user));
@@ -558,6 +561,8 @@ app.post('/_login', function (req, res, next) {
                     chat: {
                         messages: []
                     },
+                    finalConfirmed: false,
+                    isConfirmed: false,
                     shoppingVersion: 0,
                     checkoutVersion: 0,
                     currentPage: ""
@@ -568,7 +573,7 @@ app.post('/_login', function (req, res, next) {
                             console.log('Error in accSetting: ' + err);
                             res.status(500);
                             res.setHeader('Content-Type', 'application/json');
-                            res.send({message: 'cannot access collection to find user '})
+                            res.send({message: 'cannot access collection to find user '});
                             return;
                         }
                         //console.log('user = ' + JSON.stringify(user));
@@ -580,7 +585,7 @@ app.post('/_login', function (req, res, next) {
                             return;
                         }
                         if (user.full_name == null) {
-                            console.log('Could not find users fullname in _accSetting');
+                            console.log('Could not find users fullname in _login');
                             res.status(500);
                             res.send('');
                             return;
@@ -590,6 +595,7 @@ app.post('/_login', function (req, res, next) {
                             masters[userId].full_name = user.full_name;
                         }
                     });
+                console.log("full name is ", masters[userId].full_name);
                 masters[userId].userId = userId;
 
                 console.log(userId);
@@ -614,6 +620,7 @@ app.post('/_login', function (req, res, next) {
                     isDriver: masters[userId].isDriver
                 }));
             }
+            console.log(masters[userId].full_name);
             console.log('successful login');
             // // If everything was successful, send user back to frontend
             // res.send(user);
@@ -904,7 +911,7 @@ app.post('/switchRole', function (req, res) {
 app.post('/chat', function (req, res) {
     var userId = req.session.userId;
 
-    if (!masters[userId].chat.hasOwnProperty(req.body.userIdToChat)) {
+    if (!masters[userId].chat.hasOwnProperty(req.body.userIdToChat)){
         masters[userId].chat[req.body.userIdToChat] = {
             messages: []
         };
@@ -998,12 +1005,14 @@ app.post('/getUpdates', function (req, res, next) {
                 isLoggedIn: masters[userId].isLoggedIn,
                 isDriver: masters[userId].isDriver,
                 chat: chat,
+                finalConfirmed: masters[userId].finalConfirmed,
                 notification: notificationToSendBack
 
             }));
         } else {
             res.send(JSON.stringify({
                 isInactive: req.body.isInactive,
+                finalConfirmed: masters[userId].finalConfirmed,
                 chat: chat,
                 notification: notificationToSendBack
 
@@ -1035,6 +1044,8 @@ app.post('/init', function (req, res) {
             chat: {
                 messages: []
             },
+            isConfirmed: false,
+            finalConfirmed: false,
             shoppingVersion: 0,
             checkoutVersion: 0,
             currentPage: "_homePage"
@@ -1999,7 +2010,7 @@ app.get('/cancel-payment', function (req, res) {
 //---------------------------- Cancel Ticket ----------------------------------
 
 app.post('/_cancelTicket', function (req, res) {
-    var ticketId = req.body.ticketId;
+    var ticketId = req.body.ticket;
     var object = {};
     if (ticketId == null) {
         res.status(500);
@@ -2273,6 +2284,35 @@ app.post('/_driverMap', function (req, res) {
         }
     );
 });
+masters.ticketId = {};
+app.post('/userConfirm', function(req, res ){
+
+    if(req.body.ticketId ) {
+        if (!masters.ticketId.hasOwnProperty(req.body.ticketId)) {
+            masters.ticketId[req.body.ticketId] = {
+                userId: req.session.userId,
+                done: false
+            };
+            //masters.ticketId = req.body.ticketId;
+        }
+
+        else if (masters.ticketId[req.body.ticketId].userId != req.session.userId) {
+            masters.ticketId[req.body.ticketId].done = true;
+        }
+    }
+    res.send("");
+});
+
+app.post('/checkConfirm', function(req, res){
+    if(masters.ticketId.hasOwnProperty(req.body.ticketId)) {
+        if (masters.ticketId[req.body.ticketId].done == true) {
+            res.send("true");
+        }
+    }
+    else
+        res.send("");
+});
+
 
 
 MongoClient.connect(mongodb_url, function (err, database) {

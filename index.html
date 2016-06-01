@@ -374,6 +374,44 @@
                 }
             });
         },
+//        userConfirm: function(){
+//            $.ajax({
+//                type: "POST",
+//                contentType: "application/json",
+//                dataType: "json",
+//                url: "/userConfirm",
+//                data: JSON.stringify({
+//                   // userId: loader.userId,
+//                     ticketId: loader._driverList.data
+//                    //isConfirmed: true
+//                })
+////                success: function(data){
+////                    loader.isDriver = data.isDriver;
+////                }
+//            });
+//        },
+//        checkConfirm: function( ) {
+//            $.ajax({
+//                type: "POST",
+//                contentType: "application/json",
+//                dataType: "json",
+//                url: "/checkConfirm",
+//                data: JSON.stringify({
+//                    ticketId: loader.ticketId
+//
+//                }),
+//                success: function (data) {
+//                    if (data.finalConfirmed && loader.isDriver)
+//                        goToPage("_rateUser");
+//                    if (data.finalConfirmed && !loader.isDriver)
+//                        goToPage("_rateDriver");
+//
+//                }
+//            })
+//        },
+
+
+
 
         currentPageChanged: null,
         addNotification: function (notification) {
