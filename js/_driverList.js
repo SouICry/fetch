@@ -34,8 +34,6 @@ var driver__test_data = {
             array = data.items;
             var name = data.full_name;
             driverList_shopperid = data.shopper_id;
-            alert(driverList_shopperid);
-            alert(name);
             loader.shopperid = data.shopper_id;
             loader.shopperFullName = data.full_name;
             
