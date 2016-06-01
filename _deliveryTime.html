@@ -356,7 +356,7 @@
                     row += "<td data-date='" + (month < 10 ? "0" + month : month) + "" +  (date < 10 ? "0" + date : date) + "'>" + months[month] + " " + date + "</td>";
                 }
 
-                $("#select-delivery-time").find(".calendar-head").append(row);
+                $("#select-delivery-time").find(".calendar-head").html("").append(row);
             },
             getData: function () {
                 var dat = "";

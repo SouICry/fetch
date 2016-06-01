@@ -47,7 +47,7 @@
             else
                 document.getElementById("confirmTicket_img").src = 'placeholder/person4.png';
             //show the driver name and create the profile pic
-            document.getElementById("confirmTicket_driverName").innerHTML = "Driver Name: " + separatedNames;
+            document.getElementById("confirmTicket_driverName").innerHTML = "Driver: " + separatedNames;
 
             if (UrlExists('images/receipts/' + driverId + '.png'))
                 document.getElementById("confirmTicket_receipt").src = 'images/receipts/' + driverId + '.png';
@@ -67,7 +67,6 @@
             // document.getElementById("confirmTicket_total_price").innerHTML = "Total Price including the service fee: $" + (data.price * 1.10).toFixed(2);
             //document.getElementById("confirmTicket_img").src = "images/profiles/" + data.driverId + ".png";
             console.log(JSON.stringify(data.calendar));
-            $("#confirmTicket_location").text("Delivery Location: ");
             $("#confirmTicket_Calendar").append(loader.parseCalendar(data.calendar));
 
             //  $("#confirmTicket_Calendar").append(data.time);
