@@ -466,7 +466,7 @@
         getUpdates: function () {
 
             //Only update if not active
-            if (loader.isLoggedIn && loader.userId.length > 1) {
+            if (loader.isLoggedIn && loader.userId.length > 0) {
                 //keep updating no matter what
                 if (loader.currentPage == "_shopping" || loader.currentPage == "_checkout") {
                     loader.updateShopping();
@@ -582,19 +582,18 @@
                 }
 
             }
-
             window.setInterval(loader.getUpdates, 501);
 
 
         },
         logout: function () {
             document.cookie = "user=" + loader.userId + ";expires=" + new Date(0).toUTCString();
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                dataType: "json",
-                url: "/logout"
-            });
+//            $.ajax({
+//                type: "POST",
+//                contentType: "application/json",
+//                dataType: "json",
+//                url: "/logout"
+//            });
             window.location.reload();
         },
         switchToDriver: function () {
@@ -707,6 +706,7 @@
                     userId: loader.userId
                 },
                 success: function (data) {
+
                     //If invalid, clear cookie and reload
                     if (data.userId == "") {
                         document.cookie = "user=" + data.userId + ";expires=" + new Date(0).toUTCString();
@@ -766,6 +766,7 @@
                             }
                         }
                     }
+
                     window.setInterval(loader.getUpdates, 501);
                 }
             });
