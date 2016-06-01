@@ -330,7 +330,7 @@
                 var arr = dat.body;
                 var i = 0;
                 $(cal).find("tbody td").each(function () {
-                    if (arr[i++]) {
+                    if (arr[i++] == "1") {
                         $(this).addClass('highlighted');
                     }
                 });
@@ -355,15 +355,15 @@
             getData: function () {
                 var dat = {
                     head: $('#select-delivery-time  .calendar-head').html(),
-                    body: []
+                    body: ""
                 };
 
                 $('#select-delivery-time tbody td').each(function () {
                     if ($(this).hasClass('highlighted')) {
-                        dat.body.push(1);
+                        dat.body += "1";
                     }
                     else {
-                        dat.body.push(0);
+                        dat.body += "0";
                     }
                 });
 
