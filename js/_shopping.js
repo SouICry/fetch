@@ -1,11 +1,13 @@
 (function () {
     loader._shopping = {
        // data: "none",
-        data: ["greenEggs", "ham"],
+        data: null,
         version: 0,
         // TODO: clear everything in the queue then reload the tickets
         onPageLoad: function() {
             // TODO: get rid of onpageload here. do this after submission of ticket
+            alert(loader._shopping.data);
+            loader._shopping.loadData(loader._shopping.data);
         },//Must be 0 
         getData: function () { //must be null if not needed 
             return list_shopping;
@@ -17,9 +19,11 @@
                 $("#footerInfo").hide();
             }
 
+            //loader._shopping.data = data;
+
             shopping_count = 0;
-            list_shopping.splice(0, list_shopping.length);
-            $("#shopping_list").html("");
+           // list_shopping.splice(0, list_shopping.length);
+           // $("#shopping_list").html("");
             $("#shoppingCheckListItem").val("");
 
             for (var i = 0; i < data.length; i++) {
@@ -55,6 +59,7 @@
     $("#shopping_submit_list").hide();
     $('#shopping_submit_list').click(function () {
         if (list_shopping.length > 0) {
+            loader._shopping.data = list_shopping;
             goToPage("_deliveryTime");
         }
     });

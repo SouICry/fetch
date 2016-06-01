@@ -9,7 +9,8 @@ var test_data = {
 };
 
 (function () {
-    var sync;
+    var shopperId;
+    var sync = -99999;
     loader._purchasedTickets = {
         version: 0,
         getData: function () { //NOT SURE WHAT TO SEND -JEN
@@ -18,15 +19,21 @@ var test_data = {
             return packData;
         },
         onPageLoad: function () {
+
+            if(UrlExists('images/profiles/' + shopperId + '.png')) {
+                document.getElementById("purchasedTickets-img").src = 'images/profiles/' + shopperId + '.png';
+            }
             assholes666();
         },
         loadData: function (data) {
+            shopperId = data.shopperId;
             //populate driver list
             $("#listName_purchasedTickets").text(" ");
             $("#phone_purchasedTickets").text(" ");
             $("#_purchasedTickets ul").html("");
             $("#purchasedTickets_numItems").text(" ");
             $("#purchasedTickets_note").val(" ");
+            $("#purchasedTicketsCalendar").html("");
 
             fullName = data.full_name;
             array = data.items;
@@ -37,8 +44,11 @@ var test_data = {
             document.getElementById("phone_purchasedTickets").innerHTML = "Phone: " + data.phone_number;
             $("#purchasedTickets_note").val(data.special_note).siblings().addClass("active");
             document.getElementById("purchasedTickets-img").src = "images/profiles/" + data.shopperId + ".png";
-            $("#purchasedTickets_location").text("Delivery Location: " + data.shopping_location);
-            $("#purchasedTicketsCalendar").append(data.time);
+            $("#purchasedTickets_location").text("Delivery Location: ");
+            $("#purchasedTicketsCalendar").append(loader.parseCalendar(data.calendar));
+            loader.loadMap("purchasedTicketsMap",data.shopping_location);
+
+            // $("#purchasedTicketsCalendar").append(data.time);
 
             for (var i = 0; i < array.length; i++) {
                 // item count
@@ -67,8 +77,12 @@ var test_data = {
     var array = [];
 
     $("#purchasedTickets_submit_list").click(function () {
-        confirm("Are you sure you want to close the ticket?");
+        $(this).addClass('disabled');
+
         assholes6155();
+        if(result) {
+            goToPage("_rateUser");
+        }
     });
 
     $("#purchasedTickets-back").click(function() {
@@ -77,23 +91,57 @@ var test_data = {
 
     // Used after click submit, update the grocery ticket for the users
     function assholes6155() {
-        var info_to_send = {};
-        info_to_send.ticketId = loader.ticketId;
-        //alert(info_to_send.ticketId);
-        info_to_send.type = 'send';
-
         $.ajax({
             type: "POST",
-            url: "/_purchasedTickets",
-            data: info_to_send,
-            success: function (data) {
-                goToPage("_confirmCompletion");
-                //alert('success!!!!!');
-            },
-            error: function (data) {
-                //data is the object send back on fail (could also just be string)
-            }
+            contentType: "application/json",
+            dataType: "json",
+            url: "/userConfirm",
+            data: JSON.stringify({
+                ticketId: loader.ticketId
+            })
         });
+        if (sync == -99999) {
+            sync = setInterval(function () {
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    dataType: "json",
+                    url: "/checkConfirm",
+                    data: JSON.stringify({
+                        ticketId: loader.ticketId
+                    }),
+                    success: function (data) {
+                        console.log(data);
+                        
+                        if (data == true) {
+                            goToPage("_rateUser");
+                            //loader.goToPage("/_rateUser");
+                            var info_to_send = {};
+                            info_to_send.ticketId = loader.ticketId;
+                            //alert(info_to_send.ticketId);
+                            info_to_send.type = 'send';
+                            clearInterval(sync);
+                            sync = -99999;
+                            $("#purchasedTickets_submit_list").removeClass("disabled");
+                            $.ajax({
+                                type: "POST",
+                                url: "/_purchasedTickets",
+                                data: info_to_send,
+                                success: function (data) {
+
+                                    //alert('success!!!!!');
+                                },
+                                error: function (data) {
+                                    //data is the object send back on fail (could also just be string)
+                                }
+                            });
+                            goToPage("_rateUser");
+                        }
+                    }
+                });
+            }, 500);
+        }
+
     }
 
     // Used to get data from db

@@ -1,4 +1,5 @@
 (function () {
+    var driverId;
     loader._shoppingStatus = {
         data: {driver_full_name: "Bob Yay",
                driverId: "firstpartofemail",
@@ -6,7 +7,7 @@
                items: ["aa","bb","cc","dd"],
                special_note: "cheap",
                //time: "<table class='calendar calendar0'> <thead> <tr class='calendar-head'  cellpadding='0' cellspacing='0'> </tr> </thead> </table> <table class='calendar calendar1' cellpadding='0' cellspacing='0'> <tbody> <tr><td>6</td> <td>6</td> <td>6</td> <td>6</td> <td>6</td> <td>6</td> <td>6</td> </tr> <tr> <td>7</td> <td>7</td> <td>7</td> <td>7</td> <td>7</td> <td>7</td> <td>7</td> </tr> <tr> <td>8</td> <td>8</td> <td>8</td> <td>8</td> <td>8</td> <td>8</td> <td>8</td> </tr> <tr> <td>9</td> <td>9</td> <td>9</td> <td>9</td> <td>9</td> <td>9</td> <td>9</td> </tr> <tr> <td>10</td> <td>10</td> <td>10</td> <td>10</td> <td>10</td> <td>10</td> <td>10</td> </tr> <tr> <td>11</td> <td>11</td> <td>11</td> <td>11</td> <td>11</td> <td>11</td> <td>11</td> </tr> </tbody> </table> <table class='calendar calendar2'> <tbody> <tr> <td>12</td> <td>12</td> <td>12</td> <td>12</td> <td>12</td> <td>12</td> <td>12</td> </tr> <tr> <td>1</td> <td>1</td> <td>1</td> <td>1</td> <td>1</td> <td>1</td> <td>1</td> </tr> <tr> <td>2</td> <td>2</td> <td>2</td> <td>2</td> <td>2</td> <td>2</td> <td>2</td> </tr> <tr> <td>3</td> <td>3</td> <td>3</td> <td>3</td> <td>3</td> <td>3</td> <td>3</td> </tr> <tr> <td>4</td> <td>4</td> <td>4</td> <td>4</td> <td>4</td> <td>4</td> <td>4</td> </tr> <tr> <td>5</td> <td>5</td> <td>5</td> <td>5</td> <td>5</td> <td>5</td> </tr> </tbody> </table> <table class='calendar calendar3'> <tbody> <tr> <td>6</td> <td>6</td> <td>6</td> <td>6</td> <td>6</td> <td>6</td> <td>6</td> </tr> <tr> <td>7</td> <td>7</td> <td>7</td> <td>7</td> <td>7</td> <td>7</td> <td>7</td> </tr> <tr> <td>8</td> <td>8</td> <td>8</td> <td>8</td> <td>8</td> <td>8</td> <td>8</td> </tr> <tr> <td>9</td> <td>9</td> <td>9</td> <td>9</td> <td>9</td> <td>9</td> </tr> <tr> <td>10</td> <td>10</td> <td>10</td> <td>10</td> <td>10</td> <td>10</td> <td>10</td> </tr> <tr> <td>11</td> <td>11</td> <td>11</td> <td>11</td> <td>11</td> <td>11</td> <td>11</td> </tr> </tbody> </table> <table class='calendar calendar4'> <tbody> <tr> <td>12</td> <td>12</td> <td>12</td> <td>12</td> <td>12</td> <td>12</td> <td>12</td> </tr> <tr> <td>1</td> <td>1</td> <td>1</td> <td>1</td> <td>1</td> <td>1</td> <td>1</td> </tr> <tr> <td>2</td> <td>2</td> <td>2</td> <td>2</td> <td>2</td> <td>2</td> <td>2</td> </tr> <tr> <td>3</td> <td>3</td> <td>3</td> <td>3</td> <td>3</td> <td>3</td> <td>3</td> </tr> <tr> <td>4</td> <td>4</td> <td>4</td> <td>4</td> <td>4</td> <td>4</td> <td>4</td> </tr> <tr> <td>5</td> <td>5</td> <td>5</td> <td>5</td> <td>5</td> <td>5</td> <td>5</td> </tr> </tbody> </table>"
-               calender: loader._deliveryTime.getData()
+               calender: ""
         },
         version: 0, //Must be 0 
         getData: function () {
@@ -19,12 +20,16 @@
             return packedData;
         },
         loadData: function (data) {
+            driverId = data.driverId;
+            
             if (data == "none" || data.length == 0) {
                 data = [];
             }
 
             else {
-                //$("#shoppingStatusCalendar").append(loader.parseCalendar(data.calendar));
+
+                $("#shoppingStatusCalendar").text("");
+                $("#shoppingStatusCalendar").append(loader.parseCalendar(data.calendar));
                 loader.loadMap("shoppingStatusMap",data.shopping_location);
                 $("#_shoppingStatus_numItems").text("");
                 $("#listName_shoppingStatus").text("");
@@ -39,7 +44,7 @@
                 //create the contact info(where should I got this, is there a flied relates to contact?
 
 
-                var name = data.driverId
+                var name = data.driverId;
                 if(UrlExists('images/profiles/' + name + '.png'))
                     document.getElementById("shoppingStatus-img").src = 'images/profiles/' + name + '.png';
                 else
@@ -47,7 +52,9 @@
                 //document.getElementById("shoppingStatus-img").src = "images/profiles/" + data.driverId + ".png";
                 document.getElementById("listName_shoppingStatus").innerHTML = data.driver_full_name + " took your ticket";
                 document.getElementById("shoppingstatus_note").innerHTML = "Special Notes: " + data.special_note;
-                $("#shoppingstatus_location").text("Delivery Location: " + data.shopping_location);
+                $("#shoppingstatus_location").text("Delivery Location: ");
+                //$("#shoppingStatusCalendar").append(loader.parseCalendar(loader._deliveryTime.getData()));
+
                 //$("#shoppingStatusCalendar").append(data.time);
 
                 for (var i = 0; i < array.length; i++) {
@@ -79,12 +86,18 @@
             }
         },
         onPageLoad: function() {
+            if(UrlExists('images/profiles/' + driverId + '.png'))
+                document.getElementById("shoppingStatus-img").src = 'images/profiles/' + driverId + '.png';
+            else
+                document.getElementById("shoppingStatus-img").src = 'placeholder/person4.png';
+
+
             loadShoppingStatus();
         }
     };
 
     $('#shoppingStatus_list_btn').click(function () {
-        goToPage("_history");
+        goToPage("__history");
     });
 
 })();

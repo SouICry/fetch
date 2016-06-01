@@ -402,6 +402,19 @@ app.post('/savePhoto', function (req, res) {
     res.send("");
 });
 
+//Uploads chat image
+app.post('/saveChatImage',function(req,res){
+    var image = req.body.image;
+    //console.log(req.body);
+    fs.writeFile('images/chat/' + req.body.name, image, 'base64', function (err) {
+        if (err)
+            throw err;
+        console.log("Chat image saved");
+    });
+
+    res.send("");
+});
+
 // Serialize user for storing to session
 // Saved to req.session.passport.user
 passport.serializeUser(function (user, done) {
@@ -453,6 +466,7 @@ app.post('/_signUp', function (req, res, next) {
                         req.session.userId = userId;
                         if (!masters.hasOwnProperty(userId)) {
                             masters[userId] = {
+                                full_name: "",
                                 isDriver: false,
                                 isLoggedIn: true,
                                 userId: userId,
@@ -460,6 +474,8 @@ app.post('/_signUp', function (req, res, next) {
                                 chat: {
                                     messages: []
                                 },
+                                finalConfirmed: false,
+                                isConfirmed: false,
                                 shoppingVersion: 0,
                                 checkoutVersion: 0,
                                 currentPage: ""
@@ -470,7 +486,7 @@ app.post('/_signUp', function (req, res, next) {
                                         console.log('Error in accSetting: ' + err);
                                         res.status(500);
                                         res.setHeader('Content-Type', 'application/json');
-                                        res.send({message: 'cannot access collection to find user '})
+                                        res.send({message: 'cannot access collection to find user '});
                                         return;
                                     }
                                     //console.log('user = ' + JSON.stringify(user));
@@ -558,6 +574,8 @@ app.post('/_login', function (req, res, next) {
                     chat: {
                         messages: []
                     },
+                    finalConfirmed: false,
+                    isConfirmed: false,
                     shoppingVersion: 0,
                     checkoutVersion: 0,
                     currentPage: ""
@@ -568,7 +586,7 @@ app.post('/_login', function (req, res, next) {
                             console.log('Error in accSetting: ' + err);
                             res.status(500);
                             res.setHeader('Content-Type', 'application/json');
-                            res.send({message: 'cannot access collection to find user '})
+                            res.send({message: 'cannot access collection to find user '});
                             return;
                         }
                         //console.log('user = ' + JSON.stringify(user));
@@ -580,7 +598,7 @@ app.post('/_login', function (req, res, next) {
                             return;
                         }
                         if (user.full_name == null) {
-                            console.log('Could not find users fullname in _accSetting');
+                            console.log('Could not find users fullname in _login');
                             res.status(500);
                             res.send('');
                             return;
@@ -590,6 +608,7 @@ app.post('/_login', function (req, res, next) {
                             masters[userId].full_name = user.full_name;
                         }
                     });
+                console.log("full name is ", masters[userId].full_name);
                 masters[userId].userId = userId;
 
                 console.log(userId);
@@ -614,6 +633,7 @@ app.post('/_login', function (req, res, next) {
                     isDriver: masters[userId].isDriver
                 }));
             }
+            console.log(masters[userId].full_name);
             console.log('successful login');
             // // If everything was successful, send user back to frontend
             // res.send(user);
@@ -904,7 +924,7 @@ app.post('/switchRole', function (req, res) {
 app.post('/chat', function (req, res) {
     var userId = req.session.userId;
 
-    if (!masters[userId].chat.hasOwnProperty(req.body.userIdToChat)) {
+    if (!masters[userId].chat.hasOwnProperty(req.body.userIdToChat)){
         masters[userId].chat[req.body.userIdToChat] = {
             messages: []
         };
@@ -937,6 +957,7 @@ app.post('/chat', function (req, res) {
         masters[req.body.userIdToChat].chat[userId].messages.push("<div class='theirs'><div>" + req.body.message + "</div></div>");
     }
 
+    
     res.send("");
 });
 
@@ -998,12 +1019,14 @@ app.post('/getUpdates', function (req, res, next) {
                 isLoggedIn: masters[userId].isLoggedIn,
                 isDriver: masters[userId].isDriver,
                 chat: chat,
+                finalConfirmed: masters[userId].finalConfirmed,
                 notification: notificationToSendBack
 
             }));
         } else {
             res.send(JSON.stringify({
                 isInactive: req.body.isInactive,
+                finalConfirmed: masters[userId].finalConfirmed,
                 chat: chat,
                 notification: notificationToSendBack
 
@@ -1035,6 +1058,8 @@ app.post('/init', function (req, res) {
             chat: {
                 messages: []
             },
+            isConfirmed: false,
+            finalConfirmed: false,
             shoppingVersion: 0,
             checkoutVersion: 0,
             currentPage: "_homePage"
@@ -1447,7 +1472,7 @@ app.post('/_checkout', function (req, res, next) {
             // May not use start/end time
             available_time_start: req.body.options.checkout_range1,
             available_time_end: req.body.options.checkout_range2,
-            available_time: "req.body.available_time",
+            available_time: req.body.available_time,
             state: 'pending',
             price: '',
             geolocation: {
@@ -1504,10 +1529,11 @@ app.post('/driverListUpdate', function (req, res) {
                 else {
                     res.setHeader('Content-Type', 'application/json');
                     res.send(JSON.stringify({
+                        _id: user.grocery_list[i].shopper._id,
                         full_name: user.grocery_list[i].shopper.full_name,
                         items: user.grocery_list[i].shopping_list,
                         contact: user.phone_number,
-                        special_notes: user.grocery_list[i].special_notes
+                        special_notes: user.grocery_list[i].special_options
                     }));
                 }
             }
@@ -1529,17 +1555,13 @@ app.post('/_driverList', function (req, res, next) {
         //res.send(object);
 
         // Driver's delivery list ticket updated to purchased status
-        db.collection('users').update({
+        db.collection('users').updateOne({
                 'delivery_list._id': ticketId
             },
             {
                 $set: {
                     'delivery_list.$.state': 'purchased'
                 }
-            },
-            {
-                multi: true
-
             }, function (err) {
                 if (err) {
                     console.log('Error in _driverList: ' + err);
@@ -1548,17 +1570,13 @@ app.post('/_driverList', function (req, res, next) {
                 }
                 else {
                     // Shopper's grocery list ticket updated to purchased status
-                    db.collection('users').update({
+                    db.collection('users').updateOne({
                             'grocery_list._id': ticketId
                         },
                         {
                             $set: {
                                 'grocery_list.$.state': 'purchased'
                             }
-                        },
-                        {
-                            multi: true
-
                         }, function (err) {
 
                             if (err) {
@@ -1666,7 +1684,7 @@ app.post('/_purchasedTickets', function (req, res, next) {
         });
 
         console.log('Successfully updated tickets in user db in purchasedTickets');
-        res.send('');
+        //res.send('');
     }
 });
 
@@ -1907,7 +1925,7 @@ app.post('/_loadPurchasedTickets', function (req, res) {
                 object.shopperId = ticket.shopper._id;
                 object.items = ticket.shopping_list;
                 object.special_note = ticket.special_options;
-                object.time = ticket.available_time;
+                object.calendar = ticket.available_time;
                 object.shopping_location = ticket.geolocation;
 
                 res.setHeader('Content-Type', 'application/json');
@@ -1999,7 +2017,7 @@ app.get('/cancel-payment', function (req, res) {
 //---------------------------- Cancel Ticket ----------------------------------
 
 app.post('/_cancelTicket', function (req, res) {
-    var ticketId = req.body.ticketId;
+    var ticketId = req.body.ticket;
     var object = {};
     if (ticketId == null) {
         res.status(500);
@@ -2049,7 +2067,7 @@ app.post('/_cancelTicket', function (req, res) {
                 }
                 if (user == null) {
                     console.log('Could not find user with ticket ' + ticketId + ' in _shoppingStatus');
-                    console.log(JSON.stringify(ticket));
+                    console.log(JSON.stringify(user));
                     res.status(500);
                     res.send('');
                 }
@@ -2134,7 +2152,7 @@ app.post('/_shoppingStatus', function (req, res) {
                         object.driverId = ticket.driver._id;
                         object.driver_full_name = ticket.driver.full_name;
                         object.special_note = ticket.special_options;
-                        object.time = ticket.available_time;
+                        object.calendar = ticket.available_time;
                         object.shopping_location = ticket.geolocation;
 
                         res.setHeader('Content-Type', 'application/json');
@@ -2273,6 +2291,40 @@ app.post('/_driverMap', function (req, res) {
         }
     );
 });
+masters.ticketId = {};
+app.post('/userConfirm', function(req, res ){
+    console.log("ticketId in userConfirm is", req.body.ticketId);
+    if(req.body.ticketId ) {
+        if (!masters.ticketId.hasOwnProperty(req.body.ticketId)) {
+            masters.ticketId[req.body.ticketId] = {
+                userId: req.session.userId,
+                done: false
+            };
+            //masters.ticketId = req.body.ticketId;
+        }
+
+        else if (masters.ticketId[req.body.ticketId].userId != req.session.userId) {
+            masters.ticketId[req.body.ticketId].done = true;
+        }
+    }
+    console.log("Ticket status in user Confirm",masters.ticketId[req.body.ticketId]);
+    res.send("");
+});
+
+app.post('/checkConfirm', function(req, res){
+    console.log("Ticket status in check confirm",masters.ticketId[req.body.ticketId]);
+    if(masters.ticketId.hasOwnProperty(req.body.ticketId)) {
+        if (masters.ticketId[req.body.ticketId].done == true) {
+            console.log("it go into here");
+            res.send("true");
+        }
+    }
+    else {
+        console.log("it sned back nothing");
+        res.send("");
+    }
+});
+
 
 
 MongoClient.connect(mongodb_url, function (err, database) {

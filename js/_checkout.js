@@ -87,7 +87,7 @@
 
         loader._checkout.loadData(null);
         loader._deliveryTime.loadData(null);
-        loader._shopping.loadData(null);
+        loader._shopping.data = null;
 
         goToPage("_homePage");
     });

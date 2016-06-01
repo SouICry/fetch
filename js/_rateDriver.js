@@ -1,4 +1,5 @@
 (function () {
+    var driverId;
     loader._rateDriver = {
         data: {driver_full_name: "Jane Doe", driverId: 133},
         getData: null,
@@ -8,12 +9,22 @@
             drImage.data('src', "/placeholder/person.png");
             
             document.getElementById("driver-name_rateUser").innerHTML =  data.driver_full_name;
-
+            driverId = data.driverId;
             var imageSrc = "images/profiles/" + data.driverId + ".png";
+
 
             if (imageSrc !== null) {
                 drImage.data('src', imageSrc);
             }
+        },
+        onPageLoad: function(data) {
+
+            if(UrlExists('images/profiles/' + driverId + '.png')) {
+                document.getElementById("rateDriver-img").src = 'images/profiles/' + driverId + '.png';
+            }
+            else
+                document.getElementById("rateDriver-img").src = 'placeholder/person4.png';
+
         }
     };
 
@@ -22,6 +33,7 @@
         changeTicketState();
         goToPage("_congratsTicketClosed");
     });
+
 
 
     var _rating = 0;

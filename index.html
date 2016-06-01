@@ -192,24 +192,39 @@
         uploadChatImage: function (input) {
             console.log(new Date().getTime());
             var name = new Date().getTime() + ".png";
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                dataType: "json",
-                url: "/saveChatImage",
-                data: JSON.stringify({
-                    image: input.files[0],
-                    name: name
-                }),
-                success: function(){
-                    var chat = $(input.parentNode.parentNode.parentNode).find('.chatForm');
-                    chat.find("input").val("<img class='materialboxed' src='/images/chat/" + name +"'/>");
-                    chat.submit();
-                }
-            });
+            console.log(input.files[0]);
+
+            var file = input.files[0];
+
+            var success = function ( content ) {
+                console.log( JSON.stringify( content ) ); }
+
+            var fileReader = new FileReader( );
+           // fileReader.onload = function ( evt ) {
+
+           // };
+            fileReader.readAsText(file,'base64');
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        dataType: "json",
+        url: "/saveChatImage",
+        data: JSON.stringify({
+            image: fileReader.result,
+            name: name
+        }),
+        success: function(){
+            console.log("Almost Image in box");
             var chat = $(input.parentNode.parentNode.parentNode).find('.chatForm');
-            chat.find("input").val("<img class='materialboxed' src='/images/profiles/a.png'/>");
+            chat.find("input").val("<img class='materialboxed' src='/images/chat/" + name +"'/>");
+            console.log("New Image in box");
             chat.submit();
+        }
+    });
+//            var chat = $(input.parentNode.parentNode.parentNode).find('.chatForm');
+//            chat.find("input").val("<img class='materialboxed' src='/images/profiles/a.png'/>");
+//            chat.submit();
         },
         openChat: function (id, name) {
             if (!loader.chat.hasOwnProperty(id)) {
@@ -228,7 +243,9 @@
                 e.className = "chat";
                 var min = 'onclick="loader.minimizeChat(this.parentNode.parentNode);"';
                 var onClick = "loader.closeChat(this.parentNode.parentNode);";
-                var photo = 'onchange="loader.uploadChatImage(this);"';
+                var photo = 'onchange="loader.uploadChatImage(this)"';
+
+                console.log(photo);
                 e.innerHTML = '<div class="chat-head"  data-closed="false" >' +
                         '<div class="chat-profile" ' + min + '>' + '<span class="glyphicon medium glyphicon-user"></span></div>' +
                         '<div class="chat-name" ' + min + '>' + name + '</div>' +
@@ -374,6 +391,44 @@
                 }
             });
         },
+//        userConfirm: function(){
+//            $.ajax({
+//                type: "POST",
+//                contentType: "application/json",
+//                dataType: "json",
+//                url: "/userConfirm",
+//                data: JSON.stringify({
+//                   // userId: loader.userId,
+//                     ticketId: loader._driverList.data
+//                    //isConfirmed: true
+//                })
+////                success: function(data){
+////                    loader.isDriver = data.isDriver;
+////                }
+//            });
+//        },
+//        checkConfirm: function( ) {
+//            $.ajax({
+//                type: "POST",
+//                contentType: "application/json",
+//                dataType: "json",
+//                url: "/checkConfirm",
+//                data: JSON.stringify({
+//                    ticketId: loader.ticketId
+//
+//                }),
+//                success: function (data) {
+//                    if (data.finalConfirmed && loader.isDriver)
+//                        goToPage("_rateUser");
+//                    if (data.finalConfirmed && !loader.isDriver)
+//                        goToPage("_rateDriver");
+//
+//                }
+//            })
+//        },
+
+
+
 
         currentPageChanged: null,
         addNotification: function (notification) {

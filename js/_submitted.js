@@ -21,6 +21,10 @@
     };
 
     $('#submit_submitted').click(function () {
+        loader._checkout.loadData(null);
+        loader._deliveryTime.loadData(null);
+        loader._shopping.loadData(null);
+
         goToPage("_history");
     });
 
