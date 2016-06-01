@@ -6,9 +6,9 @@
         loadData: function (data) {
             var drImage = $('#rateDriver-img');
             $("#driver-name_rateDriver").html("");
-            drImage.data('src', "/placeholder/person.png");
+            drImage.data('src', "/placeholder/person4.png");
             
-            document.getElementById("driver-name_rateUser").innerHTML =  data.driver_full_name;
+            document.getElementById("driver-name_rateUser").innerHTML = "Driver Name: " + data.driver_full_name;
             driverId = data.driverId;
             var imageSrc = "images/profiles/" + data.driverId + ".png";
 
@@ -24,13 +24,12 @@
             }
             else
                 document.getElementById("rateDriver-img").src = 'placeholder/person4.png';
-
         }
     };
 
 
     $(".driverRate_button").click(function(){
-        changeTicketState();
+        //changeTicketState();
         goToPage("_congratsTicketClosed");
     });
 
@@ -81,23 +80,23 @@
 
 
 
-    function changeTicketState() {
-        $.ajax({
-            type: "POST",
-            url: "/_purchasedTickets",
-            data: {
-                ticketId: loader.ticketId,
-                type: 'send'
-            },
-            success: function (data) {
-                console.log('Successfully changed ticket state to delivered');
-            },
-            error: function (data) {
-                console.log('GOT IN ERROR IN PURCHASEDDDAG');
-                //data is the object send back on fail (could also just be string)
-            }
-        });
-    }
+    // function changeTicketState() {
+    //     $.ajax({
+    //         type: "POST",
+    //         url: "/_purchasedTickets",
+    //         data: {
+    //             ticketId: loader.ticketId,
+    //             type: 'send'
+    //         },
+    //         success: function (data) {
+    //             console.log('Successfully changed ticket state to delivered');
+    //         },
+    //         error: function (data) {
+    //             console.log('GOT IN ERROR IN PURCHASEDDDAG');
+    //             //data is the object send back on fail (could also just be string)
+    //         }
+    //     });
+    // }
 
 })();
 

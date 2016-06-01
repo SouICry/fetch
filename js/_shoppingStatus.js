@@ -97,7 +97,7 @@
     };
 
     $('#shoppingStatus_list_btn').click(function () {
-        goToPage("__history");
+        goToPage("_history");
     });
 
 })();

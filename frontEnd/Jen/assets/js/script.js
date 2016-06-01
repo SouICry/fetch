@@ -150,7 +150,7 @@ $(document).ready(function(){
         var message = "The width of the contents with padding: " + container.scrollWidth + "px.\n";
         message += "The height of the contents with padding: " + container.scrollHeight + "px.\n";
 
-        alert (message);
+        // alert (message);
     }
 });
 

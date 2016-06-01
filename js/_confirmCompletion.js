@@ -83,7 +83,7 @@
         status = "completed";
         //loader.userConfirm();
        
-        alert(status);
+        // alert(status);
         //goToPage("_rateUser");
     });
     

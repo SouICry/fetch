@@ -13,7 +13,7 @@
     
     //var vid = document.getElementById("receipt_video1");
     var canvas = document.getElementById("receipt_canvas1");
-
+    
     var upload = document.getElementById('submitReceiptButton1');
     $('#uploadReceipt1').click(function(){
         upload.style.display = "block";
@@ -36,8 +36,10 @@
         goToPage('_driverList');
     });
 
+    var price;
+
     $("#enter_price_receipt").keyup(function(){
-        var price = $("#enter_price_receipt").val();
+        price = $("#enter_price_receipt").val();
         var subButton = $("#submitReceiptButton1");
         if(!isNaN(price) && price != "" ){
 
@@ -64,10 +66,12 @@
         };
         $.ajax({
             type: "POST",
+            contentType: "application/json",
+            dataType: "json",
             url: "/_receiptPictureEnterPrice",
             data: JSON.stringify(data_to_send),
             success: function(){
-                alert("uploader");
+                // alert("uploader");
             },
             error: function (data) {
             //data is the object send back on fail (could also just be string)
@@ -76,6 +80,7 @@
     }
 
     $('#submitReceiptButton1').click(function() {
+        loader.price = price;
         assholes61323355();
         goToPage("_congrats_driver_finish_shopping");
     });
@@ -89,7 +94,7 @@
 
         $.ajax({
             type: "POST",
-            url: "/updatePurchasedTickets",
+            url: "/_driverList",
             data: info_to_send,
             success: function (data) {
                 //data is the object sent back on success (could also just be string)

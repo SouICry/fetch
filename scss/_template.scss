@@ -1,6 +1,6 @@
 
 .cd-panel-container{
-  background-color: #2E3233;
+  background-color: black;
 
 }
 a{
@@ -34,7 +34,7 @@ a{
 #panel-Header{
   position: relative;
   z-index: 1000000000;
-  background-color: darkorange;
+  background-color: $fetchOrange;
   height:150px;
   @include outline-shadow;
 
@@ -45,6 +45,7 @@ a{
      margin-left: 15px;
   }
   #index_user-name{
+    font-family: 'Lobster', cursive;
     margin-left:10px;
     margin-top: 30px;
     font-size: 40px;
@@ -59,7 +60,6 @@ a{
 }
 
 #User {
-
 
   position: fixed;
   width: 100%;
@@ -133,11 +133,13 @@ button:focus {
 }
 
 #open-menu-drawer {
+  transition: none;
+  cursor: pointer;
   color: $fetchOrange;
   font-size: 24px;
   line-height: 50px;
   &:hover {
-    color: black;
+    color: orange;
   }
 }
 

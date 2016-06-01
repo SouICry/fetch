@@ -7,9 +7,8 @@
             $("#user-name_rateUser").html("");
             $('#rateUser-img').src = "/placeholder/person4.png";
 
-            document.getElementById("user-name_rateUser").innerHTML =  data.user_full_name;
-
-            console.log("Loading");
+            document.getElementById("user-name_rateUser").innerHTML = "Shopper name: " + data.user_full_name;
+            
             var imageSrc = "images/profiles/" + data.userId + ".png";
 
             if (imageSrc !== null) {
@@ -20,13 +19,14 @@
             if(UrlExists('images/profiles/' + loader.userId + '.png')) {
                 document.getElementById("rateUser-img").src = 'images/profiles/' + loader.userId + '.png';
             }
+            document.getElementById("user-name_rateUser").innerHTML = "Shopper name:" + loader.shopperFullName;
         }
     };
 
 
     $(".userRate_button").click(function(){
-        changeTicketState();
-        goToPage("_congratsTicketClosed");
+        //changeTicketState();
+        goToPage("_congrats");
     });
 
     var _rating = 0;
@@ -68,29 +68,28 @@
         r2.addClass("selected");
         r3.addClass("selected");
         r4.addClass("selected");
-        r5.addClass("selected");
+        r5.addClass("selected") ;
         _rating = 5;
     });
 
 
-
-    function changeTicketState() {
-        $.ajax({
-            type: "POST",
-            url: "/_purchasedTickets",
-            data: {
-                ticketId: loader.ticketId,
-                type: 'send'
-            },
-            success: function (data) {
-                console.log('Successfully changed ticket state to delivered');
-            },
-            error: function (data) {
-                console.log('GOT IN ERROR IN PURCHASEDDDAG');
-                //data is the object send back on fail (could also just be string)
-            }
-        });
-    }
+    // function changeTicketState() {
+    //     $.ajax({
+    //         type: "POST",
+    //         url: "/_purchasedTickets",
+    //         data: {
+    //             ticketId: loader.ticketId,
+    //             type: 'send'
+    //         },
+    //         success: function (data) {
+    //             console.log('Successfully changed ticket state to delivered');
+    //         },
+    //         error: function (data) {
+    //             console.log('GOT IN ERROR IN PURCHASEDDDAG');
+    //             //data is the object send back on fail (could also just be string)
+    //         }
+    //     });
+    // }
 
 })();
 

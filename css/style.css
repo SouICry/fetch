@@ -358,16 +358,8 @@ th {
   src: url(/resources/fonts/aery.ttf); }
 @font-face {
   font-family: Hell_Neue;
-  src: url(/resources/fonts/HelveticaNeue-UltraLight.otf);
+  src: url(/resources/fonts/HelveticaNeuelt.ttf);
   font-weight: 100; }
-@font-face {
-  font-family: Hell_Neue;
-  src: url(/resources/fonts/HelveticaNeue-light.otf);
-  font-weight: 200; }
-@font-face {
-  font-family: Hell_Neue;
-  src: url(/resources/fonts/HelveticaNeue-Medium.otf);
-  font-weight: 300; }
 * {
   box-sizing: border-box;
   transition: all 0.5s; }
@@ -447,7 +439,7 @@ h6 {
       font-weight: 200; } }
 
 .box {
-  padding: 0 0 15px 0;
+  padding: 15px 0 15px 0;
   text-align: center;
   background-color: rgba(255, 255, 255, 0.9);
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
@@ -531,7 +523,10 @@ h6 {
 .btn {
   background-color: orange; }
 
-#accSettingAbove-img, #rateDriver-img {
+.rating .glyphicon-heart {
+  color: lightgray; }
+
+#accSettingAbove-img {
   height: 55%;
   width: 55%;
   padding: 1px;
@@ -545,7 +540,8 @@ h6 {
 
 .btn {
   min-width: 180px;
-  text-align: center; }
+  text-align: center;
+  margin: 15px 0; }
 
 #signUp-container {
   margin-top: 20px; }
@@ -792,7 +788,7 @@ h6 {
   -webkit-overflow-scrolling: touch; }
 
 .cd-panel-container {
-  background-color: #2E3233; }
+  background-color: black; }
 
 a {
   cursor: pointer; }
@@ -817,7 +813,7 @@ a {
 #panel-Header {
   position: relative;
   z-index: 1000000000;
-  background-color: darkorange;
+  background-color: #f36100;
   height: 150px;
   box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.5); }
   @media (min-width: 720px) {
@@ -832,6 +828,7 @@ a {
     margin-top: -30px;
     margin-left: 15px; }
   #panel-Header #index_user-name {
+    font-family: 'Lobster', cursive;
     margin-left: 10px;
     margin-top: 30px;
     font-size: 40px; }
@@ -905,11 +902,13 @@ button:focus {
   height: 50px; }
 
 #open-menu-drawer {
+  transition: none;
+  cursor: pointer;
   color: #f36100;
   font-size: 24px;
   line-height: 50px; }
   #open-menu-drawer:hover {
-    color: black; }
+    color: orange; }
 
 #rating-page span {
   font-size: 4rem; }
@@ -1029,7 +1028,8 @@ button:focus {
   width: 100%;
   line-height: 2; }
 #yourDeliveries .ticket:hover {
-  background-color: rgba(33, 19, 0, 0.07); }
+  background-color: rgba(33, 19, 0, 0.07);
+  cursor: pointer; }
 #yourDeliveries ul {
   list-style-type: none;
   margin: 0;
@@ -1165,7 +1165,8 @@ button:focus {
   margin: 10px; }
 
 #video1 {
-  width: 100%; }
+  width: 100%;
+  padding: 10px; }
 
 #canvas1 {
   width: 100%;
@@ -1267,7 +1268,7 @@ button:focus {
     height: 100%;
     overflow: hidden;
     margin: 0 10px 0 0;
-    background-color: orange;
+    background-color: #ffdb99;
     pointer-events: auto;
     transform: translateY(0);
     float: right;
@@ -1339,7 +1340,7 @@ button:focus {
       margin: 10px 0 0 0; }
       #chats .window .ours div {
         float: right;
-        background-color: orange; }
+        background-color: #ffdb99; }
     #chats .window .theirs {
       overflow: auto;
       height: auto;
@@ -1348,7 +1349,7 @@ button:focus {
       margin: 10px 0 0 0; }
       #chats .window .theirs div {
         float: left;
-        background-color: cornflowerblue; }
+        background-color: lavender; }
   #chats .input {
     z-index: 999;
     box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.5);
@@ -1407,14 +1408,18 @@ button:focus {
 
 .map {
   transition: none;
-  width: 500px;
+  width: 100%;
   max-width: 100%;
   height: 500px;
-  position: relative; }
+  position: relative;
+  margin: 15px 0; }
 
 .map * {
   transition: none; }
 
+@media screen and (min-width: 1500px) {
+  #rateUser .ratingSize {
+    margin: 60px 0; } }
 #rateUser .userIcon {
   position: relative;
   height: 300px; }
@@ -1432,7 +1437,8 @@ button:focus {
   margin-top: 8%; }
   @media screen and (max-width: 991px) {
     #rateUser #rateUser-content {
-      margin-top: 20px; } }
+      margin-top: 0;
+      height: 135px; } }
 #rateUser .glyphicon, #rateUser .glyphicon-heart {
   font-size: 35px; }
 #rateUser #rateUser-img {
@@ -1445,6 +1451,142 @@ button:focus {
       height: 250px;
       width: 250px;
       margin: 20px; } }
+
+@media screen and (min-width: 1500px) {
+  #rateDriver .ratingSize {
+    margin: 60px 0; } }
+#rateDriver .userIcon {
+  position: relative;
+  height: 300px; }
+#rateDriver #rateDriver-image-content {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); }
+#rateDriver img {
+  margin: 8%; }
+#rateDriver #rateDriver-content {
+  position: relative;
+  height: 200px;
+  margin-top: 8%; }
+  @media screen and (max-width: 991px) {
+    #rateDriver #rateDriver-content {
+      margin-top: 0;
+      height: 175px; } }
+#rateDriver .glyphicon, #rateDriver .glyphicon-heart {
+  font-size: 35px; }
+#rateDriver #rateDriver-img {
+  height: 55%;
+  width: 55%;
+  padding: 1px;
+  border: 2px solid grey; }
+  @media screen and (max-width: 991px) {
+    #rateDriver #rateDriver-img {
+      height: 250px;
+      width: 250px;
+      margin: 20px;
+      border: solid 2px grey; } }
+
+@media screen and (min-width: 1500px) {
+  #accSetting .ratingSize {
+    margin: 60px 0; } }
+#accSetting .userIcon {
+  position: relative;
+  height: 442px; }
+  @media screen and (max-width: 991px) {
+    #accSetting .userIcon {
+      height: 330px; } }
+#accSetting #user-image-content {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 0); }
+#accSetting img {
+  margin: 8%; }
+#accSetting #accSettingAbove-img {
+  width: 80%;
+  padding: 1px;
+  border: 2px solid grey;
+  max-height: 350px;
+  max-width: 350px; }
+  @media screen and (max-width: 991px) {
+    #accSetting #accSettingAbove-img {
+      max-height: 250px;
+      max-width: 250px;
+      margin: 20px;
+      width: 80%; } }
+#accSetting .test {
+  position: relative;
+  height: 462px; }
+  @media screen and (max-width: 991px) {
+    #accSetting .test {
+      height: 300px; } }
+#accSetting .accProfile {
+  margin-top: 20px; }
+
+#page-title {
+  transition: all 1s;
+  z-index: 5000;
+  font-family: 'Lobster', cursive;
+  color: #f36100;
+  height: 56px;
+  position: fixed;
+  width: 100vw;
+  pointer-events: none; }
+  #page-title #title-inner {
+    cursor: pointer;
+    pointer-events: auto;
+    transition: all 1s;
+    z-index: 6000;
+    width: 100px;
+    text-align: center;
+    position: relative;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 32px;
+    line-height: 56px; }
+    #page-title #title-inner:hover {
+      color: orange; }
+  #page-title #cover {
+    transition: all 1s;
+    pointer-events: none;
+    z-index: 5000;
+    background-color: rgba(255, 219, 153, 0);
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0; }
+
+#page-title.title-cover {
+  height: 100vh;
+  pointer-events: auto; }
+  #page-title.title-cover #cover {
+    pointer-events: none;
+    background-color: #ffdb99; }
+  #page-title.title-cover #title-inner {
+    pointer-events: none;
+    overflow: hidden;
+    width: 400px;
+    font-size: 72px;
+    line-height: 72px; }
+    @media (min-width: 720px) {
+      #page-title.title-cover #title-inner {
+        font-size: 96px;
+        line-height: 96px; } }
+    @media (min-width: 992px) {
+      #page-title.title-cover #title-inner {
+        font-size: 144px;
+        line-height: 144px; } }
+    @media (min-width: 1200px) {
+      #page-title.title-cover #title-inner {
+        font-size: 180px;
+        line-height: 180px; } }
+  #page-title.title-cover #title-inner.initial {
+    width: 0; }
 
 #page-content {
   margin: 0;
@@ -1542,10 +1684,15 @@ button:focus {
     top: 900%; }
 
 #toggling {
-  color: #f36100;
+  font-family: Hell_Neue;
+  color: white;
   position: absolute;
   margin-top: 2%;
-  font-size: 26px; }
+  font-size: 26px;
+  margin-left: 14px; }
+
+.lever {
+  margin-left: 42px !important; }
 
 #toggleButton {
   margin-left: 100px;

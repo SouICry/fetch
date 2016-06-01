@@ -28,7 +28,7 @@
                     var name = {};
                     name['wholeFoods'] = "WholeFoods";
                     name['ralphs'] = "Ralph's";
-                    name['tjs'] = "Trader Joe's";
+                    name['tjs'] = "Sunshine Market";
                     name['vons'] = "Vons";
 
                     return name[nameString];
@@ -107,6 +107,9 @@
         }
     });
 
+    $("#tickets_dashboard_btn").click(function(){
+        goToPage("_yourDeliveries");
+    });
 
     function getQueueTickets() {
         $.ajax({

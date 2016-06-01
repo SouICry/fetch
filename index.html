@@ -7,10 +7,17 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 
+
+    <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+
+
+
+    <link rel="icon"  type="image/png" href="resources/images/favicon.png">
+
+
+
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
-
-    <!-- Compiled and minified CSS -->
+        <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
 
     <!-- Compiled and minified JavaScript -->
@@ -36,6 +43,11 @@
 <div id="chats">
 
 </div>
+
+<div id="page-title" class="title-cover">
+    <div id="cover"></div>
+    <div id="title-inner" onclick="goToPage('_homePage')" class="initial">Fetch</div>
+</div>
 <div id="User">
     <div class="jumbotron text-center">
         <div class="row">
@@ -45,10 +57,10 @@
                 <div id="open-menu-drawer" style="display:none"><span class="glyphicon glyphicon-menu-hamburger"></span>
                 </div>
             </div>
-            <div id="Fetch" class=" text-center col-xs-8">
-                <div id="title">Fetch</div>
-            </div>
-            <div class="col-xs-3"></div>
+            <!--<div id="Fetch" class=" text-center col-xs-8">-->
+                <!--<div id="title">Fetch</div>-->
+            <!--</div>-->
+            <!--<div class="col-xs-3"></div>-->
         </div>
     </div>
 </div>
@@ -207,7 +219,8 @@
                     canvas.width = img.width / factor;
                     canvas.height = img.height / factor;
                     var context = canvas.getContext("2d");
-                    context.drawImage(img, 0, 0);
+                    context.drawImage(img, 0, 0, canvas.width, canvas.height);
+//                    alert();
                     $.ajax({
                         type: "POST",
                         contentType: "application/json",
@@ -218,6 +231,7 @@
                             name: name
                         }),
                         success: function () {
+//                            alert();
                             var chat = $(input.parentNode.parentNode.parentNode).find('.chatForm');
                             chat.find("input").val("<img class='materialboxed' src='/images/chat/" + name + "'/>");
                             chat.submit();
@@ -446,7 +460,7 @@
             setTimeout(function () {
                 e.firstChild.dataset.changepage = "false";
                 $(e).children().trigger("click");
-            }, 10000);
+            }, 5000);
         },
 
         closeNotification: function (page, element) {
@@ -464,7 +478,7 @@
         getUpdates: function () {
 
             //Only update if not active
-            if (loader.isLoggedIn && loader.userId.length > 1) {
+            if (loader.isLoggedIn && loader.userId.length > 0) {
                 //keep updating no matter what
                 if (loader.currentPage == "_shopping" || loader.currentPage == "_checkout") {
                     loader.updateShopping();
@@ -580,19 +594,18 @@
                 }
 
             }
-
             window.setInterval(loader.getUpdates, 501);
 
 
         },
         logout: function () {
             document.cookie = "user=" + loader.userId + ";expires=" + new Date(0).toUTCString();
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                dataType: "json",
-                url: "/logout"
-            });
+//            $.ajax({
+//                type: "POST",
+//                contentType: "application/json",
+//                dataType: "json",
+//                url: "/logout"
+//            });
             window.location.reload();
         },
         switchToDriver: function () {
@@ -701,10 +714,12 @@
             $.ajax({
                 type: "POST",
                 url: "/init",
+                async: true,
                 data: {
                     userId: loader.userId
                 },
                 success: function (data) {
+
                     //If invalid, clear cookie and reload
                     if (data.userId == "") {
                         document.cookie = "user=" + data.userId + ";expires=" + new Date(0).toUTCString();
@@ -764,6 +779,7 @@
                             }
                         }
                     }
+
                     window.setInterval(loader.getUpdates, 501);
                 }
             });
@@ -784,35 +800,67 @@
             data: {name: pageName},
             async: false,
             success: function (data) {
+                console.log(pageName);
                 $('#section-' + row).append("<div><div id='" + pageName +
                         "' data-x='" + column + "' data-y='" + row + "'>" + data + "</div></div>");
             }
         });
     }
 
+
+
+
     $(document).ready(function () {
+
+        var done = false;
+        var timeup = false;
+        setTimeout(function(){
+            $("#title-inner").removeClass('initial');
+        }, 1000);
+        setTimeout(function(){
+            if (done) {
+                $("#page-title").removeClass('title-cover');
+            }
+            timeup = true;
+        }, 3500);
         $(document).on('click mousemove focus keypress', loader.setActive);
 
-        pageInit();
-//        for (var j = 0; j < allPages.length; j++) {
-//            $('#page-content').append('<div id="section-' + j + '"></div>');
-//            for (var i = 0; i < allPages[j].length; i++) {
-//                var whichid = allPages[j][i];
-//                loadPage(whichid, j, i);
-//                var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
-//                $("#Butt").append("<div " + clickVal + " >" + whichid + "</div>");
-//            }
-//        }
 
-        $.ajax({
-            type: "POST",
-            url: "/loadPage",
-            data: {name: "allPages"},
-            async: false,
-            success: function (data) {
-                $('#page-content').append(data);
+        pageInit();
+        for (var j = 0; j < allPages.length; j++) {
+            $('#page-content').append('<div id="section-' + j + '"></div>');
+            for (var i = 0; i < allPages[j].length; i++) {
+                var whichid = allPages[j][i];
+                loadPage(whichid, j, i);
+                var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
+                $("#Butt").append("<div " + clickVal + " >" + whichid + "</div>");
             }
-        });
+        }
+
+
+//        $.ajax({
+//            type: "POST",
+//            url: "/loadPage",
+//            data: {name: "allPages"},
+//            async: false,
+//            success: function (data) {
+//                $('#page-content').append(data);
+//            }
+//        });
+        done = true;
+        if (timeup) {
+            $("#page-title").removeClass('title-cover');
+        }
+
+//        $.ajax({
+//            type: "POST",
+//            url: "/loadPage",
+//            data: {name: "allPages"},
+//            async: false,
+//            success: function (data) {
+//                $('#page-content').append(data);
+//            }
+//        });
 
         $("#index_login_top").show();
         $("#open-menu-drawer").show();

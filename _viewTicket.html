@@ -1,40 +1,37 @@
 <div class="container box text-center" id="viewTicket">
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-xs-12 col-md-8 col-md-offset-2">
             <h2 id="listName"></h2>
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-xs-12 col-md-8 col-md-offset-2">
+            <h5>Items</h5>
             <ul id="_viewTicket_list"></ul>
         </div>
-    </div>
 
-    <div class="col-xs-12">
-        <div id="viewTicket_note"></div>
-        <div id="viewTicket_location"></div>
-        <div id="viewTicketMap" class="map"></div>
-    </div>
+        <div class="col-xs-4" id="_viewTicket_numItems"></div>
 
-    <div id="viewTicketCalendarPart" class="col-xs-12">
-        <div id="viewTicketCalendarHeader">Delivery time:</div>
-        <div id="viewTicketCalendar"></div>
-    </div>
+        <div id="viewTicketCalendarPart" class="col-xs-12 col-md-8 col-md-offset-2">
+            <h5 id="viewTicketCalendarHeader">Delivery time</h5>
+            <div id="viewTicketCalendar"></div>
+        </div>
 
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="row" id="_viewTicket_footerInfo">
-                <div class="col-xs-4" id="_viewTicket_numItems"></div>
-                <a id="viewTicket-back" type="button" class="btn waves-effects orange"><< Back</a>
-                <a id="_viewTicket_submit_list" type="button"
-                   class="col-xs-4 text-center btn waves-effect waves-teal">
-                    Accept Ticket
-                </a>
-            </div>
+        <div class="col-xs-12 col-md-8 col-md-offset-2">
+            <h5 id="viewTicket_note"></h5>
+            <h5 id="viewTicket_location">Delivery Location</h5>
+            <div id="viewTicketMap" class="map" style="margin: auto"></div>
+        </div>
+
+        <div class="col-xs-12 col-md-8 col-md-offset-2">
+            <a id="viewTicket-back" type="button" class="btn waves-effects" style="float: none"><< Back</a>
+            <a id="_viewTicket_submit_list" type="button"
+               class="btn waves-effect waves-teal" style="float: none">
+                Accept Ticket
+            </a>
         </div>
     </div>
 </div>
-
 <div class="footerBars container">
     <div class="footer2"></div>
     <div class="footer3"></div>
