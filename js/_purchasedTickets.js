@@ -75,8 +75,6 @@ var test_data = {
     //var count = data.items.length - arrayCheckedOff.length;
     var fullName = "";
     var array = [];
-    var purchasedTickets_shopperId = "";
-
 
     $("#purchasedTickets_submit_list").click(function () {
         $(this).addClass('disabled');
@@ -90,11 +88,10 @@ var test_data = {
     $("#purchasedTickets-back").click(function() {
         goToPage("_yourDeliveries");
     });
-
-    $("#purchasedTickets_messenger").click(function(){
-        loader.openChat(purchasedTickets_shopperId, fullName);
+    $("#purchasedTickets-messenger").click(function(){
+        loader.openChat(shopperId, fullName);
     });
-    
+
     // Used after click submit, update the grocery ticket for the users
     function assholes6155() {
         $.ajax({
@@ -120,7 +117,7 @@ var test_data = {
                         console.log(data);
                         
                         if (data == true) {
-                            goToPage("_rateUser");
+                            //goToPage("_rateUser");
                             //loader.goToPage("/_rateUser");
                             var info_to_send = {};
                             info_to_send.ticketId = loader.ticketId;
