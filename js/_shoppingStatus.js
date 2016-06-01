@@ -24,7 +24,7 @@
             }
 
             else {
-                //$("#shoppingStatusCalendar").append(loader.parseCalendar(data.calendar));
+                $("#shoppingStatusCalendar").append(loader.parseCalendar(data.calendar));
                 loader.loadMap("shoppingStatusMap",data.shopping_location);
                 $("#_shoppingStatus_numItems").text("");
                 $("#listName_shoppingStatus").text("");
