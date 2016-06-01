@@ -107,6 +107,9 @@
         }
     });
 
+    $("#tickets_dashboard_btn").click(function(){
+        goToPage("_yourDeliveries");
+    });
 
     function getQueueTickets() {
         $.ajax({
