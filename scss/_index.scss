@@ -1,4 +1,14 @@
-
+#loading {
+  position: fixed;
+  z-index: 9999999;
+  background-color: rgba(131, 139, 131, 0.4);
+  span {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
 
 #page-title {
   transition: all 1s;

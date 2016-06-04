@@ -38,12 +38,14 @@
     });
 
     $('#uploadButton1').click(function(){
-        uploadFromCanvas();
-        disableCamera(vid,
-            document.getElementById("takeButton1"),
-            document.getElementById("redoButton1"),
-            document.getElementById('uploadImage1'));
-        goToPreviousPage();
+        uploadFromCanvas(function(){
+            disableCamera(vid,
+                document.getElementById("takeButton1"),
+                document.getElementById("redoButton1"),
+                document.getElementById('uploadImage1'));
+            goToPreviousPage();
+        });
+
     });
     $('#cancelButton1').click(function(){
         disableCamera(vid,
@@ -55,16 +57,16 @@
     
 
 
-    function uploadFromCanvas(){
+    function uploadFromCanvas(callback){
+        loader.showInProgress();
         $.ajax({
             type: "POST",
             contentType: "application/json",
-            dataType: "json",
             url: "/savePhoto",
             data: JSON.stringify({image: canvas.toDataURL("image/png")}),
             success: function(){
-                
-                // alert("uploader");
+                loader.hideInProgress();
+                callback();
             }
         });
     }

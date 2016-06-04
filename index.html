@@ -43,6 +43,9 @@
 <div id="chats">
 
 </div>
+<div id="loading" class="hidden">
+    <span class="glyphicon glyphicon-repeat glyphicon-repeat-animate"></span>
+</div>
 
 <div id="page-title" class="title-cover">
     <div id="cover"></div>
@@ -650,6 +653,12 @@
 //                    alert("fail")
 //                }
 //            });
+        },
+        showInProgress: function(){
+            $('#loading').removeClass("hidden");
+        },
+        hideInProgress: function(){
+            $('#loading').addClass('hidden');
         }
     };
     //loader.currentPageChanged = _.throttle(loader.sendData, 501);
