@@ -15,8 +15,8 @@
         {name: "vons", time: "10:00 pm", id: "864", state: "draft"}],*/ // may not have draft state
         version: 0,
         onPageLoad: function() {
-            assholes135();
-            interval = setInterval(assholes135, 1000);
+            dataSync135();
+            interval = setInterval(dataSync135, 1000);
         },
         onPageLeave: function(){
             clearInterval(interval);
@@ -150,12 +150,12 @@
     // });
 
     // $('#_viewTicket_submit_list').click(function () {
-    //     assholes40();
+    //     dataSync40();
     //     goToPage("_yourDeliveries");
-    //     //assholes40();
+    //     //dataSync40();
     // });
 
-    function assholes135() {
+    function dataSync135() {
         //Actual
         $.ajax({
                 type: "POST",

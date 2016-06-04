@@ -21,10 +21,10 @@
     });
 
     loginButt.click(function () {
-        assholes();
+        dataSync();
     });
 
-    function assholes() {
+    function dataSync() {
         var info_to_send = {};
         info_to_send.email = $('#login_user_email').val();
         info_to_send.password = $('#login_user_pass').val();

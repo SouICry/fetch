@@ -21,10 +21,10 @@
     });
 
     $('#signup_butt').click(function () {
-        assholes2();
+        dataSync2();
     });
 
-    function assholes2() {
+    function dataSync2() {
         var info_to_send = {};
         info_to_send.email = $('#signup_user_email').val();
         info_to_send.full_name = $('#signup_user_name').val();

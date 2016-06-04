@@ -17,7 +17,7 @@ var test_data = {
             return packData;
         },
         onPageLoad: function () {
-            assholes666();
+            dataSync666();
         },
         loadData: function (data) {
 
@@ -75,10 +75,10 @@ var test_data = {
         goToPage("_yourDeliveries");
     });
 
-    assholes666();
+    dataSync666();
 
     // Used after click submit, update the grocery ticket for the users
-    function assholes61323355() {
+    function dataSync61323355() {
         var info_to_send = {};
         info_to_send.ticketId = loader._deliveredTickets.data;
         //alert(info_to_send.ticketId);
@@ -100,7 +100,7 @@ var test_data = {
     }
 
     // Used to get data from db
-    function assholes666() {
+    function dataSync666() {
         var info_to_send = {};
         info_to_send.ticketId = loader._deliveredTickets.data;
         //alert(info_to_send.ticketId);
