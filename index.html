@@ -703,11 +703,15 @@
 //            });
         },
         showInProgress: function () {
-            $('#loading').
-            $('#loading').removeClass("hidden");
+            $('#loading').css('z-index', '9999999');
+            $('#loading').css('opacity', '1');
         },
         hideInProgress: function () {
-            $('#loading').addClass('hidden');
+            $('#loading').css('opacity', '0');
+            setTimeout(function(){
+                $('#loading').css('z-index', '-2');
+            }, 500);
+
         }
     };
     //loader.currentPageChanged = _.throttle(loader.sendData, 501);
