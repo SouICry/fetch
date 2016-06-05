@@ -1,0 +1,67 @@
+#video1 {
+  //position: absolute;
+  width: 100%;
+  padding:10px;
+  //height: 100%;
+  //border:solid 1px black;
+}
+
+#canvas1 {
+  width:100%;
+  position: absolute;
+  padding:10px;
+  height: 80%;
+}
+#profile-pic {
+  height: 100%;
+
+  .btn {
+    width: 100%;
+  }
+
+  .row {
+    height: 100%;
+  }
+}
+#profile-button-box-outer {
+  height: auto;
+}
+
+#profile-button-box {
+  position: relative;
+  top: 0;
+  transform: translateY(0);
+}
+
+#profile-outer {
+  height: auto;
+}
+
+#profile-image-square {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 100%;
+  overflow: hidden;
+}
+
+@media only screen and (min-width: 992px) {
+  //#profile-button-box-outer {
+  //  height: 100%;
+  //}
+  //
+  ////#profile-button-box {
+  ////  position: relative;
+  ////  top: 50%;
+  ////  transform: translateY(-50%);
+  ////}
+  //
+  //#profile-outer {
+  //  height: 100%;
+  //}
+  ////
+  //#profile-image-square {
+  //  top: 50%;
+  //  transform: translateY(-50%);
+  //}
+}

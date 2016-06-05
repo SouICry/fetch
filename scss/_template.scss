@@ -1,0 +1,149 @@
+
+.cd-panel-container{
+  background-color: black;
+
+}
+a{
+  cursor:pointer;
+}
+//#accSetting-img{
+//  width:70%;
+//  height:70%;
+//  z-index: 1;
+//  -webkit-filter: blur(8px);
+//}
+//#accSettingAbove-img{
+//
+//  height:55%;
+//  width:55%;
+//  padding:1px;
+//  border: 2px solid grey;
+//}
+.cd-panel-content{
+  height: calc(100% - 130px);
+  margin-top:130px;
+  overflow-y: scroll;
+}
+.cd-main-content{
+
+  overflow: hidden;
+}
+.cd-panel-container {
+  @include outline-shadow;
+}
+#panel-Header{
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  z-index: 4000;
+  background-color: $fetchOrange;
+  height:150px;
+  @include outline-shadow;
+
+  #index-image-user{
+     height: 50px;
+     width: 50px;
+     margin-top: -30px;
+     margin-left: 15px;
+  }
+  #index_user-name{
+    font-family: 'Lobster', cursive;
+    margin-left:10px;
+    margin-top: 30px;
+    font-size: 40px;
+  }
+
+}
+.div1,.div2{
+  display:inline-block;
+}
+.cd-panel-header{
+  background-color: darkorange;
+}
+
+#User {
+
+  position: fixed;
+  width: 100%;
+  height: 100px;
+  z-index: 900;
+  top: 0;
+
+  .jumbotron{
+    background-color: #ffdb99;
+    margin:0;
+    padding:0;
+    @include outline-shadow;
+  }
+
+  h6 {
+    @media screen and (max-width: 570px) {
+      font-size: 15px;
+    }
+      margin: 15px 0;
+      font-weight: 100;
+      opacity: 1;
+  }
+}
+
+
+button:focus {
+  outline:0;
+}
+
+#Glyph {
+  line-height : 56px;
+  span {
+    line-height: 48px;
+  }
+}
+
+#Fetch{
+  margin: 0;
+  font-family: Fetch, serif;
+  color: #f36100;
+  font-size: 32px;
+  line-height: 56px;
+}
+#Butt{
+  margin-top:30px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  div{
+    cursor: pointer;
+    width:100%;
+    height: 60px;
+    border:0;
+    padding-left: 10px;
+    border:none;
+    color:darkgray;
+    background-color:transparent;
+    text-align: left;
+  }
+
+  div:hover{
+
+    color:white;
+    .glyphicon{
+      color:orange;
+    }
+  }
+}
+
+#User {
+  height: 50px;
+}
+
+#open-menu-drawer {
+  transition: none;
+  cursor: pointer;
+  color: $fetchOrange;
+  font-size: 24px;
+  line-height: 50px;
+  &:hover {
+    color: orange;
+  }
+}
+

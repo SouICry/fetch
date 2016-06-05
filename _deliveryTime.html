@@ -1,0 +1,455 @@
+.
+<style>
+
+    .calendar-outer {
+        margin-bottom: 10px;
+    }
+
+    .calendar {
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid rgb(200, 200, 200);
+    }
+
+    .calendar td {
+        border-radius: 0;
+        border: none;
+        padding: 0;
+        width: 14.285%;
+        height: 16px;
+        font-size: 12px;
+        text-align: center;
+    }
+
+    .calendar0 {
+        border-top: 1px solid rgb(200, 200, 200);
+
+    }
+
+    .calendar0.calendar td {
+        font-size: 12px;
+
+    }
+
+    .calendar1, .calendar4 {
+        /*background: url("/resources/images/am.png") space center;
+        background-size: auto 100%;
+        background-color: rgba(73, 211, 255, 0.5);
+        background-color: #879FCB;*/
+    }
+
+    .calendar2, .calendar3 {
+        /*background: url("/resources/images/pm.png")  space center;
+        background-size: auto 100%;
+        background-color: rgba(160, 161, 163, 0.15);
+        background-color: #FECD7E;*/
+    }
+
+    .calendar tbody td {
+        cursor: pointer;
+    }
+
+    .calendar tbody td.highlighted {
+
+        background-color: rgba(127, 255, 0, 0.5);
+    }
+
+
+</style>
+<div class="container text-center box">
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>Select Available Delivery Times</h2>
+        </div>
+        <div class="col-xs-12">
+            <div id="select-delivery-time" class="calendar-outer">
+                <table class="calendar calendar0 ">
+                    <thead>
+                    <tr class="calendar-head" cellpadding="0" cellspacing="0">
+                    </tr>
+                    </thead>
+                </table>
+                <table class="calendar calendar1" cellpadding="0" cellspacing="0">
+                    <tbody>
+                    <tr>
+                        <td>6:00</td>
+                        <td>6:00</td>
+                        <td>6:00</td>
+                        <td>6:00</td>
+                        <td>6:00</td>
+                        <td>6:00</td>
+                        <td>6:00</td>
+                    </tr>
+                    <tr>
+                        <td>7:00</td>
+                        <td>7:00</td>
+                        <td>7:00</td>
+                        <td>7:00</td>
+                        <td>7:00</td>
+                        <td>7:00</td>
+                        <td>7:00</td>
+                    </tr>
+                    <tr>
+                        <td>8:00</td>
+                        <td>8:00</td>
+                        <td>8:00</td>
+                        <td>8:00</td>
+                        <td>8:00</td>
+                        <td>8:00</td>
+                        <td>8:00</td>
+                    </tr>
+                    <tr>
+                        <td>9:00</td>
+                        <td>9:00</td>
+                        <td>9:00</td>
+                        <td>9:00</td>
+                        <td>9:00</td>
+                        <td>9:00</td>
+                        <td>9:00</td>
+                    </tr>
+                    <tr>
+                        <td>10:00</td>
+                        <td>10:00</td>
+                        <td>10:00</td>
+                        <td>10:00</td>
+                        <td>10:00</td>
+                        <td>10:00</td>
+                        <td>10:00</td>
+                    </tr>
+                    <tr>
+                        <td>11:00</td>
+                        <td>11:00</td>
+                        <td>11:00</td>
+                        <td>11:00</td>
+                        <td>11:00</td>
+                        <td>11:00</td>
+                        <td>11:00</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="calendar calendar2">
+                    <tbody>
+                    <tr>
+                        <td>12:00</td>
+                        <td>12:00</td>
+                        <td>12:00</td>
+                        <td>12:00</td>
+                        <td>12:00</td>
+                        <td>12:00</td>
+                        <td>12:00</td>
+                    </tr>
+                    <tr>
+                        <td>13:00</td>
+                        <td>13:00</td>
+                        <td>13:00</td>
+                        <td>13:00</td>
+                        <td>13:00</td>
+                        <td>13:00</td>
+                        <td>13:00</td>
+                    </tr>
+                    <tr>
+                        <td>14:00</td>
+                        <td>14:00</td>
+                        <td>14:00</td>
+                        <td>14:00</td>
+                        <td>14:00</td>
+                        <td>14:00</td>
+                        <td>14:00</td>
+                    </tr>
+                    <tr>
+                        <td>15:00</td>
+                        <td>15:00</td>
+                        <td>15:00</td>
+                        <td>15:00</td>
+                        <td>15:00</td>
+                        <td>15:00</td>
+                        <td>15:00</td>
+                    </tr>
+                    <tr>
+                        <td>16:00</td>
+                        <td>16:00</td>
+                        <td>16:00</td>
+                        <td>16:00</td>
+                        <td>16:00</td>
+                        <td>16:00</td>
+                        <td>16:00</td>
+                    </tr>
+                    <tr>
+                        <td>17:00</td>
+                        <td>17:00</td>
+                        <td>17:00</td>
+                        <td>17:00</td>
+                        <td>17:00</td>
+                        <td>17:00</td>
+                        <td>17:00</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="calendar calendar3">
+                    <tbody>
+                    <tr>
+                        <td>18:00</td>
+                        <td>18:00</td>
+                        <td>18:00</td>
+                        <td>18:00</td>
+                        <td>18:00</td>
+                        <td>18:00</td>
+                        <td>18:00</td>
+                    </tr>
+                    <tr>
+                        <td>19:00</td>
+                        <td>19:00</td>
+                        <td>19:00</td>
+                        <td>19:00</td>
+                        <td>19:00</td>
+                        <td>19:00</td>
+                        <td>19:00</td>
+                    </tr>
+                    <tr>
+                        <td>20:00</td>
+                        <td>20:00</td>
+                        <td>20:00</td>
+                        <td>20:00</td>
+                        <td>20:00</td>
+                        <td>20:00</td>
+                        <td>20:00</td>
+                    </tr>
+                    <tr>
+                        <td>21:00</td>
+                        <td>21:00</td>
+                        <td>21:00</td>
+                        <td>21:00</td>
+                        <td>21:00</td>
+                        <td>21:00</td>
+                        <td>21:00</td>
+                    </tr>
+                    <tr>
+                        <td>22:00</td>
+                        <td>22:00</td>
+                        <td>22:00</td>
+                        <td>22:00</td>
+                        <td>22:00</td>
+                        <td>22:00</td>
+                        <td>22:00</td>
+                    </tr>
+                    <tr>
+                        <td>23:00</td>
+                        <td>23:00</td>
+                        <td>23:00</td>
+                        <td>23:00</td>
+                        <td>23:00</td>
+                        <td>23:00</td>
+                        <td>23:00</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="calendar calendar4">
+                    <tbody>
+                    <tr>
+                        <td>0:00</td>
+                        <td>0:00</td>
+                        <td>0:00</td>
+                        <td>0:00</td>
+                        <td>0:00</td>
+                        <td>0:00</td>
+                        <td>0:00</td>
+                    </tr>
+                    <tr>
+                        <td>1:00</td>
+                        <td>1:00</td>
+                        <td>1:00</td>
+                        <td>1:00</td>
+                        <td>1:00</td>
+                        <td>1:00</td>
+                        <td>1:00</td>
+                    </tr>
+                    <tr>
+                        <td>2:00</td>
+                        <td>2:00</td>
+                        <td>2:00</td>
+                        <td>2:00</td>
+                        <td>2:00</td>
+                        <td>2:00</td>
+                        <td>2:00</td>
+                    </tr>
+                    <tr>
+                        <td>3:00</td>
+                        <td>3:00</td>
+                        <td>3:00</td>
+                        <td>3:00</td>
+                        <td>3:00</td>
+                        <td>3:00</td>
+                        <td>3:00</td>
+                    </tr>
+                    <tr>
+                        <td>4:00</td>
+                        <td>4:00</td>
+                        <td>4:00</td>
+                        <td>4:00</td>
+                        <td>4:00</td>
+                        <td>4:00</td>
+                        <td>4:00</td>
+                    </tr>
+                    <tr>
+                        <td>5:00</td>
+                        <td>5:00</td>
+                        <td>5:00</td>
+                        <td>5:00</td>
+                        <td>5:00</td>
+                        <td>5:00</td>
+                        <td>5:00</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="alert alert-danger fade in" id="delivery-time_warning">
+                <strong>Danger!</strong> You must select a time range for drop-off!
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <a id="delivery-time-back" type="button" class="btn waves-effects orange"><< Back</a>
+            <a id="delivery-time-submit" type="button" class="btn waves-effects orange">Select >></a>
+        </div>
+    </div>
+</div>
+<div class="footerBars container">
+    <div class="footer2"></div>
+    <div class="footer3"></div>
+</div>
+<script>
+
+
+    (function () {
+        var months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug",
+            "Sept", "Oct", "Nov", "Dec"];
+        loader.parseCalendar = function (dat) {
+            if (dat != null) {
+                var cal = document.createElement('div');
+                cal.className = "cal";
+                $(cal).html('<table class="calendar calendar0"><thead><tr class="calendar-head"></tr></thead></table><table class="calendar calendar1"cellpadding="0"cellspacing="0"><tbody><tr><td>6:00</td><td>6:00</td><td>6:00</td><td>6:00</td><td>6:00</td><td>6:00</td><td>6:00</td></tr><tr><td>7:00</td><td>7:00</td><td>7:00</td><td>7:00</td><td>7:00</td><td>7:00</td><td>7:00</td></tr><tr><td>8:00</td><td>8:00</td><td>8:00</td><td>8:00</td><td>8:00</td><td>8:00</td><td>8:00</td></tr><tr><td>9:00</td><td>9:00</td><td>9:00</td><td>9:00</td><td>9:00</td><td>9:00</td><td>9:00</td></tr><tr><td>10:00</td><td>10:00</td><td>10:00</td><td>10:00</td><td>10:00</td><td>10:00</td><td>10:00</td></tr><tr><td>11:00</td><td>11:00</td><td>11:00</td><td>11:00</td><td>11:00</td><td>11:00</td><td>11:00</td></tr></tbody></table><table class="calendar calendar2"><tbody><tr><td>12:00</td><td>12:00</td><td>12:00</td><td>12:00</td><td>12:00</td><td>12:00</td><td>12:00</td></tr><tr><td>13:00</td><td>13:00</td><td>13:00</td><td>13:00</td><td>13:00</td><td>13:00</td><td>13:00</td></tr><tr><td>14:00</td><td>14:00</td><td>14:00</td><td>14:00</td><td>14:00</td><td>14:00</td><td>14:00</td></tr><tr><td>15:00</td><td>15:00</td><td>15:00</td><td>15:00</td><td>15:00</td><td>15:00</td><td>15:00</td></tr><tr><td>16:00</td><td>16:00</td><td>16:00</td><td>16:00</td><td>16:00</td><td>16:00</td><td>16:00</td></tr><tr><td>17:00</td><td>17:00</td><td>17:00</td><td>17:00</td><td>17:00</td><td>17:00</td><td>17:00</td></tr></tbody></table><table class="calendar calendar3"><tbody><tr><td>18:00</td><td>18:00</td><td>18:00</td><td>18:00</td><td>18:00</td><td>18:00</td><td>18:00</td></tr><tr><td>19:00</td><td>19:00</td><td>19:00</td><td>19:00</td><td>19:00</td><td>19:00</td><td>19:00</td></tr><tr><td>20:00</td><td>20:00</td><td>20:00</td><td>20:00</td><td>20:00</td><td>20:00</td><td>20:00</td></tr><tr><td>21:00</td><td>21:00</td><td>21:00</td><td>21:00</td><td>21:00</td><td>21:00</td><td>21:00</td></tr><tr><td>22:00</td><td>22:00</td><td>22:00</td><td>22:00</td><td>22:00</td><td>22:00</td><td>22:00</td></tr><tr><td>23:00</td><td>23:00</td><td>23:00</td><td>23:00</td><td>23:00</td><td>23:00</td><td>23:00</td></tr></tbody></table><table class="calendar calendar4"><tbody><tr><td>0:00</td><td>0:00</td><td>0:00</td><td>0:00</td><td>0:00</td><td>0:00</td><td>0:00</td></tr><tr><td>1:00</td><td>1:00</td><td>1:00</td><td>1:00</td><td>1:00</td><td>1:00</td><td>1:00</td></tr><tr><td>2:00</td><td>2:00</td><td>2:00</td><td>2:00</td><td>2:00</td><td>2:00</td><td>2:00</td></tr><tr><td>3:00</td><td>3:00</td><td>3:00</td><td>3:00</td><td>3:00</td><td>3:00</td><td>3:00</td></tr><tr><td>4:00</td><td>4:00</td><td>4:00</td><td>4:00</td><td>4:00</td><td>4:00</td><td>4:00</td></tr><tr><td>5:00</td><td>5:00</td><td>5:00</td><td>5:00</td><td>5:00</td><td>5:00</td><td>5:00</td></tr></tbody></table>');
+                var head = $(cal).find('.calendar-head');
+                var i;
+                for (i = 0; i < 7; i++) {
+                    head.append('<td>' + months[parseInt(dat.substr(4 * i, 2))] + " " + parseInt(dat.substr(2 + 4 * i, 2)) + '</td>');
+                }
+
+                i = 28;
+                $(cal).find("tbody td").each(function () {
+                    if (dat[i++] == "1") {
+                        $(this).addClass('highlighted');
+                    }
+                });
+                return cal;
+            }
+        };
+        loader._deliveryTime = {
+            version: 0,
+            onPageLoad: function () {
+
+                var date;
+                var row = "";
+                for (var i = 0; i < 7; i++) {
+                    date = new Date(Date.now() + i * 86400000);
+                    var month = date.getMonth();
+                    var date = date.getDate();
+                    //row += "<td>" + (date.getMonth() + 1) + "/" + date.getDate() + "</td>";
+                    row += "<td data-date='" + (month < 10 ? "0" + month : month) + "" + (date < 10 ? "0" + date : date) + "'>" + months[month] + " " + date + "</td>";
+                }
+
+                $("#select-delivery-time").find(".calendar-head").html("").append(row);
+            },
+            getData: function () {
+                var dat = "";
+
+                $('#select-delivery-time thead td').each(function () {
+                    dat += $(this).data("date");
+                });
+
+                $('#select-delivery-time tbody td').each(function () {
+                    if ($(this).hasClass('highlighted')) {
+                        dat += "1";
+                    }
+                    else {
+                        dat += "0";
+                    }
+                });
+
+                return dat;
+            },
+            loadData: function (data) {
+                if (data == null) {
+                    $('#select-delivery-time').find('.highlighted').removeClass('highlighted');
+                    $("#delivery-time_warning").hide();
+                }
+                else {
+                    console.log("load time");
+                    var i = 28;
+                    $("#delivery-time_warning").hide();
+                    $("#select-delivery-time").find("tbody td").each(function () {
+                        if (data[i++] == "1") {
+                            $(this).addClass('highlighted');
+                        }
+                        else {
+                            $(this).removeClass('highlighted');
+                        }
+                    });
+
+                }
+            }
+
+        };
+        function load() {
+
+            $("#delivery-time_warning").hide();
+            var isMouseDown = false,
+                    isHighlighted;
+            $("#select-delivery-time").find("td").on("mousedown touchstart", function () {
+                isMouseDown = true;
+                $(this).toggleClass("highlighted");
+                isHighlighted = $(this).hasClass("highlighted");
+                return false; // prevent text selection
+            }).on("mousemove", function (event) {
+                if (isMouseDown) {
+                    var e = document.elementFromPoint(event.clientX, event.clientY);
+                    $(e).toggleClass("highlighted", isHighlighted);
+                }
+            }).on("touchmove", function (event) {
+                if (isMouseDown) {
+                    var t = event.originalEvent.touches[0];
+                    var e = document.elementFromPoint(t.clientX, t.clientY);
+                    $(e).toggleClass("highlighted", isHighlighted);
+                }
+            });
+
+
+            $(document).on("mouseup touchend", function () {
+                if (isMouseDown){
+                    loader._deliveryTime.version++;
+                    loader.shoppingChanged = true;
+                    isMouseDown = false;
+                }
+            });
+        }
+
+        load();
+
+        $('#delivery-time-back').click(function () {
+            $("#delivery-time_warning").hide();
+            goToPage('_checkout');
+        });
+
+        $('#delivery-time-submit').click(function () {
+            //addDeliveryTime();
+            if ($('#select-delivery-time .highlighted').length == 0) {
+                $("#delivery-time_warning").show();
+            }
+            else {
+                $("#delivery-time_warning").hide();
+                goToPage('_deliveryLocation');
+            }
+        });
+    })();
+
+</script>
