@@ -1385,7 +1385,7 @@ button:focus {
         height: 38px; }
 
 #map-select-loc {
-  height: 720px; }
+  height: 600px; }
 
 #map-select-loc, #map-select-loc * {
   transition: none; }
@@ -1525,6 +1525,22 @@ button:focus {
       height: 300px; } }
 #accSetting .accProfile {
   margin-top: 20px; }
+
+#loading {
+  transition: all 0.5s;
+  opacity: 0;
+  position: fixed;
+  z-index: -2;
+  background-color: rgba(131, 139, 131, 0.5);
+  height: 100vh;
+  width: 100vw; }
+  #loading #loading-spinner {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    height: 64px;
+    width: 64px;
+    transform: translate(-50%, -50%); }
 
 #page-title {
   transition: all 1s;

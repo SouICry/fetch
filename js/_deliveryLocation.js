@@ -2,12 +2,7 @@
     var map;
 
     loader._deliveryLocation = {
-        loadData: function () {
-            map = new google.maps.Map(document.getElementById('map-select-loc'), {
-                center: {lat: 32.87998053492496, lng: -117.2360865181381},
-                zoom: 18
-            });
-
+        initMap: function () {
             // Try HTML5 geolocation.
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function (position) {
@@ -15,18 +10,32 @@
                         lat: position.coords.latitude,
                         lng: position.coords.longitude
                     };
+                    map = new google.maps.Map(document.getElementById('map-select-loc'), {
+                        center: pos,
+                        zoom: 16
+                    });
 
-                    map.setCenter(pos);
                 }, function () {
                     handleLocationError(true, infoWindow, map.getCenter());
                 });
-            } 
+            }
+            else {
+                map = new google.maps.Map(document.getElementById('map-select-loc'), {
+                    center: {lat: 32.87998053492496, lng: -117.2360865181381},
+                    zoom: 16
+                });
+            }
+        },
+        loadData: function(data){
+            map.setCenter(data);
+            map.setZoom(data.zoom);
         },
         getData: function () {
             var center = map.getCenter();
             return {
                 lat: center.lat(),
-                lng: center.lng()
+                lng: center.lng(),
+                zoom: map.getZoom()
             };
         }
     };
@@ -36,7 +45,41 @@
     });
 
     $('#delivery-location-submit').click(function() {
-        goToPage('_checkout');
+        var checkout_isChecked = $('input[name="special_notes"]:checked', '#checkout_notes').val()?true:false;
+        if (checkout_isChecked == false){
+            $("#checkout_warning").show();
+        }
+        else {
+            //Actual
+            $.ajax({
+                type: "POST",
+                url: "/_checkout",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({
+                    list: loader._shopping.getData(),
+                    store_name: loader.store,
+                    options: loader._checkout.getData(),
+                    available_time: loader._deliveryTime.getData(),
+                    geo_location: loader._deliveryLocation.getData()
+                }),
+                success: function (data) {
+                    //data is the object sent back on success (could also just be string)
+                },
+                error: function (data) {
+                    //data is the object send back on fail (could also just be string)
+                }
+            });
+
+            goToPage("_pendingPayment");
+            //loader.payment.simulateCompletePayment();
+            loader.payment.triggerPayment();
+
+            // go to paypal to set up payment
+            // on successful payment, goes to _submitted
+            // unsuccessful goes to _cancelled
+            //loader.payment.triggerPayment();
+        }
     });
 
 

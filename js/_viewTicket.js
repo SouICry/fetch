@@ -49,7 +49,7 @@
     var ticketId = null;
     
     $('#_viewTicket_submit_list').click(function () {
-        assholes39();
+        dataSync39();
         goToPage("_yourDeliveries");
     });
 
@@ -57,7 +57,7 @@
         goToPage("_tickets");
     });
 
-    function assholes39() {
+    function dataSync39() {
         var info_to_send = {};
         info_to_send.id = $('#user-name').data('id');
         info_to_send.ticketId = ticketId;

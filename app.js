@@ -1195,7 +1195,7 @@ app.post('/init', function (req, res) {
 //         "_accSetting", "_contact", "_history", "_passwordRecovery", "_passwordReset", "_signUp", "_login",
 //         "_yourDeliveries", "_homePage", "_shopping", "_checkout"/*, "_submitted"*/,
 //         /*'_confirmTicket',*/ "_rating" /*,'_ticketClosed'*/,
-//         '_tickets', '_driverList2', "_congrats_driver_finish_shopping", /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats'
+//         '_tickets', '_driverList2', "_congratsDriverFinishShopping", /*'_confirmCompletion', '_completeTicket', '_rating',*/ '_congrats'
 //     ];
 //
 //     for (var i = 0; i < allPages.length; i++){
@@ -2580,7 +2580,7 @@ var server = https.createServer(options, app).listen(443, function () {
     var port = server.address().port;
     console.log("Example app listening at http://%s:%s", host, port)
 });
-
+//
 // var server = app.listen(3000, function () {
 //     var host = server.address().address;
 //     var port = server.address().port;

@@ -20,7 +20,7 @@ var driver__test_data = {
             return packData;
         },
         onPageLoad: function() {
-            assholes666();
+            dataSync666();
         },
         loadData: function (data) {
             //populate driver list
@@ -114,8 +114,8 @@ var driver__test_data = {
         }
 
         if (arr.length === count || flag === true) {
-            //assholes61323355();
-            //goToPage("_congrats_driver_finish_shopping");
+            //dataSync61323355();
+            //goToPage("_congratsDriverFinishShopping");
             goToPage('_receiptPictureEnterPrice');
         }
     });
@@ -128,7 +128,7 @@ var driver__test_data = {
         loader.openChat(driverList_shopperid, fullName);
     });
     // // Used after click submit, update the grocery ticket for the users
-    // function assholes61323355() {
+    // function dataSync61323355() {
     //     var info_to_send = {};
     //     info_to_send.ticketId = loader._driverList.data;
     //     //alert(info_to_send.ticketId);
@@ -150,7 +150,7 @@ var driver__test_data = {
     // }
 
     // Used to get data from db
-    function assholes666() {
+    function dataSync666() {
         var info_to_send = {};
         info_to_send.ticketId = loader.ticketId;
         //alert(info_to_send.ticketId);

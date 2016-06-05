@@ -24,7 +24,7 @@ var test_data = {
             if (UrlExists('images/profiles/' + shopperId + '.png')) {
                 document.getElementById("purchasedTickets-img").src = 'images/profiles/' + shopperId + '.png';
             }
-            assholes666();
+            dataSync666();
         },
         loadData: function (data) {
             shopperId = data.shopperId;
@@ -80,7 +80,7 @@ var test_data = {
     $("#purchasedTickets_submit_list").click(function () {
         $(this).addClass('disabled');
 
-        assholes6155();
+        dataSync6155();
         //if(result) {
         //goToPage("_rateUser");
         //}
@@ -94,7 +94,7 @@ var test_data = {
     });
 
     // Used after click submit, update the grocery ticket for the users
-    function assholes6155() {
+    function dataSync6155() {
         // $.ajax({
         //     type: "POST",
         //     contentType: "application/json",
@@ -150,7 +150,7 @@ var test_data = {
     }
 
     // Used to get data from db
-    function assholes666() {
+    function dataSync666() {
         var info_to_send = {};
         info_to_send.ticketId = loader.ticketId;
         //alert(info_to_send.ticketId);
