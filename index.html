@@ -738,26 +738,27 @@
 
         }
     };
-    //loader.currentPageChanged = _.throttle(loader.sendData, 501);
 
 
     function initializeMap() {
-//        var directionsService = new google.maps.DirectionsService();
-//        var directionsDisplay = new google.maps.DirectionsRenderer();
         var geocoder = new google.maps.Geocoder;
         var infowindow = new google.maps.InfoWindow;
 
         var latLng = {lat: loader.loc.lat, lng: loader.loc.lng};
+        var zoom = 16;
+        if (loader.loc.hasOwnProperty("zoom")){
+            zoom = loader.loc.zoom;
+        }
+
         var mapOptions = {
-            zoom: 17,
+            zoom: zoom,
             center: latLng
         };
         var map = new google.maps.Map(loader.map, mapOptions);
-//        directionsDisplay.setMap(map);
         geocoder.geocode({'location': latLng}, function (results, status) {
             if (status === google.maps.GeocoderStatus.OK) {
                 if (results[1]) {
-                    map.setZoom(16);
+
                     var marker = new google.maps.Marker({
                         position: latLng,
                         map: map,
