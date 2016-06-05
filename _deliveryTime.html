@@ -320,6 +320,7 @@
 </div>
 <script>
 
+
     (function () {
         var months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug",
             "Sept", "Oct", "Nov", "Dec"];
@@ -382,8 +383,17 @@
                     $("#delivery-time_warning").hide();
                 }
                 else {
-                    $('#select-delivery-time').html(data);
-                    load();
+                    var i = 28;
+                    $("#delivery-time_warning").hide();
+                    $("#select-delivery-time").find("tbody td").each(function () {
+                        if (data[i++] == "1") {
+                            $(this).addClass('highlighted');
+                        }
+                        else {
+                            $(this).removeClass('highlighted');
+                        }
+                    });
+
                 }
             }
 
@@ -435,4 +445,5 @@
             }
         });
     })();
+
 </script>

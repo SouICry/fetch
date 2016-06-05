@@ -28,7 +28,7 @@
         },
         loadData: function(data){
             map.setCenter(data);
-            map.setZoom(data);
+            map.setZoom(data.zoom);
         },
         getData: function () {
             var center = map.getCenter();
