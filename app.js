@@ -169,38 +169,84 @@ app.post("/_shopping", function (req, res) {
     //use pageCount or version
     var userId = req.session.userId;
     var list = req.body.list;
+    var time = req.body.time;
+    var location = req.body.location;
     var checkout = req.body.checkout;
     //TODO initialize verion in login, init, sign up
     if (!masters.hasOwnProperty(userId) || masters[userId].shoppingVersion == 'undefined') {
         res.send("");
+        return;
     }
-    else if (masters[userId].shoppingVersion < req.body.shoppingVersion) {
-        masters[userId].shoppingVersion = req.body.shoppingVersion;
-        masters[userId].list = list;
-        res.send("");
-    }
-    else if (masters[userId].shoppingVersion > req.body.shoppingVersion) {
-        res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({
-            //version: masters[userId].version,
-            list: masters[userId].list,
-            shoppingVersion: masters[userId].shoppingVersion,
-            currentPage: masters[userId].currentPage
-        }));
-    }
-    else if (masters[userId].checkoutVersion < req.body.checkoutVersion) {
+    
+    var master = masters[userId];
+    
+    if (master.timeVersion < req.body.timeVersion){
         console.log("version update");
-        masters[userId].checkoutVersion = req.body.checkoutVersion;
-        masters[userId].checkout = checkout;
+        master.timeVersion = req.body.timeVersion;
+        master.time = time;
         res.send("");
+        return;
     }
-    else if (masters[userId].checkoutVersion > req.body.checkoutVersion) {
+    else if (master.timeVersion > req.body.timeVersion){
         console.log("send back data");
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify({
-            checkout: masters[userId].checkout,
-            checkoutVersion: masters[userId].checkoutVersion,
-            currentPage: masters[userId].currentPage
+            //version: master.version,
+            time: master.time,
+            timeVersion: master.timeVersion,
+            currentPage: master.currentPage
+        }));
+        return;
+    }
+
+    if (master.locationVersion < req.body.locationVersion){
+        console.log("version update");
+        master.locationVersion = req.body.locationVersion;
+        master.location = location;
+        res.send("");
+        return;
+    }
+    else if (master.locationVersion > req.body.locationVersion){
+        console.log("send back data");
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({
+            //version: master.version,
+            location: master.location,
+            locationVersion: master.locationVersion,
+            currentPage: master.currentPage
+        }));
+        return;
+    }
+    
+    if (master.shoppingVersion < req.body.shoppingVersion) {
+        console.log("version update");
+        master.shoppingVersion = req.body.shoppingVersion;
+        master.list = list;
+        res.send("");
+    }
+    else if (master.shoppingVersion > req.body.shoppingVersion) {
+        console.log("send back data");
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({
+            //version: master.version,
+            list: master.list,
+            shoppingVersion: master.shoppingVersion,
+            currentPage: master.currentPage
+        }));
+    }
+    else if (master.checkoutVersion < req.body.checkoutVersion) {
+        console.log("version update");
+        master.checkoutVersion = req.body.checkoutVersion;
+        master.checkout = checkout;
+        res.send("");
+    }
+    else if (master.checkoutVersion > req.body.checkoutVersion) {
+        console.log("send back data");
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({
+            checkout: master.checkout,
+            checkoutVersion: master.checkoutVersion,
+            currentPage: master.currentPage
         }));
     }
     else {
@@ -480,6 +526,8 @@ app.post('/_signUp', function (req, res, next) {
                                 },
                                 finalConfirmed: false,
                                 isConfirmed: false,
+                                timeVersion: 0,
+                                locationVersion: 0,
                                 shoppingVersion: 0,
                                 checkoutVersion: 0,
                                 currentPage: ""
@@ -621,6 +669,8 @@ app.post('/_login', function (req, res, next) {
                     },
                     finalConfirmed: false,
                     isConfirmed: false,
+                    timeVersion: 0,
+                    locationVersion: 0,
                     shoppingVersion: 0,
                     checkoutVersion: 0,
                     currentPage: ""
@@ -985,6 +1035,8 @@ app.post('/chat', function (req, res) {
             chat: {
                 messages: []
             },
+            timeVersion: 0,
+            locationVersion: 0,
             shoppingVersion: 0,
             checkoutVersion: 0,
             currentPage: "_homePage"
@@ -1105,6 +1157,8 @@ app.post('/init', function (req, res) {
             },
             isConfirmed: false,
             finalConfirmed: false,
+            timeVersion: 0,
+            locationVersion: 0,
             shoppingVersion: 0,
             checkoutVersion: 0,
             currentPage: "_homePage"
