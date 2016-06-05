@@ -6,6 +6,7 @@
   background-color: rgba(131, 139, 131, 0.5);
   height: 100vh;
   width: 100vw;
+
   #loading-spinner {
     position: relative;
     top: 50%;
@@ -24,6 +25,11 @@
 
     transform: translate(-50%, -50%);
   }
+}
+
+#User-Info {
+  top: 45px;
+  position: absolute;
 }
 
 #page-title {
