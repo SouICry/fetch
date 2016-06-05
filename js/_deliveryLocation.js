@@ -59,40 +59,46 @@
     });
 
     $('#delivery-location-submit').click(function() {
-        var checkout_isChecked = $('input[name="special_notes"]:checked', '#checkout_notes').val()?true:false;
-        if (checkout_isChecked == false){
-            $("#checkout_warning").show();
+        
+        if (!loader.isLoggedIn){
+            alert("Please login or sign up first.")
         }
         else {
-            //Actual
-            $.ajax({
-                type: "POST",
-                url: "/_checkout",
-                contentType: "application/json",
-                dataType: "json",
-                data: JSON.stringify({
-                    list: loader._shopping.getData(),
-                    store_name: loader.store,
-                    options: loader._checkout.getData(),
-                    available_time: loader._deliveryTime.getData(),
-                    geo_location: loader._deliveryLocation.getData()
-                }),
-                success: function (data) {
-                    //data is the object sent back on success (could also just be string)
-                },
-                error: function (data) {
-                    //data is the object send back on fail (could also just be string)
-                }
-            });
+            var checkout_isChecked = $('input[name="special_notes"]:checked', '#checkout_notes').val() ? true : false;
+            if (checkout_isChecked == false) {
+                $("#checkout_warning").show();
+            }
+            else {
+                //Actual
+                $.ajax({
+                    type: "POST",
+                    url: "/_checkout",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        list: loader._shopping.getData(),
+                        store_name: loader.store,
+                        options: loader._checkout.getData(),
+                        available_time: loader._deliveryTime.getData(),
+                        geo_location: loader._deliveryLocation.getData()
+                    }),
+                    success: function (data) {
+                        //data is the object sent back on success (could also just be string)
+                    },
+                    error: function (data) {
+                        //data is the object send back on fail (could also just be string)
+                    }
+                });
 
-            goToPage("_pendingPayment");
-            //loader.payment.simulateCompletePayment();
-            loader.payment.triggerPayment();
+                goToPage("_pendingPayment");
+                //loader.payment.simulateCompletePayment();
+                loader.payment.triggerPayment();
 
-            // go to paypal to set up payment
-            // on successful payment, goes to _submitted
-            // unsuccessful goes to _cancelled
-            //loader.payment.triggerPayment();
+                // go to paypal to set up payment
+                // on successful payment, goes to _submitted
+                // unsuccessful goes to _cancelled
+                //loader.payment.triggerPayment();
+            }
         }
     });
 
