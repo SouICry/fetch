@@ -93,6 +93,7 @@
             </div>
         </div>
     </div>
+    <img id="loading-cart" src="resources/images/favicon.png"/>
 </div>
 
 <div id="page-title" class="title-cover">
@@ -748,8 +749,12 @@
         var infowindow = new google.maps.InfoWindow;
 
         var latLng = {lat: loader.loc.lat, lng: loader.loc.lng};
+        var zoom = 16;
+        if (loader.loc.hasOwnProperty("zoom")) {
+            zoom = loader.loc.zoom;
+        }
         var mapOptions = {
-            zoom: 17,
+            zoom: zoom,
             center: latLng
         };
         var map = new google.maps.Map(loader.map, mapOptions);
@@ -757,7 +762,6 @@
         geocoder.geocode({'location': latLng}, function (results, status) {
             if (status === google.maps.GeocoderStatus.OK) {
                 if (results[1]) {
-                    map.setZoom(16);
                     var marker = new google.maps.Marker({
                         position: latLng,
                         map: map,
@@ -898,15 +902,7 @@
 
         var done = false;
         var timeup = false;
-        setTimeout(function () {
-            $("#title-inner").removeClass('initial');
-        }, 1000);
-        setTimeout(function () {
-            if (done) {
-                $("#page-title").removeClass('title-cover');
-            }
-            timeup = true;
-        }, 3500);
+
         $(document).on('click mousemove focus keypress', loader.setActive);
 
 
@@ -920,21 +916,17 @@
                 $("#Butt").append("<div " + clickVal + " >" + whichid + "</div>");
             }
         }
-
-
-//        $.ajax({
-//            type: "POST",
-//            url: "/loadPage",
-//            data: {name: "allPages"},
-//            async: false,
-//            success: function (data) {
-//                $('#page-content').append(data);
-//            }
-//        });
-        done = true;
-        if (timeup) {
+        loader.hideInProgress();
+        setTimeout(function () {
+            $("#title-inner").removeClass('initial');
+        }, 700);
+        setTimeout(function () {
+//            if (done) {
             $("#page-title").removeClass('title-cover');
-        }
+//            }
+//            timeup = true;
+        }, 3000);
+
 
 //        $.ajax({
 //            type: "POST",
@@ -945,6 +937,11 @@
 //                $('#page-content').append(data);
 //            }
 //        });
+//        done = true;
+//        if (timeup) {
+//            $("#page-title").removeClass('title-cover');
+//        }
+
 
         $("#index_login_top").show();
         $("#open-menu-drawer").show();
