@@ -1,5 +1,5 @@
 (function(){
-    loader._congrats_driver_finish_shopping = {
+    loader._congratsDriverFinishShopping = {
         data: null
     };
 

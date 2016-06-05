@@ -3,6 +3,7 @@
         data: "", //Optional
         version: 0, //Must be 0
         getData: function () { //must be null if not needed
+            var checkout_isSelected = $('input[name="special_notes"]:checked', '#checkout_notes').val();
             _checkout.checkout_notes = checkout_isSelected;
             _checkout.checkout_id = $('#checkout_notes').find(':checked').attr("id");
             return _checkout;
@@ -28,57 +29,22 @@
     };
     $("#checkout_warning").hide();
 
+
     var _checkout = {
         checkout_id: "",
         checkout_notes: ""
     };
 
-    var checkout_isSelected;
 
     //loader._checkout.loadData(_checkout);
 
     $('#checkout_submitcheckout').click(function () {
-        var checkout_isChecked = $('input[name="special_notes"]:checked', '#checkout_notes').val()?true:false;
-        if (checkout_isChecked == false){
-            $("#checkout_warning").show();
-        }
-        else {
-            checkout_isSelected = $('input[name="special_notes"]:checked', '#checkout_notes').val();
-            //Actual
-            $.ajax({
-                type: "POST",
-                url: "/_checkout",
-                contentType: "application/json",
-                dataType: "json",
-                data: JSON.stringify({
-                    list: loader._shopping.getData(),
-                    store_name: loader.store,
-                    options: loader._checkout.getData(),
-                    available_time: loader._deliveryTime.getData(),
-                    geo_location: loader._deliveryLocation.getData()
-                }),
-                success: function (data) {
-                    //data is the object sent back on success (could also just be string)
-                },
-                error: function (data) {
-                    //data is the object send back on fail (could also just be string)
-                }
-            });
-
-            goToPage("_pendingPayment");
-            //loader.payment.simulateCompletePayment();
-            loader.payment.triggerPayment();
-
-            // go to paypal to set up payment
-            // on successful payment, goes to _submitted
-            // unsuccessful goes to _cancelled
-            //loader.payment.triggerPayment();
-        }
+        goToPage('_deliveryTime');
     });
 
     $('#checkout-back').click(function() {
         $("#checkout_warning").hide();
-        goToPage("_deliveryLocation");
+        goToPage('_shopping');
     });
 
 

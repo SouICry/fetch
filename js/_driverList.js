@@ -115,7 +115,7 @@ var driver__test_data = {
 
         if (arr.length === count || flag === true) {
             //dataSync61323355();
-            //goToPage("_congrats_driver_finish_shopping");
+            //goToPage("_congratsDriverFinishShopping");
             goToPage('_receiptPictureEnterPrice');
         }
     });

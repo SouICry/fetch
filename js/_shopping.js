@@ -53,7 +53,7 @@
     $('#shopping_submit_list').click(function () {
         if (list_shopping.length > 0) {
             loader._shopping.data = list_shopping;
-            goToPage("_deliveryTime");
+            goToPage("_checkout");
         }
     });
 

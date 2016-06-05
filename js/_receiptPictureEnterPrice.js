@@ -29,7 +29,7 @@
 
     $('#submitReceiptButton1').click(function(){
         uploadPriceReceipt();
-        goToPage("_congrats_driver_finish_shopping");
+        goToPage("_congratsDriverFinishShopping");
     });
 
     $('#cancelRecButton1').click(function(){
@@ -82,7 +82,7 @@
     $('#submitReceiptButton1').click(function() {
         loader.price = price;
         dataSync61323355();
-        goToPage("_congrats_driver_finish_shopping");
+        goToPage("_congratsDriverFinishShopping");
     });
 
     // Used after click submit, update the grocery ticket in the users collection for shopper and driver
