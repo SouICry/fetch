@@ -345,6 +345,7 @@
             }
         };
         loader._deliveryTime = {
+            version: 0,
             onPageLoad: function () {
 
                 var date;
@@ -383,6 +384,7 @@
                     $("#delivery-time_warning").hide();
                 }
                 else {
+                    console.log("load time");
                     var i = 28;
                     $("#delivery-time_warning").hide();
                     $("#select-delivery-time").find("tbody td").each(function () {
@@ -423,7 +425,11 @@
 
 
             $(document).on("mouseup touchend", function () {
-                isMouseDown = false;
+                if (isMouseDown){
+                    loader._deliveryTime.version++;
+                    loader.shoppingChanged = true;
+                    isMouseDown = false;
+                }
             });
         }
 

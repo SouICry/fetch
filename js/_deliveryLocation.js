@@ -2,7 +2,13 @@
     var map;
 
     loader._deliveryLocation = {
+        version: 0,
         initMap: function () {
+            function mapChanged(){
+                loader._deliveryLocation.version++;
+                loader.shoppingChanged = true;
+            }
+
             // Try HTML5 geolocation.
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function (position) {
@@ -15,6 +21,10 @@
                         zoom: 16
                     });
 
+
+                    map.addListener('dragend', mapChanged);
+                    map.addListener('zoom_changed', mapChanged);
+
                 }, function () {
                     handleLocationError(true, infoWindow, map.getCenter());
                 });
@@ -24,9 +34,13 @@
                     center: {lat: 32.87998053492496, lng: -117.2360865181381},
                     zoom: 16
                 });
+
+                map.addListener('dragend', mapChanged);
+                map.addListener('zoom_changed', mapChanged);
             }
         },
         loadData: function(data){
+            console.log("load loc");
             map.setCenter(data);
             map.setZoom(data.zoom);
         },

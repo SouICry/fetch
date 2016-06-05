@@ -1,11 +1,12 @@
 #loading {
   transition: all 0.5s;
-  opacity: 0;
+  opacity: 1;
   position: fixed;
-  z-index: -2;
+  z-index: 9999;
   background-color: rgba(131, 139, 131, 0.5);
   height: 100vh;
   width: 100vw;
+
   #loading-spinner {
     position: relative;
     top: 50%;
@@ -14,6 +15,21 @@
     width: 64px;
     transform: translate(-50%, -50%);
   }
+
+  #loading-cart {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 32px;
+    width: 32px;
+
+    transform: translate(-50%, -50%);
+  }
+}
+
+#User-Info {
+  top: 45px;
+  position: absolute;
 }
 
 #page-title {

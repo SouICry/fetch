@@ -59,8 +59,8 @@
     });
 
     $('#checkout_notes').click(function (event) {
-
         loader._checkout.version++;
+        loader.shoppingChanged = true;
     });
 })();
 

@@ -93,6 +93,7 @@
             </div>
         </div>
     </div>
+    <img id="loading-cart" src="resources/images/favicon.png"/>
 </div>
 
 <div id="page-title" class="title-cover">
@@ -213,7 +214,7 @@
     var loader = {
         x: 0,
         y: 0,
-        activeCyclesLeft: 20,
+        activeCyclesLeft: 10,
         isDriver: false,
         isLoggedIn: false,
         userId: "",
@@ -395,7 +396,7 @@
             data: null
         },
         setActive: function () {
-            loader.activeCyclesLeft = 20;
+            loader.activeCyclesLeft = 6;
         },
         goToPage(id){
             //Only move if given a string with an actual value
@@ -409,8 +410,12 @@
                     loader.x = x;
                     loader.y = y;
                     var duration = Math.sqrt(xdiff * xdiff + ydiff * ydiff) * 0.4;
+
                     if (duration < 1) {
                         duration = 1;
+                    }
+                    else if (duration < 2) {
+                        duration = 2;
                     }
                     $("#page-content").css({
                         transition: 'transform ' + duration + 's',
@@ -428,11 +433,12 @@
                     }
                 }
                 if (loader.hasOwnProperty(page)) {
-
                     if (loader[page].hasOwnProperty("onPageLoad")) {
                         loader[page].onPageLoad();
+
                     }
                 }
+
                 loader.previousPage = loader.currentPage;
                 loader.currentPage = page;
                 $.ajax({
@@ -445,22 +451,41 @@
                     })
                 });
                 loader.goToPage(page);
+
             }
         }
         ,
+        shoppingVersion: 0,
+        checkoutVersion: 0,
+        timeVersion: 0,
+        locationVersion: 0,
         updateShopping: function () {
+            var toSend = {
+                shoppingVersion: loader._shopping.version,
+                checkoutVersion: loader._checkout.version,
+                timeVersion: loader._deliveryTime.version,
+                locationVersion: loader._deliveryLocation.version
+            };
+
+            if (toSend.shoppingVersion > loader.shoppingVersion){
+                toSend.list = loader._shopping.getData();
+            }
+            if (toSend.checkoutVersion > loader.checkoutVersion){
+                toSend.checkout = loader._checkout.getData();
+            }
+            if (toSend.timeVersion > loader.timeVersion){
+                toSend.time= loader._deliveryTime.getData();
+            }
+            if (toSend.locationVersion > loader.locationVersion){
+                toSend.location= loader._deliveryLocation.getData();
+            }
 
             $.ajax({
                 type: "POST",
                 contentType: "application/json",
                 dataType: "json",
                 url: "/_shopping",
-                data: JSON.stringify({
-                    shoppingVersion: loader._shopping.version,
-                    list: loader._shopping.getData(),
-                    checkoutVersion: loader._checkout.version,
-                    checkout: loader._checkout.getData()
-                }),
+                data: JSON.stringify(toSend),
                 success: function (data) {
                     if (data.list) {
                         loader._shopping.loadData(data.list);
@@ -471,11 +496,20 @@
                         loader._checkout.loadData(data.checkout);
                         loader._checkout.version = data.checkoutVersion;
                     }
-                    if (data.currentPage != loader.currentPage) {
-                        loader.setCurrentPage(data.currentPage, whatever);
+                    if (data.time) {
+                        loader._deliveryTime.loadData(data.time);
+                        loader._deliveryTime.version = data.timeVersion;
                     }
+                    if (data.location) {
+                        loader._deliveryLocation.loadData(data.location);
+                        loader._deliveryLocation.version = data.locationVersion;
+                    }
+//                        if (data.currentPage != loader.currentPage) {
+//                            loader.setCurrentPage(data.currentPage, whatever);
+//                        }
                 }
             });
+
         }
         ,
         //        userConfirm: function(){
@@ -550,7 +584,7 @@
             //Only update if not active
             if (loader.isLoggedIn && loader.userId.length > 0) {
                 //keep updating no matter what
-                if (loader.currentPage == "_shopping" || loader.currentPage == "_checkout") {
+                if (loader.currentPage == "_shopping" || loader.currentPage == "_deliveryLocation"|| loader.currentPage == "_deliveryTime" || loader.currentPage == "_checkout") {
                     loader.updateShopping();
                 }
                 if (loader.activeCyclesLeft > 0) {
@@ -738,27 +772,29 @@
 
         }
     };
+    //loader.currentPageChanged = _.throttle(loader.sendData, 501);
 
 
     function initializeMap() {
+//        var directionsService = new google.maps.DirectionsService();
+//        var directionsDisplay = new google.maps.DirectionsRenderer();
         var geocoder = new google.maps.Geocoder;
         var infowindow = new google.maps.InfoWindow;
 
         var latLng = {lat: loader.loc.lat, lng: loader.loc.lng};
         var zoom = 16;
-        if (loader.loc.hasOwnProperty("zoom")){
+        if (loader.loc.hasOwnProperty("zoom")) {
             zoom = loader.loc.zoom;
         }
-
         var mapOptions = {
             zoom: zoom,
             center: latLng
         };
         var map = new google.maps.Map(loader.map, mapOptions);
+//        directionsDisplay.setMap(map);
         geocoder.geocode({'location': latLng}, function (results, status) {
             if (status === google.maps.GeocoderStatus.OK) {
                 if (results[1]) {
-
                     var marker = new google.maps.Marker({
                         position: latLng,
                         map: map,
@@ -899,45 +935,45 @@
 
         var done = false;
         var timeup = false;
-        setTimeout(function () {
-            $("#title-inner").removeClass('initial');
-        }, 1000);
-        setTimeout(function () {
-            if (done) {
-                $("#page-title").removeClass('title-cover');
-            }
-            timeup = true;
-        }, 3500);
+
         $(document).on('click mousemove focus keypress', loader.setActive);
 
 
         pageInit();
-
-
-//        for (var j = 0; j < allPages.length; j++) {
-//            $('#page-content').append('<div id="section-' + j + '"></div>');
-//            for (var i = 0; i < allPages[j].length; i++) {
-//                var whichid = allPages[j][i];
-//                loadPage(whichid, j, i);
-//                var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
-//                $("#Butt").append("<div " + clickVal + " >" + whichid + "</div>");
-//            }
-//        }
-
-
-        $.ajax({
-            type: "POST",
-            url: "/loadPage",
-            data: {name: "allPages"},
-            async: false,
-            success: function (data) {
-                $('#page-content').append(data);
+        for (var j = 0; j < allPages.length; j++) {
+            $('#page-content').append('<div id="section-' + j + '"></div>');
+            for (var i = 0; i < allPages[j].length; i++) {
+                var whichid = allPages[j][i];
+                loadPage(whichid, j, i);
+                var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
+                $("#Butt").append("<div " + clickVal + " >" + whichid + "</div>");
             }
-        });
-        done = true;
-        if (timeup) {
-            $("#page-title").removeClass('title-cover');
         }
+        loader.hideInProgress();
+        setTimeout(function () {
+            $("#title-inner").removeClass('initial');
+        }, 700);
+        setTimeout(function () {
+//            if (done) {
+            $("#page-title").removeClass('title-cover');
+//            }
+//            timeup = true;
+        }, 3000);
+
+
+//        $.ajax({
+//            type: "POST",
+//            url: "/loadPage",
+//            data: {name: "allPages"},
+//            async: false,
+//            success: function (data) {
+//                $('#page-content').append(data);
+//            }
+//        });
+//        done = true;
+//        if (timeup) {
+//            $("#page-title").removeClass('title-cover');
+//        }
 
 
         $("#index_login_top").show();
