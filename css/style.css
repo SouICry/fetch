@@ -816,6 +816,7 @@ a {
   left: 0;
   margin: 0;
   padding: 0;
+  width: 100%;
   z-index: 4000;
   background-color: #f36100;
   height: 150px;
@@ -1554,8 +1555,9 @@ button:focus {
     transform: translate(-50%, -50%); }
 
 #User-Info {
-  top: 45px;
-  position: absolute; }
+  top: 0;
+  position: absolute;
+  width: 100%; }
 
 #page-title {
   transition: all 1s;
