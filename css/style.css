@@ -796,7 +796,7 @@ a {
 .cd-panel-content {
   height: calc(100% - 130px);
   margin-top: 130px;
-  overflow-y: scroll; }
+  overflow-y: auto; }
 
 .cd-main-content {
   overflow: hidden; }
