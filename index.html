@@ -940,7 +940,7 @@
 
 
         pageInit();
-        for (var j = 0; j < allPages.length; j++) {
+        /*for (var j = 0; j < allPages.length; j++) {
             $('#page-content').append('<div id="section-' + j + '"></div>');
             for (var i = 0; i < allPages[j].length; i++) {
                 var whichid = allPages[j][i];
@@ -948,7 +948,23 @@
                 var clickVal = "onclick=\"goToPage('" + whichid + "');\"";
                 $("#Butt").append("<div " + clickVal + " >" + whichid + "</div>");
             }
+        }*/
+		
+		        $.ajax({
+            type: "POST",
+            url: "/loadPage",
+            data: {name: "allPages"},
+            async: false,
+            success: function (data) {
+                $('#page-content').append(data);
+            }
+        });
+        done = true;
+        if (timeup) {
+            $("#page-title").removeClass('title-cover');
         }
+		
+		
         loader.hideInProgress();
         setTimeout(function () {
             $("#title-inner").removeClass('initial');
@@ -961,19 +977,7 @@
         }, 3000);
 
 
-//        $.ajax({
-//            type: "POST",
-//            url: "/loadPage",
-//            data: {name: "allPages"},
-//            async: false,
-//            success: function (data) {
-//                $('#page-content').append(data);
-//            }
-//        });
-//        done = true;
-//        if (timeup) {
-//            $("#page-title").removeClass('title-cover');
-//        }
+
 
 
         $("#index_login_top").show();
