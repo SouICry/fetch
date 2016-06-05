@@ -211,458 +211,481 @@
         username1: []
     }
     var loader = {
-        activeCyclesLeft: 20,
-        isDriver: false,
-        isLoggedIn: false,
-        userId: "",
-        pageCount: 0,
-        previousPage: "_homePage",
-        currentPage: "_homePage",
-        notificationCount: 0,
-        chatCount: 0,
-        chat: {},
-        notificationSound: new Audio('/notify.mp3'),
-        appendChat: function (id, arr, name) {
-            if (!loader.chat.hasOwnProperty(id)) {
-                loader.chat[id] = {
-                    messages: [],
-                    isOpen: false,
-                    name: name
-                };
+                x: 0,
+                y: 0,
+                activeCyclesLeft: 20,
+                isDriver: false,
+                isLoggedIn: false,
+                userId: "",
+                pageCount: 0,
+                previousPage: "_homePage",
+                currentPage: "_homePage",
+                notificationCount: 0,
+                chatCount: 0,
+                chat: {},
+                notificationSound: new Audio('/notify.mp3'),
+                appendChat: function (id, arr, name) {
+                    if (!loader.chat.hasOwnProperty(id)) {
+                        loader.chat[id] = {
+                            messages: [],
+                            isOpen: false,
+                            name: name
+                        };
 //                var u = loader.chat[id];
 //                for (var i = 1; i < arr.length; i++) {
 //                    u.messages.push(arr[i]);
 //                }
 //                loader.openChat(id, arr[0])
-            }
-            else if (!loader.chat[id].isOpen) {
-                var u = loader.chat[id];
-                for (var i = 0; i < arr.length; i++) {
-                    u.messages.push(arr[i]);
-                }
-                loader.openChat(id, u.name);
-            }
-            else {
-                var u = loader.chat[id];
-                var chat = $(document.getElementById('chatForm' + id).parentNode.parentNode).find('.window');
-                for (var i = 0; i < arr.length; i++) {
-                    u.messages.push(arr[i]);
-                    console.log(arr[i]);
-                    chat.append(arr[i]);
-                }
-                $(u).removeClass('min');
-                $('#chatWindow' + id).scrollTop(100000);
-            }
-            loader.notificationSound.play();
-
-            $('.materialboxed').materialbox();
-        },
-        uploadChatImage: function (input) {
-            var name = new Date().getTime() + ".png";
-            var reader = new FileReader();
-            reader.onload = function (event) {
-                //console.log("In Load");
-                var img = new Image();
-                img.onload = function () {
-                    var factor = 1;
-                    while (img.width / factor > 800) {
-                        factor *= 2;
                     }
-                    var canvas = document.getElementById('chatCanvas');
-                    canvas.width = img.width / factor;
-                    canvas.height = img.height / factor;
-                    var context = canvas.getContext("2d");
-                    context.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    else if (!loader.chat[id].isOpen) {
+                        var u = loader.chat[id];
+                        for (var i = 0; i < arr.length; i++) {
+                            u.messages.push(arr[i]);
+                        }
+                        loader.openChat(id, u.name);
+                    }
+                    else {
+                        var u = loader.chat[id];
+                        var chat = $(document.getElementById('chatForm' + id).parentNode.parentNode).find('.window');
+                        for (var i = 0; i < arr.length; i++) {
+                            u.messages.push(arr[i]);
+                            console.log(arr[i]);
+                            chat.append(arr[i]);
+                        }
+                        $(u).removeClass('min');
+                        $('#chatWindow' + id).scrollTop(100000);
+                    }
+                    loader.notificationSound.play();
+
+                    $('.materialboxed').materialbox();
+                },
+                uploadChatImage: function (input) {
+                    var name = new Date().getTime() + ".png";
+                    var reader = new FileReader();
+                    reader.onload = function (event) {
+                        //console.log("In Load");
+                        var img = new Image();
+                        img.onload = function () {
+                            var factor = 1;
+                            while (img.width / factor > 800) {
+                                factor *= 2;
+                            }
+                            var canvas = document.getElementById('chatCanvas');
+                            canvas.width = img.width / factor;
+                            canvas.height = img.height / factor;
+                            var context = canvas.getContext("2d");
+                            context.drawImage(img, 0, 0, canvas.width, canvas.height);
 //                    alert();
+                            $.ajax({
+                                type: "POST",
+                                contentType: "application/json",
+                                dataType: "json",
+                                url: "/saveChatImage",
+                                data: JSON.stringify({
+                                    image: canvas.toDataURL("image/png"),
+                                    name: name
+                                }),
+                                success: function () {
+//                            alert();
+                                    var chat = $(input.parentNode.parentNode.parentNode).find('.chatForm');
+                                    chat.find("input").val("<img class='materialboxed' src='/images/chat/" + name + "'/>");
+                                    chat.submit();
+                                }
+                            });
+                        };
+                        img.src = event.target.result;
+                    };
+                    reader.readAsDataURL(input.files[0]);
+
+                },
+                openChat: function (id, name) {
+                    if (!loader.chat.hasOwnProperty(id)) {
+                        loader.chat[id] = {
+                            messages: [],
+                            isOpen: false,
+                            name: name
+                        };
+                    }
+
+                    var c = loader.chat[id];
+                    if (!c.isOpen) {
+                        c.isOpen = true;
+                        //TODO: otherwise open and load existing array
+                        var e = document.createElement('div');
+                        e.className = "chat";
+                        var min = 'onclick="loader.minimizeChat(this.parentNode.parentNode);"';
+                        var onClick = "loader.closeChat(this.parentNode.parentNode);";
+                        var photo = 'onchange="loader.uploadChatImage(this)"';
+
+                        console.log(photo);
+                        e.innerHTML = '<div class="chat-head"  data-closed="false" >' +
+                                '<div class="chat-profile" ' + min + '>' + '<span class="glyphicon medium glyphicon-user"></span></div>' +
+                                '<div class="chat-name" ' + min + '>' + name + '</div>' +
+                                '<div class="chat-close" onclick="' + onClick + '"><span class="glyphicon medium glyphicon-remove"></span></div></div>' +
+                                '<div class="window" id="chatWindow' + id + '"></div>' +
+                                '<div class="input">' +
+                                '<div class="photo"> ' +
+                                '<label class="chatUploader" for="chatUpload' + id + '"><span class="glyphicon glyphicon-picture"></span></label>' +
+                                '<input class="hidden" type="file" ' + photo + ' id="chatUpload' + id + '"  class="uploadChat"/> ' +
+                                '</div>' +
+                                '<form class="chatForm" id="chatForm' + id + '"  data-userid="' + id + '">' +
+                                '<input autocomplete="off" name="message" type="text"  placeholder="Enter a message...">' +
+                                '</form></div>';
+
+                        $(e).find('.chatForm').submit(function (event) {
+                            event.preventDefault();
+
+                            var input = $(this).find('input');
+                            var message = $(input).val();
+                            if (message.length > 0) {
+
+                                var parent = $(this).parent();
+                                var content = '<div class="ours"><div>' + message + '</div></div>';
+                                $(parent).parent().find('.window').append(content);
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/chat",
+                                    contentType: "application/json",
+                                    dataType: "json",
+                                    data: JSON.stringify({
+                                        userIdToChat: $(this).data('userid'),
+                                        message: message
+                                    })
+                                });
+                                c.messages.push(content);
+                                test = w;
+                                $('#chatWindow' + id).scrollTop(100000);
+                                $(input).val("");
+
+                                $('.materialboxed').materialbox();
+                            }
+                            return false;
+                        });
+
+
+                        var w = $(e).find('.window');
+                        var m = c.messages;
+                        for (var i = 0; i < m.length; i++) {
+                            $(w).append(m[i]);
+                        }
+
+                        $('#chats').append(e);
+                        $('#chatWindow' + id).scrollTop(100000);
+                    }
+                    $('.materialboxed').materialbox();
+                },
+                minimizeChat: function (parent) {
+                    $(parent).toggleClass("min");
+                },
+                closeChat: function (parent) {
+                    var id = $(parent).find('.chatForm').data('userid');
+                    loader.chat[id].isOpen = false;
+                    $(parent).remove();
+                },
+                loadMap: function (mapId, loc) {
+                    loader.map = document.getElementById(mapId);
+                    loader.loc = loc;
+                    $(loader.map).append('<script async defer ' +
+                            ' src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBmhEjZ6m4l05dajXYQ0fbMPdm2-wg9-U&callback=initializeMap" >' +
+                            '<\/script>')
+                },
+                currentPageObject: {
+                    getData: null,
+                    loadData: null,
+                    data: null
+                },
+                setActive: function () {
+                    loader.activeCyclesLeft = 20;
+                },
+                goToPage(id){
+                    //Only move if given a string with an actual value
+                    if (id.length) {
+                        var item = $('#' + id);
+                        if (item) {
+                            var x = $(item).data("x");
+                            var y = $(item).data("y");
+                            var xdiff = (x - loader.x);
+                            var ydiff = (y - loader.y);
+                            loader.x = x;
+                            loader.y = y;
+                            var duration = Math.sqrt(xdiff * xdiff + ydiff * ydiff) * 0.4;
+                            if (duration < 1){
+                                duration = 1;
+                            }
+                            $("#page-content").css({
+                                transition: 'transform ' + duration + 's',
+                                transform: 'translate(-' + x * 100 + '%, -' + y * 100 + '%)'
+                            });
+                        }
+                    }
+
+                },
+                setCurrentPage: function (page, noPrevious) {
+                    if (loader.currentPage != page) {
+                        if (loader.hasOwnProperty(loader.currentPage)) {
+                            if (loader[loader.currentPage].hasOwnProperty("onPageLeave")) {
+                                loader[loader.currentPage].onPageLeave();
+                            }
+                        }
+                        if (loader.hasOwnProperty(page)) {
+
+                            if (loader[page].hasOwnProperty("onPageLoad")) {
+                                loader[page].onPageLoad();
+                            }
+                        }
+                        loader.previousPage = loader.currentPage;
+                        loader.currentPage = page;
+                        $.ajax({
+                            type: "POST",
+                            contentType: "application/json",
+                            dataType: "json",
+                            url: "/changePage",
+                            data: JSON.stringify({
+                                newPage: page
+                            })
+                        });
+                        loader.goToPage(page);
+                    }
+                }
+                ,
+                updateShopping: function () {
+
                     $.ajax({
                         type: "POST",
                         contentType: "application/json",
                         dataType: "json",
-                        url: "/saveChatImage",
+                        url: "/_shopping",
                         data: JSON.stringify({
-                            image: canvas.toDataURL("image/png"),
-                            name: name
+                            shoppingVersion: loader._shopping.version,
+                            list: loader._shopping.getData(),
+                            checkoutVersion: loader._checkout.version,
+                            checkout: loader._checkout.getData()
                         }),
-                        success: function () {
-//                            alert();
-                            var chat = $(input.parentNode.parentNode.parentNode).find('.chatForm');
-                            chat.find("input").val("<img class='materialboxed' src='/images/chat/" + name + "'/>");
-                            chat.submit();
+                        success: function (data) {
+                            if (data.list) {
+                                loader._shopping.loadData(data.list);
+                                loader._shopping.version = data.shoppingVersion;
+                                //loader._shopping.version = data.version;
+                            }
+                            if (data.checkout) {
+                                loader._checkout.loadData(data.checkout);
+                                loader._checkout.version = data.checkoutVersion;
+                            }
+                            if (data.currentPage != loader.currentPage) {
+                                loader.setCurrentPage(data.currentPage, whatever);
+                            }
                         }
                     });
-                };
-                img.src = event.target.result;
-            };
-            reader.readAsDataURL(input.files[0]);
+                }
+                ,
+                //        userConfirm: function(){
+                //            $.ajax({
+                //                type: "POST",
+                //                contentType: "application/json",
+                //                dataType: "json",
+                //                url: "/userConfirm",
+                //                data: JSON.stringify({
+                //                   // userId: loader.userId,
+                //                     ticketId: loader._driverList.data
+                //                    //isConfirmed: true
+                //                })
+                ////                success: function(data){
+                ////                    loader.isDriver = data.isDriver;
+                ////                }
+                //            });
+                //        },
+                //        checkConfirm: function( ) {
+                //            $.ajax({
+                //                type: "POST",
+                //                contentType: "application/json",
+                //                dataType: "json",
+                //                url: "/checkConfirm",
+                //                data: JSON.stringify({
+                //                    ticketId: loader.ticketId
+                //
+                //                }),
+                //                success: function (data) {
+                //                    if (data.finalConfirmed && loader.isDriver)
+                //                        goToPage("_rateUser");
+                //                    if (data.finalConfirmed && !loader.isDriver)
+                //                        goToPage("_rateDriver");
+                //
+                //                }
+                //            })
+                //        },
 
-        },
-        openChat: function (id, name) {
-            if (!loader.chat.hasOwnProperty(id)) {
-                loader.chat[id] = {
-                    messages: [],
-                    isOpen: false,
-                    name: name
-                };
-            }
 
-            var c = loader.chat[id];
-            if (!c.isOpen) {
-                c.isOpen = true;
-                //TODO: otherwise open and load existing array
-                var e = document.createElement('div');
-                e.className = "chat";
-                var min = 'onclick="loader.minimizeChat(this.parentNode.parentNode);"';
-                var onClick = "loader.closeChat(this.parentNode.parentNode);";
-                var photo = 'onchange="loader.uploadChatImage(this)"';
+                currentPageChanged: null,
+                addNotification: function (notification) {
+                    var e = document.createElement('div');
+                    e.className = "notification";
+                    e.innerHTML = notification;
+                    document.getElementById("notifications").appendChild(e);
+                    setTimeout(function () {
+                        $(e).css("transform", "translateX(-400px)")
+                        loader.notificationSound.play();
+                    }, 100);
+                    setTimeout(function () {
+                        e.firstChild.dataset.changepage = "false";
+                        $(e).children().trigger("click");
+                    }, 5000);
+                }
+                ,
 
-                console.log(photo);
-                e.innerHTML = '<div class="chat-head"  data-closed="false" >' +
-                        '<div class="chat-profile" ' + min + '>' + '<span class="glyphicon medium glyphicon-user"></span></div>' +
-                        '<div class="chat-name" ' + min + '>' + name + '</div>' +
-                        '<div class="chat-close" onclick="' + onClick + '"><span class="glyphicon medium glyphicon-remove"></span></div></div>' +
-                        '<div class="window" id="chatWindow' + id + '"></div>' +
-                        '<div class="input">' +
-                        '<div class="photo"> ' +
-                        '<label class="chatUploader" for="chatUpload' + id + '"><span class="glyphicon glyphicon-picture"></span></label>' +
-                        '<input class="hidden" type="file" ' + photo + ' id="chatUpload' + id + '"  class="uploadChat"/> ' +
-                        '</div>' +
-                        '<form class="chatForm" id="chatForm' + id + '"  data-userid="' + id + '">' +
-                        '<input autocomplete="off" name="message" type="text"  placeholder="Enter a message...">' +
-                        '</form></div>';
+                closeNotification: function (page, element) {
 
-                $(e).find('.chatForm').submit(function (event) {
-                    event.preventDefault();
+                    var p = element.parentNode;
+                    p.style.transform = "translateX(0)";
+                    if (element.dataset.changepage == "true") {
+                        goToPage(page);
+                    }
+                    setTimeout(function () {
+                        p.parentNode.removeChild(p);
+                    }, 600);
+                }
+                ,
+                //set to run every second elsewhere
+                getUpdates: function () {
 
-                    var input = $(this).find('input');
-                    var message = $(input).val();
-                    if (message.length > 0) {
+                    //Only update if not active
+                    if (loader.isLoggedIn && loader.userId.length > 0) {
+                        //keep updating no matter what
+                        if (loader.currentPage == "_shopping" || loader.currentPage == "_checkout") {
+                            loader.updateShopping();
+                        }
+                        if (loader.activeCyclesLeft > 0) {
+                            loader.activeCyclesLeft--;
+                        }
 
-                        var parent = $(this).parent();
-                        var content = '<div class="ours"><div>' + message + '</div></div>';
-                        $(parent).parent().find('.window').append(content);
+                        //Get all chat lengths
+                        var chats = {};
+                        var c = loader.chat;
+                        for (var user in c) {
+                            chats[user] = c[user].messages.length;
+                        }
+
+
                         $.ajax({
                             type: "POST",
-                            url: "/chat",
                             contentType: "application/json",
                             dataType: "json",
                             data: JSON.stringify({
-                                userIdToChat: $(this).data('userid'),
-                                message: message
-                            })
+                                chat: chats,
+                                isInactive: loader.activeCyclesLeft <= 0,
+                                notification: loader.notificationCount
+                            }),
+                            url: "/getUpdates",
+                            success: function (data) {
+                                //Notifications
+                                if (data.notification != null) {
+                                    loader.notificationCount += data.notification.length;
+                                    data.notification.forEach(loader.addNotification);
+                                }
+                                var c = data.chat;
+                                for (var user in c) {
+                                    loader.appendChat(user, c[user], c[0]); //If new, first element in array should be username
+                                }
+
+                                if (data.isInactive) {
+                                    loader.ticketId = data.ticketId;
+                                    if (!data.isLoggedIn) {
+                                        loader.logout();
+                                        return;
+                                    }
+                                    if (data.isDriver != loader.isDriver) {
+                                        if (data.isDriver) {
+                                            //loader.switchToDriver();
+                                            return;
+                                        }
+                                        else {
+                                            //loader.switchToShopper();
+                                            return;
+                                        }
+                                    }
+                                    if (data.currentPage != loader.currentPage) {
+                                        goToPage(data.currentPage)
+                                    }
+                                }
+                            }
                         });
-                        c.messages.push(content);
-                        test = w;
-                        $('#chatWindow' + id).scrollTop(100000);
-                        $(input).val("");
 
-                        $('.materialboxed').materialbox();
-                    }
-                    return false;
-                });
-
-
-                var w = $(e).find('.window');
-                var m = c.messages;
-                for (var i = 0; i < m.length; i++) {
-                    $(w).append(m[i]);
-                }
-
-                $('#chats').append(e);
-                $('#chatWindow' + id).scrollTop(100000);
-            }
-            $('.materialboxed').materialbox();
-        },
-        minimizeChat: function (parent) {
-            $(parent).toggleClass("min");
-        },
-        closeChat: function (parent) {
-            var id = $(parent).find('.chatForm').data('userid');
-            loader.chat[id].isOpen = false;
-            $(parent).remove();
-        },
-        loadMap: function (mapId, loc) {
-            loader.map = document.getElementById(mapId);
-            loader.loc = loc;
-            $(loader.map).append('<script async defer ' +
-                    ' src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBmhEjZ6m4l05dajXYQ0fbMPdm2-wg9-U&callback=initializeMap" >' +
-                    '<\/script>')
-        },
-        currentPageObject: {
-            getData: null,
-            loadData: null,
-            data: null
-        },
-        setActive: function () {
-            loader.activeCyclesLeft = 20;
-        },
-        goToPage(id){
-            //Only move if given a string with an actual value
-            if (id.length) {
-                var item = $('#' + id);
-                if (item) {
-                    $("#page-content").css('transform',
-                            'translate(-' + $(item).data("x") * 100 + '%, -' + $(item).data("y") * 100 + '%)')
-                }
-            }
-        },
-        setCurrentPage: function (page, noPrevious) {
-            if (loader.currentPage != page) {
-                if (loader.hasOwnProperty(loader.currentPage)) {
-                    if (loader[loader.currentPage].hasOwnProperty("onPageLeave")) {
-                        loader[loader.currentPage].onPageLeave();
                     }
                 }
-                if (loader.hasOwnProperty(page)) {
-
-                    if (loader[page].hasOwnProperty("onPageLoad")) {
-                        loader[page].onPageLoad();
-                    }
+                ,
+                signUp: function (data) {
+                    var d = new Date();
+                    d.setTime(d.getTime() + (1000 * 24 * 60 * 60 * 1000));
+                    document.cookie = "user=" + data.userId + ";expires=" + d.toUTCString();
+                    goToPage("_verifyEmail");
                 }
-                loader.previousPage = loader.currentPage;
-                loader.currentPage = page;
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json",
-                    dataType: "json",
-                    url: "/changePage",
-                    data: JSON.stringify({
-                        newPage: page
-                    })
-                });
-                loader.goToPage(page);
-            }
-        },
-        updateShopping: function () {
+                ,
+                login: function (data) { //Called after successful login, passing the returned data
+                    index_login();
+                    console.log("login");
+                    console.log(data);
+                    var d = new Date();
+                    d.setTime(d.getTime() + (1000 * 24 * 60 * 60 * 1000));
+                    document.cookie = "user=" + data.userId + ";expires=" + d.toUTCString();
+                    console.log(data.isLoggedIn);
+                    if (!data.isLoggedIn) {
+                        loader.userId = data.userId;
+                        loader.isLoggedIn = true;
+                        loader.isDriver = false;
+                        loader.ticketId = "";
+                        //goToPage("_homePage");
 
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                dataType: "json",
-                url: "/_shopping",
-                data: JSON.stringify({
-                    shoppingVersion: loader._shopping.version,
-                    list: loader._shopping.getData(),
-                    checkoutVersion: loader._checkout.version,
-                    checkout: loader._checkout.getData()
-                }),
-                success: function (data) {
-                    if (data.list) {
-                        loader._shopping.loadData(data.list);
-                        loader._shopping.version = data.shoppingVersion;
-                        //loader._shopping.version = data.version;
-                    }
-                    if (data.checkout) {
-                        loader._checkout.loadData(data.checkout);
-                        loader._checkout.version = data.checkoutVersion;
-                    }
-                    if (data.currentPage != loader.currentPage) {
-                        loader.setCurrentPage(data.currentPage, whatever);
-                    }
-                }
-            });
-        },
-//        userConfirm: function(){
-//            $.ajax({
-//                type: "POST",
-//                contentType: "application/json",
-//                dataType: "json",
-//                url: "/userConfirm",
-//                data: JSON.stringify({
-//                   // userId: loader.userId,
-//                     ticketId: loader._driverList.data
-//                    //isConfirmed: true
-//                })
-////                success: function(data){
-////                    loader.isDriver = data.isDriver;
-////                }
-//            });
-//        },
-//        checkConfirm: function( ) {
-//            $.ajax({
-//                type: "POST",
-//                contentType: "application/json",
-//                dataType: "json",
-//                url: "/checkConfirm",
-//                data: JSON.stringify({
-//                    ticketId: loader.ticketId
-//
-//                }),
-//                success: function (data) {
-//                    if (data.finalConfirmed && loader.isDriver)
-//                        goToPage("_rateUser");
-//                    if (data.finalConfirmed && !loader.isDriver)
-//                        goToPage("_rateDriver");
-//
-//                }
-//            })
-//        },
-
-
-        currentPageChanged: null,
-        addNotification: function (notification) {
-            var e = document.createElement('div');
-            e.className = "notification";
-            e.innerHTML = notification;
-            document.getElementById("notifications").appendChild(e);
-            setTimeout(function () {
-                $(e).css("transform", "translateX(-400px)")
-                loader.notificationSound.play();
-            }, 100);
-            setTimeout(function () {
-                e.firstChild.dataset.changepage = "false";
-                $(e).children().trigger("click");
-            }, 5000);
-        },
-
-        closeNotification: function (page, element) {
-
-            var p = element.parentNode;
-            p.style.transform = "translateX(0)";
-            if (element.dataset.changepage == "true") {
-                goToPage(page);
-            }
-            setTimeout(function () {
-                p.parentNode.removeChild(p);
-            }, 600);
-        },
-        //set to run every second elsewhere
-        getUpdates: function () {
-
-            //Only update if not active
-            if (loader.isLoggedIn && loader.userId.length > 0) {
-                //keep updating no matter what
-                if (loader.currentPage == "_shopping" || loader.currentPage == "_checkout") {
-                    loader.updateShopping();
-                }
-                if (loader.activeCyclesLeft > 0) {
-                    loader.activeCyclesLeft--;
-                }
-
-                //Get all chat lengths
-                var chats = {};
-                var c = loader.chat;
-                for (var user in c) {
-                    chats[user] = c[user].messages.length;
-                }
-
-
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json",
-                    dataType: "json",
-                    data: JSON.stringify({
-                        chat: chats,
-                        isInactive: loader.activeCyclesLeft <= 0,
-                        notification: loader.notificationCount
-                    }),
-                    url: "/getUpdates",
-                    success: function (data) {
-                        //Notifications
-                        if (data.notification != null) {
-                            loader.notificationCount += data.notification.length;
-                            data.notification.forEach(loader.addNotification);
+                        if (loader.previousPage == "_checkout") {
+                            goToPage(loader.previousPage);
                         }
-                        var c = data.chat;
-                        for (var user in c) {
-                            loader.appendChat(user, c[user], c[0]); //If new, first element in array should be username
-                        }
-
-                        if (data.isInactive) {
-                            loader.ticketId = data.ticketId;
-                            if (!data.isLoggedIn) {
-                                loader.logout();
-                                return;
-                            }
-                            if (data.isDriver != loader.isDriver) {
-                                if (data.isDriver) {
-                                    //loader.switchToDriver();
-                                    return;
-                                }
-                                else {
-                                    //loader.switchToShopper();
-                                    return;
-                                }
-                            }
-                            if (data.currentPage != loader.currentPage) {
-                                goToPage(data.currentPage)
-                            }
+                        else {
+                            goToPage('_homePage');
                         }
                     }
-                });
+                    else {
+                        loader.userId = data.userId;
+                        loader.isLoggedIn = true;
+                        loader.isDriver = data.isDriver;
+                        loader.ticketId = data.ticketId;
 
-            }
-        },
-        signUp: function (data) {
-            var d = new Date();
-            d.setTime(d.getTime() + (1000 * 24 * 60 * 60 * 1000));
-            document.cookie = "user=" + data.userId + ";expires=" + d.toUTCString();
-            goToPage("_verifyEmail");
-        },
-        login: function (data) { //Called after successful login, passing the returned data
-            index_login();
-            console.log("login");
-            console.log(data);
-            var d = new Date();
-            d.setTime(d.getTime() + (1000 * 24 * 60 * 60 * 1000));
-            document.cookie = "user=" + data.userId + ";expires=" + d.toUTCString();
-            console.log(data.isLoggedIn);
-            if (!data.isLoggedIn) {
-                loader.userId = data.userId;
-                loader.isLoggedIn = true;
-                loader.isDriver = false;
-                loader.ticketId = "";
-                //goToPage("_homePage");
+                        switch (data.currentPage) {
+                            case '_driverList':
+                            case "_receiptPictureEnterPrice":
+                            case "_confirmCompletion":
+                                goToPage("_yourDeliveries");
+                                break;
+                            case "_viewTicket":
+                                goToPage("_tickets");
+                                break;
+                            case "_shoppingStatus":
+                            case "_cancelTicket":
+                            case "_confirmTicket":
+                                goToPage("_history");
+                                break;
+                            default:
+                                goToPage("_homePage");//data.currentPage);
+                        }
 
-                if (loader.previousPage == "_checkout") {
-                    goToPage(loader.previousPage);
+                    }
+                    window.setInterval(loader.getUpdates, 501);
+
+
                 }
-                else {
-                    goToPage('_homePage');
-                }
-            }
-            else {
-                loader.userId = data.userId;
-                loader.isLoggedIn = true;
-                loader.isDriver = data.isDriver;
-                loader.ticketId = data.ticketId;
-
-                switch (data.currentPage) {
-                    case '_driverList':
-                    case "_receiptPictureEnterPrice":
-                    case "_confirmCompletion":
-                        goToPage("_yourDeliveries");
-                        break;
-                    case "_viewTicket":
-                        goToPage("_tickets");
-                        break;
-                    case "_shoppingStatus":
-                    case "_cancelTicket":
-                    case "_confirmTicket":
-                        goToPage("_history");
-                        break;
-                    default:
-                        goToPage("_homePage");//data.currentPage);
-                }
-
-            }
-            window.setInterval(loader.getUpdates, 501);
-
-
-        },
-        logout: function () {
-            document.cookie = "user=" + loader.userId + ";expires=" + new Date(0).toUTCString();
+                ,
+                logout: function () {
+                    document.cookie = "user=" + loader.userId + ";expires=" + new Date(0).toUTCString();
 //            $.ajax({
 //                type: "POST",
 //                contentType: "application/json",
 //                dataType: "json",
 //                url: "/logout"
 //            });
-            window.location.reload();
-        },
-        switchToDriver: function () {
-            //alert();
-            goToPage("_yourDeliveries", true);
-            loader.isDriver = true;
+                    window.location.reload();
+                }
+                ,
+                switchToDriver: function () {
+                    //alert();
+                    goToPage("_yourDeliveries", true);
+                    loader.isDriver = true;
 //            $.ajax({
 //                type: "POST",
 //                contentType: "application/json",
@@ -679,11 +702,12 @@
 //                    alert("fail")
 //                }
 //            });
-        },
-        switchToShopper: function () {
-            goToPage("_history", true);
+                }
+                ,
+                switchToShopper: function () {
+                    goToPage("_history", true);
 //            alert();
-            loader.isDriver = false;
+                    loader.isDriver = false;
 //            $.ajax({
 //                type: "POST",
 //                contentType: "application/json",
@@ -701,19 +725,22 @@
 //                    alert("fail")
 //                }
 //            });
-        },
-        showInProgress: function () {
-            $('#loading').css('z-index', '9999999');
-            $('#loading').css('opacity', '1');
-        },
-        hideInProgress: function () {
-            $('#loading').css('opacity', '0');
-            setTimeout(function(){
-                $('#loading').css('z-index', '-2');
-            }, 500);
+                }
+                ,
+                showInProgress: function () {
+                    $('#loading').css('z-index', '9999999');
+                    $('#loading').css('opacity', '1');
+                }
+                ,
+                hideInProgress: function () {
+                    $('#loading').css('opacity', '0');
+                    setTimeout(function () {
+                        $('#loading').css('z-index', '-2');
+                    }, 500);
 
-        }
-    };
+                }
+            }
+            ;
     //loader.currentPageChanged = _.throttle(loader.sendData, 501);
 
 
