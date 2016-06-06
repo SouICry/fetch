@@ -551,21 +551,22 @@
 
         currentPageChanged: null,
         addNotification: function (notification) {
+
+            loader.notificationSound.play();
             var e = document.createElement('div');
             e.className = "notification";
             e.innerHTML = notification;
             document.getElementById("notifications").appendChild(e);
+
             setTimeout(function () {
-                $(e).css("transform", "translateX(-400px)")
-                loader.notificationSound.play();
+                $(e).css("transform", "translateX(-400px)");
             }, 100);
             setTimeout(function () {
                 e.firstChild.dataset.changepage = "false";
                 $(e).children().trigger("click");
-            }, 5000);
+            }, 10000);
         }
         ,
-
         closeNotification: function (page, element) {
 
             var p = element.parentNode;
@@ -783,6 +784,7 @@
 
         var latLng = {lat: loader.loc.lat, lng: loader.loc.lng};
         var zoom = 16;
+        console.log(loader.loc)
         if (loader.loc.hasOwnProperty("zoom")) {
             zoom = loader.loc.zoom;
         }
@@ -952,7 +954,7 @@
         loader.hideInProgress();
         setTimeout(function () {
             $("#title-inner").removeClass('initial');
-        }, 700);
+        }, 1000);
         setTimeout(function () {
 //            if (done) {
             $("#page-title").removeClass('title-cover');

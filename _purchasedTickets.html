@@ -1,7 +1,7 @@
 <div class="container box text-center" id="purchasedTickets">
     <div class="row" id="purchasedTicketsListHeader">
         <div class="col-xs-offset-4 col-xs-4">
-            <img class="img-circle" id="purchasedTickets-img" src="placeholder/person4.png">
+            <img class="img-circle" id="purchasedTickets-img" src="images/profiles/aordookh.png">
         </div>
         <div class="col-xs-12 col-md-8 col-md-offset-2">
             <h2 id="listName_purchasedTickets"></h2>
@@ -9,29 +9,41 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-12 col-md-8 col-md-offset-2">
-            <h5>Items</h5>
-            <ul id="purchasedTickets_list"></ul>
+        <div id="driver-price-display" class="col-xs-12 col-md-8 col-md-offset-2">
+            <h5>Total Price</h5>
+            <h6>$<span id="driver-price-total">55.00</span></h6>
+            <h4>&nbsp;($<span id="driver-price">50.00</span> + 10% Driver Delivery Fee)</h4>
         </div>
         <div class="col-xs-12 col-md-8 col-md-offset-2">
-            <div class="input-field">
-                <h5>Special Note</h5>
-                <div disabled type="text" class="" data-country="US"
-                     id="purchasedTickets_note">
+            <h5>Receipt</h5>
+            <img style="max-width: 100%; width: 400px;" src="images/receipts/receipt.jpg"/>
+        </div>
+        <div class="hidden">
+            <div class="col-xs-12 col-md-8 col-md-offset-2">
+                <h5>Items</h5>
+                <ul id="purchasedTickets_list"></ul>
+            </div>
+            <div class="col-xs-12 col-md-8 col-md-offset-2">
+                <div class="input-field">
+                    <h5>Special Note</h5>
+                    <div disabled type="text" class="" data-country="US"
+                         id="purchasedTickets_note">
+                    </div>
+                </div>
+
+                <div id="purchasedTicketsCalendarPart">
+                    <h5 id="purchasedTicketsCalendarHeader">Delivery Time</h5>
+                    <div id="purchasedTicketsCalendar"></div>
+                </div>
+                <div>
+                    <h5>Delivery Location</h5>
+                    <div id="purchasedTickets_location"></div>
+                    <div id="purchasedTicketsMap" class="map" style="margin: auto"></div>
                 </div>
             </div>
 
-            <div id="purchasedTicketsCalendarPart">
-                <h5 id="purchasedTicketsCalendarHeader">Delivery Time</h5>
-                <div id="purchasedTicketsCalendar"></div>
-            </div>
-            <div>
-                <h5>Delivery Location</h5>
-                <div id="purchasedTickets_location"></div>
-                <div id="purchasedTicketsMap" class="map" style="margin: auto"></div>
-            </div>
-        </div>
 
+        </div>
         <div class="col-xs-12 col-md-8 col-md-offset-2">
             <div class="row" id="purchasedTickets_footerInfo">
                 <a id="purchasedTickets-back" type="button" class="btn waves-effects "><< Back</a>

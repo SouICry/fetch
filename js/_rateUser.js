@@ -16,10 +16,10 @@
             }
         },
         onPageLoad: function(data) {
-            if(UrlExists('images/profiles/' + loader.userId + '.png')) {
-                document.getElementById("rateUser-img").src = 'images/profiles/' + loader.userId + '.png';
-            }
-            document.getElementById("user-name_rateUser").innerHTML = "Shopper name:" + loader.shopperFullName;
+            // if(UrlExists('images/profiles/' + loader.userId + '.png')) {
+            //     //document.getElementById("rateUser-img").src = 'images/profiles/' + loader.userId + '.png';
+            // }
+            // document.getElementById("user-name_rateUser").innerHTML = "Shopper name:" + loader.shopperFullName;
         }
     };
 

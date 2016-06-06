@@ -5,28 +5,22 @@
 
             <div class=row>
                 <h4>If driver cannot locate your specific item, buy... </h4>
-                <div class="row">
 
                     <div id="checkout_notes">
-                        <form action="submit" style="text-align:left">
-                            <div class="col-xs-4 col-xs-offset-4">
-                                <input name="special_notes" type="radio" id="checkout_option1" value="cheapest"/>
-                                <label for="checkout_option1">Cheapest</label>
+                        <form action="submit" style="">
+                                <input name="special_notes" type="radio" id="checkout_option1" value="If item is unavailable, buy cheapest alternative."/>
+                                <label style="margin-right: 10px;" for="checkout_option1">Cheapest</label>
 
-                                <input name="special_notes" type="radio" id="checkout_option2" value="expensive"/>
-                                <label for="checkout_option2">Most Expensive</label>
+                                <input name="special_notes" type="radio" id="checkout_option2" value="If item is unavailable, buy most expensive alternative."/>
+                                <label style="margin-right: 10px;" for="checkout_option2">Most Expensive</label>
 
-                                <input name="special_notes" type="radio" id="checkout_option3" value="none"/>
-                                <label for="checkout_option3">None</label>
+                                <input name="special_notes" type="radio" id="checkout_option3" value="If item is unavailable, skip it."/>
+                                <label style="margin-right: 10px;" for="checkout_option3">None</label>
                             </div>
                         </form>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="alert alert-danger fade in" id="checkout_warning">
-                        <strong>Danger!</strong> You must select an option!
+                         Please select an option.
                     </div>
-                </div>
             </div>
         </div>
     </div>

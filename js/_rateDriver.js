@@ -19,11 +19,11 @@
         },
         onPageLoad: function(data) {
 
-            if(UrlExists('images/profiles/' + driverId + '.png')) {
-                document.getElementById("rateDriver-img").src = 'images/profiles/' + driverId + '.png';
-            }
-            else
-                document.getElementById("rateDriver-img").src = 'placeholder/person4.png';
+            // if(UrlExists('images/profiles/' + driverId + '.png')) {
+            //     //document.getElementById("rateDriver-img").src = 'images/profiles/' + driverId + '.png';
+            // }
+            // else
+            //     document.getElementById("rateDriver-img").src = 'placeholder/person4.png';
         }
     };
 

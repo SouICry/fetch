@@ -22,7 +22,7 @@ var test_data = {
         onPageLoad: function () {
 
             if (UrlExists('images/profiles/' + shopperId + '.png')) {
-                document.getElementById("purchasedTickets-img").src = 'images/profiles/' + shopperId + '.png';
+                //document.getElementById("purchasedTickets-img").src = 'images/profiles/' + shopperId + '.png';
             }
             dataSync666();
         },
@@ -36,6 +36,16 @@ var test_data = {
             $("#purchasedTickets_note").text(" ");
             $("#purchasedTicketsCalendar").html("");
 
+
+            if (data.hasOwnProperty("price")){
+                $('#user-price-display').removeClass("hidden");
+                $('#user-price-total').text((data.price * 1.1).toFixed(2));
+                $('#user-price').text(data.price.toFixed(2));
+            }
+            else {
+                $('#user-price-display').addClass("hidden");
+            }
+
             fullName = data.full_name;
             array = data.items;
             var name = data.full_name;
@@ -44,7 +54,7 @@ var test_data = {
             document.getElementById("listName_purchasedTickets").innerHTML = name + "'s Shopping List";
             document.getElementById("phone_purchasedTickets").innerHTML = "Phone: " + data.phone_number;
             $("#purchasedTickets_note").text(data.special_note).siblings().addClass("active");
-            document.getElementById("purchasedTickets-img").src = "images/profiles/" + data.shopperId + ".png";
+            //document.getElementById("purchasedTickets-img").src = "images/profiles/" + data.shopperId + ".png";
             $("#purchasedTickets_location").text("Delivery Location: ");
             $("#purchasedTicketsCalendar").append(loader.parseCalendar(data.calendar));
             loader.loadMap("purchasedTicketsMap", data.shopping_location);
