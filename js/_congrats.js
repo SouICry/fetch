@@ -16,7 +16,7 @@
 
     $('#congrats-button').click(function () {
 
-        goToPage("_yourDeliveries");
+        //goToPage("_yourDeliveries");
     });
 
 })();

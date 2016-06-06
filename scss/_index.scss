@@ -28,8 +28,9 @@
 }
 
 #User-Info {
-  top: 45px;
+  top: 0;
   position: absolute;
+  width: 100%;
 }
 
 #page-title {
@@ -195,3 +196,11 @@
 .toggle-button-selected button {left: 28px; top: -1px; margin: 0; border: 2px solid #D0D0D0; width: 20px; height: 20px;  }
 
 .center { text-align:right; }
+
+
+#_driverList li, #_shopping li, #_viewTicket li, #_confirmTicket li, #_purchasedTickets li,
+ #_cancelTicket li, #_shoppingStatus li {
+  text-indent: 0;
+  text-align: center;
+}
+

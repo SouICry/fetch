@@ -9,7 +9,7 @@ var ticketState = {
 };
 
 var ticketOption = {
-    cheapest: "cheapest",
-    expensive: "expensive",
-    nothing: "nothing"
+    cheapest: "If item unavailable, buy cheapest alternative.",
+    expensive: "If item unavailable, buy most expensive alternative.",
+    nothing: "If item unavailable, skip it."
 };

@@ -38,14 +38,24 @@
             $("#confirmTicket_receipt").html("");
 
 
+
+            if (data.hasOwnProperty("price")){
+                $('#driver-price-display').removeClass("hidden");
+                $('#driver-price-total').text((data.price * 1.1).toFixed(2));
+                $('#driver-price').text(data.price.toFixed(2));
+            }
+            else {
+                $('#driver-price-display').addClass("hidden");
+            }
+
             status = data.status;
             var array = data.items;
             var separatedNames = data.driver_full_name;
 
-            if (UrlExists('images/profiles/' + driverId + '.png'))
-                document.getElementById("confirmTicket_img").src = 'images/profiles/' + driverId + '.png';
-            else
-                document.getElementById("confirmTicket_img").src = 'placeholder/person4.png';
+            // if (UrlExists('images/profiles/' + driverId + '.png'))
+            //     document.getElementById("confirmTicket_img").src = 'images/profiles/' + driverId + '.png';
+            // else
+            //     document.getElementById("confirmTicket_img").src = 'placeholder/person4.png';
             //show the driver name and create the profile pic
             document.getElementById("confirmTicket_driverName").innerHTML = "Driver: " + separatedNames;
 

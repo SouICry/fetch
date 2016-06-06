@@ -50,8 +50,8 @@
                 else
                     document.getElementById("shoppingStatus-img").src = 'placeholder/person4.png';
                 //document.getElementById("shoppingStatus-img").src = "images/profiles/" + data.driverId + ".png";
-                document.getElementById("listName_shoppingStatus").innerHTML = data.driver_full_name + " took your ticket";
-                document.getElementById("shoppingstatus_note").innerHTML = "Special Notes: " + data.special_note;
+                document.getElementById("listName_shoppingStatus").innerHTML = data.driver_full_name + " Accepted Your Ticket!";
+                document.getElementById("shoppingstatus_note").innerHTML = data.special_note;
                 $("#shoppingstatus_location").text("Delivery Location: ");
                 //$("#shoppingStatusCalendar").append(loader.parseCalendar(loader._deliveryTime.getData()));
 
