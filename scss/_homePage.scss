@@ -7,13 +7,42 @@
   }
 
   .shop {
+
     position: relative;
+    //background-color: rgba(255, 219, 153, 0.901961);
+    padding: 40px 0;
+    //margin: 0 10px;
+    //@include tablet {
+    //  margin:0 25px;
+    //}
+    //@include desktop {
+    //  margin:0 25px;
+    //}
+    //border-radius: 100px;
+@include shadow;
+    &:hover {
+
+      &>h2 {
+        //text-shadow: 0 0 0 rgba(243,97,0,0.5), 0 0 2px rgba(0,0,0,0.8);
+
+      }
+    }
+
+    h2 {
+      font-family: 'Lobster', cursive;
+      //&:hover {
+      //  color: transparent;
+      //  //color: transparent;
+      //  text-shadow: 0 0 0px rgba(243,97,0,0.5), 0 0 20px rgba(243,97,0,0.5);
+      //  //@include emphasis-shadow;
+      //}
+    }
+
+
 
   }
 
-  div{
-    border:none;
-  };
+
 
   /* this ensure the container is never
      larger than 90% of the screen */
@@ -30,6 +59,8 @@
       margin-bottom:0;
     }
   }
+
+
 
   h1 {
     margin: 5px 0 0 0;
@@ -48,9 +79,18 @@
 
 
   figure {
+    &:hover {
+      transform: scale(1.1, 1.1);
+    }
     position: relative;
     padding: 16px 8px 0 8px;
-    margin:20px 0;
+    margin: 0;
+    @include tablet {
+      margin:30px 0;
+    }
+    @include desktop {
+      margin:50px 0;
+    }
     cursor: pointer;
     img {
       border-radius: 5px;

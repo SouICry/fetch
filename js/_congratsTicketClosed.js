@@ -1,6 +1,6 @@
 (function() {
     $("#_congratsClosed").click(function () {
-        goToPage("_history");
+        //goToPage("_history");
     });
 })();
 /**

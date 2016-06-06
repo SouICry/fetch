@@ -20,7 +20,15 @@ $large-desktop-width: 1200px;
   }
 }
 
-
+@mixin shadow {
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
+  @include tablet {
+    box-shadow: 0 0 11px 0 rgba(0, 0, 0, 0.3);
+  }
+  @include desktop {
+    box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.3);
+  }
+}
 
 @mixin outline-shadow {
   box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.5);
